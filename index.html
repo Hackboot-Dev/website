@@ -466,81 +466,6 @@
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="py-20">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    <span class="text-white">Trusted by</span> <span class="gradient-text">Pro Players</span>
-                </h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    Don't take our word for it - hear from our satisfied users.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <!-- Testimonial 1 -->
-                <div class="card-gradient p-6 rounded-xl">
-                    <div class="flex items-center mb-6">
-                        <div class="w-12 h-12 rounded-full bg-primary/20 mr-4"></div>
-                        <div>
-                            <h4 class="font-bold">x_Yimmy </h4>
-                            <div class="flex text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-gray-300">
-                        "I've tried every cheat out there, but Hackboot is on another level. The undetectability is insane and the features are so customizable that I can make my gameplay look completely legit."
-                    </p>
-                </div>
-                
-                <!-- Testimonial 2 -->
-                <div class="card-gradient p-6 rounded-xl">
-                    <div class="flex items-center mb-6">
-                        <div class="w-12 h-12 rounded-full bg-primary/20 mr-4"></div>
-                        <div>
-                            <h4 class="font-bold">19</h4>
-                            <div class="flex text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-gray-300">
-                        "The support team is amazing. When I had issues setting up, they helped me within minutes. I've been using their Clash Royal cheat for 2 months with zero issues."
-                    </p>
-                </div>
-                
-                <!-- Testimonial 3 -->
-                <div class="card-gradient p-6 rounded-xl">
-                    <div class="flex items-center mb-6">
-                        <div class="w-12 h-12 rounded-full bg-primary/20 mr-4"></div>
-                        <div>
-                            <h4 class="font-bold">Killernero</h4>
-                            <div class="flex text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-gray-300">
-                        "The radar hack in Warzone Reaper is game-changing. I can track enemies through walls without any obvious ESP, making my plays look completely natural to spectators."
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- FAQ Section -->
     <section id="faq" class="py-20 bg-light/20">
@@ -759,16 +684,6 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transitionDelay = `${200 + (index * 150)}ms`;
         });
         
-        // Testimonials
-        const testimonialTitle = document.querySelector('section:nth-of-type(5) .text-center');
-        testimonialTitle.classList.add(...animationClasses['slide-up'].split(' '));
-        
-        const testimonialCards = document.querySelectorAll('section:nth-of-type(5) .card-gradient');
-        testimonialCards.forEach((card, index) => {
-            card.classList.add(...animationClasses['fade-in'].split(' '));
-            card.style.transitionDelay = `${200 + (index * 200)}ms`;
-        });
-        
         // FAQ section
         const faqTitle = document.querySelector('#faq .text-center');
         faqTitle.classList.add(...animationClasses['slide-up'].split(' '));
@@ -780,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // CTA section
-        const ctaSection = document.querySelector('section:nth-of-type(7) .neon-border');
+        const ctaSection = document.querySelector('section:nth-of-type(6) .neon-border');
         ctaSection.classList.add(...animationClasses['scale-up'].split(' '));
         
         // Footer
