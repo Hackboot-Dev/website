@@ -1,0 +1,327 @@
+{
+    "Overwatch 2": {
+        "PACK 1 - Phantom": {
+            "price_eur_per_month": 410,
+            "cheat_features": [
+                "Advanced aimbot (FOV, smoothing, hit-scan, bones)",
+                "Full ESP (names, HP, boxes, weapons)",
+                "Clean and fluid wallhack",
+                "Dynamic movement prediction",
+                "Smart triggerbot",
+                "No recoil / no spread",
+                "Silent aim (undetectable)",
+                "Auto-melee / auto-bash",
+                "Auto-skill / auto-ult system",
+                "Custom chams",
+                "Integrated radar (HUD)",
+                "Humanization engine (natural behavior)",
+                "Auto anti-spectator detection",
+                "LAN-safe mode",
+                "Automated AI gameplay",
+                "Integrated macro/script editor"
+            ],
+            "unlock_features": [
+                "All heroes unlocked",
+                "Auto-claim lootboxes & daily quests"
+            ],
+            "vm_system_features": [
+                "Rooted VM with 8 GB RAM / GPU passthrough",
+                "Full hardware spoofer",
+                "Stealth kernel-level injection",
+                "Built-in VPN + dynamic IP rotation",
+                "Automatic log & trace cleaner",
+                "Advanced anti-ban (MagiskHide, Zygisk)",
+                "Stable 120 FPS / optimized ping"
+            ]
+        },
+        "PACK 2 - Dominion": {
+            "price_eur_per_month": 600,
+            "cheat_features": [
+                "Advanced aimbot (FOV, smoothing, hit-scan, bones)",
+                "Full ESP (names, HP, boxes, weapons)",
+                "Clean wallhack with no visual distortion",
+                "Dynamic movement and projectile prediction",
+                "Smart triggerbot",
+                "No recoil / no spread",
+                "Silent aim (undetectable)",
+                "Auto-melee and bash",
+                "Auto-skill and auto-ultimate activation",
+                "Custom chams (colors, visibility)",
+                "Integrated radar (HUD)",
+                "Humanization engine (randomized behavior)",
+                "Anti-spectate: auto-disable if observed",
+                "LAN-safe mode",
+                "Automated AI-based gameplay",
+                "Built-in macro/script editor"
+            ],
+            "unlock_features": [
+                "All heroes unlocked",
+                "Auto-claim lootboxes & quests",
+                "Skin unlocker (visuals only: skins, emotes, tags)",
+                "Fake level & simulated progression (XP, portrait)",
+                "Modified stat tracking (KDA, accuracy, history)",
+                "Bypass for rank restrictions",
+                "Placement & leaderboard spoof"
+            ],
+            "vm_system_features": [
+                "Rooted VM with 8 GB RAM & GPU passthrough",
+                "Full hardware spoofer (MAC, BIOS, CPU, etc.)",
+                "Stealth kernel-level injection",
+                "Integrated VPN + automatic IP rotation",
+                "Auto-cleaner for logs, crash reports, and traces",
+                "Enhanced anti-ban (MagiskHide, Zygisk)",
+                "Stable 120 FPS + integrated ping optimizer",
+                "Automatic HWID rotation (identity spoof)",
+                "Fail-safe: auto-disable on OW2 update",
+                "Streaming ready: OBS & ShadowPlay compatible",
+                "Secure authentication (HWID lock + 2FA)",
+                "Automatic VM snapshots (1-click full reset)"
+            ]
+        },
+        "PACK 3 - Godmode": {
+            "price_eur_per_month": 1000,
+            "cheat_features": [
+                "Advanced Aimbot (FOV, smoothing, hit-scan, bone prioritization)",
+                "Full ESP (names, HP, boxes, weapons, skeleton, distance)",
+                "Clean Wallhack",
+                "Dynamic prediction (movement, projectile, trajectory)",
+                "Smart Triggerbot",
+                "No recoil / no spread",
+                "Silent Aim",
+                "Auto-melee / auto-bash",
+                "Smart auto-skill / auto-ult",
+                "Customizable chams",
+                "HUD-integrated radar",
+                "Hero/Roles Profile Decks (Tank / DPS / Heal)",
+                "Humanization Engine",
+                "Auto-disable when spectated / streaming",
+                "LAN-safe tournament mode",
+                "AI auto-play per role",
+                "Integrated macro/script editor"
+            ],
+            "unlock_features": [
+                "All heroes unlocked",
+                "Local skin unlocker (skins, emotes, tags)",
+                "Fake level / fake progression",
+                "Modified stat tracking (KDA, accuracy, history)",
+                "Auto-claim lootboxes and dailies",
+                "Bypass rank restrictions",
+                "Placement / Rank spoofing (Top500, GM)"
+            ],
+            "vm_system_features": [
+                "Rooted high-end VM (16GB RAM, GPU upgraded)",
+                "Full hardware spoofer (MAC, BIOS, UUID, etc.)",
+                "Stealth kernel-level injection",
+                "Auto HWID identity rotation",
+                "VPN + dynamic IP rotation",
+                "Auto-clean logs, DLLs, crash reports",
+                "Anti-ban (MagiskHide, Zygisk, Shadow bypass)",
+                "120+ FPS stable, ultra-low latency",
+                "Debug / slow-mo / replay modes",
+                "Stealth mode: reduced Blizzard logs",
+                "Remote panel: full control via web interface",
+                "Encrypted loader, HWID lock + 2FA login",
+                "Automatic VM snapshot (one-click reset)",
+                "Fail-safe mode: auto-disable on OW2 updates"
+            ]
+        }
+    },
+    "Clash Royale": {
+        "PACK 1 - Supreme": {
+            "price_eur_per_month": 180,
+            "cheat_features": [
+                "Full card tracking (hand, cycle, next card)",
+                "Real-time opponent elixir estimation",
+                "Strategic overlay (range, impact, paths)",
+                "Auto-match + 24/7 automated farming",
+                "Auto-claim chests, quests, pass",
+                "Automatic deck switch based on meta",
+                "Matchmaking spoofing (target bypass)"
+            ],
+            "unlock_features": [
+                "All cards at level 15",
+                "All evolutions unlocked",
+                "Access to all ladder decks and events",
+                "All cosmetics unlocked (emotes, skins, banners)",
+                "Free nickname and tag change"
+            ],
+            "vm_environment": [
+                "24/7 access to a dedicated rooted VM",
+                "4 GB RAM \u2013 Optimized Android emulator",
+                "Full spoofing (Android ID, IMEI, IP)",
+                "Anti-ban protection (MagiskHide, RootCloak, Zygisk)",
+                "Automatic snapshots (instant reset)",
+                "Refund if unplayable (automated system)"
+            ]
+        },
+        "PACK 2 - Dominator": {
+            "price_eur_per_month": 230,
+            "cheat_features": [
+                "Full card tracking (hand, cycle, next card)",
+                "Opponent elixir estimation (OCR / memory)",
+                "AI recommendation (automated optimal play)",
+                "Smart placement (defense, split, kiting)",
+                "Strategic overlay (range, impact, paths)",
+                "Auto-match & AFK farming",
+                "Auto-claim rewards & quests",
+                "Auto deck switch (live meta)",
+                "Deck sniping (live adaptation for multi-account)",
+                "Matchmaking spoofing (anti-target)",
+                "Network desync / soft DDoS",
+                "Modified packet injection (experimental)"
+            ],
+            "unlock_features": [
+                "All cards unlocked at level 15",
+                "All evolutions activated",
+                "Full cosmetics (skins, emotes, banners)",
+                "Immediate Royale Pass unlock",
+                "Full access to ladder decks and events",
+                "Free nickname and tag change",
+                "Fake level / fake progression (XP, badges)"
+            ],
+            "vm_features": [
+                "Dedicated rooted VM with full access",
+                "Full device spoofer (Android ID, IMEI, IP)",
+                "Integrated anti-ban (MagiskHide, RootCloak, Zygisk)",
+                "Automatic snapshots \u2013 instant reset",
+                "Built-in VPN + automatic IP rotation"
+            ]
+        },
+        "PACK 3 - Godmode": {
+            "price_eur_per_month": 290,
+            "cheat_features": [
+                "Full card tracking (hand, cycle, next card)",
+                "Opponent elixir estimation (OCR / memory)",
+                "AI recommendation (automated optimal play)",
+                "Smart placement (defense, split, kiting)",
+                "Strategic overlay (range, impact, paths)",
+                "Auto-match & AFK farming",
+                "Auto-claim rewards & quests",
+                "Auto deck switch (live meta)",
+                "Deck sniping (live adaptation with multi-account)",
+                "Matchmaking spoofing (anti-targeted opponents)",
+                "Network desync / soft DDoS",
+                "Modified packet injection (experimental)"
+            ],
+            "unlock_features": [
+                "All cards unlocked at level 15",
+                "All evolutions activated",
+                "Full cosmetics (skins, emotes, banners)",
+                "Instant Royale Pass unlock",
+                "Full access to ladder decks and events",
+                "Free nickname and tag change",
+                "Fake level / fake progression (XP, badges)"
+            ],
+            "vm_features": [
+                "High-performance rooted VM (8 GB RAM)",
+                "Full spoofer (Android ID, IMEI, IP)",
+                "Advanced anti-ban (MagiskHide, Zygisk, etc.)",
+                "Automatic snapshots \u2013 one-click reset",
+                "Built-in VPN with automated IP rotation",
+                "Integrated streaming (OBS & live capture support)",
+                "Integrated debug / slow-mo / replay mode",
+                "Offline environment / AI sandbox",
+                "Stealth mode: anonymization & reduced logs"
+            ]
+        }
+    },
+    "Warzone": {
+        "PACK 1 - Reaper": {
+            "price_eur_per_month": 600,
+            "cheat_features": [
+                "Advanced aimbot (custom FOV, smoothing, bone selection, silent aim)",
+                "Smart triggerbot (auto-fire when crosshair meets enemy)",
+                "Full ESP (names, distance, HP, weapons, loot, killstreaks)",
+                "Smooth wallhack (no flicker)",
+                "No recoil / no spread (weapons & vehicles)",
+                "Bullet teleport / hitreg boost (server-dependent)",
+                "AI prediction (enemy movement tracking)",
+                "FOV unlock (full visual freedom)",
+                "Radar hack (2D/3D) active without UAV",
+                "Anti-flash / anti-smoke (clear vision)",
+                "Auto enemy ping on detection",
+                "Auto-armor and auto-loot",
+                "Auto-airstrike and killstreak activation",
+                "Bot-lobby finder",
+                "Spectator list + anti-spectate mode",
+                "Lag compensation exploit (stable ping spoofing)",
+                "Auto-fire UAV & Ghost detection"
+            ],
+            "unlock_features": [
+                "Stat faker (K/D, accuracy, wins, match history)",
+                "Maxed weapon levels & full account unlock",
+                "SBMM bypass / manual matchmaking"
+            ],
+            "vm_features": [
+                "Rooted VM with secure kernel injection",
+                "8\u201316 GB RAM / GPU passthrough / high-speed SSD",
+                "Full hardware spoofer (BIOS, MAC, disk, GPU ID)",
+                "Automatic HWID rotation",
+                "Fail-safe auto-disable on COD updates",
+                "Built-in VPN with dynamic IP rotation",
+                "2FA authentication + HWID locking"
+            ]
+        },
+        "PACK 2 - Reaper 2": {
+            "price_eur_per_month": 1650,
+            "cheat_features": [
+                "Kernel-level packet manipulation (experimental)",
+                "Server lag inducer / desync control",
+                "Ping balancing exploit with latency shaping",
+                "AI-controlled smart automation (full combat logic)",
+                "Live macro editor + scenario scripting engine",
+                "Ghost lobbies (complete bot lobby simulation)",
+                "Live enemy tracking across matches (UAV spoofing)"
+            ],
+            "unlock_features": [
+                "Unlock All Skins, Blueprints, Operators, Charms",
+                "XP & Token Spoofer (server persistent)",
+                "Match history rewrite tool (fully custom)",
+                "Prestige faker + rank freeze",
+                "Tournament bypass & top 100 spoof"
+            ],
+            "vm_features": [
+                "Dedicated Ultra-VM: 16GB RAM, 6vCPU, RTX passthrough",
+                "Real-time hardware fingerprint obfuscation",
+                "Multi-layer spoofing: BIOS, SMBIOS, GPU, CPU & EFI",
+                "Auto-rebuild HWID every session",
+                "Remote kill switch + live session monitor",
+                "Built-in shadowing and stealth cloaking layers",
+                "OBS / ShadowPlay streaming-proof overlay",
+                "Anti-patch survival module (auto isolate & rollback)"
+            ]
+        }
+    },
+    "Tools & Services": {
+        "Universal Injector": {
+            "price_eur_per_month": 59.99,
+            "features": [
+                "Injection dans 50+ jeux",
+                "Cheat loading system",
+                "Memory protection bypass",
+                "Custom script support",
+                "Real-time updates"
+            ]
+        },
+        "Performance Optimizer": {
+            "price_eur_per_month": 19.99,
+            "features": [
+                "FPS unlock (240+ FPS)",
+                "Input lag reduction",
+                "Memory optimization",
+                "Graphics enhancement",
+                "Network latency optimizer"
+            ]
+        },
+        "Streamer Shield": {
+            "price_eur_per_month": 24.99,
+            "features": [
+                "Stream-proof overlays",
+                "Spectator protection",
+                "Recording detection",
+                "Automatic hiding system",
+                "Multiple monitor support"
+            ]
+        }
+    }
+}

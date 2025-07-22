@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Hackboot - Premium Gaming Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6d28d9',
+                        dark: '#121826',
+                        light: '#1f2937',
+                        accent: '#10b981',
+                        neon: '#00f0ff',
+                        matrix: '#00ff41'
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'text-gradient': 'text-gradient 6s ease infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        'text-gradient': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L0XGLP6GY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-0L0XGLP6GY');
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(90deg, #00f0ff, #6d28d9, #10b981);
+            background-size: 200% auto;
+            color: transparent;
+            background-clip: text;
+        }
+        
+        .glow {
+            text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+        }
+        
+        .bg-grid {
+            background-image: 
+                linear-gradient(to right, rgba(31, 41, 55, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(31, 41, 55, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .card-gradient {
+            background: linear-gradient(145deg, #1f2937, #121826);
+            border-radius: 16px;
+        }
+        
+        .card-gradient:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+        
+        .neon-border {
+            position: relative;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(45deg, #00f0ff, #6d28d9);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .category-tab {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-tab.active {
+            background: linear-gradient(to right, #6d28d9, #10b981);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .product-grid {
+            display: none;
+        }
+        
+        .product-grid.active {
+            display: grid;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-item i {
+            margin-right: 0.5rem;
+            width: 16px;
+        }
+    </style>
+</head>
+<body class="bg-dark text-gray-200 font-sans bg-grid">
+    <!-- Header (identique à la page principale) -->
+    <header class="border-b border-gray-800 bg-dark/80 backdrop-blur-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <span class="text-xl font-bold gradient-text bg-clip-text tracking-tighter">HACK<span class="text-white">BOOT</span></span>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="hover:text-accent transition">Home page</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                    <button class="hidden md:block px-4 py-2 rounded-lg bg-gradient-to-r from-accent to-primary hover:opacity-90 transition">
+                        Client Area
+                    </button>
+                </a>
+
+                <button class="md:hidden p-2 rounded-lg bg-light">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <section class="py-6 border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center space-x-2 text-sm text-gray-400">
+                <a href="index.html" class="hover:text-accent transition">Home page</a>
+                <i class="fas fa-chevron-right text-xs"></i>
+                <span class="text-white">Products</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                <span class="gradient-text">Our</span> <span class="text-white">Premium Products</span>
+            </h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
+                Discover our full range of professional gaming tools, designed to give you the competitive edge you need.
+            </p>
+        </div>
+    </section>
+
+    <!-- Tabs de Catégories -->
+    <section class="py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="showCategory('fps')" class="category-tab active px-6 py-3 rounded-lg bg-light hover:bg-primary/20 transition">
+                    <i class="fas fa-crosshairs mr-2"></i>
+                    Overwatch 2
+                </button>
+                <button onclick="showCategory('battle-royale')" class="category-tab px-6 py-3 rounded-lg bg-light hover:bg-primary/20 transition">
+                    <i class="fas fa-parachute-box mr-2"></i>
+                    Clash Royal
+                </button>
+                <button onclick="showCategory('mmo')" class="category-tab px-6 py-3 rounded-lg bg-light hover:bg-primary/20 transition">
+                    <i class="fas fa-globe mr-2"></i>
+                    COD Warzone
+                </button>
+                <button onclick="showCategory('tools')" class="category-tab px-6 py-3 rounded-lg bg-light hover:bg-primary/20 transition">
+                    <i class="fas fa-tools mr-2"></i>
+                    Tools & Services
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produits FPS Games -->
+    <section id="fps-products" class="product-grid active pb-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Valorant Phantom -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-matrix/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-crosshairs text-2xl text-matrix"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Overwatch 2 Phantom</h3>
+                            <p class="text-gray-400 text-sm">Precision & Undetectability</p>
+                        </div>
+                        <span class="text-xs bg-matrix/20 text-matrix px-3 py-1 rounded-full">PACK 1</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-matrix">€410</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Advanced aimbot (FOV, smoothing, hit-scan, bones)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full ESP (names, HP, boxes, weapons)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Clean and fluid wallhack</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Dynamic movement prediction</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart triggerbot</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">No recoil / no spread</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Silent aim (undetectable)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-melee / auto-bash</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-skill / auto-ult system</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Custom chams</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Integrated radar (HUD)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Humanization engine (natural behavior)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto anti-spectator detection</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">LAN-safe mode</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automated AI gameplay</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Integrated macro/script editor</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">All heroes unlocked</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-claim lootboxes & daily quests</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">VM / System Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Rooted VM with 8 GB RAM / GPU passthrough</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full hardware spoofer</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stealth kernel-level injection</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Built-in VPN + dynamic IP rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic log & trace cleaner</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Advanced anti-ban (MagiskHide, Zygisk)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stable 120 FPS / optimized ping</span></div>
+                    </div>
+
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>Our Overwatch 2 Phantom cheat offers professional-grade features combining power, stealth, and stability for daily or competitive use.</p>
+                            <p><strong>Aimbot & ESP:</strong> Ultra-precise aim assist with detailed enemy info. Fully customizable to fit your playstyle.</p>
+                            <p><strong>Dedicated VM:</strong> Secure, spoofed, and kernel-injected environment to bypass all Blizzard detection. Includes VPN with rotating IPs.</p>
+                            <p><strong>Automated system:</strong> Loots, skills, macros, and hero profiles are fully optimized for total battlefield domination.</p>
+                        </div>
+                    </details>
+
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-matrix hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+
+                <!-- CS2 Elite -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-matrix/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-bullseye text-2xl text-matrix"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Overwatch 2 Dominion</h3>
+                            <p class="text-gray-400 text-sm">Total access. Absolute power.</p>
+                        </div>
+                        <span class="text-xs bg-matrix/20 text-matrix px-3 py-1 rounded-full">PACK 2</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-matrix">€600</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Advanced aimbot (FOV, smoothing, hit-scan, bones)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full ESP (names, HP, boxes, weapons)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Clean wallhack with no visual distortion</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Dynamic movement and projectile prediction</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart triggerbot</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">No recoil / no spread</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Silent aim (undetectable)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-melee and bash</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-skill and auto-ultimate activation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Custom chams (colors, visibility)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Integrated radar (HUD)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Humanization engine (randomized behavior)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Anti-spectate: auto-disable if observed</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">LAN-safe mode</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automated AI-based gameplay</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Built-in macro/script editor</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">All heroes unlocked</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-claim lootboxes & quests</span></div>
+
+                        <!-- NEW in PACK 2 -->
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Skin unlocker (visuals only: skins, emotes, tags)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fake level & simulated progression (XP, portrait)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Modified stat tracking (KDA, accuracy, history)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Bypass for rank restrictions</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Placement & leaderboard spoof</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">VM / System Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Rooted VM with 8 GB RAM & GPU passthrough</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full hardware spoofer (MAC, BIOS, CPU, etc.)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stealth kernel-level injection</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Integrated VPN + automatic IP rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-cleaner for logs, crash reports, and traces</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Enhanced anti-ban (MagiskHide, Zygisk)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stable 120 FPS + integrated ping optimizer</span></div>
+
+                        <!-- NEW in PACK 2 -->
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic HWID rotation (identity spoof)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fail-safe: auto-disable on OW2 update</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Streaming ready: OBS & ShadowPlay compatible</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Secure authentication (HWID lock + 2FA)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic VM snapshots (1-click full reset)</span></div>
+                    </div>
+
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>This pack includes all the essential cheats from Phantom plus an extended set of unlocks and hardened system-level protection for high-tier users.</p>
+                            <p><strong>Visuals & progression:</strong> Simulated level, fake stats, full cosmetic unlocks, and spoofed leaderboard presence for full psychological advantage.</p>
+                            <p><strong>Infrastructure-level protection:</strong> HWID identity spoofing, anti-update protection, secure streaming support, and full rollback via VM snapshots.</p>
+                            <p><strong>Perfect for advanced players, streamers, and testers who require max stealth, flexibility, and persistent access.</strong></p>
+                        </div>
+                    </details>
+
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-matrix hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+
+                </div>
+
+
+                <!-- R6 Siege Pro -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-matrix/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-skull-crossbones text-2xl text-matrix"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Overwatch 2 Godmode</h3>
+                            <p class="text-gray-400 text-sm">The ultimate edge. Absolute control.</p>
+                        </div>
+                        <span class="text-xs bg-matrix/20 text-matrix px-3 py-1 rounded-full">PACK 3</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-matrix">1000€</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Advanced Aimbot (FOV, smoothing, hit-scan, bone prioritization)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full ESP (names, HP, boxes, weapons, skeleton, distance)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Clean Wallhack</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Dynamic prediction (movement, projectile, trajectory)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart Triggerbot</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">No recoil / no spread</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Silent Aim</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-melee / auto-bash</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart auto-skill / auto-ult</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Customizable chams</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">HUD-integrated radar</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Hero/Roles Profile Decks (Tank / DPS / Heal)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Humanization Engine</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-disable when spectated / streaming</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">LAN-safe tournament mode</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">AI auto-play per role</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Integrated macro/script editor</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">All heroes unlocked</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Local skin unlocker (skins, emotes, tags)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fake level / fake progression</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Modified stat tracking (KDA, accuracy, history)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-claim lootboxes and dailies</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Bypass rank restrictions</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Placement / Rank spoofing (Top500, GM)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">VM / System Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Rooted high-end VM (16GB RAM, GPU upgraded)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full hardware spoofer (MAC, BIOS, UUID, etc.)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stealth kernel-level injection</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto HWID identity rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">VPN + dynamic IP rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-clean logs, DLLs, crash reports</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Anti-ban (MagiskHide, Zygisk, Shadow bypass)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">120+ FPS stable, ultra-low latency</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Debug / slow-mo / replay modes</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stealth mode: reduced Blizzard logs</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Remote panel: full control via web interface</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Encrypted loader, HWID lock + 2FA login</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic VM snapshot (one-click reset)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fail-safe mode: auto-disable on OW2 updates</span></div>
+                    </div>
+
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>This is the most complete, secure and powerful pack available for Overwatch 2. Ideal for elite-level domination with full stealth and automation.</p>
+                            <p><strong>All features unlocked:</strong> Every cheat, unlock, spoof and bypass is included, preconfigured and tested.</p>
+                            <p><strong>Stealth infrastructure:</strong> VM with kernel-level injection, auto-reset, anonymized footprint, and web control panel.</p>
+                            <p><strong>Exclusive enhancements:</strong> AI-driven control, remote monitoring, secure streaming and top-tier spoofing for total safety.</p>
+                        </div>
+                    </details>
+
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-matrix hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produits Battle Royale -->
+    <section id="battle-royale-products" class="product-grid pb-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Apex Legends Elite -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500"> 
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-chess-knight text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Clash Royale Supreme</h3>
+                            <p class="text-gray-400 text-sm">Dominate the arena without limits</p>
+                        </div>
+                        <span class="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">PACK 1</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-accent">€180</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full card tracking (hand, cycle, next card)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Real-time opponent elixir estimation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Strategic overlay (range, impact, paths)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-match + 24/7 automated farming</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-claim chests, quests, pass</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Automatic deck switch based on meta</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Matchmaking spoofing (target bypass)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Unlocked Content:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">All cards at level 15</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">All evolutions unlocked</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Access to all ladder decks and events</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">All cosmetics unlocked (emotes, skins, banners)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Free nickname and tag change</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">VM Environment:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">24/7 access to a dedicated rooted VM</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">4 GB RAM – Optimized Android emulator</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full spoofing (Android ID, IMEI, IP)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Anti-ban protection (MagiskHide, RootCloak, Zygisk)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Automatic snapshots (instant reset)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Refund if unplayable (automated system)</span></div>
+                    </div>
+                    
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>This pack gives you access to a dedicated virtual machine built exclusively to run Clash Royale with integrated cheat tools.</p>
+                            <p><strong>Android environment included:</strong> the game is preinstalled inside a rooted Android emulator, with full access to system and memory. You play directly from your PC – no mobile setup required.</p>
+                            <p><strong>Dual-window interface:</strong> the VM displays two distinct areas: on one side, the Clash Royale gameplay window; on the other, a detailed dashboard. This dashboard includes elixir tracking, card cycle display, strategic predictions, and customization tools.</p>
+                            <p><strong>Built-in cheats and overlays:</strong> all features are enabled by default. No manual injection or installation is needed: card tracking, range overlays, autofarm, dynamic deck switch – everything is handled by the central system.</p>
+                            <p><strong>PC-only usage:</strong> access is via a secure desktop client. The service is currently not compatible with mobile or tablet use.</p>
+                            <p><strong>Ready to use:</strong> the machine is delivered immediately after payment with all tools installed, configured, and tested. Just log in and start playing.</p>
+                        </div>
+                    </details>
+
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+
+                </div>
+                
+                <!-- Fortnite Vanguard -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500"> 
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-bolt text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Clash Royale Dominator</h3>
+                            <p class="text-gray-400 text-sm">Advanced pack – total control</p>
+                        </div>
+                        <span class="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">PACK 2</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-accent">€230</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full card tracking (hand, cycle, next card)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Opponent elixir estimation (OCR / memory)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">AI recommendation (automated optimal play)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Smart placement (defense, split, kiting)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Strategic overlay (range, impact, paths)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-match & AFK farming</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-claim rewards & quests</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto deck switch (live meta)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Deck sniping (live adaptation for multi-account)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Matchmaking spoofing (anti-target)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Network desync / soft DDoS</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Modified packet injection (experimental)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">All cards unlocked at level 15</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">All evolutions activated</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full cosmetics (skins, emotes, banners)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Immediate Royale Pass unlock</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full access to ladder decks and events</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Free nickname and tag change</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Fake level / fake progression (XP, badges)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">VM Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Dedicated rooted VM with full access</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full device spoofer (Android ID, IMEI, IP)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Integrated anti-ban (MagiskHide, RootCloak, Zygisk)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Automatic snapshots – instant reset</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Built-in VPN + automatic IP rotation</span></div>
+                    </div>
+                    
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>This full-featured pack provides a high-end virtual machine configured to dominate Clash Royale.</p>
+                            <p><strong>Ready-to-use rooted Android:</strong> you receive an Android VM with all cheats installed, configured, and auto-launched for every session.</p>
+                            <p><strong>Integrated dual display:</strong> one window for the game, and another for the live cheat dashboard (AI, opponent elixir, upcoming cards, etc.).</p>
+                            <p><strong>Smart and anonymized network:</strong> built-in VPN, hardware spoofing, IP reset, advanced anti-ban protection.</p>
+                            <p><strong>PC-only gameplay:</strong> the solution runs through a stable and smooth remote desktop, accessible from Windows/macOS.</p>
+                        </div>
+                    </details>
+                    
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+
+                </div>
+
+
+                <!-- PUBG Master -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500"> 
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-crown text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Clash Royale Godmode</h3>
+                            <p class="text-gray-400 text-sm">Maximum power, total security</p>
+                        </div>
+                        <span class="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">PACK 3</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-accent">€290</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full card tracking (hand, cycle, next card)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Opponent elixir estimation (OCR / memory)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">AI recommendation (automated optimal play)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Smart placement (defense, split, kiting)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Strategic overlay (range, impact, paths)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-match & AFK farming</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-claim rewards & quests</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto deck switch (live meta)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Deck sniping (live adaptation with multi-account)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Matchmaking spoofing (anti-targeted opponents)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Network desync / soft DDoS</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Modified packet injection (experimental)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">All cards unlocked at level 15</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">All evolutions activated</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full cosmetics (skins, emotes, banners)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Instant Royale Pass unlock</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full access to ladder decks and events</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Free nickname and tag change</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Fake level / fake progression (XP, badges)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">VM Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">High-performance rooted VM (8 GB RAM)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full spoofer (Android ID, IMEI, IP)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Advanced anti-ban (MagiskHide, Zygisk, etc.)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Automatic snapshots – one-click reset</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Built-in VPN with automated IP rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Integrated streaming (OBS & live capture support)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Integrated debug / slow-mo / replay mode</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Offline environment / AI sandbox</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Stealth mode: anonymization & reduced logs</span></div>
+                    </div>
+                    
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>This ultimate pack gives you access to a powerful and fully anonymous infrastructure for Clash Royale, including all advanced cheats and an extremely optimized dedicated machine.</p>
+                            <p><strong>Maximum performance:</strong> High-end Android VM with 8 GB RAM, boosted processor, 120 FPS display, and constant smoothness.</p>
+                            <p><strong>Complete interface:</strong> Dual display for gameplay and dashboard, all features accessible in one click. Native support for live streaming via OBS, Streamlabs, etc.</p>
+                            <p><strong>Total protection:</strong> Hardware spoofing, automatic IP rotation, instant VM reset, reduced logs on Supercell's side.</p>
+                            <p><strong>Ready to play upon activation:</strong> All cheats are configured, enabled, and tested on every instance – no setup required.</p>
+                        </div>
+                    </details>
+                    
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produits MMO/RPG -->
+    <section id="mmo-products" class="product-grid pb-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Warzone Reaper -->
+                <div class="card-gradient p-6 rounded-xl transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-skull-crossbones text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Warzone Reaper</h3>
+                            <p class="text-gray-400 text-sm">Total Domination. Zero Detection.</p>
+                        </div>
+                        <span class="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">PACK 1</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-accent">€600</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Advanced aimbot (custom FOV, smoothing, bone selection, silent aim)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Smart triggerbot (auto-fire when crosshair meets enemy)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full ESP (names, distance, HP, weapons, loot, killstreaks)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Smooth wallhack (no flicker)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">No recoil / no spread (weapons & vehicles)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Bullet teleport / hitreg boost (server-dependent)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">AI prediction (enemy movement tracking)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">FOV unlock (full visual freedom)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Radar hack (2D/3D) active without UAV</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Anti-flash / anti-smoke (clear vision)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto enemy ping on detection</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-armor and auto-loot</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-airstrike and killstreak activation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Bot-lobby finder</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Spectator list + anti-spectate mode</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Lag compensation exploit (stable ping spoofing)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-fire UAV & Ghost detection</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Stat faker (K/D, accuracy, wins, match history)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Maxed weapon levels & full account unlock</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">SBMM bypass / manual matchmaking</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">VM Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Rooted VM with secure kernel injection</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">8–16 GB RAM / GPU passthrough / high-speed SSD</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Full hardware spoofer (BIOS, MAC, disk, GPU ID)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Automatic HWID rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Fail-safe auto-disable on COD updates</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Built-in VPN with dynamic IP rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">2FA authentication + HWID locking</span></div>
+                    </div>
+
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>Reaper Pack is your all-inclusive entry into the most advanced Warzone cheating ecosystem available.</p>
+                            <p><strong>Cheat Features:</strong> Unmatched control, high-performance aimbot, advanced ESP, and automated battlefield logic designed for pro-level domination.</p>
+                            <p><strong>Unlock Capabilities:</strong> Stat manipulation, maxed accounts, SBMM bypass – you control the entire game environment.</p>
+                            <p><strong>Infrastructure:</strong> Dedicated root-access VM with kernel injection, spoofing, VPN, and a secure rollback-ready system to avoid all forms of detection.</p>
+                        </div>
+                    </details>
+
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+
+
+                <!-- Warzone Reaper 2 -->
+                <div class="card-gradient p-6 rounded-xl transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-fire text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Warzone Reaper 2</h3>
+                            <p class="text-gray-400 text-sm">Maximum Power. Full Control.</p>
+                        </div>
+                        <span class="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">PACK 2</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-accent">€1650</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Advanced Cheat Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Kernel-level packet manipulation (experimental)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Server lag inducer / desync control</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Ping balancing exploit with latency shaping</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">AI-controlled smart automation (full combat logic)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Live macro editor + scenario scripting engine</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Ghost lobbies (complete bot lobby simulation)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Live enemy tracking across matches (UAV spoofing)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Full Unlock Suite:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Unlock All Skins, Blueprints, Operators, Charms</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">XP & Token Spoofer (server persistent)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Match history rewrite tool (fully custom)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Prestige faker + rank freeze</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Tournament bypass & top 100 spoof</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">VM & Security Features:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Dedicated Ultra-VM: 16GB RAM, 6vCPU, RTX passthrough</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Real-time hardware fingerprint obfuscation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Multi-layer spoofing: BIOS, SMBIOS, GPU, CPU & EFI</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Auto-rebuild HWID every session</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Remote kill switch + live session monitor</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Built-in shadowing and stealth cloaking layers</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">OBS / ShadowPlay streaming-proof overlay</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-accent"></i><span class="text-sm">Anti-patch survival module (auto isolate & rollback)</span></div>
+                    </div>
+
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>The Reaper 2 pack offers full tactical and technical supremacy with high-end virtualization, packet-level manipulation, and competitive-grade automation.</p>
+                            <p><strong>Network Domination:</strong> From bot lobby injection to remote player tracking and server desyncs — you're not just cheating, you're rewriting the game.</p>
+                            <p><strong>Streaming & Cloaking:</strong> Every visual is fully hidden from OBS, recordings, and third-party software. Spoofed hardware layers change on every launch.</p>
+                            <p><strong>Zero trace policy:</strong> All logs auto-cleaned, kill switch included, and stealth audit enabled.</p>
+                        </div>
+                    </details>
+
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produits Outils Généraux -->
+    <section id="tools-products" class="product-grid pb-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Universal Injector -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-code text-2xl text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Universal Injector</h3>
+                            <p class="text-gray-400 text-sm">Multi-Game Platform</p>
+                        </div>
+                        <span class="text-xs bg-primary/20 text-primary px-3 py-1 rounded-full">UNIVERSEL</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-primary">€59.99</span>
+                        <span class="text-gray-400">/mois</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Features :</h4>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span class="text-sm">Injection dans 50+ jeux</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span class="text-sm">Cheat loading system</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span class="text-sm">Memory protection bypass</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span class="text-sm">Custom script support</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span class="text-sm">Real-time updates</span>
+                        </div>
+                    </div>
+                    
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>Universal platform for loading and managing cheats across multiple games.</p>
+                            <p><strong>Game Support :</strong> Compatible with all popular games and more.</p>
+                            <p><strong>Custom Scripts :</strong> Load your own mods and scripts.</p>
+                            <p><strong>Security :</strong> Advanced protection against anti-cheat systems.</p>
+                        </div>
+                    </details>
+                    
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Performance Optimizer -->
+                <div class="card-gradient p-6 rounded-xl transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-tachometer-alt text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Performance Optimizer</h3>
+                            <p class="text-gray-400 text-sm">FPS Booster Pro</p>
+                        </div>
+                        <span class="text-xs bg-accent/20 text-accent px-3 py-1 rounded-full">ESSENTIEL</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-accent">€19.99</span>
+                        <span class="text-gray-400">/mois</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Features :</h4>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span class="text-sm">FPS unlock (240+ FPS)</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span class="text-sm">Input lag reduction</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span class="text-sm">Memory optimization</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span class="text-sm">Graphics enhancement</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span class="text-sm">Network latency optimizer</span>
+                        </div>
+                    </div>
+                    
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>System optimization tool to maximize gaming performance.</p>
+                            <p><strong>FPS Boost :</strong> Unlocks native FPS limitations in games.</p>
+                            <p><strong>Input Optimization :</strong> Drastically reduces input lag.</p>
+                            <p><strong>System Tuning :</strong> Windows optimization for competitive gaming.</p>
+                        </div>
+                    </details>
+                    
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Streamer Shield -->
+                <div class="card-gradient p-6 rounded-xl transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-matrix/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-eye-slash text-2xl text-matrix"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Streamer Shield</h3>
+                            <p class="text-gray-400 text-sm">Invisible Gaming</p>
+                        </div>
+                        <span class="text-xs bg-matrix/20 text-matrix px-3 py-1 rounded-full">DISCRET</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-matrix">€24.99</span>
+                        <span class="text-gray-400">/mois</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Features :</h4>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-matrix"></i>
+                            <span class="text-sm">Stream-proof overlays</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-matrix"></i>
+                            <span class="text-sm">Spectator protection</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-matrix"></i>
+                            <span class="text-sm">Recording detection</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-matrix"></i>
+                            <span class="text-sm">Automatic hiding system</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-matrix"></i>
+                            <span class="text-sm">Multiple monitor support</span>
+                        </div>
+                    </div>
+                    
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>Advanced protection for streamers using cheats during live sessions.</p>
+                            <p><strong>Smart Detection :</strong> Automatically detects OBS, Streamlabs, etc.</p>
+                            <p><strong>Overlay Management :</strong> Hides cheat elements during the stream.</p>
+                            <p><strong>Viewer Safety :</strong> Protection against suspicious spectators.</p>
+                        </div>
+                    </details>
+                    
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Pack/Bundle -->
+    <section class="py-20 bg-light/20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                    <span class="gradient-text">Economy</span> <span class="text-white">Bundles</span>
+                </h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Save up to 40% by combining multiple products in our exclusive bundles.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Pack FPS -->
+                <div class="card-gradient p-8 rounded-xl neon-border transition duration-500">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 rounded-xl bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-crosshairs text-3xl text-primary"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">FPS Master Pack</h3>
+                        <p class="text-gray-400">Owerwatch + Warzone</p>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <div class="flex justify-center items-center space-x-2 mb-2">
+                            <span class="text-lg text-gray-400 line-through">€1010</span>
+                            <span class="text-xs bg-red-500 text-white px-2 py-1 rounded">-30%</span>
+                        </div>
+                        <span class="text-4xl font-bold text-primary">€707</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    
+                    <ul class="space-y-2 mb-8 text-sm">
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-primary mr-2"></i>
+                            Overwatch 2 Dominion (€410)
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-primary mr-2"></i>
+                            Warzone Reaper (€600)
+                        </li>
+                        <li class="flex items-center text-accent">
+                            <i class="fas fa-gift text-accent mr-2"></i>
+                            Priority support included
+                        </li>
+                    </ul>
+                    
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Pack Battle Royale -->
+                <div class="card-gradient p-8 rounded-xl transition duration-500">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 rounded-xl bg-accent/20 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-parachute-box text-3xl text-accent"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Clash Watch</h3>
+                        <p class="text-gray-400">Clash Royal + Owerwath 2</p>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <div class="flex justify-center items-center space-x-2 mb-2">
+                            <span class="text-lg text-gray-400 line-through">€590</span>
+                            <span class="text-xs bg-red-500 text-white px-2 py-1 rounded">-30%</span>
+                        </div>
+                        <span class="text-4xl font-bold text-accent">€413</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    
+                    <ul class="space-y-2 mb-8 text-sm">
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-accent mr-2"></i>
+                            Overwatch 2 Phantom (€410)
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-accent mr-2"></i>
+                            Clash Royale Supreme (€180)
+                        </li>
+                        <li class="flex items-center text-neon">
+                            <i class="fas fa-gift text-neon mr-2"></i>
+                            Free Performance Optimizer
+                        </li>
+                    </ul>
+                    
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Pack Ultimate -->
+                <div class="card-gradient p-8 rounded-xl neon-border transition duration-500">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 rounded-xl bg-matrix/20 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-crown text-3xl text-matrix"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Ultimate Pack</h3>
+                        <p class="text-gray-400">Unlimited full access</p>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <div class="flex justify-center items-center space-x-2 mb-2">
+                            <span class="text-lg text-gray-400 line-through">€2940</span>
+                            <span class="text-xs bg-red-500 text-white px-2 py-1 rounded">-45%</span>
+                        </div>
+                        <span class="text-4xl font-bold text-matrix">€1323</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    
+                    <ul class="space-y-2 mb-8 text-sm">
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-matrix mr-2"></i>
+                            All our products included
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-matrix mr-2"></i>
+                            Priority updates
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-matrix mr-2"></i>
+                            24/7 VIP support
+                        </li>
+                        <li class="flex items-center text-matrix">
+                            <i class="fas fa-crown text-matrix mr-2"></i>
+                            Access to exclusive betas
+                        </li>
+                    </ul>
+                    
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-matrix hover:opacity-90 transition font-bold">
+                            Buy Now
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-2 mb-6">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text bg-clip-text tracking-tighter">
+                        HACK<span class="text-white">BOOT</span>
+                    </span>
+                </div>
+                <p class="text-gray-400 mb-6">
+                    Premium gaming tools for competitive players since 2020.
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <!--<a href="#" class="text-gray-400 hover:text-accent transition">
+                        <i class="fab fa-discord text-xl"></i>
+                    </a>-->
+                    <a href="https://t.me/HackBootCheat_bot" class="text-gray-400 hover:text-accent transition">
+                        <i class="fab fa-telegram text-xl"></i>
+                    </a>
+                    <!--<a href="#" class="text-gray-400 hover:text-accent transition">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>-->
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>© 2025 Hackboot. All rights reserved. Not affiliated with any game developers.</p>
+                <p class="mt-2 text-sm">For entertainment purposes only.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Fonction pour changer de catégorie de produits
+        function showCategory(category) {
+            // Cacher toutes les grilles de produits
+            const productGrids = document.querySelectorAll('.product-grid');
+            productGrids.forEach(grid => {
+                grid.classList.remove('active');
+            });
+            
+            // Afficher la grille sélectionnée
+            const targetGrid = document.getElementById(category + '-products');
+            if (targetGrid) {
+                targetGrid.classList.add('active');
+            }
+            
+            // Mettre à jour les onglets
+            const tabs = document.querySelectorAll('.category-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activer l'onglet cliqué
+            event.target.classList.add('active');
+        }
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // S'assurer que la première catégorie est active
+            const firstTab = document.querySelector('.category-tab');
+            const firstGrid = document.querySelector('.product-grid');
+            
+            if (firstTab) firstTab.classList.add('active');
+            if (firstGrid) firstGrid.classList.add('active');
+        });
+    </script>
+</body>
+</html>
