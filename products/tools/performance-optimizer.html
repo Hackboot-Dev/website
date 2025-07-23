@@ -4,18 +4,22 @@
     <!-- products/tools/performance-optimizer.html -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance Optimizer | Hackboot</title>
+    <title>Performance Optimizer | Hackboot - FPS Booster Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <meta name="description" content="Performance Optimizer - advanced tuning suite for extreme FPS unlock, latency reduction and automatic driver updates. €19.99/month.">
+
+    <meta name="description" content="Performance Optimizer - adaptive FPS unlock, background task killer and automatic driver updates. €19.99/month.">
     <meta name="robots" content="index, follow">
+    
     <!-- Open Graph -->
     <meta property="og:title" content="Performance Optimizer | Hackboot">
-    <meta property="og:description" content="Unlock 360 FPS, cut latency and auto-tune your PC for competitive play.">
+    <meta property="og:description" content="Optimize your PC for peak gaming performance with adaptive FPS unlock and smart driver updates.">
     <meta property="og:type" content="product">
+    
     <!-- Canonical -->
     <link rel="canonical" href="https://hackboot.fr/products/tools/performance-optimizer.html" />
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -27,11 +31,15 @@
                         light: '#1f2937',
                         accent: '#10b981',
                         neon: '#00f0ff',
-                        matrix: '#00ff41'
+                        matrix: '#00ff41',
+                        overwatch: '#f99e1a',
+                        dominion: '#9d4edd'
                     },
                     animation: {
                         'float': 'float 3s ease-in-out infinite',
-                        'text-gradient': 'text-gradient 6s ease infinite'
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'text-gradient': 'text-gradient 6s ease infinite',
+                        'glow-pulse': 'glow-pulse 2s ease-in-out infinite alternate'
                     },
                     keyframes: {
                         float: {
@@ -47,12 +55,17 @@
                                 'background-size': '200% 200%',
                                 'background-position': 'right center'
                             }
+                        },
+                        'glow-pulse': {
+                            '0%': { boxShadow: '0 0 5px #9d4edd, 0 0 10px #9d4edd, 0 0 15px #9d4edd' },
+                            '100%': { boxShadow: '0 0 10px #9d4edd, 0 0 20px #9d4edd, 0 0 30px #9d4edd' }
                         }
                     }
                 }
             }
         }
     </script>
+
     <style>
         .gradient-text {
             background: linear-gradient(90deg, #00f0ff, #6d28d9, #10b981);
@@ -60,15 +73,77 @@
             color: transparent;
             background-clip: text;
         }
+        
+        .matrix-gradient {
+            background: linear-gradient(135deg, #00ff41, #10b981, #00ff9e);
+            background-size: 200% auto;
+            color: transparent;
+            background-clip: text;
+        }
+        
+        .glow {
+            text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+        }
+        
+        .matrix-glow {
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
+        }
+        
         .bg-grid {
-            background-image:
+            background-image: 
                 linear-gradient(to right, rgba(31, 41, 55, 0.3) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(31, 41, 55, 0.3) 1px, transparent 1px);
             background-size: 40px 40px;
         }
+        
         .card-gradient {
             background: linear-gradient(145deg, #1f2937, #121826);
             border-radius: 16px;
+        }
+        
+        .card-gradient:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 65, 0.2);
+        }
+        
+        .feature-card {
+            background: linear-gradient(145deg, rgba(31, 41, 55, 0.8), rgba(18, 24, 38, 0.9));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+        }
+        
+        .feature-card:hover {
+            border-color: rgba(0, 255, 65, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 65, 0.15);
+        }
+        
+        .neon-border {
+            position: relative;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(45deg, #00ff41, #10b981);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .hero-bg {
+            background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(0, 240, 255, 0.1) 0%, transparent 50%),
+                        linear-gradient(135deg, rgba(18, 24, 38, 0.95) 0%, rgba(31, 41, 55, 0.95) 100%);
+        }
+        
+        .spec-highlight {
+            background: linear-gradient(90deg, rgba(0, 255, 65, 0.1), rgba(16, 185, 129, 0.1));
+            border-left: 3px solid #00ff41;
         }
     </style>
 </head>
@@ -84,12 +159,14 @@
                     HACK<span class="text-white">BOOT</span>
                 </a>
             </div>
+            
             <nav class="hidden md:flex space-x-8">
                 <a href="../../index.html#features" class="hover:text-accent transition">Features</a>
                 <a href="../../index.html#products" class="hover:text-accent transition">Products</a>
                 <a href="../../index.html#about" class="hover:text-accent transition">About</a>
                 <a href="../../index.html#faq" class="hover:text-accent transition">FAQ</a>
             </nav>
+            
             <div class="flex items-center space-x-4">
                 <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
                     <button class="hidden md:block px-4 py-2 rounded-lg bg-gradient-to-r from-accent to-primary hover:opacity-90 transition">
@@ -108,72 +185,568 @@
         <div class="flex items-center space-x-2 text-sm text-gray-400">
             <a href="../../index.html" class="hover:text-accent transition">Home</a>
             <i class="fas fa-chevron-right text-xs"></i>
-            <a href="../../products.html#tools-products" class="hover:text-accent transition">Products</a>
+            <a href="../../index.html#products" class="hover:text-accent transition">Products</a>
             <i class="fas fa-chevron-right text-xs"></i>
             <span class="text-matrix">Performance Optimizer</span>
         </div>
     </div>
 
     <!-- Hero Section -->
-    <section class="py-16">
-        <div class="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-12">
-            <div class="lg:w-1/2">
-                <div class="flex items-center space-x-3 mb-4">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-matrix to-primary flex items-center justify-center">
-                        <i class="fas fa-code text-xl text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-sm text-gray-400 uppercase tracking-wider">Tool</span>
-                        <h1 class="text-3xl lg:text-4xl font-bold gradient-text">Performance Optimizer</h1>
-                    </div>
-                </div>
-                <p class="text-xl text-gray-300 mb-2">
-                    <span class="gradient-text font-semibold">FPS Booster Pro</span>
-                </p>
-                <p class="text-gray-400 mb-6 text-lg leading-relaxed">
-                    Boost your PC for competitive play with extreme FPS unlock and lag reduction.
-                </p>
-                <div class="mb-8">
-                    <span class="text-4xl font-bold text-primary">€19.99</span>
-                    <span class="text-gray-400">/month</span>
-                </div>
-            </div>
-            <div class="lg:w-1/2 flex justify-center">
-                <img src="../../img/injector.png" alt="Performance Optimizer" class="w-80 rounded-xl shadow-lg">
-            </div>
-        </div>
-    </section>
-
-    <!-- Features -->
-    <section class="py-12">
+    <section class="py-16 hero-bg">
         <div class="container mx-auto px-4">
-            <h2 class="text-2xl font-bold mb-6 text-center">
-                <span class="gradient-text">Key</span> <span class="text-white">Features</span>
-            </h2>
-            <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-                <ul class="space-y-2 text-sm text-gray-300 card-gradient p-6">
-                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Adaptive FPS unlock up to 360+ FPS</li>
-                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Precision CPU & GPU tuning</li>
-                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Background process elimination</li>
-                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Intelligent memory cleaner & defrag</li>
-                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Automatic driver updates</li>
-                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Network latency optimizer</li>
-                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Real-time temperature monitor</li>
-                    <li class="flex items-center"><i class="fas fa-check text-accent mr-2"></i>Game-specific optimization profiles</li>
-                </ul>
-                <div class="card-gradient p-6 text-sm text-gray-300 space-y-2">
-                    <p>Comprehensive tuning utility to maximize FPS and system responsiveness.</p>
-                    <p><strong>Smart Overclock:</strong> Safely boosts CPU & GPU clocks with thermal protection.</p>
-                    <p><strong>Deep Clean:</strong> Removes bloatware, kills background tasks and clears RAM.</p>
-                    <p><strong>Net Boost:</strong> Optimizes traffic routes for the lowest possible ping.</p>
-                    <p><strong>Profile Manager:</strong> One-click presets tailored for each game.</p>
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <!-- Product Info -->
+                <div class="lg:w-1/2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-matrix to-primary flex items-center justify-center">
+                            <i class="fas fa-tachometer-alt text-xl text-white"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-400 uppercase tracking-wider">Tool</span>
+                            <h1 class="text-3xl lg:text-4xl font-bold matrix-gradient matrix-glow">
+                                Performance Optimizer
+                            </h1>
+                        </div>
+                    </div>
+                    
+                    <p class="text-xl text-gray-300 mb-2">
+                        <span class="gradient-text font-semibold">FPS Booster Pro</span>
+                    </p>
+                    <p class="text-gray-400 mb-6 text-lg leading-relaxed">
+                        Advanced tuning utility for peak gaming performance. Adaptive FPS unlock, background task killer and driver updates.
+                    </p>
+                    
+                    <!-- Price -->
+                    <div class="mb-8">
+                        <div class="flex items-baseline space-x-2 mb-2">
+                            <span class="text-4xl font-bold text-matrix">€19.99</span>
+                            <span class="text-gray-400 text-lg">/month</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm bg-matrix/20 text-matrix px-3 py-1 rounded-full">ESSENTIAL</span>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                            <button class="w-full sm:w-auto px-8 py-4 rounded-lg bg-gradient-to-r from-matrix to-primary hover:scale-105 transition transform duration-300 font-bold shadow-lg">
+                                <i class="fas fa-tachometer-alt mr-2"></i>
+                                Order Now
+                            </button>
+                        </a>
+                        <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                            <button class="w-full sm:w-auto px-8 py-4 rounded-lg border border-matrix text-matrix hover:bg-matrix/10 transition">
+                                <i class="fas fa-play mr-2"></i>
+                                View Demo
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product Preview -->
+                <div class="lg:w-1/2">
+                    <div class="relative">
+                        <!-- Main preview card -->
+                        <div class="card-gradient p-8 rounded-2xl neon-border animate-float">
+                            <div class="text-center mb-6">
+                                <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-matrix to-primary flex items-center justify-center mb-4">
+                                    <i class="fas fa-tachometer-alt text-3xl text-white"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-matrix mb-2">Optimizer Control Panel</h3>
+                                <p class="text-gray-400 text-sm">Complete system tuning</p>
+                            </div>
+                            
+                            <!-- Mock interface -->
+                            <div class="bg-dark/50 rounded-lg p-4 border border-matrix/20">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-sm text-matrix">FPS Boost</span>
+                                    <span class="text-sm text-green-400">360+</span>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-xs text-gray-400">CPU Usage</span>
+                                        <span class="text-xs text-accent">Optimized</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-xs text-gray-400">RAM Cleaned</span>
+                                        <span class="text-xs text-accent">2 GB</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-xs text-gray-400">Latency</span>
+                                        <span class="text-xs text-accent">&lt;20ms</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating stats -->
+                        <div class="absolute -top-6 -right-6 bg-gradient-to-br from-matrix/20 to-primary/20 backdrop-blur-lg rounded-lg p-4 border border-matrix/30">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-matrix">360</div>
+                                <div class="text-xs text-gray-400">Max FPS</div>
+                            </div>
+                        </div>
+
+                        <div class="absolute -bottom-6 -left-6 bg-gradient-to-br from-accent/20 to-primary/20 backdrop-blur-lg rounded-lg p-4 border border-accent/30">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-accent">20%</div>
+                                <div class="text-xs text-gray-400">CPU Idle</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-8 border-t border-gray-800 text-center text-gray-400">
-        <p>Hackboot &copy; 2025</p>
+    <!-- Features Overview -->
+    <section class="py-16 bg-light/20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">
+                    <span class="gradient-text">Ultimate</span> <span class="text-white">Features</span>
+                </h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    The complete suite of advanced features for an unlimited Tool experience.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Optimization Features -->
+                <div class="feature-card p-6 rounded-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-matrix/20 flex items-center justify-center mr-3">
+                            <i class="fas fa-crosshairs text-matrix"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Optimization Features</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Adaptive FPS unlock</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Smart overclock</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Network latency analyzer</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Automatic driver updates</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Background task killer</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Memory cleaner &amp; defrag</li>
+                    </ul>
+                </div>
+                
+                <!-- Cleaning Tools -->
+                <div class="feature-card p-6 rounded-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center mr-3">
+                            <i class="fas fa-unlock-alt text-accent"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Cleaning Tools</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Background task killer</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Memory cleaner &amp; defrag</li>
+                    </ul>
+                </div>
+                
+                <!-- Networking Features -->
+                <div class="feature-card p-6 rounded-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-matrix/20 flex items-center justify-center mr-3">
+                            <i class="fas fa-server text-matrix"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Networking &amp; Drivers</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Automatic driver updates</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Network latency analyzer</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Real-time temperature monitor</li>
+                        <li class="flex items-center"><i class="fas fa-check text-accent text-xs mr-2"></i>Game-specific profiles</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Specifications -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">
+                    <span class="text-white">Complete</span> <span class="gradient-text">Specifications</span>
+                </h2>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <!-- Cheat & Cleaning Tools -->
+                <div class="card-gradient p-8 rounded-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-magic text-matrix mr-3"></i>
+                        Premium Features
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="spec-highlight p-4 rounded-lg">
+                            <h4 class="font-semibold text-matrix mb-2">Advanced Tuning</h4>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>• Adaptive FPS unlock up to 360</li>
+                                <li>• Smart overclock with thermal limits</li>
+                                <li>• Background task killer</li>
+                                <li>• Memory cleaner &amp; defrag</li>
+                                <li>• Network latency analyzer</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="spec-highlight p-4 rounded-lg">
+                            <h4 class="font-semibold text-matrix mb-2">System Maintenance</h4>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>• Automatic driver updates</li>
+                                <li>• Real-time temperature monitor</li>
+                                <li>• Game-specific optimization profiles</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="spec-highlight p-4 rounded-lg">
+                            <h4 class="font-semibold text-matrix mb-2">Additional Utilities</h4>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>• Lightweight overlay</li>
+                                <li>• Safe for streaming software</li>
+                                <li>• One-click optimization presets</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- VM & Security -->
+                <div class="card-gradient p-8 rounded-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-shield-alt text-accent mr-3"></i>
+                        VM & Security Ultimate
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="spec-highlight p-4 rounded-lg">
+                            <h4 class="font-semibold text-accent mb-2">Hardware Stats</h4>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>• CPU/GPU/RAM monitoring</li>
+                                <li>• Temperature alerts</li>
+                                <li>• Fan speed control</li>
+                                <li>• Disk optimization</li>
+                            </ul>
+                        </div>
+
+                        <div class="spec-highlight p-4 rounded-lg">
+                            <h4 class="font-semibold text-accent mb-2">Safety &amp; Updates</h4>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>• Automatic driver updates</li>
+                                <li>• Safe overclock limits</li>
+                                <li>• Auto revert on crash</li>
+                                <li>• Frequent optimization patches</li>
+                            </ul>
+                        </div>
+
+                        <div class="spec-highlight p-4 rounded-lg">
+                            <h4 class="font-semibold text-accent mb-2">Advanced Features</h4>
+                            <ul class="text-sm text-gray-300 space-y-1">
+                                <li>• Stream-friendly overlay</li>
+                                <li>• Profile presets</li>
+                                <li>• Scheduled cleanups</li>
+                                <li>• Cloud sync</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Stats -->
+    <section class="py-16 bg-light/20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">
+                    <span class="gradient-text">Exceptional</span> <span class="text-white">Performance</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-matrix mb-2 glow">360</div>
+                    <div class="text-gray-400">Peak FPS</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-accent mb-2">20%</div>
+                    <div class="text-gray-400">CPU Idle</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-overwatch mb-2">&lt;50°C</div>
+                    <div class="text-gray-400">Temps</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-neon mb-2">&lt;20ms</div>
+                    <div class="text-gray-400">Latency</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-light/20">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">
+                    <span class="gradient-text">Frequently</span> <span class="text-white">Asked Questions</span>
+                </h2>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Question 1 -->
+                <div class="card-gradient p-6 rounded-xl">
+                    <button onclick="toggleFAQ(1)" class="flex justify-between items-center w-full">
+                        <h3 class="text-lg font-bold text-left">Does it work with all games?</h3>
+                        <i id="faq-icon-1" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-content-1" class="hidden mt-4 text-gray-300">
+                        <p>
+                            Yes, Performance Optimizer is compatible with any PC game and improves overall system responsiveness.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="card-gradient p-6 rounded-xl">
+                    <button onclick="toggleFAQ(2)" class="flex justify-between items-center w-full">
+                        <h3 class="text-lg font-bold text-left">Is it safe for my hardware?</h3>
+                        <i id="faq-icon-2" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-content-2" class="hidden mt-4 text-gray-300">
+                        <p>
+                            Absolutely. All tuning stays within safe parameters and can be reverted at any time.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="card-gradient p-6 rounded-xl">
+                    <button onclick="toggleFAQ(3)" class="flex justify-between items-center w-full">
+                        <h3 class="text-lg font-bold text-left">Are updates automatic?</h3>
+                        <i id="faq-icon-3" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-content-3" class="hidden mt-4 text-gray-300">
+                        <p>
+                            Yes, the software downloads the latest optimization patches and driver updates automatically.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Question 4 -->
+                <div class="card-gradient p-6 rounded-xl">
+                    <button onclick="toggleFAQ(4)" class="flex justify-between items-center w-full">
+                        <h3 class="text-lg font-bold text-left">Does it affect streaming?</h3>
+                        <i id="faq-icon-4" class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-content-4" class="hidden mt-4 text-gray-300">
+                        <p>
+                            No, Performance Optimizer is fully compatible with OBS and other streaming tools.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Purchase Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="bg-gradient-to-r from-matrix/20 to-primary/20 rounded-2xl p-12 text-center neon-border max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <span class="matrix-gradient">Access</span> <span class="text-white">Absolute Control</span>
+                </h2>
+                <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
+                    Boost your PC with Performance Optimizer for just €19.99 per month.
+                </p>
+                
+                <!-- Package details -->
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-dark/50 rounded-lg p-4">
+                        <i class="fas fa-tachometer-alt text-matrix text-2xl mb-2"></i>
+                        <h4 class="font-bold mb-1">Full Optimization</h4>
+                        <p class="text-sm text-gray-400">Peak system tuning</p>
+                    </div>
+                    <div class="bg-dark/50 rounded-lg p-4">
+                        <i class="fas fa-sync-alt text-accent text-2xl mb-2"></i>
+                        <h4 class="font-bold mb-1">Driver Updates</h4>
+                        <p class="text-sm text-gray-400">Automatic patches</p>
+                    </div>
+                    <div class="bg-dark/50 rounded-lg p-4">
+                        <i class="fas fa-headset text-neon text-2xl mb-2"></i>
+                        <h4 class="font-bold mb-1">Premium Support</h4>
+                        <p class="text-sm text-gray-400">24/7 assistance</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="px-10 py-4 rounded-lg bg-gradient-to-r from-matrix to-primary hover:scale-105 transition transform duration-300 font-bold shadow-lg text-lg">
+                            <i class="fas fa-rocket mr-2"></i>
+                            Order Performance Optimizer - €19.99/month
+                        </button>
+                    </a>
+                    <a href="https://t.me/HackBootCheat_bot" target="_blank" rel="noopener noreferrer">
+                        <button class="px-10 py-4 rounded-lg border-2 border-matrix text-matrix hover:bg-matrix/10 transition text-lg">
+                            <i class="fas fa-question-circle mr-2"></i>
+                            Ask a Question
+                        </button>
+                    </a>
+                </div>
+                
+                <div class="mt-6 text-sm text-gray-400">
+                    <p>✅ Instant installation • ✅ 7-day money back guarantee • ✅ Free updates</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="py-16 bg-light/20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">
+                    <span class="text-white">Other</span> <span class="gradient-text">Products</span>
+                </h2>
+                <p class="text-gray-400">Discover our other premium tools</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Universal Injector -->
+                <div class="card-gradient p-6 rounded-xl transition duration-300 hover:transform hover:scale-105">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center mr-4">
+                            <i class="fas fa-code text-accent"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Universal Injector</h3>
+                            <p class="text-sm text-gray-400">€59.99/month</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">
+                        Multi-game platform to load cheats safely with script support.
+                    </p>
+                    <a href="../tools/universal-injector.html" class="text-accent hover:text-accent/80 transition text-sm">
+                        Learn more →
+                    </a>
+                </div>
+
+                <!-- Streamer Shield -->
+                <div class="card-gradient p-6 rounded-xl transition duration-300 hover:transform hover:scale-105">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-matrix/20 flex items-center justify-center mr-4">
+                            <i class="fas fa-eye-slash text-matrix"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Streamer Shield</h3>
+                            <p class="text-sm text-gray-400">€24.99/month</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">
+                        Hide cheat overlays during streams and protect against spectators.
+                    </p>
+                    <a href="../tools/streamer-shield.html" class="text-matrix hover:text-matrix/80 transition text-sm">
+                        Learn more →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-2 mb-6">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text bg-clip-text tracking-tighter">
+                        HACK<span class="text-white">BOOT</span>
+                    </span>
+                </div>
+                <p class="text-gray-400 mb-6">
+                    Premium gaming tools for competitive players since 2020.
+                </p>
+                <div class="flex justify-center space-x-4 mb-8">
+                    <a href="https://t.me/HackBootCheat_bot" class="text-gray-400 hover:text-accent transition">
+                        <i class="fab fa-telegram text-xl"></i>
+                    </a>
+                </div>
+                <div class="border-t border-gray-800 pt-6">
+                    <p class="text-gray-400 text-sm">© 2025 Hackboot. All rights reserved. Not affiliated with Blizzard Entertainment.</p>
+                    <p class="text-gray-400 text-xs mt-2">For entertainment purposes only.</p>
+                </div>
+            </div>
+        </div>
     </footer>
+
+    <script>
+        // Toggle FAQ items
+        function toggleFAQ(num) {
+            const content = document.getElementById(`faq-content-${num}`);
+            const icon = document.getElementById(`faq-icon-${num}`);
+            
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Animate elements on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all feature cards and sections
+        document.querySelectorAll('.feature-card, .card-gradient').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Add fade-in animation class
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-fade-in {
+                animation: fadeInUp 0.6s ease-out forwards;
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
