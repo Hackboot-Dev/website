@@ -208,15 +208,15 @@
             <h2 class="text-lg font-semibold mb-4">SYSTEM STATUS</h2>
             <div class="space-y-6">
                 <div>
-                    <p class="text-gray-400 text-sm">Trophées</p>
+                    <p class="text-gray-400 text-sm">Trophies</p>
                     <p class="text-4xl font-bold text-white glow">6342</p>
                 </div>
                 <div>
-                    <p class="text-gray-400 text-sm">Niveau Roi</p>
+                    <p class="text-gray-400 text-sm">King Level</p>
                     <p class="text-4xl font-bold text-white glow">14</p>
                 </div>
                 <div>
-                    <p class="text-gray-400 text-sm">Victoires</p>
+                    <p class="text-gray-400 text-sm">Wins</p>
                     <p class="text-4xl font-bold text-white glow">87%</p>
                 </div>
             </div>
@@ -248,9 +248,9 @@
                 <p class="text-gray-400 text-sm mb-2">Active Modules</p>
                 <div class="flex flex-wrap gap-2">
                     <span class="pill pill-purple">Auto-placement</span>
-                    <span class="pill pill-purple">Détection deck</span>
+                    <span class="pill pill-purple">Deck detection</span>
                     <span class="pill pill-cyan">Elixir tracker</span>
-                    <span class="pill pill-red">Anti-3-couronnes</span>
+                    <span class="pill pill-red">Anti-three-crown</span>
                 </div>
             </div>
         </div>
@@ -262,37 +262,71 @@
                 <!-- Feature 1 -->
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="font-medium text-purple-400">Auto-placement</p>
-                        <p class="text-gray-400 text-xs">Placement automatique</p>
+                        <p class="font-medium text-purple-400">Card Tracking</p>
+                        <p class="text-gray-400 text-xs">Hand cards and next cycle</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
-                
+
                 <!-- Feature 2 -->
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="font-medium text-cyan-400 neon-glow">Elixir Tracker</p>
-                        <p class="text-gray-400 text-xs">Suivi d'elixir</p>
+                        <p class="font-medium text-cyan-400 neon-glow">Elixir Estimation</p>
+                        <p class="text-gray-400 text-xs">Opponent elixir in real time</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
-                
+
                 <!-- Feature 3 -->
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="font-medium text-red-400">Anti-3-couronnes</p>
-                        <p class="text-gray-400 text-xs">Défense automatique</p>
+                        <p class="font-medium text-green-400">Strategic Overlay</p>
+                        <p class="text-gray-400 text-xs">Ranges and impact zones</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
+                </div>
+
+                <button id="toggle-more" class="mt-4 w-full bg-accent hover:opacity-90 text-white py-2 rounded-lg text-sm font-medium transition">
+                    Show all options
+                </button>
+
+                <div id="more-features" class="mt-4 space-y-4 hidden">
+                    <div>
+                        <h3 class="font-semibold mb-2">Cheat Features</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                            <li>Auto-match and 24/7 farming</li>
+                            <li>Auto-claim chests and quests</li>
+                            <li>Automatic deck switching</li>
+                            <li>Matchmaking spoofing</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-2">Unlocked Content</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                            <li>All cards level 15</li>
+                            <li>All evolutions unlocked</li>
+                            <li>Access to all ladder decks</li>
+                            <li>Full cosmetics</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-2">VM Features</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                            <li>Dedicated rooted VM 24/7</li>
+                            <li>Full device spoofer</li>
+                            <li>Advanced anti-ban protection</li>
+                            <li>Instant snapshot/reset</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -306,33 +340,33 @@
             <div class="grid grid-cols-2 gap-4">
                 <!-- K/D Ratio -->
                 <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
-                    <p class="text-gray-400 text-xs">Couronnes</p>
+                    <p class="text-gray-400 text-xs">Crowns</p>
                     <p class="text-2xl font-bold text-green-400 matrix-glow">12.4k</p>
                 </div>
                 
                 <!-- Win Rate -->
                 <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
-                    <p class="text-gray-400 text-xs">Taux Victoire</p>
+                    <p class="text-gray-400 text-xs">Win Rate</p>
                     <p class="text-2xl font-bold text-purple-400 glow">72%</p>
                 </div>
                 
                 <!-- Best Trophies -->
                 <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
-                    <p class="text-gray-400 text-xs">Meilleur Score</p>
+                    <p class="text-gray-400 text-xs">Best Score</p>
                     <p class="text-2xl font-bold text-green-500 matrix-glow">7560</p>
                 </div>
                 
                 <!-- Arena -->
                 <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
-                    <p class="text-gray-400 text-xs">Arène</p>
-                    <p class="text-2xl font-bold diamond-rank">Légendaire</p>
+                    <p class="text-gray-400 text-xs">Arena</p>
+                    <p class="text-2xl font-bold diamond-rank">Legendary</p>
                 </div>
             </div>
             
             <div class="mt-4 flex flex-wrap gap-2">
                 <span class="pill pill-purple">Ladder</span>
                 <span class="pill pill-cyan">2v2</span>
-                <span class="pill pill-red">Tournoi</span>
+                <span class="pill pill-red">Tournament</span>
             </div>
         </div>
 
@@ -398,7 +432,7 @@
     <!-- Terminal Row -->
     <div class="card-gradient rounded-2xl p-6 shadow-lg transition-all duration-300 card-hover">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">CONSOLE DE JEU</h2>
+            <h2 class="text-lg font-semibold">GAME CONSOLE</h2>
             <div class="flex space-x-2">
                 <button class="bg-gray-700 hover:bg-gray-600 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition">
                     Refresh
@@ -410,14 +444,14 @@
         </div>
         
         <div class="terminal bg-black bg-opacity-50 rounded-lg p-4 terminal-border h-40 overflow-y-auto">
-            <p class="text-green-400">> Connexion au serveur...</p>
-            <p class="text-green-400">> Connecté avec succès</p>
-            <p class="text-green-400">> Analyse du deck adverse...</p>
-            <p class="text-green-400">> Deck détecté: Pekka Pont</p>
-            <p class="text-green-400">> Calcul stratégie...</p>
-            <p class="text-green-400">> Stratégie optimale déterminée</p>
-            <p class="text-green-400">> Suivi elixir activé...</p>
-            <p class="text-green-400">> Prêt pour le combat</p>
+            <p class="text-green-400">> Connecting to server...</p>
+            <p class="text-green-400">> Connected successfully</p>
+            <p class="text-green-400">> Analyzing enemy deck...</p>
+            <p class="text-green-400">> Detected deck: Pekka Pont</p>
+            <p class="text-green-400">> Calculating strategy...</p>
+            <p class="text-green-400">> Optimal strategy determined</p>
+            <p class="text-green-400">> Elixir tracking enabled...</p>
+            <p class="text-green-400">> Ready for battle</p>
             <p class="text-green-400 blink">_</p>
         </div>
     </div>
@@ -437,12 +471,21 @@
                 card.style.transform = 'translateY(-5px)';
                 card.style.boxShadow = '0 10px 20px rgba(16, 185, 129, 0.3)';
             });
-            
+
             card.addEventListener('mouseleave', () => {
                 card.style.transform = '';
                 card.style.boxShadow = '';
             });
         });
+
+        // Toggle additional features
+        const toggleBtn = document.getElementById('toggle-more');
+        const moreContainer = document.getElementById('more-features');
+        if (toggleBtn && moreContainer) {
+            toggleBtn.addEventListener('click', () => {
+                moreContainer.classList.toggle('hidden');
+            });
+        }
     </script>
 </body>
 </html>
