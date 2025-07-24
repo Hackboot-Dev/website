@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackboot | Clash Royal Dashboard</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="../../../img/favicon.ico" />
+</head>
+<body class="bg-dark text-gray-200 font-sans bg-grid">
+    <!-- Header -->
+    <header class="border-b border-gray-800 bg-dark/80 backdrop-blur-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <a href="../../../index.html" class="text-xl font-bold gradient-text bg-clip-text tracking-tighter">HACK<span class="text-white">BOOT</span></a>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="../../../index.html" class="hover:text-accent transition">Homepage</a>
+                <a href="../../../products.html" class="hover:text-accent transition">Products</a>
+                <a href="../../../about.html" class="hover:text-accent transition">About</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="../../login.html">
+                    <button class="hidden md:block px-4 py-2 rounded-lg bg-gradient-to-r from-accent to-primary hover:opacity-90 transition">
+                        Client Area
+                    </button>
+                </a>
+                <button class="md:hidden p-2 rounded-lg bg-light">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <section class="py-20 md:py-32">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-bold mb-8 text-center">Clash Royal Dashboard</h1>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- System Status -->
+                <div class="bg-light/50 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold mb-4">System Status</h2>
+                    <p class="mb-2">Server: <span class="text-green-500">Online</span></p>
+                    <p class="mb-2">Cheat Engine: <span class="text-green-500">Running</span></p>
+                    <p>Last Update: 2025-05-12</p>
+                </div>
+                <!-- Current Session -->
+                <div class="bg-light/50 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold mb-4">Current Session</h2>
+                    <p class="mb-2">Game: <span class="text-accent">Clash Royal</span></p>
+                    <p class="mb-2">Cheat: <span class="text-green-500">Active</span></p>
+                    <p>Session Time: 00:25:34</p>
+                </div>
+                <!-- Active Features -->
+                <div class="bg-light/50 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold mb-4">Active Features</h2>
+                    <ul class="space-y-2">
+                        <li class="flex items-center justify-between">
+                            <span>Auto Win</span>
+                            <input type="checkbox" checked class="toggle bg-dark rounded-full focus:ring-primary">
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span>Instant Chest</span>
+                            <input type="checkbox" class="toggle bg-dark rounded-full focus:ring-primary">
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span>Unlimited Gems</span>
+                            <input type="checkbox" class="toggle bg-dark rounded-full focus:ring-primary">
+                        </li>
+                    </ul>
+                </div>
+                <!-- Game Stats -->
+                <div class="bg-light/50 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold mb-4">Game Stats</h2>
+                    <p class="mb-2">Win Rate: <span class="text-accent">87%</span></p>
+                    <p class="mb-2">Trophies: <span class="text-accent">5400</span></p>
+                    <p>Last 10 Games: <span class="text-green-500">8W</span> / <span class="text-red-500">2L</span></p>
+                </div>
+                <!-- Logs -->
+                <div class="bg-light/50 p-6 rounded-lg shadow-lg md:col-span-2">
+                    <h2 class="text-2xl font-semibold mb-4">Logs</h2>
+                    <pre class="bg-dark p-4 rounded overflow-auto h-48 text-sm">
+[00:00] Connecting to server...
+[00:02] Bypass completed
+[00:05] Features loaded
+[00:10] Game session started
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-2 mb-6">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text bg-clip-text tracking-tighter">
+                        HACK<span class="text-white">BOOT</span>
+                    </span>
+                </div>
+                <p class="text-gray-400 mb-6">
+                    Premium gaming tools for competitive players since 2025.
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <a href="https://t.me/HackBootCheat_bot" class="text-gray-400 hover:text-accent transition">
+                        <i class="fab fa-telegram text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>© 2025 Hackboot. All rights reserved. Not affiliated with any game developers.</p>
+                <p class="mt-2 text-sm">For entertainment purposes only.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../../login.js"></script>
+</body>
+</html>
