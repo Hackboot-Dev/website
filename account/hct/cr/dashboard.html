@@ -65,6 +65,7 @@
             border-radius: 8px;
             border: 1px solid var(--border);
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .feature-toggle:hover {
@@ -72,13 +73,61 @@
         }
         
         .feature-toggle.disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             background: rgba(31, 41, 55, 0.2);
-            border-color: rgba(75, 85, 99, 0.5);
+            border-color: rgba(75, 85, 99, 0.3);
+            cursor: not-allowed;
+        }
+        
+        .feature-toggle.disabled:hover {
+            border-color: rgba(75, 85, 99, 0.3);
         }
         
         .feature-toggle.disabled .toggle-switch {
             pointer-events: none;
+        }
+        
+        .feature-toggle.disabled .font-medium {
+            color: rgba(156, 163, 175, 0.6) !important;
+        }
+        
+        .feature-toggle.disabled .text-gray-400 {
+            color: rgba(156, 163, 175, 0.4) !important;
+        }
+        
+        /* Tooltip système */
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+            border: 1px solid var(--accent);
+            margin-bottom: 8px;
+        }
+        
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .feature-toggle.disabled:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
         }
         
         .toggle-switch {
@@ -137,8 +186,7 @@
         }
         
         .pack-disabled {
-            opacity: 0.4;
-            pointer-events: none;
+            opacity: 1;
         }
         
         .pack-disabled .feature-toggle {
@@ -147,22 +195,11 @@
         }
         
         .upgrade-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            items-center;
-            justify-content: center;
-            border-radius: 1rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            display: none;
         }
         
         .pack-disabled .upgrade-overlay {
-            opacity: 1;
+            display: none;
         }
         
         .upgrade-message {
@@ -1360,25 +1397,32 @@
                         statusBadge.className = 'pack-status-badge px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500';
                     }
                     
-                    // Activer toutes les fonctionnalités
+                    // Les fonctionnalités sont disponibles mais désactivées par défaut
                     const toggles = packElement.querySelectorAll('.feature-toggle');
                     toggles.forEach(toggle => {
                         toggle.classList.remove('disabled');
                         const input = toggle.querySelector('input[type="checkbox"]');
                         if (input) {
                             input.disabled = false;
+                            input.checked = false; // Désactivé par défaut
+                        }
+                        
+                        // Supprimer le tooltip s'il existe
+                        const existingTooltip = toggle.querySelector('.tooltip');
+                        if (existingTooltip) {
+                            existingTooltip.remove();
                         }
                     });
                     
                 } else {
-                    // Pack non disponible
+                    // Pack non disponible - griser les fonctionnalités
                     packElement.classList.add('pack-disabled');
                     if (statusBadge) {
                         statusBadge.textContent = 'UPGRADE REQUIS';
                         statusBadge.className = 'pack-status-badge px-3 py-1 bg-red-900 bg-opacity-40 text-red-300 text-xs rounded-full border border-red-500';
                     }
                     
-                    // Désactiver toutes les fonctionnalités
+                    // Griser et désactiver toutes les fonctionnalités
                     const toggles = packElement.querySelectorAll('.feature-toggle');
                     toggles.forEach(toggle => {
                         toggle.classList.add('disabled');
@@ -1387,24 +1431,15 @@
                             input.disabled = true;
                             input.checked = false;
                         }
+                        
+                        // Ajouter tooltip discret
+                        if (!toggle.querySelector('.tooltip')) {
+                            const tooltip = document.createElement('div');
+                            tooltip.className = 'tooltip';
+                            tooltip.textContent = `Disponible avec Pack ${packLevel} - Cliquez pour upgrader`;
+                            toggle.appendChild(tooltip);
+                        }
                     });
-                    
-                    // Ajouter overlay d'upgrade
-                    if (!packElement.querySelector('.upgrade-overlay')) {
-                        const overlay = document.createElement('div');
-                        overlay.className = 'upgrade-overlay';
-                        overlay.innerHTML = `
-                            <div class="upgrade-message">
-                                <h4 class="text-xl font-bold text-accent mb-2">🔒 Pack Verrouillé</h4>
-                                <p class="text-gray-400 mb-4">Améliorez votre abonnement pour débloquer ces fonctionnalités</p>
-                                <button class="btn-cyber px-4 py-2 text-white rounded-lg text-sm">
-                                    Upgrader vers Pack ${packLevel}
-                                </button>
-                            </div>
-                        `;
-                        packElement.style.position = 'relative';
-                        packElement.appendChild(overlay);
-                    }
                 }
             }
 
@@ -1419,32 +1454,46 @@
         // Gestion des événements des toggles avec vérification
         function handleFeatureToggle(event) {
             const toggle = event.target.closest('.feature-toggle');
-            const packElement = toggle.closest('[id^="pack-"]');
-            const packLevel = parseInt(packElement.id.split('-')[1]);
-            const userPackLevel = parseInt(userSubscription?.type || '0');
             
-            if (packLevel > userPackLevel) {
+            // Si la fonctionnalité est désactivée, empêcher l'action et afficher une alerte
+            if (toggle.classList.contains('disabled')) {
                 event.preventDefault();
+                const packElement = toggle.closest('[id^="pack-"]');
+                const packLevel = parseInt(packElement.id.split('-')[1]);
                 
-                // Afficher message d'alerte
-                const alertDiv = document.createElement('div');
-                alertDiv.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-                alertDiv.innerHTML = `
-                    <div class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Fonctionnalité non disponible - Upgrade requis vers Pack ${packLevel}</span>
-                    </div>
-                `;
-                document.body.appendChild(alertDiv);
-                
-                setTimeout(() => {
-                    alertDiv.remove();
-                }, 3000);
+                // Afficher message d'alerte discret
+                showUpgradeAlert(packLevel);
                 
                 return false;
             }
+        }
+
+        // Fonction pour afficher une alerte d'upgrade
+        function showUpgradeAlert(requiredPackLevel) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 opacity-0 transition-opacity duration-300';
+            alertDiv.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Pack ${requiredPackLevel} requis pour cette fonctionnalité</span>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // Animation d'apparition
+            setTimeout(() => {
+                alertDiv.classList.remove('opacity-0');
+            }, 100);
+            
+            // Disparition automatique
+            setTimeout(() => {
+                alertDiv.classList.add('opacity-0');
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 300);
+            }, 2500);
         }
 
         // Gestion des onglets
@@ -1554,10 +1603,20 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadUserData();
             
-            // Ajouter les gestionnaires d'événements pour les toggles
+            // Ajouter les gestionnaires d'événements pour les toggles et clics sur fonctionnalités désactivées
             document.addEventListener('click', (e) => {
+                // Gestion des toggles
                 if (e.target.type === 'checkbox' && e.target.closest('.feature-toggle')) {
                     handleFeatureToggle(e);
+                }
+                
+                // Gestion des clics sur les fonctionnalités désactivées
+                if (e.target.closest('.feature-toggle.disabled')) {
+                    e.preventDefault();
+                    const toggle = e.target.closest('.feature-toggle');
+                    const packElement = toggle.closest('[id^="pack-"]');
+                    const packLevel = parseInt(packElement.id.split('-')[1]);
+                    showUpgradeAlert(packLevel);
                 }
             });
         });
