@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberCheat Dashboard - Interface Complète</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>CyberCheat Dashboard - Full Interface</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -491,30 +492,30 @@
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
                     </svg>
-                    Paramètres
+                    Settings
                 </a>
                 <a href="#" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    Fonctionnalités
+                    Features
                 </a>
                 <a href="#" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    Historique
+                    History
                 </a>
             </nav>
             
             <div class="mt-8 p-4 bg-purple-900 bg-opacity-30 rounded-lg">
-                <h3 class="font-semibold text-sm mb-2">Status Système</h3>
+                <h3 class="font-semibold text-sm mb-2">System Status</h3>
                 <div class="status-indicator">
                     <div class="status-dot bg-green-400 animate-pulse-glow"></div>
-                    <span class="text-sm text-green-400">Opérationnel</span>
+                    <span class="text-sm text-green-400">Operational</span>
                 </div>
                 <div class="mt-3">
-                    <div class="text-xs text-gray-400 mb-1">Temps de fonctionnement</div>
+                    <div class="text-xs text-gray-400 mb-1">Uptime</div>
                     <div class="text-sm font-semibold">47h 23m</div>
                 </div>
             </div>
@@ -538,7 +539,7 @@
                             <span class="px-2 py-1 bg-purple-900 text-purple-300 text-xs font-bold rounded-full uppercase mr-3">LEGENDARY</span>
                             <div class="status-indicator">
                                 <div class="status-dot bg-green-400"></div>
-                                <span class="text-sm text-green-400">Indétectable</span>
+                                <span class="text-sm text-green-400">Undetectable</span>
                             </div>
                         </div>
                     </div>
@@ -557,7 +558,7 @@
                     <div class="flex items-center space-x-3">
                         <div class="text-right">
                             <div class="text-sm font-medium">Admin Demo</div>
-                            <div class="text-xs text-gray-400">Niveau Premium</div>
+                            <div class="text-xs text-gray-400">Premium Level</div>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
                             <span class="text-white font-bold">AD</span>
@@ -571,8 +572,8 @@
         <div class="px-6 py-4 border-b border-gray-700">
             <div class="flex space-x-1">
                 <button class="tab-button active" data-tab="dashboard">Dashboard</button>
-                <button class="tab-button" data-tab="features">Fonctionnalités</button>
-                <button class="tab-button" data-tab="stats">Statistiques</button>
+                <button class="tab-button" data-tab="features">Features</button>
+                <button class="tab-button" data-tab="stats">Statistics</button>
                 <button class="tab-button" data-tab="console">Console</button>
             </div>
         </div>
@@ -585,7 +586,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="metric-card card-modern">
                         <div class="text-3xl font-bold text-cyan-400 animate-glow mb-2">6,342</div>
-                        <div class="text-gray-400 text-sm">Trophées</div>
+                        <div class="text-gray-400 text-sm">Trophies</div>
                         <div class="progress-bar h-2 mt-3">
                             <div class="progress-fill" style="width: 84%"></div>
                         </div>
@@ -593,7 +594,7 @@
                     
                     <div class="metric-card card-modern">
                         <div class="text-3xl font-bold text-purple-400 animate-glow mb-2">14</div>
-                        <div class="text-gray-400 text-sm">Niveau Roi</div>
+                        <div class="text-gray-400 text-sm">King Level</div>
                         <div class="progress-bar h-2 mt-3">
                             <div class="progress-fill" style="width: 100%"></div>
                         </div>
@@ -601,7 +602,7 @@
                     
                     <div class="metric-card card-modern">
                         <div class="text-3xl font-bold text-green-400 animate-glow mb-2">87%</div>
-                        <div class="text-gray-400 text-sm">Victoires</div>
+                        <div class="text-gray-400 text-sm">Wins</div>
                         <div class="progress-bar h-2 mt-3">
                             <div class="progress-fill" style="width: 87%"></div>
                         </div>
@@ -609,7 +610,7 @@
                     
                     <div class="metric-card card-modern">
                         <div class="text-3xl font-bold text-yellow-400 animate-glow mb-2">7,560</div>
-                        <div class="text-gray-400 text-sm">Meilleur Score</div>
+                        <div class="text-gray-400 text-sm">Best Score</div>
                         <div class="progress-bar h-2 mt-3">
                             <div class="progress-fill" style="width: 95%"></div>
                         </div>
@@ -618,14 +619,14 @@
 
                 <!-- Grille principale -->
                 <div class="feature-grid mb-8">
-                    <!-- Statut système amélioré -->
+                    <!-- Status système amélioré -->
                     <div class="card-modern rounded-2xl p-6">
-                        <h2 class="text-xl font-bold mb-6 gradient-text">STATUT SYSTÈME</h2>
+                        <h2 class="text-xl font-bold mb-6 gradient-text">SYSTEM STATUS</h2>
                         <div class="space-y-6">
                             <div class="flex justify-between items-center">
                                 <div>
                                     <div class="text-sm text-gray-400">Injection</div>
-                                    <div class="text-lg font-semibold text-green-400">Actif</div>
+                                    <div class="text-lg font-semibold text-green-400">Active</div>
                                 </div>
                                 <div class="w-12 h-12 rounded-full bg-green-400 bg-opacity-20 flex items-center justify-center">
                                     <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
@@ -636,8 +637,8 @@
                             
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <div class="text-sm text-gray-400">Anti-détection</div>
-                                    <div class="text-lg font-semibold text-green-400">Protégé</div>
+                                    <div class="text-sm text-gray-400">Anti-detection</div>
+                                    <div class="text-lg font-semibold text-green-400">Protected</div>
                                 </div>
                                 <div class="w-12 h-12 rounded-full bg-green-400 bg-opacity-20 flex items-center justify-center animate-pulse-glow">
                                     <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
@@ -647,7 +648,7 @@
                             </div>
                             
                             <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4">
-                                <div class="text-sm text-gray-400 mb-2">Dernière mise à jour</div>
+                                <div class="text-sm text-gray-400 mb-2">Last Update</div>
                                 <div class="text-green-400 font-mono text-sm">kernel_driver.sys v2.1.4</div>
                             </div>
                         </div>
@@ -655,31 +656,31 @@
 
                     <!-- Session de jeu -->
                     <div class="card-modern rounded-2xl p-6">
-                        <h2 class="text-xl font-bold mb-6 gradient-text">SESSION ACTUELLE</h2>
+                        <h2 class="text-xl font-bold mb-6 gradient-text">CURRENT SESSION</h2>
                         <div class="space-y-4">
                             <div class="flex justify-between items-center">
-                                <span class="text-gray-400">Durée</span>
+                                <span class="text-gray-400">Duration</span>
                                 <span class="font-semibold">2h 34m</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-gray-400">Matchs joués</span>
+                                <span class="text-gray-400">Matches Played</span>
                                 <span class="font-semibold text-purple-400">23</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-gray-400">Victoires</span>
+                                <span class="text-gray-400">Wins</span>
                                 <span class="font-semibold text-green-400">20</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-gray-400">Taux de victoire</span>
+                                <span class="text-gray-400">Win Rate</span>
                                 <span class="font-semibold text-cyan-400">87%</span>
                             </div>
                             
                             <div class="mt-6">
-                                <div class="text-sm text-gray-400 mb-2">Modules actifs</div>
+                                <div class="text-sm text-gray-400 mb-2">Active Modules</div>
                                 <div class="flex flex-wrap gap-2">
-                                    <span class="px-3 py-1 bg-purple-900 bg-opacity-40 text-purple-300 text-xs rounded-full border border-purple-500">Placement auto</span>
-                                    <span class="px-3 py-1 bg-cyan-900 bg-opacity-40 text-cyan-300 text-xs rounded-full border border-cyan-500">Tracker élixir</span>
-                                    <span class="px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500">IA stratégie</span>
+                                    <span class="px-3 py-1 bg-purple-900 bg-opacity-40 text-purple-300 text-xs rounded-full border border-purple-500">Auto Placement</span>
+                                    <span class="px-3 py-1 bg-cyan-900 bg-opacity-40 text-cyan-300 text-xs rounded-full border border-cyan-500">Elixir Tracker</span>
+                                    <span class="px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500">Strategy AI</span>
                                 </div>
                             </div>
                         </div>
@@ -687,7 +688,7 @@
 
                     <!-- Activité récente -->
                     <div class="card-modern rounded-2xl p-6">
-                        <h2 class="text-xl font-bold mb-6 gradient-text">ACTIVITÉ RÉCENTE</h2>
+                        <h2 class="text-xl font-bold mb-6 gradient-text">RECENT ACTIVITY</h2>
                         <div class="space-y-4">
                             <div class="flex items-start space-x-3">
                                 <div class="w-8 h-8 rounded-lg bg-green-500 bg-opacity-20 flex items-center justify-center flex-shrink-0">
@@ -696,8 +697,8 @@
                                     </svg>
                                 </div>
                                 <div class="flex-1">
-                                    <div class="font-medium text-sm">Hook mémoire mis à jour</div>
-                                    <div class="text-gray-400 text-xs">Il y a 15 minutes</div>
+                                    <div class="font-medium text-sm">Memory hook updated</div>
+                                    <div class="text-gray-400 text-xs">15 minutes ago</div>
                                 </div>
                             </div>
                             
@@ -708,8 +709,8 @@
                                     </svg>
                                 </div>
                                 <div class="flex-1">
-                                    <div class="font-medium text-sm">Nouvelle mise à jour détectée</div>
-                                    <div class="text-gray-400 text-xs">Il y a 1 heure</div>
+                                    <div class="font-medium text-sm">New update detected</div>
+                                    <div class="text-gray-400 text-xs">1 hour ago</div>
                                 </div>
                             </div>
                         </div>
@@ -717,7 +718,7 @@
 
                     <!-- Performance en temps réel -->
                     <div class="card-modern rounded-2xl p-6">
-                        <h2 class="text-xl font-bold mb-6 gradient-text">PERFORMANCE TEMPS RÉEL</h2>
+                        <h2 class="text-xl font-bold mb-6 gradient-text">REAL-TIME PERFORMANCE</h2>
                         <div class="space-y-4">
                             <div>
                                 <div class="flex justify-between text-sm mb-2">
@@ -731,7 +732,7 @@
                             
                             <div>
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="text-gray-400">Mémoire</span>
+                                    <span class="text-gray-400">Memory</span>
                                     <span class="text-purple-400">45%</span>
                                 </div>
                                 <div class="progress-bar h-3">
@@ -752,11 +753,11 @@
                             <div class="mt-6 grid grid-cols-2 gap-4">
                                 <div class="text-center">
                                     <div class="text-2xl font-bold text-green-400">120</div>
-                                    <div class="text-xs text-gray-400">FPS Moyen</div>
+                                    <div class="text-xs text-gray-400">Avg FPS</div>
                                 </div>
                                 <div class="text-center">
                                     <div class="text-2xl font-bold text-cyan-400">8ms</div>
-                                    <div class="text-xs text-gray-400">Latence</div>
+                                    <div class="text-xs text-gray-400">Latency</div>
                                 </div>
                             </div>
                         </div>
@@ -766,31 +767,31 @@
                 <!-- Actions rapides -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <button class="btn-cyber text-white px-6 py-4 rounded-xl font-semibold text-lg shadow-lg">
-                        🚀 Démarrer Session
+                        🚀 Start Session
                     </button>
                     <button class="btn-cyber text-white px-6 py-4 rounded-xl font-semibold text-lg shadow-lg">
-                        ⚙️ Configuration Rapide
+                        ⚙️ Quick Setup
                     </button>
                     <button class="btn-cyber text-white px-6 py-4 rounded-xl font-semibold text-lg shadow-lg">
-                        📊 Rapport Détaillé
+                        📊 Detailed Report
                     </button>
                 </div>
             </div>
 
-            <!-- Onglet Fonctionnalités -->
+            <!-- Onglet Features -->
             <div id="tab-features" class="tab-content hidden">
                 <!-- Info utilisateur et abonnement -->
                 <div class="mb-6 p-4 bg-gray-800 bg-opacity-30 rounded-lg border border-accent">
                     <div class="flex justify-between items-center">
                         <div>
-                            <div class="text-lg font-semibold">Utilisateur: <span id="current-user" class="text-accent">Chargement...</span></div>
-                            <div class="text-sm text-gray-400">Abonnement: <span id="current-plan" class="text-cyan-400">Vérification...</span></div>
+                            <div class="text-lg font-semibold">User: <span id="current-user" class="text-accent">Chargement...</span></div>
+                            <div class="text-sm text-gray-400">Subscription: <span id="current-plan" class="text-cyan-400">Checking...</span></div>
                         </div>
                         <div class="text-right">
-                            <div class="text-xs text-gray-400">Statut</div>
+                            <div class="text-xs text-gray-400">Status</div>
                             <div id="plan-status" class="status-indicator">
                                 <div class="status-dot bg-green-400"></div>
-                                <span class="text-sm text-green-400">Actif</span>
+                                <span class="text-sm text-green-400">Active</span>
                             </div>
                         </div>
                     </div>
@@ -803,20 +804,20 @@
                         <div class="flex justify-between items-center mb-6">
                             <div>
                                 <h2 class="text-xl font-bold gradient-text">PACK 1 - CLASH ROYALE SUPREME</h2>
-                                <p class="text-gray-400 text-sm">€180/mois - Fonctionnalités de base</p>
+                                <p class="text-gray-400 text-sm">€180/mois - Features de base</p>
                             </div>
-                            <span class="px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500">DISPONIBLE</span>
+                            <span class="px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500">AVAILABLE</span>
                         </div>
                         
                         <div class="grid lg:grid-cols-3 gap-6">
-                            <!-- Fonctionnalités de Triche Pack 1 -->
+                            <!-- Features de Triche Pack 1 -->
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">Fonctionnalités de Triche:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">Features de Triche:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-purple-400">Suivi complet des cartes</div>
-                                            <div class="text-sm text-gray-400">Main, cycle, carte suivante</div>
+                                            <div class="font-medium text-purple-400">Full card tracking</div>
+                                            <div class="text-sm text-gray-400">Hand, cycle, next card</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox" checked>
@@ -826,8 +827,8 @@
                                     
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-cyan-400">Estimation élixir temps réel</div>
-                                            <div class="text-sm text-gray-400">Élixir adversaire en direct</div>
+                                            <div class="font-medium text-cyan-400">Real-time elixir estimate</div>
+                                            <div class="text-sm text-gray-400">Opponent elixir live</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox" checked>
@@ -837,8 +838,8 @@
                                     
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-green-400">Overlay stratégique</div>
-                                            <div class="text-sm text-gray-400">Portées, impacts, chemins</div>
+                                            <div class="font-medium text-green-400">Strategic overlay</div>
+                                            <div class="text-sm text-gray-400">Ranges, impacts, paths</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox" checked>
@@ -849,7 +850,7 @@
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
                                             <div class="font-medium text-yellow-400">Auto-match + Farm 24/7</div>
-                                            <div class="text-sm text-gray-400">Farming automatisé</div>
+                                            <div class="text-sm text-gray-400">Automated farming</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -861,12 +862,12 @@
 
                             <!-- Contenu débloqué Pack 1 -->
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">Contenu Débloqué:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">Unlocked Content:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-purple-400">Toutes les cartes niveau 15</div>
-                                            <div class="text-sm text-gray-400">Collection complète</div>
+                                            <div class="font-medium text-purple-400">All cards level 15</div>
+                                            <div class="text-sm text-gray-400">Complete collection</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox" checked>
@@ -876,8 +877,8 @@
                                     
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-cyan-400">Toutes les évolutions</div>
-                                            <div class="text-sm text-gray-400">Évolutions débloquées</div>
+                                            <div class="font-medium text-cyan-400">All evolutions</div>
+                                            <div class="text-sm text-gray-400">Unlocked evolutions</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox" checked>
@@ -887,8 +888,8 @@
                                     
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-green-400">Cosmétiques complets</div>
-                                            <div class="text-sm text-gray-400">Emotes, skins, bannières</div>
+                                            <div class="font-medium text-green-400">Full cosmetics</div>
+                                            <div class="text-sm text-gray-400">Emotes, skins, banners</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox" checked>
@@ -900,12 +901,12 @@
 
                             <!-- VM Environment Pack 1 -->
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">Environnement VM:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">VM Environment:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-yellow-400">VM dédiée 24/7</div>
-                                            <div class="text-sm text-gray-400">Android rooté</div>
+                                            <div class="font-medium text-yellow-400">Dedicated VM 24/7</div>
+                                            <div class="text-sm text-gray-400">Rooted Android</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox" checked>
@@ -915,8 +916,8 @@
                                     
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-purple-400">4 GB RAM optimisé</div>
-                                            <div class="text-sm text-gray-400">Émulateur Android</div>
+                                            <div class="font-medium text-purple-400">4 GB RAM optimized</div>
+                                            <div class="text-sm text-gray-400">Android emulator</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox" checked>
@@ -926,7 +927,7 @@
                                     
                                     <div class="feature-toggle" data-pack="1">
                                         <div>
-                                            <div class="font-medium text-cyan-400">Protection anti-ban</div>
+                                            <div class="font-medium text-cyan-400">Anti-ban protection</div>
                                             <div class="text-sm text-gray-400">MagiskHide, RootCloak</div>
                                         </div>
                                         <label class="toggle-switch">
@@ -939,24 +940,24 @@
                         </div>
                     </div>
 
-                    <!-- Pack 2 - Clash Royale Dominator -->
+                    <!-- PACK 2 - CLASH ROYALE DOMINATOR -->
                     <div class="card-modern rounded-2xl p-6" id="pack-2">
                         <div class="flex justify-between items-center mb-6">
                             <div>
                                 <h2 class="text-xl font-bold gradient-text">PACK 2 - CLASH ROYALE DOMINATOR</h2>
-                                <p class="text-gray-400 text-sm">€230/mois - Pack avancé, contrôle total</p>
+                                <p class="text-gray-400 text-sm">€230/month - Advanced pack, full control</p>
                             </div>
                             <span class="pack-status-badge px-3 py-1 text-xs rounded-full border"></span>
                         </div>
                         
                         <div class="grid lg:grid-cols-3 gap-6">
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">Fonctionnalités de Triche:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">Features de Triche:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="2">
                                         <div>
-                                            <div class="font-medium text-purple-400">Recommandations IA</div>
-                                            <div class="text-sm text-gray-400">Jeu optimal automatisé</div>
+                                            <div class="font-medium text-purple-400">AI recommendations</div>
+                                            <div class="text-sm text-gray-400">Automated optimal play</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -966,8 +967,8 @@
                                     
                                     <div class="feature-toggle" data-pack="2">
                                         <div>
-                                            <div class="font-medium text-green-400">Placement intelligent</div>
-                                            <div class="text-sm text-gray-400">Défense, split, kiting</div>
+                                            <div class="font-medium text-green-400">Smart placement</div>
+                                            <div class="text-sm text-gray-400">Defense, split, kiting</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -978,7 +979,7 @@
                                     <div class="feature-toggle" data-pack="2">
                                         <div>
                                             <div class="font-medium text-cyan-400">Deck sniping</div>
-                                            <div class="text-sm text-gray-400">Adaptation live multi-compte</div>
+                                            <div class="text-sm text-gray-400">Live multi-account adaptation</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1000,12 +1001,12 @@
                             </div>
 
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">Contenu Étendu:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">Extended Content:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="2">
                                         <div>
-                                            <div class="font-medium text-yellow-400">Pass Royale immédiat</div>
-                                            <div class="text-sm text-gray-400">Débloquage instantané</div>
+                                            <div class="font-medium text-yellow-400">Instant Pass Royale</div>
+                                            <div class="text-sm text-gray-400">Instant unlock</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1015,8 +1016,8 @@
                                     
                                     <div class="feature-toggle" data-pack="2">
                                         <div>
-                                            <div class="font-medium text-purple-400">Progression factice</div>
-                                            <div class="text-sm text-gray-400">XP, badges falsifiés</div>
+                                            <div class="font-medium text-purple-400">Fake progress</div>
+                                            <div class="text-sm text-gray-400">XP, badges spoofed</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1027,12 +1028,12 @@
                             </div>
 
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">VM Avancée:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">Advanced VM:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="2">
                                         <div>
-                                            <div class="font-medium text-cyan-400">VPN intégré</div>
-                                            <div class="text-sm text-gray-400">Rotation IP automatique</div>
+                                            <div class="font-medium text-cyan-400">Built-in VPN</div>
+                                            <div class="text-sm text-gray-400">Automatic IP rotation</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1049,19 +1050,19 @@
                         <div class="flex justify-between items-center mb-6">
                             <div>
                                 <h2 class="text-xl font-bold gradient-text">PACK 3 - CLASH ROYALE GODMODE</h2>
-                                <p class="text-gray-400 text-sm">€290/mois - Puissance maximale, sécurité totale</p>
+                                <p class="text-gray-400 text-sm">€290/month - Maximum power, full security</p>
                             </div>
                             <span class="pack-status-badge px-3 py-1 text-xs rounded-full border"></span>
                         </div>
                         
                         <div class="grid lg:grid-cols-3 gap-6">
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">Fonctionnalités Premium:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">Features Premium:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="3">
                                         <div>
-                                            <div class="font-medium text-red-400">Injection de paquets modifiés</div>
-                                            <div class="text-sm text-gray-400">Expérimental</div>
+                                            <div class="font-medium text-red-400">Modified packet injection</div>
+                                            <div class="text-sm text-gray-400">Experimental</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1072,12 +1073,12 @@
                             </div>
 
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">Contenu Premium:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">Premium Content:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="3">
                                         <div>
-                                            <div class="font-medium text-yellow-400">Accès complet streaming</div>
-                                            <div class="text-sm text-gray-400">OBS & capture live</div>
+                                            <div class="font-medium text-yellow-400">Full streaming access</div>
+                                            <div class="text-sm text-gray-400">OBS OBS & capture live live capture</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1088,12 +1089,12 @@
                             </div>
 
                             <div>
-                                <h4 class="font-semibold mb-3 text-accent">VM Haute Performance:</h4>
+                                <h4 class="font-semibold mb-3 text-accent">High Performance VM:</h4>
                                 <div class="space-y-3">
                                     <div class="feature-toggle" data-pack="3">
                                         <div>
-                                            <div class="font-medium text-purple-400">VM 8 GB RAM</div>
-                                            <div class="text-sm text-gray-400">Haute performance</div>
+                                            <div class="font-medium text-purple-400">8 GB RAM VM</div>
+                                            <div class="text-sm text-gray-400">High performance</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1103,8 +1104,8 @@
                                     
                                     <div class="feature-toggle" data-pack="3">
                                         <div>
-                                            <div class="font-medium text-cyan-400">Mode furtif</div>
-                                            <div class="text-sm text-gray-400">Anonymisation & logs réduits</div>
+                                            <div class="font-medium text-cyan-400">Stealth mode</div>
+                                            <div class="text-sm text-gray-400">Anonymization & reduced logs</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1114,8 +1115,8 @@
                                     
                                     <div class="feature-toggle" data-pack="3">
                                         <div>
-                                            <div class="font-medium text-green-400">Sandbox hors ligne</div>
-                                            <div class="text-sm text-gray-400">Environnement IA</div>
+                                            <div class="font-medium text-green-400">Offline sandbox</div>
+                                            <div class="text-sm text-gray-400">AI environment</div>
                                         </div>
                                         <label class="toggle-switch">
                                             <input type="checkbox">
@@ -1131,49 +1132,49 @@
                 <!-- Bouton d'upgrade -->
                 <div id="upgrade-section" class="text-center mt-8" style="display: none;">
                     <div class="card-modern rounded-2xl p-8">
-                        <h3 class="text-2xl font-bold gradient-text mb-4">AMÉLIOREZ VOTRE ABONNEMENT</h3>
-                        <p class="text-gray-400 mb-6">Débloquez plus de fonctionnalités avec un pack supérieur</p>
+                        <h3 class="text-2xl font-bold gradient-text mb-4">UPGRADE YOUR SUBSCRIPTION</h3>
+                        <p class="text-gray-400 mb-6">Unlock more features with a higher pack</p>
                         <button class="btn-cyber px-8 py-3 text-white rounded-xl font-semibold text-lg">
-                            🚀 Upgrader maintenant
+                            🚀 Upgrade now
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Onglet Statistiques -->
+            <!-- Onglet Statistics -->
             <div id="tab-stats" class="tab-content hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     <!-- Graphique des performances -->
                     <div class="card-modern rounded-2xl p-6">
-                        <h2 class="text-xl font-bold mb-6 gradient-text">PERFORMANCE HEBDOMADAIRE</h2>
+                        <h2 class="text-xl font-bold mb-6 gradient-text">WEEKLY PERFORMANCE</h2>
                         <div class="h-64 bg-gray-800 bg-opacity-30 rounded-lg flex items-center justify-center">
                             <div class="text-center">
                                 <svg class="w-16 h-16 mx-auto text-gray-500 mb-4" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
                                 </svg>
-                                <div class="text-gray-400">Graphique des victoires par jour</div>
+                                <div class="text-gray-400">Chart of wins per day</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Statistiques détaillées -->
+                    <!-- Statistics détaillées -->
                     <div class="card-modern rounded-2xl p-6">
-                        <h2 class="text-xl font-bold mb-6 gradient-text">STATISTIQUES DÉTAILLÉES</h2>
+                        <h2 class="text-xl font-bold mb-6 gradient-text">DETAILED STATISTICS</h2>
                         <div class="space-y-6">
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="text-center p-4 bg-gray-800 bg-opacity-30 rounded-lg">
                                     <div class="text-2xl font-bold text-green-400">12,847</div>
-                                    <div class="text-sm text-gray-400">Couronnes Total</div>
+                                    <div class="text-sm text-gray-400">Total Crowns</div>
                                 </div>
                                 <div class="text-center p-4 bg-gray-800 bg-opacity-30 rounded-lg">
                                     <div class="text-2xl font-bold text-purple-400">324</div>
-                                    <div class="text-sm text-gray-400">Matchs Joués</div>
+                                    <div class="text-sm text-gray-400">Matches Played</div>
                                 </div>
                             </div>
                             
                             <div>
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="text-gray-400">Victoires en échelle</span>
+                                    <span class="text-gray-400">Ladder wins</span>
                                     <span class="text-green-400">89%</span>
                                 </div>
                                 <div class="progress-bar h-3">
@@ -1183,7 +1184,7 @@
                             
                             <div>
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="text-gray-400">Victoires en tournoi</span>
+                                    <span class="text-gray-400">Wins en tournoi</span>
                                     <span class="text-cyan-400">76%</span>
                                 </div>
                                 <div class="progress-bar h-3">
@@ -1193,7 +1194,7 @@
                             
                             <div>
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="text-gray-400">Efficacité IA</span>
+                                    <span class="text-gray-400">AI Efficiency</span>
                                     <span class="text-yellow-400">94%</span>
                                 </div>
                                 <div class="progress-bar h-3">
@@ -1204,39 +1205,39 @@
                     </div>
                 </div>
 
-                <!-- Historique des matchs -->
+                <!-- History des matchs -->
                 <div class="card-modern rounded-2xl p-6">
-                    <h2 class="text-xl font-bold mb-6 gradient-text">HISTORIQUE DES MATCHS</h2>
+                    <h2 class="text-xl font-bold mb-6 gradient-text">MATCH HISTORY</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead>
                                 <tr class="border-b border-gray-700">
-                                    <th class="text-left p-3 text-gray-400">Heure</th>
-                                    <th class="text-left p-3 text-gray-400">Adversaire</th>
-                                    <th class="text-left p-3 text-gray-400">Résultat</th>
-                                    <th class="text-left p-3 text-gray-400">Trophées</th>
-                                    <th class="text-left p-3 text-gray-400">Durée</th>
+                                    <th class="text-left p-3 text-gray-400">Time</th>
+                                    <th class="text-left p-3 text-gray-400">Opponent</th>
+                                    <th class="text-left p-3 text-gray-400">Result</th>
+                                    <th class="text-left p-3 text-gray-400">Trophies</th>
+                                    <th class="text-left p-3 text-gray-400">Duration</th>
                                 </tr>
                             </thead>
                             <tbody class="space-y-2">
                                 <tr class="border-b border-gray-800">
                                     <td class="p-3 text-sm">14:32</td>
                                     <td class="p-3 text-sm">Joueur123</td>
-                                    <td class="p-3"><span class="px-2 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full">Victoire</span></td>
+                                    <td class="p-3"><span class="px-2 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full">Win</span></td>
                                     <td class="p-3 text-sm text-green-400">+24</td>
                                     <td class="p-3 text-sm">2:34</td>
                                 </tr>
                                 <tr class="border-b border-gray-800">
                                     <td class="p-3 text-sm">14:28</td>
                                     <td class="p-3 text-sm">ProGamer</td>
-                                    <td class="p-3"><span class="px-2 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full">Victoire</span></td>
+                                    <td class="p-3"><span class="px-2 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full">Win</span></td>
                                     <td class="p-3 text-sm text-green-400">+26</td>
                                     <td class="p-3 text-sm">3:12</td>
                                 </tr>
                                 <tr class="border-b border-gray-800">
                                     <td class="p-3 text-sm">14:21</td>
                                     <td class="p-3 text-sm">King2024</td>
-                                    <td class="p-3"><span class="px-2 py-1 bg-red-900 bg-opacity-40 text-red-300 text-xs rounded-full">Défaite</span></td>
+                                    <td class="p-3"><span class="px-2 py-1 bg-red-900 bg-opacity-40 text-red-300 text-xs rounded-full">Loss</span></td>
                                     <td class="p-3 text-sm text-red-400">-18</td>
                                     <td class="p-3 text-sm">4:45</td>
                                 </tr>
@@ -1253,35 +1254,35 @@
                     <div class="lg:col-span-2">
                         <div class="card-modern rounded-2xl p-6">
                             <div class="flex justify-between items-center mb-4">
-                                <h2 class="text-xl font-bold gradient-text">CONSOLE DE JEU</h2>
+                                <h2 class="text-xl font-bold gradient-text">GAME CONSOLE</h2>
                                 <div class="flex space-x-2">
                                     <button class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition">
-                                        Actualiser
+                                        Refresh
                                     </button>
                                     <button class="btn-cyber px-4 py-2 text-white rounded-lg text-sm">
-                                        Injecter
+                                        Inject
                                     </button>
                                 </div>
                             </div>
                             
                             <div class="terminal-modern rounded-lg p-4 h-96 overflow-y-auto font-mono text-sm">
-                                <div class="text-green-400">[14:32:15] > Connexion au serveur...</div>
-                                <div class="text-green-400">[14:32:16] > Connecté avec succès</div>
-                                <div class="text-cyan-400">[14:32:17] > Analyse du deck ennemi...</div>
-                                <div class="text-cyan-400">[14:32:18] > Deck détecté: Méga Chevalier Morceau</div>
-                                <div class="text-purple-400">[14:32:19] > Calcul de la stratégie optimale...</div>
-                                <div class="text-purple-400">[14:32:20] > Stratégie déterminée: Défense puis contre-attaque</div>
-                                <div class="text-yellow-400">[14:32:21] > Module IA activé</div>
-                                <div class="text-green-400">[14:32:22] > Suivi élixir activé...</div>
-                                <div class="text-green-400">[14:32:23] > Tous les systèmes opérationnels</div>
-                                <div class="text-white">[14:32:24] > Prêt pour le combat</div>
+                                <div class="text-green-400">[14:32:15] > Connecting to server...</div>
+                                <div class="text-green-400">[14:32:16] > Successfully connected</div>
+                                <div class="text-cyan-400">[14:32:17] > Analyzing enemy deck...</div>
+                                <div class="text-cyan-400">[14:32:18] > Deck detected: Mega Knight Variation</div>
+                                <div class="text-purple-400">[14:32:19] > Calculating optimal strategy...</div>
+                                <div class="text-purple-400">[14:32:20] > Strategy determined: Defend then counter</div>
+                                <div class="text-yellow-400">[14:32:21] > AI module activated</div>
+                                <div class="text-green-400">[14:32:22] > Elixir tracking activated...</div>
+                                <div class="text-green-400">[14:32:23] > All systems operational</div>
+                                <div class="text-white">[14:32:24] > Ready for battle</div>
                                 <div class="text-green-400 animate-pulse">_</div>
                             </div>
                             
                             <div class="mt-4 flex">
-                                <input type="text" placeholder="Entrez une commande..." class="flex-1 bg-gray-800 border border-gray-600 rounded-l-lg px-4 py-2 text-white focus:outline-none focus:border-accent">
+                                <input type="text" placeholder="Enter a command..." class="flex-1 bg-gray-800 border border-gray-600 rounded-l-lg px-4 py-2 text-white focus:outline-none focus:border-accent">
                                 <button class="bg-accent hover:bg-opacity-80 px-6 py-2 rounded-r-lg text-white transition">
-                                    Exécuter
+                                    Execute
                                 </button>
                             </div>
                         </div>
@@ -1290,35 +1291,35 @@
                     <!-- Panneau de contrôle -->
                     <div class="space-y-6">
                         <div class="card-modern rounded-2xl p-6">
-                            <h3 class="text-lg font-bold mb-4 gradient-text">CONTRÔLES RAPIDES</h3>
+                            <h3 class="text-lg font-bold mb-4 gradient-text">QUICK CONTROLS</h3>
                             <div class="space-y-3">
                                 <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
-                                    Démarrer Match
+                                    Start Match
                                 </button>
                                 <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-2 rounded-lg transition">
-                                    Pause IA
+                                    Pause AI
                                 </button>
                                 <button class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition">
-                                    Arrêt d'urgence
+                                    Emergency stop
                                 </button>
                             </div>
                         </div>
 
                         <div class="card-modern rounded-2xl p-6">
-                            <h3 class="text-lg font-bold mb-4 gradient-text">STATUT MODULES</h3>
+                            <h3 class="text-lg font-bold mb-4 gradient-text">MODULE STATUS</h3>
                             <div class="space-y-3">
                                 <div class="flex justify-between items-center">
                                     <span class="text-sm">Injection</span>
                                     <div class="status-indicator">
                                         <div class="status-dot bg-green-400"></div>
-                                        <span class="text-xs text-green-400">Actif</span>
+                                        <span class="text-xs text-green-400">Active</span>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm">Anti-détection</span>
+                                    <span class="text-sm">Anti-detection</span>
                                     <div class="status-indicator">
                                         <div class="status-dot bg-green-400"></div>
-                                        <span class="text-xs text-green-400">Protégé</span>
+                                        <span class="text-xs text-green-400">Protected</span>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -1409,7 +1410,7 @@
                 '3': 'Pack 3 - Godmode (€290/mois)'
             };
             
-            document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Pack inconnu';
+            document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Unknown pack';
 
             // Configurer les packs selon l'abonnement
             const userPackLevel = parseInt(userSubscription.type);
@@ -1422,7 +1423,7 @@
                     // Pack disponible
                     packElement.classList.remove('pack-disabled');
                     if (statusBadge) {
-                        statusBadge.textContent = 'DISPONIBLE';
+                        statusBadge.textContent = 'AVAILABLE';
                         statusBadge.className = 'pack-status-badge px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500';
                     }
                     
@@ -1465,7 +1466,7 @@
                         if (!toggle.querySelector('.tooltip')) {
                             const tooltip = document.createElement('div');
                             tooltip.className = 'tooltip';
-                            tooltip.textContent = `Disponible avec Pack ${packLevel} - Cliquez pour upgrader`;
+                            tooltip.textContent = `Available with Pack ${packLevel} - Cliquez pour upgrader`;
                             toggle.appendChild(tooltip);
                         }
                     });
@@ -1574,11 +1575,11 @@
         // Simulation de nouvelles lignes dans le terminal
         const terminal = document.querySelector('.terminal-modern');
         const messages = [
-            '[INFO] Détection d\'une nouvelle stratégie adverse',
-            '[SUCCESS] Adaptation de la stratégie en cours',
-            '[WARNING] Pic de latence détecté',
-            '[INFO] Optimisation des performances',
-            '[SUCCESS] Système stabilisé'
+            '[INFO] Detected a new enemy strategy',
+            '[SUCCESS] Strategy adapting',
+            '[WARNING] Latency spike detected',
+            '[INFO] Performance optimization',
+            '[SUCCESS] System stabilized'
         ];
 
         let messageIndex = 0;
