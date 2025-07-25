@@ -1348,16 +1348,30 @@
                 const response = await fetch(USERS_JSON_URL);
                 const data = await response.json();
                 
-                // Pour la démo, on utilise 'admin' comme utilisateur connecté
-                // Dans une vraie application, on récupérerait cela depuis la session/localStorage
-                const username = 'admin';
+                // Récupération automatique de l'utilisateur connecté
+                // Priorité : sessionStorage > localStorage > cookie > défaut 'admin'
+                let username = 
+                    sessionStorage.getItem('currentUser') || 
+                    localStorage.getItem('currentUser') || 
+                    getCookie('currentUser') || 
+                    'admin'; // Fallback pour la démo
+                
+                // Log pour debug
+                console.log('Utilisateur détecté:', username);
+                
                 currentUser = data.users.find(user => user.username === username);
                 
                 if (currentUser) {
                     userSubscription = currentUser.subscription;
                     updateUserInterface();
                 } else {
-                    console.error('Utilisateur non trouvé');
+                    console.error('Utilisateur non trouvé:', username);
+                    // Fallback vers admin si l'utilisateur n'existe pas
+                    currentUser = data.users.find(user => user.username === 'admin');
+                    if (currentUser) {
+                        userSubscription = currentUser.subscription;
+                        updateUserInterface();
+                    }
                 }
             } catch (error) {
                 console.error('Erreur lors du chargement des données utilisateur:', error);
@@ -1365,6 +1379,21 @@
                 document.getElementById('current-user').textContent = 'Erreur de connexion';
                 document.getElementById('current-plan').textContent = 'Non disponible';
             }
+        }
+
+        // Fonction utilitaire pour lire les cookies
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Fonction pour définir l'utilisateur connecté (pour les tests)
+        function setCurrentUser(username) {
+            sessionStorage.setItem('currentUser', username);
+            console.log('Utilisateur défini:', username);
+            loadUserData(); // Recharger les données
         }
 
         // Mise à jour de l'interface utilisateur selon l'abonnement
