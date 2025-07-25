@@ -1,9 +1,10 @@
  <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberCheat - Paramètres</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>CyberCheat - Settings</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -307,7 +308,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold gradient-text">CyberCheat</h1>
-                    <p class="text-xs text-gray-400">Paramètres</p>
+                    <p class="text-xs text-gray-400">Settings</p>
                 </div>
             </div>
             
@@ -322,13 +323,13 @@
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
                     </svg>
-                    Paramètres
+                    Settings
                 </a>
                 <a href="#" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    Fonctionnalités
+                    Features
                 </a>
                 <a href="#" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
@@ -339,10 +340,10 @@
             </nav>
             
             <div class="mt-8 p-4 bg-purple-900 bg-opacity-30 rounded-lg">
-                <h3 class="font-semibold text-sm mb-2">Status Système</h3>
+                <h3 class="font-semibold text-sm mb-2">System Status</h3>
                 <div class="status-indicator">
                     <div class="status-dot bg-green-400 animate-pulse-glow"></div>
-                    <span class="text-sm text-green-400">Opérationnel</span>
+                    <span class="text-sm text-green-400">Operational</span>
                 </div>
                 <div class="mt-3">
                     <div class="text-xs text-gray-400 mb-1">Temps de fonctionnement</div>
@@ -364,12 +365,12 @@
                         </svg>
                     </button>
                     <div>
-                        <h1 class="text-2xl font-bold gradient-text">PARAMÈTRES SYSTÈME</h1>
+                        <h1 class="text-2xl font-bold gradient-text">SYSTEM SETTINGS</h1>
                         <div class="flex items-center mt-1">
                             <span class="px-2 py-1 bg-purple-900 text-purple-300 text-xs font-bold rounded-full uppercase mr-3">CONFIGURATION</span>
                             <div class="status-indicator">
                                 <div class="status-dot bg-green-400"></div>
-                                <span class="text-sm text-green-400">Sauvegardé</span>
+                                <span class="text-sm text-green-400">Saved</span>
                             </div>
                         </div>
                     </div>
@@ -386,8 +387,8 @@
                     
                     <div class="flex items-center space-x-3">
                         <div class="text-right">
-                            <div id="current-user" class="text-sm font-medium">Chargement...</div>
-                            <div id="current-plan" class="text-xs text-gray-400">Vérification...</div>
+                            <div id="current-user" class="text-sm font-medium">Loading...</div>
+                            <div id="current-plan" class="text-xs text-gray-400">Checking...</div>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
                             <span class="text-white font-bold" id="user-avatar">A</span>
@@ -400,23 +401,23 @@
         <!-- Contenu des paramètres -->
         <div class="p-6">
             <div class="space-y-8 animate-slide-in">
-                <!-- Paramètres de Session -->
+                <!-- Settings de Session -->
                 <div class="card-modern rounded-2xl p-6">
-                    <h2 class="text-xl font-bold mb-6 gradient-text">PARAMÈTRES DE SESSION</h2>
+                    <h2 class="text-xl font-bold mb-6 gradient-text">SESSION SETTINGS</h2>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="space-y-4">
                             <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Déconnexion automatique</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Auto logout</label>
                                 <select class="setting-select" id="auto-logout">
                                     <option value="30">30 minutes</option>
-                                    <option value="60" selected>1 heure</option>
-                                    <option value="120">2 heures</option>
-                                    <option value="0">Jamais</option>
+                                    <option value="60" selected>1 hour</option>
+                                    <option value="120">2 hours</option>
+                                    <option value="0">Never</option>
                                 </select>
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Mode sombre</label>
+                                <label class="text-sm font-medium text-gray-300">Dark mode</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="dark-mode" checked>
                                     <span class="toggle-slider"></span>
@@ -424,7 +425,7 @@
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Notifications push</label>
+                                <label class="text-sm font-medium text-gray-300">Push notifications</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="notifications" checked>
                                     <span class="toggle-slider"></span>
@@ -434,16 +435,16 @@
                         
                         <div class="space-y-4">
                             <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Langue interface</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Interface language</label>
                                 <select class="setting-select" id="language">
-                                    <option value="fr" selected>Français</option>
+                                    <option value="fr" selected>French</option>
                                     <option value="en">English</option>
                                     <option value="es">Español</option>
                                 </select>
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Son système</label>
+                                <label class="text-sm font-medium text-gray-300">System sound</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="system-sound" checked>
                                     <span class="toggle-slider"></span>
@@ -451,7 +452,7 @@
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Sauvegarde auto paramètres</label>
+                                <label class="text-sm font-medium text-gray-300">Auto-save settings</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="auto-save" checked>
                                     <span class="toggle-slider"></span>
@@ -461,10 +462,10 @@
                     </div>
                 </div>
 
-                <!-- Paramètres Machine Virtuelle -->
+                <!-- Settings Virtual Machine -->
                 <div class="card-modern rounded-2xl p-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-bold gradient-text">CONFIGURATION MACHINE VIRTUELLE</h2>
+                        <h2 class="text-xl font-bold gradient-text">VIRTUAL MACHINE CONFIGURATION</h2>
                         <div class="status-indicator">
                             <div class="status-dot bg-green-400"></div>
                             <span class="text-sm text-green-400">VM Active</span>
@@ -472,21 +473,21 @@
                     </div>
                     
                     <div class="grid lg:grid-cols-3 gap-6">
-                        <!-- Performances VM -->
+                        <!-- Performance VM -->
                         <div class="space-y-4">
-                            <h3 class="font-semibold text-accent mb-3">Performances</h3>
+                            <h3 class="font-semibold text-accent mb-3">Performance</h3>
                             
                             <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Qualité graphique</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Graphic quality</label>
                                 <select class="setting-select" id="graphics-quality">
-                                    <option value="low">Basse (60 FPS)</option>
-                                    <option value="medium" selected>Moyenne (90 FPS)</option>
-                                    <option value="high">Haute (120 FPS)</option>
+                                    <option value="low">Low (60 FPS)</option>
+                                    <option value="medium" selected>Medium (90 FPS)</option>
+                                    <option value="high">High (120 FPS)</option>
                                 </select>
                             </div>
                             
                             <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Résolution</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Resolution</label>
                                 <select class="setting-select" id="resolution">
                                     <option value="720p">1280x720</option>
                                     <option value="1080p" selected>1920x1080</option>
@@ -503,17 +504,17 @@
                             </div>
                         </div>
 
-                        <!-- Sécurité VM -->
+                        <!-- Security VM -->
                         <div class="space-y-4">
-                            <h3 class="font-semibold text-accent mb-3">Sécurité</h3>
+                            <h3 class="font-semibold text-accent mb-3">Security</h3>
                             
                             <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Rotation IP automatique</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Automatic IP rotation</label>
                                 <select class="setting-select" id="ip-rotation">
-                                    <option value="5">Toutes les 5 min</option>
-                                    <option value="15" selected>Toutes les 15 min</option>
-                                    <option value="30">Toutes les 30 min</option>
-                                    <option value="0">Désactivé</option>
+                                    <option value="5">Every 5 min</option>
+                                    <option value="15" selected>Every 15 min</option>
+                                    <option value="30">Every 30 min</option>
+                                    <option value="0">Disabled</option>
                                 </select>
                             </div>
                             
@@ -534,22 +535,22 @@
                             </div>
                         </div>
 
-                        <!-- Stockage VM -->
+                        <!-- Storage VM -->
                         <div class="space-y-4">
-                            <h3 class="font-semibold text-accent mb-3">Stockage</h3>
+                            <h3 class="font-semibold text-accent mb-3">Storage</h3>
                             
                             <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Snapshots automatiques</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Automatic snapshots</label>
                                 <select class="setting-select" id="auto-snapshots">
-                                    <option value="1" selected>Toutes les heures</option>
-                                    <option value="6">Toutes les 6h</option>
-                                    <option value="24">Quotidien</option>
-                                    <option value="0">Désactivé</option>
+                                    <option value="1" selected>Every hour</option>
+                                    <option value="6">Every 6h</option>
+                                    <option value="24">Daily</option>
+                                    <option value="0">Disabled</option>
                                 </select>
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Nettoyage auto cache</label>
+                                <label class="text-sm font-medium text-gray-300">Auto cache clean</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="auto-clean" checked>
                                     <span class="toggle-slider"></span>
@@ -557,7 +558,7 @@
                             </div>
                             
                             <div class="bg-gray-800 bg-opacity-50 rounded-lg p-3">
-                                <div class="text-sm text-gray-400 mb-1">Espace utilisé</div>
+                                <div class="text-sm text-gray-400 mb-1">Used space</div>
                                 <div class="text-lg font-semibold mb-2" id="storage-usage">3.2 GB / 15 GB</div>
                                 <div class="progress-bar h-2">
                                     <div class="progress-fill" id="storage-progress" style="width: 21%"></div>
@@ -569,27 +570,27 @@
                     <!-- Actions VM -->
                     <div class="mt-6 flex flex-wrap gap-3">
                         <button class="btn-cyber px-4 py-2 text-white rounded-lg text-sm" onclick="restartVM()">
-                            🔄 Redémarrer VM
+                            🔄 Restart VM
                         </button>
                         <button class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="createSnapshot()">
-                            📸 Créer Snapshot
+                            📸 Create Snapshot
                         </button>
                         <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="restoreSnapshot()">
-                            🔄 Restaurer Snapshot
+                            🔄 Restore Snapshot
                         </button>
                         <button class="bg-red-600 hover:bg-red-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="cleanCache()">
-                            🧹 Nettoyer Cache
+                            🧹 Clean Cache
                         </button>
                     </div>
                 </div>
 
-                <!-- Paramètres Avancés/Sensibles -->
+                <!-- Settings Avancés/Sensibles -->
                 <div class="card-modern rounded-2xl p-6 border-2 border-red-500 border-opacity-30">
                     <div class="flex items-center mb-6">
                         <svg class="w-6 h-6 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                         </svg>
-                        <h2 class="text-xl font-bold text-red-400">PARAMÈTRES SENSIBLES</h2>
+                        <h2 class="text-xl font-bold text-red-400">SENSITIVE SETTINGS</h2>
                     </div>
                     
                     <div class="grid md:grid-cols-2 gap-6">
@@ -597,19 +598,19 @@
                             <div class="setting-item">
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Mode injection</label>
                                 <select class="setting-select border-red-500 border-opacity-50" id="injection-mode">
-                                    <option value="safe" selected>Sécurisé (recommandé)</option>
-                                    <option value="aggressive">Agressif</option>
-                                    <option value="stealth">Furtif</option>
+                                    <option value="safe" selected>Secure (recommended)</option>
+                                    <option value="aggressive">Aggressive</option>
+                                    <option value="stealth">Stealth</option>
                                 </select>
                             </div>
                             
                             <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Délai entre actions (ms)</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Delay between actions (ms)</label>
                                 <input type="number" class="setting-input" id="action-delay" value="150" min="50" max="1000">
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Mode debug avancé</label>
+                                <label class="text-sm font-medium text-gray-300">Advanced debug mode</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="debug-mode">
                                     <span class="toggle-slider"></span>
@@ -619,7 +620,7 @@
                         
                         <div class="space-y-4">
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Logs détaillés</label>
+                                <label class="text-sm font-medium text-gray-300">Detailed logs</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="detailed-logs">
                                     <span class="toggle-slider"></span>
@@ -627,7 +628,7 @@
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Bypass expérimental</label>
+                                <label class="text-sm font-medium text-gray-300">Experimental bypass</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="experimental-bypass">
                                     <span class="toggle-slider"></span>
@@ -635,7 +636,7 @@
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Télémétrie système</label>
+                                <label class="text-sm font-medium text-gray-300">System telemetry</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="telemetry" checked>
                                     <span class="toggle-slider"></span>
@@ -645,17 +646,17 @@
                     </div>
                     
                     <div class="mt-6 p-4 bg-red-900 bg-opacity-20 rounded-lg border border-red-500 border-opacity-30">
-                        <h4 class="font-semibold text-red-400 mb-2">⚠️ Zone Dangereuse</h4>
-                        <p class="text-sm text-gray-300 mb-4">Ces actions peuvent affecter la stabilité de votre session</p>
+                        <h4 class="font-semibold text-red-400 mb-2">⚠️ Danger Zone</h4>
+                        <p class="text-sm text-gray-300 mb-4">These actions may affect your session stability</p>
                         <div class="flex flex-wrap gap-3">
                             <button class="bg-red-600 hover:bg-red-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="resetAllSettings()">
-                                🗑️ Réinitialiser Tous Paramètres
+                                🗑️ Reset All Settings
                             </button>
                             <button class="bg-orange-600 hover:bg-orange-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="maintenanceMode()">
-                                🔧 Mode Maintenance
+                                🔧 Maintenance Mode
                             </button>
                             <button class="bg-purple-600 hover:bg-purple-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="fullDiagnostic()">
-                                🔬 Diagnostic Complet
+                                🔬 Full Diagnostic
                             </button>
                         </div>
                     </div>
@@ -663,7 +664,7 @@
 
                 <!-- Informations Système -->
                 <div class="card-modern rounded-2xl p-6">
-                    <h2 class="text-xl font-bold mb-6 gradient-text">INFORMATIONS SYSTÈME</h2>
+                    <h2 class="text-xl font-bold mb-6 gradient-text">SYSTEM INFORMATION</h2>
                     <div class="grid md:grid-cols-3 gap-6">
                         <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4">
                             <h4 class="font-semibold text-accent mb-3">Client</h4>
@@ -678,13 +679,13 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-400">Status:</span>
-                                    <span class="text-green-400">À jour</span>
+                                    <span class="text-green-400">Up to date</span>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4">
-                            <h4 class="font-semibold text-accent mb-3">Machine Virtuelle</h4>
+                            <h4 class="font-semibold text-accent mb-3">Virtual Machine</h4>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-400">Android:</span>
@@ -702,7 +703,7 @@
                         </div>
                         
                         <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4">
-                            <h4 class="font-semibold text-accent mb-3">Connexion</h4>
+                            <h4 class="font-semibold text-accent mb-3">Connection</h4>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-400">IP:</span>
@@ -714,7 +715,7 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-400">VPN:</span>
-                                    <span class="text-green-400">Actif</span>
+                                    <span class="text-green-400">Active</span>
                                 </div>
                             </div>
                         </div>
@@ -725,15 +726,15 @@
                 <div class="flex justify-between items-center">
                     <div class="space-x-3">
                         <button class="btn-cyber px-6 py-3 text-white rounded-lg font-semibold" onclick="saveSettings()">
-                            💾 Sauvegarder Paramètres
+                            💾 Save Settings
                         </button>
                         <button class="bg-gray-600 hover:bg-gray-700 px-6 py-3 text-white rounded-lg font-semibold transition" onclick="restoreDefaults()">
-                            🔄 Restaurer Défauts
+                            🔄 Restore Defaults
                         </button>
                     </div>
                     
                     <div class="text-xs text-gray-400" id="last-save">
-                        Dernière sauvegarde: Il y a 23 minutes
+                        Last save: 23 minutes ago
                     </div>
                 </div>
             </div>
@@ -747,13 +748,13 @@
         let userSubscription = null;
         let settings = {};
 
-        // Paramètres par défaut
+        // Default settings
         const defaultSettings = {
             // Session
             autoLogout: 60,
             darkMode: true,
             notifications: true,
-            language: 'fr',
+            language: 'en',
             systemSound: true,
             autoSave: true,
             
@@ -780,7 +781,7 @@
             telemetry: true
         };
 
-        // Chargement des données utilisateur depuis users.json
+        // Loading user data from users.json
         async function loadUserData() {
             try {
                 const response = await fetch(USERS_JSON_URL);
@@ -793,7 +794,7 @@
                     getCookie('currentUser') || 
                     'admin';
                 
-                console.log('Utilisateur détecté:', username);
+                console.log('Detected user:', username);
                 
                 currentUser = data.users.find(user => user.username === username);
                 
@@ -802,7 +803,7 @@
                     updateUserInterface();
                     loadSettings();
                 } else {
-                    console.error('Utilisateur non trouvé:', username);
+                    console.error('User not found:', username);
                     currentUser = data.users.find(user => user.username === 'admin');
                     if (currentUser) {
                         userSubscription = currentUser.subscription;
@@ -811,9 +812,9 @@
                     }
                 }
             } catch (error) {
-                console.error('Erreur lors du chargement des données utilisateur:', error);
-                document.getElementById('current-user').textContent = 'Erreur de connexion';
-                document.getElementById('current-plan').textContent = 'Non disponible';
+                console.error('Error loading user data:', error);
+                document.getElementById('current-user').textContent = 'Connection error';
+                document.getElementById('current-plan').textContent = 'Unavailable';
             }
         }
 
@@ -829,7 +830,7 @@
         function updateUserInterface() {
             if (!currentUser || !userSubscription) return;
 
-            // Mettre à jour les informations utilisateur
+            // Update user information
             document.getElementById('current-user').textContent = currentUser.username;
             document.getElementById('user-avatar').textContent = currentUser.username.charAt(0).toUpperCase();
             
@@ -839,7 +840,7 @@
                 '3': 'Pack 3 - Godmode'
             };
             
-            document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Pack inconnu';
+            document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Unknown Pack';
 
             // Adapter l'affichage VM selon le pack
             const userPackLevel = parseInt(userSubscription.type);
@@ -933,54 +934,54 @@
             // Sauvegarder dans localStorage
             localStorage.setItem(`settings_${currentUser.username}`, JSON.stringify(settings));
             
-            // Mettre à jour l'heure de sauvegarde
+            // Update save time
             const now = new Date();
-            document.getElementById('last-save').textContent = `Dernière sauvegarde: ${now.toLocaleTimeString()}`;
+            document.getElementById('last-save').textContent = `Last save: ${now.toLocaleTimeString()}`;
             
             // Notification de succès
-            showNotification('Paramètres sauvegardés avec succès!', 'success');
+            showNotification('Settings saved successfully!', 'success');
         }
 
         // Restaurer les paramètres par défaut
         function restoreDefaults() {
-            if (confirm('Êtes-vous sûr de vouloir restaurer tous les paramètres par défaut ?')) {
+            if (confirm('Are you sure you want to restore all settings to default?')) {
                 settings = { ...defaultSettings };
                 applySettingsToUI();
-                showNotification('Paramètres par défaut restaurés', 'info');
+                showNotification('Default settings restored', 'info');
             }
         }
 
         // Actions VM
         function restartVM() {
-            if (confirm('Redémarrer la machine virtuelle ? Cette action prendra quelques minutes.')) {
-                showNotification('Redémarrage de la VM en cours...', 'info');
+            if (confirm('Restart the virtual machine? This will take a few minutes.')) {
+                showNotification('Restarting VM...', 'info');
                 setTimeout(() => {
-                    showNotification('VM redémarrée avec succès!', 'success');
+                    showNotification('VM restarted successfully!', 'success');
                 }, 3000);
             }
         }
 
         function createSnapshot() {
-            showNotification('Création du snapshot en cours...', 'info');
+            showNotification('Creating snapshot...', 'info');
             setTimeout(() => {
-                showNotification('Snapshot créé avec succès!', 'success');
+                showNotification('Snapshot created successfully!', 'success');
             }, 2000);
         }
 
         function restoreSnapshot() {
-            if (confirm('Restaurer le dernier snapshot ? Toutes les données non sauvegardées seront perdues.')) {
-                showNotification('Restauration du snapshot en cours...', 'info');
+            if (confirm('Restore the latest snapshot? Unsaved data will be lost.')) {
+                showNotification('Restoring snapshot...', 'info');
                 setTimeout(() => {
-                    showNotification('Snapshot restauré avec succès!', 'success');
+                    showNotification('Snapshot restored successfully!', 'success');
                 }, 4000);
             }
         }
 
         function cleanCache() {
-            showNotification('Nettoyage du cache en cours...', 'info');
+            showNotification('Cleaning cache...', 'info');
             setTimeout(() => {
-                showNotification('Cache nettoyé avec succès!', 'success');
-                // Mettre à jour l'espace de stockage
+                showNotification('Cache cleaned successfully!', 'success');
+                // Update storage usage
                 document.getElementById('storage-usage').textContent = '2.1 GB / 15 GB';
                 document.getElementById('storage-progress').style.width = '14%';
             }, 1500);
@@ -988,24 +989,24 @@
 
         // Actions dangereuses
         function resetAllSettings() {
-            if (confirm('⚠️ ATTENTION: Réinitialiser TOUS les paramètres ? Cette action est irréversible!')) {
+            if (confirm('⚠️ WARNING: Reset ALL settings? This action is irreversible!')) {
                 localStorage.removeItem(`settings_${currentUser.username}`);
                 settings = { ...defaultSettings };
                 applySettingsToUI();
-                showNotification('Tous les paramètres ont été réinitialisés', 'warning');
+                showNotification('All settings have been reset', 'warning');
             }
         }
 
         function maintenanceMode() {
-            if (confirm('Activer le mode maintenance ? Votre session sera temporairement indisponible.')) {
-                showNotification('Mode maintenance activé', 'warning');
+            if (confirm('Activate maintenance mode? Your session will be temporarily unavailable.')) {
+                showNotification('Maintenance mode activated', 'warning');
             }
         }
 
         function fullDiagnostic() {
-            showNotification('Diagnostic complet en cours...', 'info');
+            showNotification('Running full diagnostic...', 'info');
             setTimeout(() => {
-                showNotification('Diagnostic terminé - Aucun problème détecté', 'success');
+                showNotification('Diagnostic complete - No issues detected', 'success');
             }, 5000);
         }
 
