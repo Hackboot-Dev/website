@@ -169,12 +169,46 @@
         .inject-btn {
             background: linear-gradient(to right, #6d28d9, #8b5cf6);
         }
-        
+
         .diamond-rank {
             background: linear-gradient(135deg, #e0e7ff, #a5b4fc, #818cf8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .3s ease, visibility .3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            transform: scale(.95);
+            opacity: 0;
+            transition: transform .3s ease, opacity .3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .no-scrollbar {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
     </style>
 </head>
@@ -208,15 +242,15 @@
             <h2 class="text-lg font-semibold mb-4">SYSTEM STATUS</h2>
             <div class="space-y-6">
                 <div>
-                    <p class="text-gray-400 text-sm">Trophées</p>
+                    <p class="text-gray-400 text-sm">Trophies</p>
                     <p class="text-4xl font-bold text-white glow">6342</p>
                 </div>
                 <div>
-                    <p class="text-gray-400 text-sm">Niveau Roi</p>
+                    <p class="text-gray-400 text-sm">King Level</p>
                     <p class="text-4xl font-bold text-white glow">14</p>
                 </div>
                 <div>
-                    <p class="text-gray-400 text-sm">Victoires</p>
+                    <p class="text-gray-400 text-sm">Wins</p>
                     <p class="text-4xl font-bold text-white glow">87%</p>
                 </div>
             </div>
@@ -248,9 +282,9 @@
                 <p class="text-gray-400 text-sm mb-2">Active Modules</p>
                 <div class="flex flex-wrap gap-2">
                     <span class="pill pill-purple">Auto-placement</span>
-                    <span class="pill pill-purple">Détection deck</span>
+                    <span class="pill pill-purple">Deck detection</span>
                     <span class="pill pill-cyan">Elixir tracker</span>
-                    <span class="pill pill-red">Anti-3-couronnes</span>
+                    <span class="pill pill-red">Anti-three-crown</span>
                 </div>
             </div>
         </div>
@@ -262,38 +296,42 @@
                 <!-- Feature 1 -->
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="font-medium text-purple-400">Auto-placement</p>
-                        <p class="text-gray-400 text-xs">Placement automatique</p>
+                        <p class="font-medium text-purple-400">Card Tracking</p>
+                        <p class="text-gray-400 text-xs">Hand cards and next cycle</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
-                
+
                 <!-- Feature 2 -->
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="font-medium text-cyan-400 neon-glow">Elixir Tracker</p>
-                        <p class="text-gray-400 text-xs">Suivi d'elixir</p>
+                        <p class="font-medium text-cyan-400 neon-glow">Elixir Estimation</p>
+                        <p class="text-gray-400 text-xs">Opponent elixir in real time</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
-                
+
                 <!-- Feature 3 -->
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="font-medium text-red-400">Anti-3-couronnes</p>
-                        <p class="text-gray-400 text-xs">Défense automatique</p>
+                        <p class="font-medium text-green-400">Strategic Overlay</p>
+                        <p class="text-gray-400 text-xs">Ranges and impact zones</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
                 </div>
+
+                <button id="open-modal" class="mt-4 w-full bg-accent hover:opacity-90 text-white py-2 rounded-lg text-sm font-medium transition">
+                    Show all options
+                </button>
             </div>
         </div>
     </div>
@@ -306,33 +344,33 @@
             <div class="grid grid-cols-2 gap-4">
                 <!-- K/D Ratio -->
                 <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
-                    <p class="text-gray-400 text-xs">Couronnes</p>
+                    <p class="text-gray-400 text-xs">Crowns</p>
                     <p class="text-2xl font-bold text-green-400 matrix-glow">12.4k</p>
                 </div>
                 
                 <!-- Win Rate -->
                 <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
-                    <p class="text-gray-400 text-xs">Taux Victoire</p>
+                    <p class="text-gray-400 text-xs">Win Rate</p>
                     <p class="text-2xl font-bold text-purple-400 glow">72%</p>
                 </div>
                 
                 <!-- Best Trophies -->
                 <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
-                    <p class="text-gray-400 text-xs">Meilleur Score</p>
+                    <p class="text-gray-400 text-xs">Best Score</p>
                     <p class="text-2xl font-bold text-green-500 matrix-glow">7560</p>
                 </div>
                 
                 <!-- Arena -->
                 <div class="bg-gray-800 bg-opacity-50 rounded-xl p-4">
-                    <p class="text-gray-400 text-xs">Arène</p>
-                    <p class="text-2xl font-bold diamond-rank">Légendaire</p>
+                    <p class="text-gray-400 text-xs">Arena</p>
+                    <p class="text-2xl font-bold diamond-rank">Legendary</p>
                 </div>
             </div>
             
             <div class="mt-4 flex flex-wrap gap-2">
                 <span class="pill pill-purple">Ladder</span>
                 <span class="pill pill-cyan">2v2</span>
-                <span class="pill pill-red">Tournoi</span>
+                <span class="pill pill-red">Tournament</span>
             </div>
         </div>
 
@@ -398,7 +436,7 @@
     <!-- Terminal Row -->
     <div class="card-gradient rounded-2xl p-6 shadow-lg transition-all duration-300 card-hover">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">CONSOLE DE JEU</h2>
+            <h2 class="text-lg font-semibold">GAME CONSOLE</h2>
             <div class="flex space-x-2">
                 <button class="bg-gray-700 hover:bg-gray-600 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition">
                     Refresh
@@ -410,15 +448,162 @@
         </div>
         
         <div class="terminal bg-black bg-opacity-50 rounded-lg p-4 terminal-border h-40 overflow-y-auto">
-            <p class="text-green-400">> Connexion au serveur...</p>
-            <p class="text-green-400">> Connecté avec succès</p>
-            <p class="text-green-400">> Analyse du deck adverse...</p>
-            <p class="text-green-400">> Deck détecté: Pekka Pont</p>
-            <p class="text-green-400">> Calcul stratégie...</p>
-            <p class="text-green-400">> Stratégie optimale déterminée</p>
-            <p class="text-green-400">> Suivi elixir activé...</p>
-            <p class="text-green-400">> Prêt pour le combat</p>
+            <p class="text-green-400">> Connecting to server...</p>
+            <p class="text-green-400">> Connected successfully</p>
+            <p class="text-green-400">> Analyzing enemy deck...</p>
+            <p class="text-green-400">> Detected deck: Pekka Pont</p>
+            <p class="text-green-400">> Calculating strategy...</p>
+            <p class="text-green-400">> Optimal strategy determined</p>
+            <p class="text-green-400">> Elixir tracking enabled...</p>
+            <p class="text-green-400">> Ready for battle</p>
             <p class="text-green-400 blink">_</p>
+        </div>
+    </div>
+
+    <!-- Options Modal -->
+    <div id="options-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="modal-content bg-gray-900 p-6 rounded-xl w-11/12 md:w-1/2 max-h-96 overflow-y-auto no-scrollbar">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">All Features</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-semibold mb-2">Cheat Features</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Full card tracking</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Opponent elixir estimation</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>AI recommendations</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Smart placement</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Strategic overlay</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Auto-match & farming</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Auto-claim rewards</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Auto deck switching</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Deck sniping</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Matchmaking spoofing</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Network desync / soft DDoS</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Modified packet injection</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2">Unlocked Content</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-sm">
+                            <span>All cards unlocked at level 15</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>All evolutions unlocked</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Access to all ladder decks & events</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>All cosmetics unlocked</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Immediate Royale Pass unlock</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Free nickname & tag change</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Fake level progression</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2">VM Features</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Dedicated rooted VM 24/7</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Optimized emulator (4–8 GB RAM)</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Full device spoofer</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Advanced anti-ban protection</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Automatic snapshots</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Built-in VPN & IP rotation</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Refund if unplayable</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Streaming support</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Debug & replay tools</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Offline sandbox</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Stealth mode</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -437,12 +622,40 @@
                 card.style.transform = 'translateY(-5px)';
                 card.style.boxShadow = '0 10px 20px rgba(16, 185, 129, 0.3)';
             });
-            
+
             card.addEventListener('mouseleave', () => {
                 card.style.transform = '';
                 card.style.boxShadow = '';
             });
         });
+
+        // Modal for full options
+        const openBtn = document.getElementById('open-modal');
+        const modal = document.getElementById('options-modal');
+        const closeBtn = document.getElementById('close-modal');
+
+        if (openBtn && modal) {
+            openBtn.addEventListener('click', () => {
+                modal.classList.add('active');
+                document.body.classList.add('overflow-hidden');
+            });
+        }
+
+        const hideModal = () => {
+            modal.classList.remove('active');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        if (closeBtn && modal) {
+            closeBtn.addEventListener('click', hideModal);
+        }
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+        }
     </script>
 </body>
 </html>
