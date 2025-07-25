@@ -1,6 +1,20 @@
 {
   "users": [
-    { "username": "admin", "password": "cGFzc3dvcmQ=" },
-    { "username": "user", "password": "MTIzNDU=" }
+    {
+      "username": "admin",
+      "password": "cGFzc3dvcmQ=",
+      "subscription": {
+        "game": "cr",
+        "type": "3"
+      }
+    },
+    {
+      "username": "user",
+      "password": "MTIzNDU=",
+      "subscription": {
+        "game": "cr",
+        "type": "3"
+      }
+    }
   ]
 }
