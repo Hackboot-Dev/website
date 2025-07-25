@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = document.getElementById('password').value;
     const user = usersData.find(u => u.username === username);
     if (user && user.password === btoa(password)) {
+      // Save logged in user in a cookie for dashboard use
+      document.cookie = `currentUser=${encodeURIComponent(username)}; path=/`;
       window.location.href = 'hct/cr/dashboard.html';
     } else {
       alert('Invalid credentials');

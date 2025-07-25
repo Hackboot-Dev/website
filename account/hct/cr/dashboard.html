@@ -557,11 +557,11 @@
                     
                     <div class="flex items-center space-x-3">
                         <div class="text-right">
-                            <div class="text-sm font-medium">Admin Demo</div>
-                            <div class="text-xs text-gray-400">Premium Level</div>
+                            <div id="header-user" class="text-sm font-medium">Admin Demo</div>
+                            <div id="header-plan" class="text-xs text-gray-400">Premium Level</div>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
-                            <span class="text-white font-bold">AD</span>
+                            <span id="user-avatar" class="text-white font-bold">AD</span>
                         </div>
                     </div>
                 </div>
@@ -1411,6 +1411,16 @@
             };
             
             document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Unknown pack';
+
+            // Update header information if elements are present
+            const headerUser = document.getElementById('header-user');
+            if (headerUser) headerUser.textContent = currentUser.username;
+
+            const headerPlan = document.getElementById('header-plan');
+            if (headerPlan) headerPlan.textContent = packNames[userSubscription.type] || 'Unknown pack';
+
+            const avatar = document.getElementById('user-avatar');
+            if (avatar) avatar.textContent = currentUser.username.charAt(0).toUpperCase();
 
             // Configurer les packs selon l'abonnement
             const userPackLevel = parseInt(userSubscription.type);
