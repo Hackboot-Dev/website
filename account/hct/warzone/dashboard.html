@@ -1569,439 +1569,114 @@
     </div>
 
     <script>
-        // Configuration
-        const USERS_JSON_URL = '/account/users.json';
-        let currentUser = null;
-        let userSubscription = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            const USERS_JSON_URL = '/account/users.json';
+            let currentUser = null;
+            let userSubscription = null;
 
-        // Système d'authentification et vérification des abonnements
-        async function loadUserData() {
-            try {
-                const response = await fetch(USERS_JSON_URL);
-                const data = await response.json();
-                
-                // Récupération automatique de l'utilisateur connecté
-                // Priorité : sessionStorage > localStorage > cookie > défaut 'admin'
-                let username = 
-                    sessionStorage.getItem('currentUser') || 
-                    localStorage.getItem('currentUser') || 
-                    getCookie('currentUser') || 
-                    'admin'; // Fallback pour la démo
-                
-                // Log pour debug
-                console.log('Utilisateur détecté:', username);
-                
-                currentUser = data.users.find(user => user.username === username);
-                
-                if (currentUser) {
-                    userSubscription = currentUser.subscription.find(sub => sub.game === 'warzone');
-                    if (userSubscription) {
-                        updateUserInterface();
-                    } else {
-                        console.error('Abonnement Warzone non trouvé pour l'utilisateur:', username);
-                    }
+            // --- Tab Switching Logic ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            function activateTab(tabName) {
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+
+                const selectedContent = document.getElementById(`tab-${tabName}`);
+                const selectedButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
+
+                if (selectedContent && selectedButton) {
+                    selectedContent.classList.remove('hidden');
+                    selectedButton.classList.add('active');
                 } else {
-                    console.error('Utilisateur non trouvé:', username);
-                    // Fallback vers admin si l'utilisateur n'existe pas
-                    currentUser = data.users.find(user => user.username === 'admin');
+                    // Fallback to the dashboard tab if the selected one doesn't exist
+                    document.getElementById('tab-dashboard').classList.remove('hidden');
+                    document.querySelector('.tab-button[data-tab="dashboard"]').classList.add('active');
+                }
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.dataset.tab;
+                    localStorage.setItem('lastActiveTab', tabName);
+                    activateTab(tabName);
+                });
+            });
+
+            // --- User Data and UI Logic ---
+            async function loadUserData() {
+                try {
+                    const response = await fetch(USERS_JSON_URL);
+                    const data = await response.json();
+                    
+                    let username = getCookie('currentUser') || 'admin';
+                    currentUser = data.users.find(user => user.username === username);
+                    
                     if (currentUser) {
                         userSubscription = currentUser.subscription.find(sub => sub.game === 'warzone');
                         if (userSubscription) {
                             updateUserInterface();
                         }
                     }
+                } catch (error) {
+                    console.error('Error loading user data:', error);
                 }
-            } catch (error) {
-                console.error('Erreur lors du chargement des données utilisateur:', error);
-                // Interface de fallback
-                document.getElementById('current-user').textContent = 'Erreur de connexion';
-                document.getElementById('current-plan').textContent = 'Non disponible';
             }
-        }
 
-        // Helper function to get a cookie
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            function getCookie(name) {
+                const nameEQ = name + "=";
+                const ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
             }
-            return null;
-        }
 
-        // Fonction pour définir l'utilisateur connecté (pour les tests)
-        function setCurrentUser(username) {
-            sessionStorage.setItem('currentUser', username);
-            console.log('Utilisateur défini:', username);
-            loadUserData(); // Recharger les données
-        }
+            function updateUserInterface() {
+                if (!currentUser || !userSubscription) return;
 
-        // Mise à jour de l'interface utilisateur selon l'abonnement
-        function updateUserInterface() {
-            if (!currentUser || !userSubscription) return;
+                document.getElementById('current-user').textContent = currentUser.username;
+                const packNames = { '1': 'Pack 1 - Reaper (€600/mois)', '2': 'Pack 2 - Reaper 2 (€1650/mois)' };
+                document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Unknown';
 
-            // Mettre à jour les informations utilisateur
-            document.getElementById('current-user').textContent = currentUser.username;
-            
-            const packNames = {
-                '1': 'Pack 1 - Reaper (€600/mois)',
-                '2': 'Pack 2 - Reaper 2 (€1650/mois)'
-            };
-            
-            document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Unknown pack';
+                const headerUser = document.getElementById('header-user');
+                if (headerUser) headerUser.textContent = currentUser.username;
+                const headerPlan = document.getElementById('header-plan');
+                if (headerPlan) headerPlan.textContent = packNames[userSubscription.type] || 'Unknown';
+                const avatar = document.getElementById('user-avatar');
+                if (avatar) avatar.textContent = currentUser.username.charAt(0).toUpperCase();
 
-            // Update header information if elements are present
-            const headerUser = document.getElementById('header-user');
-            if (headerUser) headerUser.textContent = currentUser.username;
+                const userPackLevel = parseInt(userSubscription.type);
+                for (let packLevel = 1; packLevel <= 2; packLevel++) {
+                    const packElement = document.getElementById(`pack-${packLevel}`);
+                    if (!packElement) continue;
 
-            const headerPlan = document.getElementById('header-plan');
-            if (headerPlan) headerPlan.textContent = packNames[userSubscription.type] || 'Unknown pack';
-
-            const avatar = document.getElementById('user-avatar');
-            if (avatar) avatar.textContent = currentUser.username.charAt(0).toUpperCase();
-
-            // Configurer les packs selon l'abonnement
-            const userPackLevel = parseInt(userSubscription.type);
-            
-            for (let packLevel = 1; packLevel <= 2; packLevel++) { // Only 2 packs for Warzone
-                const packElement = document.getElementById(`pack-${packLevel}`);
-                const statusBadge = packElement.querySelector('.pack-status-badge');
-                
-                if (packLevel <= userPackLevel) {
-                    // Pack disponible
-                    packElement.classList.remove('pack-disabled');
+                    const isAvailable = packLevel <= userPackLevel;
+                    packElement.classList.toggle('pack-disabled', !isAvailable);
+                    
+                    const statusBadge = packElement.querySelector('.pack-status-badge');
                     if (statusBadge) {
-                        statusBadge.textContent = 'AVAILABLE';
-                        statusBadge.className = 'pack-status-badge px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500';
+                        statusBadge.textContent = isAvailable ? 'AVAILABLE' : 'UPGRADE REQUIS';
+                        statusBadge.className = `pack-status-badge px-3 py-1 text-xs rounded-full border ${isAvailable ? 'bg-green-900 bg-opacity-40 text-green-300 border-green-500' : 'bg-red-900 bg-opacity-40 text-red-300 border-red-500'}`;
                     }
-                    
-                    // Les fonctionnalités sont disponibles mais désactivées par défaut
-                    const toggles = packElement.querySelectorAll('.feature-toggle');
-                    toggles.forEach(toggle => {
-                        toggle.classList.remove('disabled');
+
+                    packElement.querySelectorAll('.feature-toggle').forEach(toggle => {
+                        toggle.classList.toggle('disabled', !isAvailable);
                         const input = toggle.querySelector('input[type="checkbox"]');
-                        if (input) {
-                            input.disabled = false;
-                            const featureId = toggle.dataset.featureId;
-                            if (featureId) {
-                                const savedState = localStorage.getItem(`warzone_${currentUser.username}_${featureId}`);
-                                input.checked = (savedState === 'true');
-                            } else {
-                                input.checked = false; // Default to unchecked if no featureId
-                            }
-                        }
-                        
-                        // Supprimer le tooltip s'il existe
-                        const existingTooltip = toggle.querySelector('.tooltip');
-                        if (existingTooltip) {
-                            existingTooltip.remove();
-                        }
-                    });
-                    
-                } else {
-                    // Pack non disponible - griser les fonctionnalités
-                    packElement.classList.add('pack-disabled');
-                    if (statusBadge) {
-                        statusBadge.textContent = 'UPGRADE REQUIS';
-                        statusBadge.className = 'pack-status-badge px-3 py-1 bg-red-900 bg-opacity-40 text-red-300 text-xs rounded-full border border-red-500';
-                    }
-                    
-                    // Griser et désactiver toutes les fonctionnalités
-                    const toggles = packElement.querySelectorAll('.feature-toggle');
-                    toggles.forEach(toggle => {
-                        toggle.classList.add('disabled');
-                        const input = toggle.querySelector('input[type="checkbox"]');
-                        if (input) {
-                            input.disabled = true;
-                            input.checked = false;
-                        }
-                        
-                        // Ajouter tooltip discret
-                        if (!toggle.querySelector('.tooltip')) {
-                            const tooltip = document.createElement('div');
-                            tooltip.className = 'tooltip';
-                            tooltip.textContent = `Available with Pack ${packLevel} - Cliquez pour upgrader`;
-                            toggle.appendChild(tooltip);
-                        }
+                        if (input) input.disabled = !isAvailable;
                     });
                 }
             }
 
-            // Afficher/masquer le bouton d'upgrade général
-            if (userPackLevel < 2) { // Only 2 packs for Warzone
-                document.getElementById('upgrade-section').style.display = 'block';
-            } else {
-                document.getElementById('upgrade-section').style.display = 'none';
-            }
-        }
-
-        // Save feature state to localStorage
-        function saveFeatureState(featureId, isChecked) {
-            if (currentUser && featureId) {
-                localStorage.setItem(`warzone_${currentUser.username}_${featureId}`, isChecked);
-            }
-        }
-
-        // Gestion des événements des toggles avec vérification
-        function handleFeatureToggle(event) {
-            const toggle = event.target.closest('.feature-toggle');
-            
-            // Si la fonctionnalité est désactivée, empêcher l'action et afficher une alerte
-            if (toggle.classList.contains('disabled')) {
-                event.preventDefault();
-                const packElement = toggle.closest('[id^="pack-"]');
-                const packLevel = parseInt(packElement.id.split('-')[1]);
-                
-                // Afficher message d'alerte discret
-                showUpgradeAlert(packLevel);
-                
-                return false;
-            }
-            
-            // Save the new state
-            const input = toggle.querySelector('input[type="checkbox"]');
-            const featureId = toggle.dataset.featureId;
-            if (input && featureId) {
-                saveFeatureState(featureId, input.checked);
-            }
-        }
-
-        // Fonction pour afficher une alerte d'upgrade
-        function showUpgradeAlert(requiredPackLevel) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 opacity-0 transition-opacity duration-300';
-            alertDiv.innerHTML = `
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Pack ${requiredPackLevel} requis pour cette fonctionnalité</span>
-                </div>
-            `;
-            document.body.appendChild(alertDiv);
-            
-            // Animation d'apparition
-            setTimeout(() => {
-                alertDiv.classList.remove('opacity-0');
-            }, 100);
-            
-            // Disparition automatique
-            setTimeout(() => {
-                alertDiv.classList.add('opacity-0');
-                setTimeout(() => {
-                    alertDiv.remove();
-                }, 300);
-            }, 2500);
-        }
-
-        // Gestion des onglets
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        function activateTab(tabName) {
-            console.log('Activating tab:', tabName);
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => {
-                content.style.display = 'none'; // Use direct style manipulation
-            });
-            
-            const selectedButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
-            const selectedContent = document.getElementById(`tab-${tabName}`);
-
-            if (selectedButton && selectedContent) {
-                selectedButton.classList.add('active');
-                selectedContent.style.display = 'block'; // Use direct style manipulation
-                console.log('Tab activated:', tabName);
-            } else {
-                console.log('Tab or content not found for:', tabName, 'Falling back to dashboard.');
-                // Fallback to dashboard if the saved tab is not found
-                document.querySelector('.tab-button[data-tab="dashboard"]').classList.add('active');
-                document.getElementById('tab-dashboard').style.display = 'block';
-            }
-        }
-
-        tabButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                const tabName = button.getAttribute('data-tab');
-                console.log('Tab button clicked:', tabName);
-                localStorage.setItem('lastActiveTab', tabName); // Save active tab
-                activateTab(tabName);
-            });
-        });
-
-        // Gestion de la sidebar mobile
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.getElementById('main-content');
-
-        if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('mobile-open');
-            });
-        }
-
-        // Fermer la sidebar en cliquant à l'extérieur sur mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
-                    sidebar.classList.remove('mobile-open');
-                }
-            }
-        });
-
-        // Console interactive
-        const terminal = document.querySelector('.terminal-modern');
-        const terminalInput = document.querySelector('.terminal-modern + div input[type="text"]');
-        const terminalExecuteButton = document.querySelector('.terminal-modern + div button');
-
-        function addConsoleMessage(message, type = 'info') {
-            const newLine = document.createElement('div');
-            const now = new Date();
-            const timeStamp = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
-            
-            let colorClass = 'text-white';
-            if (type === 'info') colorClass = 'text-cyan-400';
-            else if (type === 'success') colorClass = 'text-green-400';
-            else if (type === 'warning') colorClass = 'text-yellow-400';
-            else if (type === 'error') colorClass = 'text-red-400';
-
-            newLine.innerHTML = `<div class="${colorClass}">${timeStamp} > ${message}</div>`;
-            
-            const cursor = terminal.querySelector('.animate-pulse');
-            terminal.insertBefore(newLine, cursor);
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-
-        // Handle terminal input
-        terminalExecuteButton.addEventListener('click', () => {
-            const command = terminalInput.value.trim();
-            if (command) {
-                addConsoleMessage(`> ${command}`, 'user');
-                terminalInput.value = '';
-                handleTerminalCommand(command);
-            }
-        });
-
-        terminalInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                terminalExecuteButton.click();
-            } else if (e.key === '/') {
-                // Display available commands when '/' is typed
-                addConsoleMessage("Available commands: /start, /stop, /help", 'info');
-            }
-        });
-
-        function handleTerminalCommand(command) {
-            const args = command.split(' ');
-            const cmd = args[0].toLowerCase();
-
-            switch (cmd) {
-                case '/start':
-                    addConsoleMessage('Session started.', 'success');
-                    break;
-                case '/stop':
-                    addConsoleMessage('Session stopped.', 'info');
-                    break;
-                case '/help':
-                    addConsoleMessage("Available commands: /start, /stop, /help", 'info');
-                    break;
-                default:
-                    addConsoleMessage(`Unknown command: ${command}`, 'error');
-            }
-        }
-
-        function handleTerminalCommand(command) {
-            const args = command.split(' ');
-            const cmd = args[0].toLowerCase();
-
-            switch (cmd) {
-                case '/start':
-                    addConsoleMessage('Session started.', 'success');
-                    break;
-                case '/stop':
-                    addConsoleMessage('Session stopped.', 'info');
-                    break;
-                case '/help':
-                    addConsoleMessage("Available commands: /start, /stop, /help", 'info');
-                    break;
-                default:
-                    addConsoleMessage(`Unknown command: ${command}`, 'error');
-            }
-        }
-
-        // Boutons d'action rapide
-        document.querySelector('button.btn-cyber:nth-of-type(1)').addEventListener('click', () => {
-            addConsoleMessage('🚀 Starting new session...', 'info');
-            setTimeout(() => addConsoleMessage('Session started successfully!', 'success'), 1500);
-        });
-
-        document.querySelector('button.btn-cyber:nth-of-type(2)').addEventListener('click', () => {
-            addConsoleMessage('⚙️ Initiating quick setup...', 'info');
-            setTimeout(() => addConsoleMessage('Quick setup complete.', 'success'), 1000);
-        });
-
-        document.querySelector('button.btn-cyber:nth-of-type(3)').addEventListener('click', () => {
-            addConsoleMessage('📊 Generating detailed report...', 'info');
-            setTimeout(() => addConsoleMessage('Report generated. Check your email.', 'success'), 2000);
-        });
-
-        // Mise à jour des métriques en temps réel
-        function updateMetrics() {
-            const cpuProgress = document.querySelector('.progress-fill');
-            if (cpuProgress) {
-                const randomCpu = Math.floor(Math.random() * 30) + 15;
-                cpuProgress.style.width = randomCpu + '%';
-                cpuProgress.parentElement.previousElementSibling.querySelector('.text-cyan-400').textContent = randomCpu + '%';
-            }
-        }
-
-        setInterval(updateMetrics, 5000);
-
-        // Animation d'entrée pour les cartes
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-slide-in');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.card-modern').forEach(card => {
-            observer.observe(card);
-        });
-
-        // Initialisation de l'application
-        document.addEventListener('DOMContentLoaded', () => {
-            loadUserData();
-            
-            // Activer le dernier onglet visité ou le tableau de bord par défaut
+            // --- Initial Load ---
             const lastActiveTab = localStorage.getItem('lastActiveTab');
             activateTab(lastActiveTab || 'dashboard');
-
-            // Ajouter les gestionnaires d'événements pour les toggles et clics sur fonctionnalités désactivées
-            document.addEventListener('click', (e) => {
-                // Gestion des toggles
-                if (e.target.type === 'checkbox' && e.target.closest('.feature-toggle')) {
-                    handleFeatureToggle(e);
-                }
-                
-                // Gestion des clics sur les fonctionnalités désactivées
-                if (e.target.closest('.feature-toggle.disabled')) {
-                    e.preventDefault();
-                    const toggle = e.target.closest('.feature-toggle');
-                    const packElement = toggle.closest('[id^="pack-"]');
-                    const packLevel = parseInt(packElement.id.split('-')[1]);
-                    showUpgradeAlert(packLevel);
-                }
-            });
+            loadUserData();
         });
     </script>
-</body>
-</html>
