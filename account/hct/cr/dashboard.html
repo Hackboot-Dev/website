@@ -1590,7 +1590,9 @@
         function activateTab(tabName) {
             console.log('Activating tab:', tabName);
             tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.add('hidden'));
+            tabContents.forEach(content => {
+                content.style.display = 'none'; // Use direct style manipulation
+            });
             
             const selectedButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
             const selectedContent = document.getElementById(`tab-${tabName}`);
@@ -1600,13 +1602,13 @@
 
             if (selectedButton && selectedContent) {
                 selectedButton.classList.add('active');
-                selectedContent.classList.remove('hidden');
+                selectedContent.style.display = 'block'; // Use direct style manipulation
                 console.log('Tab activated:', tabName);
             } else {
                 console.log('Tab or content not found for:', tabName, 'Falling back to dashboard.');
                 // Fallback to dashboard if the saved tab is not found
                 document.querySelector('.tab-button[data-tab="dashboard"]').classList.add('active');
-                document.getElementById('tab-dashboard').classList.remove('hidden');
+                document.getElementById('tab-dashboard').style.display = 'block';
             }
         }
 

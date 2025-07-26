@@ -407,7 +407,7 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="space-y-4">
                             <label class="block text-sm font-medium text-gray-300 mb-2">Auto logout</label>
-                                <select class="setting-select" id="auto-logout" data-setting-id="autoLogout" data-setting-id="autoLogout">
+                                <select class="setting-select" id="auto-logout" data-setting-id="autoLogout">
                                     <option value="30">30 minutes</option>
                                     <option value="60" selected>1 hour</option>
                                     <option value="120">2 hours</option>
@@ -418,7 +418,7 @@
                             <div class="setting-item flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">Dark mode</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="dark-mode" data-setting-id="darkMode" data-setting-id="darkMode" checked>
+                                    <input type="checkbox" id="dark-mode" data-setting-id="darkMode" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
@@ -429,24 +429,10 @@
                                     <input type="checkbox" id="notifications" data-setting-id="notifications" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
-                        </div>
+                            </div>
                         
                         <div class="space-y-4">
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Interface language</label>
-                                <select class="setting-select" id="language" data-setting-id="language">
-                                    <option value="fr" selected>French</option>
-                                    <option value="en">English</option>
-                                    <option value="es">Español</option>
-                                </select>
-                            </div>
                             
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Interface language</label>
-                                <select class="setting-select" id="language" data-setting-id="language">
-                                    <option value="fr" selected>French</option>
-                                    <option value="en">English</option>
-                                    <option value="es">Español</option>
-                                </select>
-                            </div>
                             
                             <div class="setting-item flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">System sound</label>
@@ -462,7 +448,7 @@
                                     <input type="checkbox" id="auto-save" data-setting-id="autoSave" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
-                    </div>
+                            </div>
                 </div>
 
                 <!-- Settings Virtual Machine -->
@@ -512,7 +498,7 @@
                             
                             <div class="setting-item">
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Automatic IP rotation</label>
-                                <select class="setting-select" id="ip-rotation" data-setting-id="ipRotation" data-setting-id="ipRotation" data-setting-id="ipRotation">
+                                <select class="setting-select" id="ip-rotation" data-setting-id="ipRotation">
                                     <option value="5">Every 5 min</option>
                                     <option value="15" selected>Every 15 min</option>
                                     <option value="30">Every 30 min</option>
@@ -523,7 +509,7 @@
                             <div class="setting-item flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">Spoof IMEI</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="spoof-imei" data-setting-id="spoofImei" data-setting-id="spoofImei" data-setting-id="spoofImei" checked>
+                                    <input type="checkbox" id="spoof-imei" data-setting-id="spoofImei" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
@@ -531,7 +517,7 @@
                             <div class="setting-item flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">Protection anti-ban</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="anti-ban" data-setting-id="antiBan" data-setting-id="antiBan" data-setting-id="antiBan" checked>
+                                    <input type="checkbox" id="anti-ban" data-setting-id="antiBan" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
@@ -543,7 +529,7 @@
                             
                             <div class="setting-item">
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Automatic snapshots</label>
-                                <select class="setting-select" id="auto-snapshots" data-setting-id="autoSnapshots" data-setting-id="autoSnapshots" data-setting-id="autoSnapshots">
+                                <select class="setting-select" id="auto-snapshots" data-setting-id="autoSnapshots">
                                     <option value="1" selected>Every hour</option>
                                     <option value="6">Every 6h</option>
                                     <option value="24">Daily</option>
@@ -554,7 +540,7 @@
                             <div class="setting-item flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">Auto cache clean</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="auto-clean" data-setting-id="autoClean" data-setting-id="autoClean" data-setting-id="autoClean" checked>
+                                    <input type="checkbox" id="auto-clean" data-setting-id="autoClean" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
@@ -599,7 +585,7 @@
                         <div class="space-y-4">
                             <div class="setting-item">
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Mode injection</label>
-                                <select class="setting-select border-red-500 border-opacity-50" id="injection-mode" data-setting-id="injectionMode" data-setting-id="injectionMode" data-setting-id="injectionMode">
+                                <select class="setting-select border-red-500 border-opacity-50" id="injection-mode" data-setting-id="injectionMode">
                                     <option value="safe" selected>Secure (recommended)</option>
                                     <option value="aggressive">Aggressive</option>
                                     <option value="stealth">Stealth</option>
@@ -608,13 +594,13 @@
                             
                             <div class="setting-item">
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Delay between actions (ms)</label>
-                                <input type="number" class="setting-input" id="action-delay" data-setting-id="actionDelay" data-setting-id="actionDelay" data-setting-id="actionDelay" value="150" min="50" max="1000">
+                                <input type="number" class="setting-input" id="action-delay" data-setting-id="actionDelay" value="150" min="50" max="1000">
                             </div>
                             
                             <div class="setting-item flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">Advanced debug mode</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="debug-mode" data-setting-id="debugMode" data-setting-id="debugMode" data-setting-id="debugMode">
+                                    <input type="checkbox" id="debug-mode" data-setting-id="debugMode">
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
@@ -624,7 +610,7 @@
                             <div class="setting-item flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">Detailed logs</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="detailed-logs" data-setting-id="detailedLogs" data-setting-id="detailedLogs" data-setting-id="detailedLogs">
+                                    <input type="checkbox" id="detailed-logs" data-setting-id="detailedLogs">
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
@@ -632,7 +618,7 @@
                             <div class="setting-item flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">Experimental bypass</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="experimental-bypass" data-setting-id="experimentalBypass" data-setting-id="experimentalBypass" data-setting-id="experimentalBypass">
+                                    <input type="checkbox" id="experimental-bypass" data-setting-id="experimentalBypass">
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
