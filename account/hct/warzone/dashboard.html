@@ -1678,5 +1678,93 @@
             const lastActiveTab = localStorage.getItem('lastActiveTab');
             activateTab(lastActiveTab || 'dashboard');
             loadUserData();
+
+            // --- Interactive Console Logic ---
+            const terminal = document.querySelector('#tab-console .terminal-modern');
+            const terminalInput = document.querySelector('#tab-console input[type="text"]');
+            const terminalExecuteButton = document.querySelector('#tab-console .bg-accent');
+
+            function addConsoleMessage(message, type = 'info') {
+                if (!terminal) return;
+                const newLine = document.createElement('div');
+                const now = new Date();
+                const timeStamp = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+                
+                let colorClass = 'text-white';
+                if (type === 'info') colorClass = 'text-cyan-400';
+                else if (type === 'success') colorClass = 'text-green-400';
+                else if (type === 'warning') colorClass = 'text-yellow-400';
+                else if (type === 'error') colorClass = 'text-red-400';
+                else if (type === 'user') colorClass = 'text-white';
+
+                // Sanitize message to prevent HTML injection
+                const textNode = document.createTextNode(`> ${message}`);
+                const messageDiv = document.createElement('div');
+                messageDiv.appendChild(textNode);
+
+                newLine.innerHTML = `<div class="${colorClass}">${timeStamp} ${messageDiv.innerHTML}</div>`;
+                
+                const cursor = terminal.querySelector('.animate-pulse');
+                if (cursor) {
+                    terminal.insertBefore(newLine, cursor);
+                } else {
+                    terminal.appendChild(newLine);
+                }
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+
+            function handleTerminalCommand(command) {
+                const args = command.split(' ');
+                const cmd = args[0].toLowerCase();
+
+                switch (cmd) {
+                    case '/help':
+                        addConsoleMessage('Available commands: /help, /status, /inject, /panic, /loadout <name>', 'info');
+                        break;
+                    case '/status':
+                        addConsoleMessage('System Status: All modules operational.', 'success');
+                        addConsoleMessage('Aimbot: Active | ESP: Active | Spoofer: Idle', 'info');
+                        break;
+                    case '/inject':
+                        addConsoleMessage('Injecting latest payload...', 'warning');
+                        setTimeout(() => addConsoleMessage('Injection successful. Kernel driver v3.2.1 loaded.', 'success'), 1500);
+                        break;
+                    case '/panic':
+                        addConsoleMessage('EMERGENCY STOP ACTIVATED. Disabling all modules...', 'error');
+                        setTimeout(() => addConsoleMessage('All systems disabled. Safe to exit.', 'info'), 2000);
+                        break;
+                    case '/loadout':
+                        if (args.length > 1) {
+                            addConsoleMessage(`Loading loadout: ${args.slice(1).join(' ')}...`, 'info');
+                            setTimeout(() => addConsoleMessage('Loadout applied.', 'success'), 1000);
+                        } else {
+                            addConsoleMessage('Usage: /loadout <name>', 'error');
+                        }
+                        break;
+                    default:
+                        addConsoleMessage(`Unknown command: ${command}`, 'error');
+                }
+            }
+
+            if (terminalExecuteButton && terminalInput) {
+                terminalExecuteButton.addEventListener('click', () => {
+                    const command = terminalInput.value.trim();
+                    if (command) {
+                        addConsoleMessage(command, 'user');
+                        terminalInput.value = '';
+                        handleTerminalCommand(command);
+                    }
+                });
+
+                terminalInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        terminalExecuteButton.click();
+                    } else if (e.key === '/') {
+                        addConsoleMessage('Available commands: /help, /status, /inject, /panic, /loadout <name>', 'info');
+                    }
+                });
+            }
+            
+            addConsoleMessage('Warzone Console Initialized. Type /help for commands.', 'success');
         });
     </script>
