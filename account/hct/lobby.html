@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Lobby - HCT | Hackboot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="../../img/favicon.ico" />
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6d28d9',
+                        dark: '#121826',
+                        light: '#1f2937',
+                        accent: '#10b981',
+                        neon: '#00f0ff',
+                        matrix: '#00ff41'
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'text-gradient': 'text-gradient 6s ease infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        'text-gradient': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .gradient-text {
+            background: linear-gradient(90deg, #00f0ff, #6d28d9, #10b981);
+            background-size: 200% auto;
+            color: transparent;
+            background-clip: text;
+        }
+        
+        .glow {
+            text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+        }
+        
+        .bg-grid {
+            background-image: 
+                linear-gradient(to right, rgba(31, 41, 55, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(31, 41, 55, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .card-gradient {
+            background: linear-gradient(145deg, #1f2937, #121826);
+            border-radius: 16px;
+        }
+        
+        .card-gradient:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+        
+        .neon-border {
+            position: relative;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(45deg, #00f0ff, #6d28d9);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .card-clash-royale {
+            background: linear-gradient(145deg, #1f2937, #121826);
+            border: 1px solid #10b981;
+        }
+        
+        .card-warzone {
+            background: linear-gradient(145deg, #1f2937, #121826);
+            border: 1px solid #00ff41;
+        }
+        
+        .card-overwatch {
+            background: linear-gradient(145deg, #1f2937, #121826);
+            border: 1px solid #00f0ff;
+        }
+        
+        .card-valorant {
+            background: linear-gradient(145deg, #1f2937, #121826);
+            border: 1px solid #6d28d9;
+        }
+
+        .game-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .game-icon-cr { background: linear-gradient(45deg, #10b981, #065f46); }
+        .game-icon-wz { background: linear-gradient(45deg, #00ff41, #15803d); }
+        .game-icon-ow { background: linear-gradient(45deg, #00f0ff, #0891b2); }
+        .game-icon-vl { background: linear-gradient(45deg, #6d28d9, #4c1d95); }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-online { background-color: #10b981; }
+        .status-maintenance { background-color: #f59e0b; }
+    </style>
+</head>
+<body class="bg-dark text-gray-200 font-sans bg-grid h-screen flex flex-col overflow-hidden">
+    <!-- Header -->
+    <header class="border-b border-gray-800 bg-dark/80 backdrop-blur-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <a href="../../index.html" class="text-xl font-bold gradient-text bg-clip-text tracking-tighter">HACK<span class="text-white">BOOT</span></a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2 bg-light/50 px-3 py-2 rounded-lg">
+                    <div class="status-indicator status-online"></div>
+                    <span class="text-sm font-semibold text-accent">JD Administrator Dev 2</span>
+                </div>
+                <button onclick="logout()" class="px-4 py-2 rounded-lg bg-red-600/20 text-red-400 hover:bg-red-600/30 transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col justify-center container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                <span class="gradient-text animate-text-gradient">Choose Your</span>
+                <span class="text-white"> Gaming Arena</span>
+            </h1>
+            <p class="text-gray-400 text-sm max-w-xl mx-auto">
+                Select your preferred game environment and access premium tools
+            </p>
+        </div>
+
+        <!-- Games Grid -->
+        <div id="games-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto mb-8">
+            <!-- Games will be dynamically loaded here -->
+        </div>
+
+        <!-- Stats Section -->
+        <div class="grid grid-cols-4 gap-4 text-center max-w-2xl mx-auto">
+            <div class="p-3">
+                <div class="text-2xl font-bold text-accent mb-1 glow">4</div>
+                <div class="text-gray-400 text-xs">Games</div>
+            </div>
+            <div class="p-3">
+                <div class="text-2xl font-bold text-neon mb-1">24/7</div>
+                <div class="text-gray-400 text-xs">Uptime</div>
+            </div>
+            <div class="p-3">
+                <div class="text-2xl font-bold text-matrix mb-1">99.8%</div>
+                <div class="text-gray-400 text-xs">Success</div>
+            </div>
+            <div class="p-3">
+                <div class="text-2xl font-bold text-primary mb-1">0</div>
+                <div class="text-gray-400 text-xs">Detections</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Helper function to get a cookie
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Protect the lobby page
+        (function() {
+            const isLoggedIn = getCookie("isLoggedIn");
+            if (isLoggedIn !== "true") {
+                window.location.href = '../login.html';
+                return;
+            }
+        })();
+
+        // Global variable for current user
+        let currentUser = null;
+
+        // Load user data and initialize
+        async function loadUserData() {
+            try {
+                const response = await fetch('../users.json');
+                const data = await response.json();
+                
+                let username = 
+                    sessionStorage.getItem('currentUser') || 
+                    localStorage.getItem('currentUser') || 
+                    getCookie('currentUser') || 
+                    'admin';
+
+                console.log('Utilisateur détecté:', username);
+                
+                currentUser = data.users.find(user => user.username === username);
+                
+                if (!currentUser) {
+                    console.error('Utilisateur non trouvé:', username);
+                    currentUser = data.users.find(user => user.username === 'admin');
+                }
+
+                if (currentUser) {
+                    updateUserDisplay();
+                } else {
+                    console.error('Aucun utilisateur trouvé, redirection vers login');
+                    logout();
+                }
+                
+            } catch (error) {
+                console.error('Erreur lors du chargement des données utilisateur:', error);
+                logout();
+            }
+        }
+
+        // Game configurations
+        const gameConfigs = {
+            cr: {
+                name: 'Clash Royale',
+                description: 'Real-time strategy with enhanced features',
+                icon: 'fas fa-chess-rook',
+                cardClass: 'card-clash-royale',
+                iconClass: 'game-icon-cr',
+                buttonClass: 'from-accent to-green-600',
+                statusColor: 'text-accent',
+                buttonText: 'Enter Arena',
+                url: 'cr/dashboard.html'
+            },
+            warzone: {
+                name: 'Call of Duty Warzone',
+                description: 'Advanced battle royale with tactical tools',
+                icon: 'fas fa-skull-crossbones',
+                cardClass: 'card-warzone',
+                iconClass: 'game-icon-wz',
+                buttonClass: 'from-matrix to-green-600',
+                statusColor: 'text-matrix',
+                buttonText: 'Deploy Now',
+                url: 'warzone/dashboard.html'
+            },
+            overwatch: {
+                name: 'Overwatch 2',
+                description: 'Hero-based FPS with enhanced abilities',
+                icon: 'fas fa-crosshairs',
+                cardClass: 'card-overwatch',
+                iconClass: 'game-icon-ow',
+                buttonClass: 'from-neon to-blue-600',
+                statusColor: 'text-neon',
+                buttonText: 'Join Match',
+                url: 'overwatch/dashboard.html'
+            },
+            valorant: {
+                name: 'Valorant',
+                description: 'Tactical FPS with agent abilities',
+                icon: 'fas fa-bullseye',
+                cardClass: 'card-valorant',
+                iconClass: 'game-icon-vl',
+                buttonClass: 'from-primary to-purple-600',
+                statusColor: 'text-yellow-400',
+                buttonText: 'Access Beta',
+                url: 'valorant/dashboard.html',
+                isBeta: true
+            }
+        };
+
+        // Create game card HTML
+        function createGameCard(gameKey, config, subscription) {
+            const statusIndicator = 'status-online';
+            const statusText = config.isBeta ? 'BETA' : 'ONLINE';
+            
+            return `
+                <div class="${config.cardClass} p-6 rounded-xl transition duration-500 hover:transform hover:scale-105 ${subscription.type === "3" ? 'neon-border' : ''} group">
+                    <div class="game-icon ${config.iconClass} group-hover:scale-110 transition-transform mb-4" style="width: 48px; height: 48px;">
+                        <i class="${config.icon} text-xl text-white"></i>
+                    </div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-lg font-bold text-white">${config.name}</h3>
+                        <div class="flex items-center space-x-1">
+                            <div class="status-indicator ${statusIndicator}" style="width: 8px; height: 8px;"></div>
+                            <span class="text-xs ${config.statusColor} font-semibold">${statusText}</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4 text-xs leading-relaxed">
+                        ${config.description}
+                    </p>
+                    <div class="space-y-1 mb-4">
+                        ${getSubscriptionFeatures(subscription.type)}
+                    </div>
+                    <a href="${config.url}" class="block w-full">
+                        <button class="w-full py-2 text-sm rounded-lg bg-gradient-to-r ${config.buttonClass} hover:opacity-90 transition font-bold">
+                            ${config.buttonText}
+                        </button>
+                    </a>
+                </div>
+            `;
+        }
+
+        // Get subscription features based on type
+        function getSubscriptionFeatures(type) {
+            const features = {
+                "3": ['<div class="flex items-center text-xs text-gray-400"><i class="fas fa-crown text-yellow-400 mr-2"></i><span>Premium Features</span></div>'],
+                "2": ['<div class="flex items-center text-xs text-gray-400"><i class="fas fa-check-circle text-blue-400 mr-2"></i><span>Standard Access</span></div>'],
+                "1": ['<div class="flex items-center text-xs text-gray-400"><i class="fas fa-info-circle text-gray-500 mr-2"></i><span>Basic Access</span></div>']
+            };
+            return features[type] ? features[type].join('') : '';
+        }
+
+        // Update user display and render games
+        function updateUserDisplay() {
+            if (!currentUser) return;
+
+            // Update username in header
+            const userDisplay = document.querySelector('.text-accent');
+            if (userDisplay) {
+                userDisplay.textContent = currentUser.username;
+            }
+
+            // Render available games
+            renderUserGames();
+
+            // Update stats
+            updateStats();
+
+            console.log('Interface mise à jour pour:', currentUser.username);
+        }
+
+        // Render games based on user subscriptions
+        function renderUserGames() {
+            if (!currentUser || !currentUser.subscription) return;
+
+            const gamesGrid = document.getElementById('games-grid');
+            if (!gamesGrid) return;
+
+            let gamesHTML = '';
+            
+            currentUser.subscription.forEach(sub => {
+                const config = gameConfigs[sub.game];
+                if (config) {
+                    gamesHTML += createGameCard(sub.game, config, sub);
+                }
+            });
+
+            gamesGrid.innerHTML = gamesHTML;
+
+            // Update grid layout based on number of games
+            const gameCount = currentUser.subscription.length;
+            if (gameCount === 1) {
+                gamesGrid.className = 'flex justify-center max-w-xs mx-auto mb-8';
+            } else if (gameCount === 2) {
+                gamesGrid.className = 'grid grid-cols-2 gap-4 max-w-2xl mx-auto mb-8';
+            } else if (gameCount === 3) {
+                gamesGrid.className = 'grid grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8';
+            } else {
+                gamesGrid.className = 'grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto mb-8';
+            }
+        }
+
+        // Update stats based on user subscriptions
+        function updateStats() {
+            if (!currentUser || !currentUser.subscription) return;
+
+            const gameCount = currentUser.subscription.length;
+            const premiumCount = currentUser.subscription.filter(sub => sub.type === "3").length;
+            
+            // Update stats display
+            const statsElements = document.querySelectorAll('.grid.grid-cols-4 .text-2xl');
+            if (statsElements.length >= 4) {
+                statsElements[0].textContent = gameCount;
+                statsElements[2].textContent = premiumCount > 0 ? '99.9%' : '95.0%';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear all authentication data
+                document.cookie = "isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                sessionStorage.removeItem('currentUser');
+                localStorage.removeItem('currentUser');
+                
+                // Redirect to login
+                window.location.href = '../login.html';
+            }
+        }
+
+        // Add hover effects and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user data first
+            loadUserData();
+
+            // Add card hover effects
+            const cards = document.querySelectorAll('[class*="card-"]');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
