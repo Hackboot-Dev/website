@@ -1910,6 +1910,25 @@
             }
         }
 
+        function handleTerminalCommand(command) {
+            const args = command.split(' ');
+            const cmd = args[0].toLowerCase();
+
+            switch (cmd) {
+                case '/start':
+                    addConsoleMessage('Session started.', 'success');
+                    break;
+                case '/stop':
+                    addConsoleMessage('Session stopped.', 'info');
+                    break;
+                case '/help':
+                    addConsoleMessage("Available commands: /start, /stop, /help", 'info');
+                    break;
+                default:
+                    addConsoleMessage(`Unknown command: ${command}`, 'error');
+            }
+        }
+
         // Boutons d'action rapide
         document.querySelector('button.btn-cyber:nth-of-type(1)').addEventListener('click', () => {
             addConsoleMessage('🚀 Starting new session...', 'info');
