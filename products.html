@@ -251,6 +251,10 @@
                     <i class="fas fa-crosshairs mr-2"></i>
                     Overwatch 2
                 </button>
+                <button onclick="showCategory('valorant')" class="category-tab px-6 py-3 rounded-lg bg-light hover:bg-primary/20 transition">
+                    <i class="fas fa-target mr-2"></i>
+                    Valorant XEN
+                </button>
                 <button onclick="showCategory('battle-royale')" class="category-tab px-6 py-3 rounded-lg bg-light hover:bg-primary/20 transition">
                     <i class="fas fa-parachute-box mr-2"></i>
                     Clash Royal
@@ -362,63 +366,45 @@
                     </div>
 
                     <div class="mb-6">
-                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Advanced aimbot (FOV, smoothing, hit-scan, bones)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full ESP (names, HP, boxes, weapons)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Clean wallhack with no visual distortion</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Dynamic movement and projectile prediction</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart triggerbot</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">No recoil / no spread</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Silent aim (undetectable)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-melee and bash</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-skill and auto-ultimate activation</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Custom chams (colors, visibility)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Integrated radar (HUD)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Humanization engine (randomized behavior)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Anti-spectate: auto-disable if observed</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">LAN-safe mode</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automated AI-based gameplay</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Built-in macro/script editor</span></div>
+                        <h4 class="font-semibold mb-3 text-accent">Includes all Overwatch Phantom features +</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Customizable chams (special textures, transparency, obstacle visibility)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Skeleton ESP (adversary skeleton visualization)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Advanced glow (adaptive intensity by distance/aim)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Ultimate Timer Pro (evolved graphic visualization, audio/visual alerts)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Team movement heatmap (live historical tracking)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart AI aimbot (contextual assistance per hero/weapon)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fire-through-shields (assisted shooting through barriers)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-usage of abilities (shield, heal, barrier by situation)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart clutches (solo mode for 1vX situations)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-dodge (detected enemy flash/skill evasion)</span></div>
                     </div>
 
                     <div class="mb-6">
-                        <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">All heroes unlocked</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-claim lootboxes & quests</span></div>
-
-                        <!-- NEW in PACK 2 -->
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Skin unlocker (visuals only: skins, emotes, tags)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fake level & simulated progression (XP, portrait)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Modified stat tracking (KDA, accuracy, history)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Bypass for rank restrictions</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Placement & leaderboard spoof</span></div>
+                        <h4 class="font-semibold mb-3 text-accent">Advanced Unlocks:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Total skin unlocker (weapons, heroes, emotes, sprays, victory poses)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Persistent fake progression (XP, rank, hero level, badges)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">All cosmetics unlock including exclusives (limited edition)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Bypass rank restrictions (competitive access all levels)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Matchmaking spoofing (bypass SBMM for easier lobbies)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Modified stat tracker (K/D, headshot %, falsified history)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Custom leaderboard placement (client-side simulation)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Instant profile switch (multi-account, multi-profile)</span></div>
                     </div>
 
                     <div class="mb-6">
-                        <h4 class="font-semibold mb-3 text-accent">VM / System Features:</h4>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Rooted VM with 8 GB RAM & GPU passthrough</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full hardware spoofer (MAC, BIOS, CPU, etc.)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stealth kernel-level injection</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Integrated VPN + automatic IP rotation</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-cleaner for logs, crash reports, and traces</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Enhanced anti-ban (MagiskHide, Zygisk)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stable 120 FPS + integrated ping optimizer</span></div>
-
-                        <!-- NEW in PACK 2 -->
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic HWID rotation (identity spoof)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fail-safe: auto-disable on OW2 update</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Streaming ready: OBS & ShadowPlay compatible</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Secure authentication (HWID lock + 2FA)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic VM snapshots (1-click full reset)</span></div>
+                        <h4 class="font-semibold mb-3 text-accent">Enhanced System & Security:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic HWID rotation at each launch (anti-ban multi-account)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">1-click VM snapshots (instant restoration if banned/updated)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Streaming-proof (total OBS/XSplit/Shadowplay compatibility)</span></div>
                     </div>
 
                     <details class="mb-6">
                         <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
                         <div class="mt-3 text-sm text-gray-300 space-y-2">
-                            <p>This pack includes all the essential cheats from Phantom plus an extended set of unlocks and hardened system-level protection for high-tier users.</p>
-                            <p><strong>Visuals & progression:</strong> Simulated level, fake stats, full cosmetic unlocks, and spoofed leaderboard presence for full psychological advantage.</p>
-                            <p><strong>Infrastructure-level protection:</strong> HWID identity spoofing, anti-update protection, secure streaming support, and full rollback via VM snapshots.</p>
-                            <p><strong>Perfect for advanced players, streamers, and testers who require max stealth, flexibility, and persistent access.</strong></p>
+                            <p>Overwatch 2 Dominion expands on all Phantom features with advanced visual enhancements, smart AI assistance and comprehensive unlock systems.</p>
+                            <p><strong>Enhanced Visuals:</strong> Customizable chams, skeleton ESP, adaptive glow effects and team movement heatmaps for supreme battlefield awareness.</p>
+                            <p><strong>Smart AI Systems:</strong> Contextual aimbot assistance, fire-through-shields capabilities, auto-dodge mechanics and intelligent clutch mode for 1vX scenarios.</p>
+                            <p><strong>Complete Progression:</strong> Total cosmetic unlocks, rank bypasses, matchmaking manipulation and instant profile switching for maximum flexibility.</p>
                         </div>
                     </details>
 
@@ -431,7 +417,7 @@
                 </div>
 
 
-                <!-- R6 Siege Pro -->
+                <!-- Overwatch 2 Godmode -->
                 <div class="card-gradient p-6 rounded-xl neon-border transition duration-500">
                     <div class="flex justify-between items-start mb-6">
                         <div>
@@ -439,64 +425,54 @@
                                 <i class="fas fa-skull-crossbones text-2xl text-matrix"></i>
                             </div>
                             <h3 class="text-xl font-bold mb-2">Overwatch 2 Godmode</h3>
-                            <p class="text-gray-400 text-sm">The ultimate edge. Absolute control.</p>
+                            <p class="text-gray-400 text-sm">Ultimate package. Total domination.</p>
                         </div>
                         <span class="text-xs bg-matrix/20 text-matrix px-3 py-1 rounded-full">PACK 3</span>
                     </div>
 
                     <div class="mb-6">
-                        <span class="text-3xl font-bold text-matrix">1000€</span>
+                        <span class="text-3xl font-bold text-matrix">€850</span>
                         <span class="text-gray-400">/month</span>
                     </div>
 
                     <div class="mb-6">
-                        <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Advanced Aimbot (FOV, smoothing, hit-scan, bone prioritization)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full ESP (names, HP, boxes, weapons, skeleton, distance)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Clean Wallhack</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Dynamic prediction (movement, projectile, trajectory)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart Triggerbot</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">No recoil / no spread</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Silent Aim</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-melee / auto-bash</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Smart auto-skill / auto-ult</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Customizable chams</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">HUD-integrated radar</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Hero/Roles Profile Decks (Tank / DPS / Heal)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Humanization Engine</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-disable when spectated / streaming</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">LAN-safe tournament mode</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">AI auto-play per role</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Integrated macro/script editor</span></div>
+                        <h4 class="font-semibold mb-3 text-accent">Includes all Overwatch Dominion features +</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full AI automation: remote-controllable game bot</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic ranked/XP farming</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Live macro editor (complex in-game macros without restart)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Scenario scripting engine (wallbangs, prefire, multi-step strategy)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Replay & Debug Mode (slow-mo, zoom, free movement)</span></div>
                     </div>
 
                     <div class="mb-6">
-                        <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">All heroes unlocked</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Local skin unlocker (skins, emotes, tags)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fake level / fake progression</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Modified stat tracking (KDA, accuracy, history)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-claim lootboxes and dailies</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Bypass rank restrictions</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Placement / Rank spoofing (Top500, GM)</span></div>
+                        <h4 class="font-semibold mb-3 text-accent">Packet Manipulation & Network:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Kernel-level packet manipulation (latency shaping, custom ping)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Bot-lobby finder (easy lobbies, rigged matchmaking)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Advanced SBMM/Ranked bypass</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Network desync (server-side desynchronization control)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fake player injection and ghost lobbies</span></div>
                     </div>
 
                     <div class="mb-6">
-                        <h4 class="font-semibold mb-3 text-accent">VM / System Features:</h4>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Rooted high-end VM (16GB RAM, GPU upgraded)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Full hardware spoofer (MAC, BIOS, UUID, etc.)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stealth kernel-level injection</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto HWID identity rotation</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">VPN + dynamic IP rotation</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-clean logs, DLLs, crash reports</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Anti-ban (MagiskHide, Zygisk, Shadow bypass)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">120+ FPS stable, ultra-low latency</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Debug / slow-mo / replay modes</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stealth mode: reduced Blizzard logs</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Remote panel: full control via web interface</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Encrypted loader, HWID lock + 2FA login</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Automatic VM snapshot (one-click reset)</span></div>
-                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Fail-safe mode: auto-disable on OW2 updates</span></div>
+                        <h4 class="font-semibold mb-3 text-accent">Elite Utilities:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-claim all events and special drops</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Rewritten match history (falsifiable stats, history, progression)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Rank and badges freeze (displayed level/prestige preservation)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Unlock All extreme (agents, skins, gun buddies, banners, all rewards)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Tournament Bypass & Top 100 Spoof (simulated access to rankings/pro competitions)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Ultimate System & Security:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Ultra VM (16GB RAM, 8vCPU, RTX passthrough, dedicated NVMe SSD)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Multi-layer advanced spoofing (BIOS, SMBIOS, CPU, GPU, disk, UUID, EFI, network card...)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Auto-rebuild HWID at each launch, complete hardware fingerprint rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Shadow Cloaking Layers (total invisibility on all captures/streams, even kernel-level)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Remote panel (web remote control, live logs and actions)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Instant kill-switch (emergency stop, system trace wipe and complete rollback)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Anti-patch survival module (auto-isolation and rollback on critical update)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Stealth Audit System (continuous trace audit, proactive security notifications)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-matrix"></i><span class="text-sm">Live network monitoring, third-party analysis detection and auto-protection</span></div>
                     </div>
 
                     <details class="mb-6">
@@ -511,6 +487,191 @@
 
                     <a href="products/overwatch/godmode.html" class="block" rel="noopener">
                         <button class="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-matrix hover:opacity-90 transition font-bold">
+                            View Product
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produits Valorant XEN -->
+    <section id="valorant-products" class="product-grid pb-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Valorant XEN Phantom -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-red-900/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-crosshairs text-2xl text-red-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Valorant XEN Phantom</h3>
+                            <p class="text-gray-400 text-sm">Ultra-stealth injection & AI assistance</p>
+                        </div>
+                        <span class="text-xs bg-red-900/20 text-red-400 px-3 py-1 rounded-full">PACK 1</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-red-400">€380</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">ESP & Visuals:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">ESP Box 2D, 3D, corner for players and bots</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Names, HP, weapons, distance and spike status</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Snaplines, viewlines and minimap indicators</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Radar hack integrated to interface (HUD overlay)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Glow ESP (luminous halo around targets)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Color Picker for all visualizations</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Aimbot & Assistance:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Advanced aimbot (FOV adjustable, smoothing, multi-bones)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Smart target selection (head/torso/legs priority)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Smart triggerbot (auto-fire on crosshair detection)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Silent aim (internal aiming, totally discreet)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Movement prediction & dynamic bullet tracking</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">No recoil, no spread and RCS system</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">System & Security:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Kernel-level ultra-stealth injection (bypass Vanguard/EAC)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Dedicated gaming VM (8GB RAM, GPU passthrough)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Integrated VPN with dynamic IP rotation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Basic hardware spoofing (MAC, HWID, BIOS)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Automatic log and session trace cleaning</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">LAN-safe mode (competitive usage authorized)</span></div>
+                    </div>
+
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>XEN Phantom delivers cutting-edge Valorant enhancement with ultra-stealth injection completely undetectable by Vanguard/EAC systems.</p>
+                            <p><strong>Advanced Visuals:</strong> Complete ESP system with customizable 2D/3D boxes, glow effects, and integrated radar for tactical superiority.</p>
+                            <p><strong>Smart Assistance:</strong> Multi-bone aimbot with prediction, silent aim, recoil compensation and intelligent triggerbot for natural gameplay.</p>
+                            <p><strong>Gaming VM:</strong> Dedicated environment with hardware spoofing, VPN integration and automatic trace cleaning for maximum security.</p>
+                        </div>
+                    </details>
+
+                    <a href="products/valorant/phantom.html" class="block" rel="noopener">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:opacity-90 transition font-bold">
+                            View Product
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Valorant XEN Dominion -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-red-900/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-bullseye text-2xl text-red-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Valorant XEN Dominion</h3>
+                            <p class="text-gray-400 text-sm">Advanced features & enhanced security</p>
+                        </div>
+                        <span class="text-xs bg-red-900/20 text-red-400 px-3 py-1 rounded-full">PACK 2</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-red-400">€550</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Includes all Overwatch Phantom features +</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Customizable chams (special textures, transparency)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Skeleton ESP (adversary skeleton visualization)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Advanced glow (adaptive intensity by distance/aim)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Enemy movement heatmap (live historical tracking)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Smart AI aimbot (contextual assistance per agent/weapon)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Fire-through-utility (assisted shooting through smokes)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Auto-usage of utilities (flash, smoke, wall by situation)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Smart clutches (solo mode for 1vX situations)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Auto-dodge (detected enemy flash/skill evasion)</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Enhanced Security:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Automatic HWID rotation at each launch</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">1-click VM snapshots (instant restoration)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Streaming-proof (OBS/XSplit/Shadowplay compatible)</span></div>
+                    </div>
+
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>Overwatch 2 Dominion expands on all Phantom features with advanced visual enhancements, smart AI assistance and comprehensive unlock systems.</p>
+                            <p><strong>Enhanced Visuals:</strong> Customizable chams, skeleton ESP, adaptive glow effects and enemy movement heatmaps for supreme battlefield awareness.</p>
+                            <p><strong>Smart AI Systems:</strong> Contextual aimbot assistance, fire-through-utility capabilities, auto-dodge mechanics and intelligent clutch mode for 1vX scenarios.</p>
+                            <p><strong>Complete Security:</strong> HWID rotation, VM snapshots, streaming compatibility and matchmaking manipulation for maximum flexibility.</p>
+                        </div>
+                    </details>
+
+                    <a href="products/valorant/dominion.html" class="block" rel="noopener">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:opacity-90 transition font-bold">
+                            View Product
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Valorant XEN Godmode -->
+                <div class="card-gradient p-6 rounded-xl neon-border transition duration-500">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="w-14 h-14 rounded-lg bg-red-900/20 flex items-center justify-center mb-4">
+                                <i class="fas fa-skull-crossbones text-2xl text-red-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Valorant XEN Godmode</h3>
+                            <p class="text-gray-400 text-sm">Ultimate package. Total domination.</p>
+                        </div>
+                        <span class="text-xs bg-red-900/20 text-red-400 px-3 py-1 rounded-full">PACK 3</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-red-400">€850</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Includes all XEN Dominion features +</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Full AI automation: remote-controllable game bot</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Automatic ranked/XP farming</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Live macro editor (complex in-game macros)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Scenario scripting engine (wallbangs, prefire)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Replay & Debug Mode (slow-mo, zoom)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Kernel-level packet manipulation</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Bot-lobby finder (easy lobbies)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Network desync (server-side control)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Tournament Bypass & Top 100 Spoof</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-3 text-accent">Ultimate Security:</h4>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Ultra VM (16GB RAM, 8vCPU, RTX passthrough)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Multi-layer advanced spoofing (BIOS, SMBIOS, CPU, GPU)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Shadow Cloaking Layers (total invisibility)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Remote panel (web remote control)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Instant kill-switch (emergency stop, trace wipe)</span></div>
+                        <div class="feature-item"><i class="fas fa-check-circle text-red-400"></i><span class="text-sm">Stealth Audit System (continuous monitoring)</span></div>
+                    </div>
+
+                    <details class="mb-6">
+                        <summary class="cursor-pointer text-accent hover:text-neon transition">Full Description</summary>
+                        <div class="mt-3 text-sm text-gray-300 space-y-2">
+                            <p>XEN Godmode represents the pinnacle of Valorant enhancement technology with full AI automation, advanced packet manipulation and ultra-secure infrastructure.</p>
+                            <p><strong>AI & Automation:</strong> Complete bot automation with remote control, live macro editing, scenario scripting and debug modes for ultimate gameplay control.</p>
+                            <p><strong>Network Mastery:</strong> Kernel-level packet manipulation, bot-lobby access, advanced SBMM bypass and network desync capabilities.</p>
+                            <p><strong>Maximum Security:</strong> Ultra VM with multi-layer spoofing, shadow cloaking, instant kill-switch and continuous audit system for absolute stealth.</p>
+                        </div>
+                    </details>
+
+                    <a href="products/valorant/godmode.html" class="block" rel="noopener">
+                        <button class="w-full py-3 rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:opacity-90 transition font-bold">
                             View Product
                         </button>
                     </a>
