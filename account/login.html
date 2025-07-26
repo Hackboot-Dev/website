@@ -46,6 +46,25 @@
             }
         }
     </script>
+    <script>
+        // Helper function to get a cookie (duplicated for early check)
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Check if user is already logged in and redirect if they are
+        const isLoggedIn = getCookie("isLoggedIn");
+        if (isLoggedIn === "true") {
+            window.location.href = '/account/hct/cr/dashboard.html';
+        }
+    </script>
     <style>
             background: linear-gradient(90deg, #00f0ff, #6d28d9, #10b981);
             background-size: 200% auto;
@@ -115,7 +134,7 @@
                 </p>
             </div>
             <div class="md:w-1/2 animate-on-scroll opacity-0 translate-y-10">
-                <form class="bg-light/50 p-8 rounded-xl neon-border shadow-lg space-y-6">
+                <form id="login-form" class="bg-light/50 p-8 rounded-xl neon-border shadow-lg space-y-6">
                     <div>
                         <label for="username" class="block text-sm font-medium mb-2">Username</label>
                         <input type="text" id="username" class="w-full p-3 rounded-lg bg-dark border border-gray-700 focus:border-accent focus:outline-none" placeholder="Your username">
@@ -127,6 +146,7 @@
                     <div class="text-right">
                         <a href="#" class="text-sm text-accent hover:underline">Forgot password?</a>
                     </div>
+                    <div id="error-message" class="hidden text-red-500 text-sm text-center"></div>
                     <button type="submit" class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition font-bold">
                         Sign in
                     </button>

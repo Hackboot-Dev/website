@@ -7,6 +7,27 @@
     <title>CyberCheat Dashboard - Full Interface</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <script>
+        // Helper function to get a cookie
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Protect the dashboard page
+        (function() {
+            const isLoggedIn = getCookie("isLoggedIn");
+            if (isLoggedIn !== "true") {
+                window.location.href = '/account/login.html';
+            }
+        })();
+    </script>
     <style>
         :root {
             --primary: #6d28d9;
@@ -557,8 +578,8 @@
                     
                     <div class="flex items-center space-x-3">
                         <div class="text-right">
-                            <div id="header-user" class="text-sm font-medium">Admin Demo</div>
-                            <div id="header-plan" class="text-xs text-gray-400">Premium Level</div>
+                            <div id="header-user" class="text-sm font-medium"></div>
+                            <div id="header-plan" class="text-xs text-gray-400"></div>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
                             <span id="user-avatar" class="text-white font-bold">AD</span>
@@ -1339,7 +1360,7 @@
 
     <script>
         // Configuration
-        const USERS_JSON_URL = 'https://beamish-faun-be0e7a.netlify.app/account/users.json';
+        const USERS_JSON_URL = '/account/users.json';
         let currentUser = null;
         let userSubscription = null;
 
@@ -1382,11 +1403,15 @@
             }
         }
 
-        // Fonction utilitaire pour lire les cookies
+        // Helper function to get a cookie
         function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
             return null;
         }
 
@@ -1540,17 +1565,28 @@
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabContents = document.querySelectorAll('.tab-content');
 
+        function activateTab(tabName) {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.add('hidden'));
+            
+            const selectedButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
+            const selectedContent = document.getElementById(`tab-${tabName}`);
+
+            if (selectedButton && selectedContent) {
+                selectedButton.classList.add('active');
+                selectedContent.classList.remove('hidden');
+            } else {
+                // Fallback to dashboard if the saved tab is not found
+                document.querySelector('.tab-button[data-tab="dashboard"]').classList.add('active');
+                document.getElementById('tab-dashboard').classList.remove('hidden');
+            }
+        }
+
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const tabName = button.getAttribute('data-tab');
-                
-                // Retirer la classe active de tous les boutons et contenus
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => content.classList.add('hidden'));
-                
-                // Ajouter la classe active au bouton cliqué et afficher le contenu correspondant
-                button.classList.add('active');
-                document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+                localStorage.setItem('lastActiveTab', tabName); // Save active tab
+                activateTab(tabName);
             });
         });
 
@@ -1643,6 +1679,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadUserData();
             
+            // Activer le dernier onglet visité ou le tableau de bord par défaut
+            const lastActiveTab = localStorage.getItem('lastActiveTab');
+            activateTab(lastActiveTab || 'dashboard');
+
             // Ajouter les gestionnaires d'événements pour les toggles et clics sur fonctionnalités désactivées
             document.addEventListener('click', (e) => {
                 // Gestion des toggles
