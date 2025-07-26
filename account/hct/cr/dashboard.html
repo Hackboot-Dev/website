@@ -1294,16 +1294,6 @@
                             </div>
                             
                             <div class="terminal-modern rounded-lg p-4 h-96 overflow-y-auto font-mono text-sm">
-                                <div class="text-green-400">[14:32:15] > Connecting to server...</div>
-                                <div class="text-green-400">[14:32:16] > Successfully connected</div>
-                                <div class="text-cyan-400">[14:32:17] > Analyzing enemy deck...</div>
-                                <div class="text-cyan-400">[14:32:18] > Deck detected: Mega Knight Variation</div>
-                                <div class="text-purple-400">[14:32:19] > Calculating optimal strategy...</div>
-                                <div class="text-purple-400">[14:32:20] > Strategy determined: Defend then counter</div>
-                                <div class="text-yellow-400">[14:32:21] > AI module activated</div>
-                                <div class="text-green-400">[14:32:22] > Elixir tracking activated...</div>
-                                <div class="text-green-400">[14:32:23] > All systems operational</div>
-                                <div class="text-white">[14:32:24] > Ready for battle</div>
                                 <div class="text-green-400 animate-pulse">_</div>
                             </div>
                             
@@ -1678,28 +1668,37 @@
             if (command) {
                 addConsoleMessage(`> ${command}`, 'user');
                 terminalInput.value = '';
-                // Simulate command response
-                if (command.toLowerCase() === 'help') {
-                    addConsoleMessage('Available commands: status, start, stop, clear', 'info');
-                } else if (command.toLowerCase() === 'status') {
-                    addConsoleMessage('System status: Operational', 'success');
-                } else if (command.toLowerCase() === 'start') {
-                    addConsoleMessage('Session started.', 'success');
-                } else if (command.toLowerCase() === 'stop') {
-                    addConsoleMessage('Session stopped.', 'info');
-                } else if (command.toLowerCase() === 'clear') {
-                    terminal.innerHTML = '<div class="text-green-400 animate-pulse">_</div>';
-                } else {
-                    addConsoleMessage(`Unknown command: ${command}`, 'error');
-                }
+                handleTerminalCommand(command);
             }
         });
 
         terminalInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 terminalExecuteButton.click();
+            } else if (e.key === '/') {
+                // Display available commands when '/' is typed
+                addConsoleMessage("Available commands: /start, /stop, /help", 'info');
             }
         });
+
+        function handleTerminalCommand(command) {
+            const args = command.split(' ');
+            const cmd = args[0].toLowerCase();
+
+            switch (cmd) {
+                case '/start':
+                    addConsoleMessage('Session started.', 'success');
+                    break;
+                case '/stop':
+                    addConsoleMessage('Session stopped.', 'info');
+                    break;
+                case '/help':
+                    addConsoleMessage("Available commands: /start, /stop, /help", 'info');
+                    break;
+                default:
+                    addConsoleMessage(`Unknown command: ${command}`, 'error');
+            }
+        }
 
         // Boutons d'action rapide
         document.querySelector('button.btn-cyber:nth-of-type(1)').addEventListener('click', () => {
