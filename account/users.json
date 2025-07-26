@@ -3,18 +3,30 @@
     {
       "username": "admin",
       "password": "cGFzc3dvcmQ=",
-      "subscription": {
-        "game": "cr",
-        "type": "3"
-      }
+      "subscription": [
+        {
+          "game": "cr",
+          "type": "3"
+        },
+        {
+          "game": "warzone",
+          "type": "2"
+        }
+      ]
     },
     {
       "username": "user",
       "password": "cGFzc3dvcmQ=",
-      "subscription": {
-        "game": "cr",
-        "type": "3"
-      }
+      "subscription": [
+        {
+          "game": "cr",
+          "type": "3"
+        },
+        {
+          "game": "warzone",
+          "type": "2"
+        }
+      ]
     }
   ]
 }

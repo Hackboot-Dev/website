@@ -80,7 +80,7 @@
         /* Animations et effets */
         .feature-toggle {
             display: flex;
-            justify-between;
+            justify-content: space-between;
             align-items: center;
             padding: 12px;
             background: rgba(31, 41, 55, 0.5);
@@ -88,6 +88,13 @@
             border: 1px solid var(--border);
             transition: all 0.3s ease;
             position: relative;
+        }
+        .feature-toggle > div:first-child {
+            flex-grow: 1;
+            padding-right: 10px; /* Add some space between text and toggle */
+        }
+        .feature-toggle .toggle-switch {
+            flex-shrink: 0;
         }
         
         .feature-toggle:hover {
@@ -1382,9 +1389,11 @@
                 console.log('Utilisateur détecté:', username);
                 
                 currentUser = data.users.find(user => user.username === username);
+                console.log('currentUser après recherche:', currentUser);
                 
                 if (currentUser) {
                     userSubscription = currentUser.subscription.find(sub => sub.game === 'cr');
+                    console.log('userSubscription pour CR:', userSubscription);
                     if (userSubscription) {
                         updateUserInterface();
                     } else {
@@ -1394,8 +1403,10 @@
                     console.error('Utilisateur non trouvé:', username);
                     // Fallback vers admin si l\'utilisateur n\'existe pas
                     currentUser = data.users.find(user => user.username === 'admin');
+                    console.log('Fallback currentUser (admin):', currentUser);
                     if (currentUser) {
                         userSubscription = currentUser.subscription.find(sub => sub.game === 'cr');
+                        console.log('Fallback userSubscription (admin CR):', userSubscription);
                         if (userSubscription) {
                             updateUserInterface();
                         }
@@ -1520,37 +1531,6 @@
                         });
                     }
                 }
-            }
-        }
-
-        // Save feature state to localStorage
-        function saveFeatureState(featureId, isChecked) {
-            if (currentUser && featureId) {
-                localStorage.setItem(`cr_${currentUser.username}_${featureId}`, isChecked);
-            }
-        }
-
-        // Gestion des événements des toggles avec vérification
-        function handleFeatureToggle(event) {
-            const toggle = event.target.closest('.feature-toggle');
-            
-            // Si la fonctionnalité est désactivée, empêcher l'action et afficher une alerte
-            if (toggle.classList.contains('disabled')) {
-                event.preventDefault();
-                const packElement = toggle.closest('[id^="pack-"]');
-                const packLevel = parseInt(packElement.id.split('-')[1]);
-                
-                // Afficher message d'alerte discret
-                showUpgradeAlert(packLevel);
-                
-                return false;
-            }
-            
-            // Save the new state
-            const input = toggle.querySelector('input[type="checkbox"]');
-            const featureId = toggle.dataset.featureId;
-            if (input && featureId) {
-                saveFeatureState(featureId, input.checked);
             }
         }
 
