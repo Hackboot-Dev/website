@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Check if user is already logged in and redirect if they are
     const isLoggedIn = getCookie("isLoggedIn");
     if (isLoggedIn === "true") {
-        window.location.href = '/account/hct/cr/dashboard.html';
+        window.location.href = '/account/hct/lobby.html';
         return; // Stop further execution
     }
 
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     setCookie('currentUser', user.username, 1); // For the main dashboard script
                     setCookie('status', user.status, 1);
 
-                    // Redirect to the dashboard
-                    window.location.href = '/account/hct/cr/dashboard.html';
+                    // Redirect to the lobby
+                    window.location.href = '/account/hct/lobby.html';
 
                 } else {
                     // Failed login

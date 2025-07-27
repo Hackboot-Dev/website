@@ -315,24 +315,26 @@
             const statusText = config.isBeta ? 'BETA' : 'ONLINE';
             
             return `
-                <div class="${config.cardClass} p-6 rounded-xl transition duration-500 hover:transform hover:scale-105 ${subscription.type === "3" ? 'neon-border' : ''} group">
-                    <div class="game-icon ${config.iconClass} group-hover:scale-110 transition-transform mb-4" style="width: 48px; height: 48px;">
-                        <i class="${config.icon} text-xl text-white"></i>
-                    </div>
-                    <div class="flex items-center justify-between mb-3">
-                        <h3 class="text-lg font-bold text-white">${config.name}</h3>
-                        <div class="flex items-center space-x-1">
-                            <div class="status-indicator ${statusIndicator}" style="width: 8px; height: 8px;"></div>
-                            <span class="text-xs ${config.statusColor} font-semibold">${statusText}</span>
+                <div class="flex flex-col ${config.cardClass} p-6 rounded-xl transition duration-500 hover:transform hover:scale-105 ${subscription.type === "3" ? 'neon-border' : ''} group h-full">
+                    <div class="flex-grow">
+                        <div class="game-icon ${config.iconClass} group-hover:scale-110 transition-transform mb-4" style="width: 48px; height: 48px;">
+                            <i class="${config.icon} text-xl text-white"></i>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-lg font-bold text-white">${config.name}</h3>
+                            <div class="flex items-center space-x-1">
+                                <div class="status-indicator ${statusIndicator}" style="width: 8px; height: 8px;"></div>
+                                <span class="text-xs ${config.statusColor} font-semibold">${statusText}</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4 text-xs leading-relaxed">
+                            ${config.description}
+                        </p>
+                        <div class="space-y-1 mb-4">
+                            ${getSubscriptionFeatures(subscription.type)}
                         </div>
                     </div>
-                    <p class="text-gray-300 mb-4 text-xs leading-relaxed">
-                        ${config.description}
-                    </p>
-                    <div class="space-y-1 mb-4">
-                        ${getSubscriptionFeatures(subscription.type)}
-                    </div>
-                    <a href="${config.url}" class="block w-full">
+                    <a href="${config.url}" class="block w-full mt-auto">
                         <button class="w-full py-2 text-sm rounded-lg bg-gradient-to-r ${config.buttonClass} hover:opacity-90 transition font-bold">
                             ${config.buttonText}
                         </button>
