@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hackboot | Mise à jour 1.3</title>
+    <title>Hackboot | Changelog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="shortcut icon" href="img/favicon.ico" />
 
-    <meta name="description" content="Découvrez les dernières améliorations et nouvelles fonctionnalités de la mise à jour 1.3 de Hackboot.">
-    <meta name="keywords" content="mise à jour hackboot, update 1.3, nouvelles fonctionnalités, améliorations, cheat, hack">
+    <meta name="description" content="Historique complet des mises à jour de Hackboot.">
+    <meta name="keywords" content="changelog hackboot, historique mises à jour, versions, nouveautés">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <!-- Canonical -->
-    <link rel="canonical" href="https://hackboot.fr/update.html" />
+    <link rel="canonical" href="https://hackboot.fr/changelog.html" />
 
     <!-- Favicon & PWA -->
     <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.ico">
@@ -23,17 +23,17 @@
     <!-- Open Graph (Facebook, LinkedIn, etc.) -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
-    <meta property="og:title" content="Mise à jour 1.3 | Hackboot">
-    <meta property="og:description" content="Découvrez les dernières améliorations et nouvelles fonctionnalités de la mise à jour 1.3 de Hackboot.">
-    <meta property="og:url" content="https://hackboot.fr/update.html">
+    <meta property="og:title" content="Changelog | Hackboot">
+    <meta property="og:description" content="Historique complet des mises à jour de Hackboot.">
+    <meta property="og:url" content="https://hackboot.fr/changelog.html">
     <meta property="og:site_name" content="Hackboot">
     <meta property="og:image" content="https://hackboot.fr/img/favicon.ico">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@Hackboot">
-    <meta name="twitter:title" content="Mise à jour 1.3 | Hackboot">
-    <meta name="twitter:description" content="Découvrez les dernières améliorations et nouvelles fonctionnalités de la mise à jour 1.3 de Hackboot.">
+    <meta name="twitter:title" content="Changelog | Hackboot">
+    <meta name="twitter:description" content="Historique complet des mises à jour de Hackboot.">
     <meta name="twitter:image" content="https://hackboot.fr/img/favicon.ico">
 
     <!-- Schema.org (JSON-LD) -->
@@ -41,9 +41,9 @@
     {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Mise à jour 1.3",
-    "url": "https://hackboot.fr/update.html",
-    "description": "Détails de la mise à jour 1.3 de Hackboot, incluant les nouvelles fonctionnalités et améliorations.",
+    "name": "Changelog",
+    "url": "https://hackboot.fr/changelog.html",
+    "description": "Historique complet des mises à jour de Hackboot.",
     "inLanguage": "fr-FR"
     }
     </script>
@@ -64,10 +64,7 @@
                     animation: {
                         'float': 'float 3s ease-in-out infinite',
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'text-gradient': 'text-gradient 6s ease infinite',
-                        'slide-up': 'slide-up 0.5s ease-out',
-                        'slide-in': 'slide-in 0.3s ease-out',
-                        'glow-pulse': 'glow-pulse 2s ease-in-out infinite'
+                        'text-gradient': 'text-gradient 6s ease infinite'
                     },
                     keyframes: {
                         float: {
@@ -83,18 +80,6 @@
                                 'background-size': '200% 200%',
                                 'background-position': 'right center'
                             }
-                        },
-                        'slide-up': {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' }
-                        },
-                        'slide-in': {
-                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
-                            '100%': { transform: 'translateX(0)', opacity: '1' }
-                        },
-                        'glow-pulse': {
-                            '0%, 100%': { boxShadow: '0 0 20px rgba(16, 185, 129, 0.5)' },
-                            '50%': { boxShadow: '0 0 40px rgba(16, 185, 129, 0.8)' }
                         }
                     }
                 }
@@ -136,9 +121,8 @@
         }
         
         .card-gradient:hover {
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.4), 0 0 60px rgba(109, 40, 217, 0.3);
-            transition: all 0.3s ease-in-out;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
         }
         
         .terminal-box {
@@ -200,52 +184,49 @@
         </div>
     </header>
 
-    <!-- Main Content - Update Details -->
-    <section class="relative py-20 md:py-32 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent"></div>
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="text-center mb-12 animate-slide-up">
-                <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                    <span class="gradient-text animate-text-gradient">Mise à jour 1.3</span>
+    <!-- Main Content - Changelog Details -->
+    <section class="py-20 md:py-32">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="gradient-text">Changelog Complet</span>
                 </h1>
-                <p class="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-8">
-                    Découvrez les dernières améliorations et nouvelles fonctionnalités de Hackboot. Préparez-vous à une expérience de jeu encore plus fluide et sécurisée !
+                <p class="text-gray-400 text-lg">
+                    Retrouvez ici l'historique complet de toutes les mises à jour de Hackboot.
                 </p>
-                <a href="changelog/update/1.3.html" class="inline-block px-8 py-4 rounded-lg bg-gradient-to-r from-accent to-primary hover:opacity-90 transition text-white text-xl font-semibold">
-                    Voir le Changelog Complet
-                </a>
             </div>
 
-            <h2 class="text-3xl font-bold text-center mb-8 gradient-text animate-slide-up" style="animation-delay: 0.2s;">Les précédentes mises à jour</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Previous Update 1.2 -->
-                <div class="card-gradient p-8 rounded-xl neon-border transition-all duration-500 animate-slide-up" style="animation-delay: 0.3s;">
-                    <h3 class="text-2xl font-bold mb-4 text-neon">Mise à jour 1.2</h3>
-                    <p class="text-gray-300 mb-4">
-                        Optimisation du chargement des produits et correction de bugs mineurs.
-                    </p>
-                    <a href="#" class="text-accent hover:underline">Voir les détails</a>
-                </div>
-
-                <!-- Previous Update 1.1 -->
-                <div class="card-gradient p-8 rounded-xl neon-border transition-all duration-500 animate-slide-up" style="animation-delay: 0.4s;">
-                    <h3 class="text-2xl font-bold mb-4 text-matrix">Mise à jour 1.1</h3>
-                    <p class="text-gray-300 mb-4">
-                        Lancement initial de Hackboot avec les fonctionnalités de base.
-                    </p>
-                    <a href="#" class="text-accent hover:underline">Voir les détails</a>
-                </div>
-
-                <!-- Placeholder for more updates -->
-                <div class="card-gradient p-8 rounded-xl neon-border transition-all duration-500 animate-slide-up" style="animation-delay: 0.5s;">
-                    <h3 class="text-2xl font-bold mb-4 text-primary">Mise à jour X.X</h3>
-                    <p class="text-gray-300 mb-4">
-                        Description courte de la mise à jour X.X.
-                    </p>
-                    <a href="#" class="text-accent hover:underline">Voir les détails</a>
-                </div>
+            <!-- Changelog Entry 1.3 -->
+            <div class="card-gradient p-8 rounded-xl mb-8">
+                <h2 class="text-2xl font-bold mb-4 text-accent">Mise à jour 1.3 - 28 Juillet 2025</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li><strong class="text-white">Optimisation des performances :</strong> Réduction significative de la latence sur tous les produits.</li>
+                    <li><strong class="text-white">Support multi-langues :</strong> Ajout du support pour l'espagnol et l'allemand.</li>
+                    <li><strong class="text-white">Interface utilisateur améliorée :</strong> Refonte de l'interface de connexion pour une meilleure expérience.</li>
+                    <li><strong class="text-white">Stabilité accrue :</strong> Correction de bugs mineurs entraînant des déconnexions occasionnelles.</li>
+                    <li><strong class="text-white">Sécurité renforcée :</strong> Mise à jour des protocoles anti-détection pour une protection optimale.</li>
+                    <li><strong class="text-white">Compatibilité étendue :</strong> Prise en charge des dernières mises à jour de jeux.</li>
+                </ul>
             </div>
+
+            <!-- Add more changelog entries here as needed -->
+            <div class="card-gradient p-8 rounded-xl mb-8">
+                <h2 class="text-2xl font-bold mb-4 text-neon">Mise à jour 1.2 - 15 Juin 2025</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li><strong class="text-white">Nouvelle fonctionnalité :</strong> Ajout d'un système de notifications en temps réel.</li>
+                    <li><strong class="text-white">Amélioration :</strong> Optimisation du chargement des produits.</li>
+                    <li><strong class="text-white">Correction de bug :</strong> Résolution d'un problème de compatibilité avec certains antivirus.</li>
+                </ul>
+            </div>
+
+            <div class="card-gradient p-8 rounded-xl">
+                <h2 class="text-2xl font-bold mb-4 text-matrix">Mise à jour 1.1 - 1er Mai 2025</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li><strong class="text-white">Lancement initial :</strong> Première version publique de Hackboot.</li>
+                    <li><strong class="text-white">Fonctionnalités de base :</strong> Accès aux produits CR, Overwatch, Warzone.</li>
+                </ul>
+            </div>
+
         </div>
     </section>
 
@@ -323,32 +304,14 @@
 
             // Ajouter les classes d'animation aux éléments
             function setupAnimations() {
-                // Header elements - ensure immediate visibility
-                // No initial animation for header as it should be immediately visible and sticky.
+                // Header elements
+                document.querySelector('header').classList.add(...animationClasses['fade-in'].split(' '));
                 
-                // Hero section (update.html specific)
-                const updateHeroElements = document.querySelectorAll('.py-20.md\:py-32 .text-center h1, .py-20.md\:py-32 .text-center p');
-                updateHeroElements.forEach((el, index) => {
+                // Hero section (not present on update.html, but keeping the structure)
+                const heroElements = document.querySelectorAll('.py-20.md\\:py-32 h1, .py-20.md\\:py-32 p, .py-20.md\\:py-32 .flex');
+                heroElements.forEach((el, index) => {
                     el.classList.add(...animationClasses['slide-up'].split(' '));
-                    el.style.transitionDelay = `${index * 100}ms`;
-                });
-
-                const currentUpdateCard = document.querySelector('.py-20.md\:py-32 .card-gradient.mb-12');
-                if (currentUpdateCard) {
-                    currentUpdateCard.classList.add(...animationClasses['scale-up'].split(' '));
-                    currentUpdateCard.style.transitionDelay = '300ms';
-                }
-
-                const previousUpdatesTitle = document.querySelector('.py-20.md\:py-32 h2.gradient-text');
-                if (previousUpdatesTitle) {
-                    previousUpdatesTitle.classList.add(...animationClasses['slide-up'].split(' '));
-                    previousUpdatesTitle.style.transitionDelay = '400ms';
-                }
-
-                const previousUpdateCards = document.querySelectorAll('.py-20.md\:py-32 .card-gradient:not(.mb-12)');
-                previousUpdateCards.forEach((card, index) => {
-                    card.classList.add(...animationClasses['slide-up'].split(' '));
-                    card.style.transitionDelay = `${500 + (index * 150)}ms`;
+                    el.style.transitionDelay = `${index * 200}ms`;
                 });
                 
                 // Terminal box (not present on update.html, but keeping the structure)
