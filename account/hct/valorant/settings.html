@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="visibility: hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +7,20 @@
     <title>CyberCheat Settings - Valorant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        // Helper function to get a cookie
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { firebaseConfig } from "../../../debug_files/firebase_config.js";
 
-        // Protect the settings page
-        (function() {
-            const isLoggedIn = getCookie("isLoggedIn");
-            if (isLoggedIn !== "true") {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
                 window.location.href = '/account/login.html';
-            }
-        })();
+            } 
+            document.documentElement.style.visibility = 'visible';
+        });
     </script>
     <style>
         :root {
@@ -349,7 +343,7 @@
                         </button>
                     </div>
 
-                    <div class="flex items-center space-x-3">
+                    <a href="/account/hct/lobby.html" title="Retourner aux lobby" class="flex items-center space-x-3 cursor-pointer">
                         <div class="text-right">
                             <div id="header-user" class="text-sm font-medium"></div>
                             <div id="header-plan" class="text-xs text-gray-400"></div>
@@ -357,7 +351,7 @@
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
                             <span id="user-avatar" class="text-white font-bold">AD</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </header>
@@ -497,18 +491,6 @@
         let currentUser = null;
         let userSubscription = null;
 
-        // Helper function to get a cookie
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-
         async function loadUserData() {
             try {
                 const response = await fetch(USERS_JSON_URL);
@@ -517,7 +499,6 @@
                 let username = 
                     sessionStorage.getItem('currentUser') || 
                     localStorage.getItem('currentUser') || 
-                    getCookie('currentUser') || 
                     'admin';
                 
                 currentUser = data.users.find(user => user.username === username);
@@ -597,7 +578,6 @@
             loadUserData();
 
             document.getElementById('logoutButton').addEventListener('click', () => {
-                document.cookie = "isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 sessionStorage.removeItem('currentUser');
                 localStorage.removeItem('currentUser');
                 window.location.href = '/account/login.html';

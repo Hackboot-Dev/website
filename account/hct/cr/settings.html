@@ -1,12 +1,28 @@
- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" style="visibility: hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>CyberCheat - Settings</title>
+    <title>CyberCheat Settings - CR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { firebaseConfig } from "../../../debug_files/firebase_config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '/account/login.html';
+            }
+            document.documentElement.style.visibility = 'visible';
+        });
+    </script>
+    
     <style>
         :root {
             --primary: #6d28d9;
@@ -24,30 +40,30 @@
             --warning: #f59e0b;
             --success: #10b981;
         }
-        
+
         * {
             scrollbar-width: thin;
             scrollbar-color: var(--border) transparent;
         }
-        
+
         *::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
-        
+
         *::-webkit-scrollbar-track {
             background: transparent;
         }
-        
+
         *::-webkit-scrollbar-thumb {
             background: var(--border);
             border-radius: 3px;
         }
-        
+
         *::-webkit-scrollbar-thumb:hover {
             background: var(--accent);
         }
-        
+
         body {
             font-family: 'Oxanium', sans-serif;
             background: linear-gradient(135deg, var(--dark) 0%, var(--dark-lighter) 100%);
@@ -55,266 +71,27 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
+
+        /* Animations et effets */
         @keyframes glow {
             0%, 100% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
             50% { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor; }
         }
-        
+
         @keyframes pulse-glow {
             0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
             50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8), 0 0 30px rgba(16, 185, 129, 0.4); }
         }
-        
+
         @keyframes slide-in {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .animate-glow { animation: glow 2s ease-in-out infinite; }
         .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
         .animate-slide-in { animation: slide-in 0.6s ease-out; }
-        
-        .gradient-text {
-            background: linear-gradient(90deg, var(--neon), var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: glow 3s ease-in-out infinite;
-        }
-        
-        .card-modern {
-            background: linear-gradient(145deg, var(--card), var(--dark-lighter));
-            border: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-modern:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.3),
-                0 0 15px rgba(16, 185, 129, 0.2);
-        }
-        
-        .glass-effect {
-            background: rgba(26, 29, 46, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .status-indicator {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            position: relative;
-        }
-        
-        .status-dot::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: inherit;
-            opacity: 0.3;
-            animation: pulse-glow 2s infinite;
-        }
-        
-        .btn-cyber {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            border: 1px solid var(--neon);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-cyber::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .btn-cyber:hover::before {
-            left: 100%;
-        }
-        
-        .btn-cyber:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
-        }
-        
-        .sidebar {
-            width: 280px;
-            background: var(--card);
-            border-right: 1px solid var(--border);
-            transition: transform 0.3s ease;
-        }
-        
-        .main-content {
-            transition: margin-left 0.3s ease;
-        }
-        
-        .setting-item {
-            margin-bottom: 1rem;
-        }
-        
-        .setting-select {
-            width: 100%;
-            background: rgba(31, 41, 55, 0.8);
-            border: 1px solid var(--border);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .setting-select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        
-        .setting-input {
-            width: 100%;
-            background: rgba(31, 41, 55, 0.8);
-            border: 1px solid var(--border);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .setting-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--border);
-            transition: .4s;
-            border-radius: 24px;
-        }
-        
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .toggle-slider {
-            background-color: var(--accent);
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
-        }
-        
-        input:checked + .toggle-slider:before {
-            transform: translateX(20px);
-        }
-        
-        .progress-bar {
-            background: var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-fill {
-            background: linear-gradient(90deg, var(--accent), var(--neon));
-            height: 100%;
-            border-radius: 10px;
-            position: relative;
-            transition: width 0.3s ease;
-        }
-        
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                z-index: 50;
-                transform: translateX(-100%);
-            }
-            
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-        }
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
-            50% { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor; }
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8), 0 0 30px rgba(16, 185, 129, 0.4); }
-        }
-        
-        @keyframes slide-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-glow { animation: glow 2s ease-in-out infinite; }
-        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-        .animate-slide-in { animation: slide-in 0.6s ease-out; }
-        
+
         /* Styles personnalisés */
         .gradient-text {
             background: linear-gradient(90deg, var(--neon), var(--primary), var(--accent));
@@ -323,42 +100,49 @@
             color: transparent;
             animation: glow 3s ease-in-out infinite;
         }
-        
+
         .card-modern {
             background: linear-gradient(145deg, var(--card), var(--dark-lighter));
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .card-modern:hover {
-            transform: translateY(-4px);
+            transform: translateY(-8px) scale(1.02);
             border-color: var(--accent);
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.3),
-                0 0 15px rgba(16, 185, 129, 0.2);
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(16, 185, 129, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
-        
+
         .glass-effect {
             background: rgba(26, 29, 46, 0.8);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
+        .neon-border {
+            border: 2px solid transparent;
+            background: linear-gradient(var(--card), var(--card)) padding-box,
+                        linear-gradient(90deg, var(--neon), var(--primary)) border-box;
+        }
+
         .status-indicator {
             position: relative;
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
-        
+
         .status-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
             position: relative;
         }
-        
+
         .status-dot::before {
             content: '';
             position: absolute;
@@ -368,7 +152,7 @@
             opacity: 0.3;
             animation: pulse-glow 2s infinite;
         }
-        
+
         .btn-cyber {
             background: linear-gradient(45deg, var(--primary), var(--accent));
             border: 1px solid var(--neon);
@@ -376,7 +160,7 @@
             overflow: hidden;
             transition: all 0.3s ease;
         }
-        
+
         .btn-cyber::before {
             content: '';
             position: absolute;
@@ -387,74 +171,29 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s ease;
         }
-        
+
         .btn-cyber:hover::before {
             left: 100%;
         }
-        
+
         .btn-cyber:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
         }
-        
-        .sidebar {
-            width: 280px;
-            background: var(--card);
-            border-right: 1px solid var(--border);
-            transition: transform 0.3s ease;
-        }
-        
-        .main-content {
-            transition: margin-left 0.3s ease;
-        }
-        
-        .setting-item {
-            margin-bottom: 1rem;
-        }
-        
-        .setting-select {
-            width: 100%;
-            background: rgba(31, 41, 55, 0.8);
-            border: 1px solid var(--border);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .setting-select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        
-        .setting-input {
-            width: 100%;
-            background: rgba(31, 41, 55, 0.8);
-            border: 1px solid var(--border);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .setting-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        
+
         .toggle-switch {
             position: relative;
             display: inline-block;
             width: 44px;
             height: 24px;
         }
-        
+
         .toggle-switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-        
+
         .toggle-slider {
             position: absolute;
             cursor: pointer;
@@ -466,7 +205,7 @@
             transition: .4s;
             border-radius: 24px;
         }
-        
+
         .toggle-slider:before {
             position: absolute;
             content: "";
@@ -478,47 +217,25 @@
             transition: .4s;
             border-radius: 50%;
         }
-        
+
         input:checked + .toggle-slider {
             background-color: var(--accent);
             box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
         }
-        
+
         input:checked + .toggle-slider:before {
             transform: translateX(20px);
         }
-        
-        .progress-bar {
-            background: var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
+
+        input:disabled + .toggle-slider {
+            background-color: rgba(75, 85, 99, 0.5);
+            cursor: not-allowed;
         }
-        
-        .progress-fill {
-            background: linear-gradient(90deg, var(--accent), var(--neon));
-            height: 100%;
-            border-radius: 10px;
-            position: relative;
-            transition: width 0.3s ease;
+
+        input:disabled + .toggle-slider:before {
+            background-color: rgba(156, 163, 175, 0.5);
         }
-        
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
+
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
@@ -528,11 +245,11 @@
                 z-index: 50;
                 transform: translateX(-100%);
             }
-            
+
             .sidebar.mobile-open {
                 transform: translateX(0);
             }
-            
+
             .main-content {
                 margin-left: 0;
             }
@@ -549,10 +266,10 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold gradient-text">CyberCheat</h1>
-                    <p class="text-xs text-gray-400">Settings</p>
+                    <p class="text-xs text-gray-400">Dashboard Pro</p>
                 </div>
             </div>
-            
+
             <nav class="space-y-2">
                 <a href="dashboard.html" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
@@ -576,10 +293,10 @@
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    Historique
+                    History
                 </a>
             </nav>
-            
+
             <div class="mt-8 p-4 bg-purple-900 bg-opacity-30 rounded-lg">
                 <h3 class="font-semibold text-sm mb-2">System Status</h3>
                 <div class="status-indicator">
@@ -587,7 +304,7 @@
                     <span class="text-sm text-green-400">Operational</span>
                 </div>
                 <div class="mt-3">
-                    <div class="text-xs text-gray-400 mb-1">Temps de fonctionnement</div>
+                    <div class="text-xs text-gray-400 mb-1">Uptime</div>
                     <div class="text-sm font-semibold">47h 23m</div>
                 </div>
             </div>
@@ -606,265 +323,77 @@
                         </svg>
                     </button>
                     <div>
-                        <h1 class="text-2xl font-bold gradient-text">SYSTEM SETTINGS</h1>
+                        <h1 class="text-2xl font-bold gradient-text">CR SETTINGS</h1>
                         <div class="flex items-center mt-1">
-                            <span class="px-2 py-1 bg-purple-900 text-purple-300 text-xs font-bold rounded-full uppercase mr-3">CONFIGURATION</span>
+                            <span class="px-2 py-1 bg-purple-900 text-purple-300 text-xs font-bold rounded-full uppercase mr-3">LEGENDARY</span>
                             <div class="status-indicator">
                                 <div class="status-dot bg-green-400"></div>
-                                <span class="text-sm text-green-400">Saved</span>
+                                <span class="text-sm text-green-400">Undetectable</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="flex items-center space-x-4">
                     <div class="relative">
                         <button class="p-2 rounded-lg hover:bg-gray-700 relative">
                             <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
                             </svg>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
                         </button>
                     </div>
-                    
-                    <div class="flex items-center space-x-3">
+
+                    <a href="/account/hct/lobby.html" title="Retourner aux lobby" class="flex items-center space-x-3 cursor-pointer">
                         <div class="text-right">
-                            <div id="current-user" class="text-sm font-medium">Loading...</div>
-                            <div id="current-plan" class="text-xs text-gray-400">Checking...</div>
+                            <div id="header-user" class="text-sm font-medium"></div>
+                            <div id="header-plan" class="text-xs text-gray-400"></div>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
-                            <span class="text-white font-bold" id="user-avatar">A</span>
+                            <span id="user-avatar" class="text-white font-bold">AD</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </header>
 
         <!-- Contenu des paramètres -->
         <div class="p-6">
-            <div class="space-y-8 animate-slide-in">
-                <!-- Settings de Session -->
-                <div class="card-modern rounded-2xl p-6">
-                    <h2 class="text-xl font-bold mb-6 gradient-text">SESSION SETTINGS</h2>
-                    <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Colonne 1: Paramètres généraux -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">GENERAL SETTINGS</h2>
                         <div class="space-y-4">
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Auto logout</label>
-                                <select class="setting-select" id="auto-logout" data-setting-id="autoLogout">
-                                    <option value="30">30 minutes</option>
-                                    <option value="60" selected>1 hour</option>
-                                    <option value="120">2 hours</option>
-                                    <option value="0">Never</option>
-                                </select>
-                            </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Dark mode</label>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Enable all features</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="dark-mode" data-setting-id="darkMode" checked>
+                                    <input type="checkbox" id="enableAllFeatures" data-setting-id="enableAllFeatures">
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Push notifications</label>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Auto-update client</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="notifications" data-setting-id="notifications" checked>
+                                    <input type="checkbox" id="autoUpdateClient" data-setting-id="autoUpdateClient" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
-                        
-                        <div class="space-y-4">
-                            
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">System sound</label>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Launch with Windows</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="system-sound" data-setting-id="systemSound" checked>
+                                    <input type="checkbox" id="launchWithWindows" data-setting-id="launchWithWindows">
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Auto-save settings</label>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Minimize to tray</label>
                                 <label class="toggle-switch">
-                                    <input type="checkbox" id="auto-save" data-setting-id="autoSave" checked>
+                                    <input type="checkbox" id="minimizeToTray" data-setting-id="minimizeToTray" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
                             </div>
-                </div>
-
-                <!-- Settings Virtual Machine -->
-                <div class="card-modern rounded-2xl p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-bold gradient-text">VIRTUAL MACHINE CONFIGURATION</h2>
-                        <div class="status-indicator">
-                            <div class="status-dot bg-green-400"></div>
-                            <span class="text-sm text-green-400">VM Active</span>
-                        </div>
-                    </div>
-                    
-                    <div class="grid lg:grid-cols-3 gap-6">
-                        <!-- Performance VM -->
-                        <div class="space-y-4">
-                            <h3 class="font-semibold text-accent mb-3">Performance</h3>
-                            
-                            <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Graphic quality</label>
-                                <select class="setting-select" id="graphics-quality" data-setting-id="graphicsQuality">
-                                    <option value="low">Low (60 FPS)</option>
-                                    <option value="medium" selected>Medium (90 FPS)</option>
-                                    <option value="high">High (120 FPS)</option>
-                                </select>
-                            </div>
-                            
-                            <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Resolution</label>
-                                <select class="setting-select" id="resolution" data-setting-id="resolution">
-                                    <option value="720p">1280x720</option>
-                                    <option value="1080p" selected>1920x1080</option>
-                                    <option value="1440p">2560x1440</option>
-                                </select>
-                            </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">V-Sync</label>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="vsync" data-setting-id="vsync">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                        </div>
-
-                        <!-- Security VM -->
-                        <div class="space-y-4">
-                            <h3 class="font-semibold text-accent mb-3">Security</h3>
-                            
-                            <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Automatic IP rotation</label>
-                                <select class="setting-select" id="ip-rotation" data-setting-id="ipRotation">
-                                    <option value="5">Every 5 min</option>
-                                    <option value="15" selected>Every 15 min</option>
-                                    <option value="30">Every 30 min</option>
-                                    <option value="0">Disabled</option>
-                                </select>
-                            </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Spoof IMEI</label>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="spoof-imei" data-setting-id="spoofImei" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Protection anti-ban</label>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="anti-ban" data-setting-id="antiBan" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Storage VM -->
-                        <div class="space-y-4">
-                            <h3 class="font-semibold text-accent mb-3">Storage</h3>
-                            
-                            <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Automatic snapshots</label>
-                                <select class="setting-select" id="auto-snapshots" data-setting-id="autoSnapshots">
-                                    <option value="1" selected>Every hour</option>
-                                    <option value="6">Every 6h</option>
-                                    <option value="24">Daily</option>
-                                    <option value="0">Disabled</option>
-                                </select>
-                            </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Auto cache clean</label>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="auto-clean" data-setting-id="autoClean" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            
-                            <div class="bg-gray-800 bg-opacity-50 rounded-lg p-3">
-                                <div class="text-sm text-gray-400 mb-1">Used space</div>
-                                <div class="text-lg font-semibold mb-2" id="storage-usage">3.2 GB / 15 GB</div>
-                                <div class="progress-bar h-2">
-                                    <div class="progress-fill" id="storage-progress" style="width: 21%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Actions VM -->
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <button class="btn-cyber px-4 py-2 text-white rounded-lg text-sm" onclick="restartVM()">
-                            🔄 Restart VM
-                        </button>
-                        <button class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="createSnapshot()">
-                            📸 Create Snapshot
-                        </button>
-                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="restoreSnapshot()">
-                            🔄 Restore Snapshot
-                        </button>
-                        <button class="bg-red-600 hover:bg-red-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="cleanCache()">
-                            🧹 Clean Cache
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Settings Avancés/Sensibles -->
-                <div class="card-modern rounded-2xl p-6 border-2 border-red-500 border-opacity-30">
-                    <div class="flex items-center mb-6">
-                        <svg class="w-6 h-6 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                        </svg>
-                        <h2 class="text-xl font-bold text-red-400">SENSITIVE SETTINGS</h2>
-                    </div>
-                    
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="space-y-4">
-                            <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Mode injection</label>
-                                <select class="setting-select border-red-500 border-opacity-50" id="injection-mode" data-setting-id="injectionMode">
-                                    <option value="safe" selected>Secure (recommended)</option>
-                                    <option value="aggressive">Aggressive</option>
-                                    <option value="stealth">Stealth</option>
-                                </select>
-                            </div>
-                            
-                            <div class="setting-item">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Delay between actions (ms)</label>
-                                <input type="number" class="setting-input" id="action-delay" data-setting-id="actionDelay" value="150" min="50" max="1000">
-                            </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Advanced debug mode</label>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="debug-mode" data-setting-id="debugMode">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Detailed logs</label>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="detailed-logs" data-setting-id="detailedLogs">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
-                                <label class="text-sm font-medium text-gray-300">Experimental bypass</label>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="experimental-bypass" data-setting-id="experimentalBypass">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            
-                            <div class="setting-item flex justify-between items-center">
+                            <div class="flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-300">System telemetry</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="telemetry" data-setting-id="telemetry" checked>
@@ -873,97 +402,85 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="mt-6 p-4 bg-red-900 bg-opacity-20 rounded-lg border border-red-500 border-opacity-30">
-                        <h4 class="font-semibold text-red-400 mb-2">⚠️ Danger Zone</h4>
-                        <p class="text-sm text-gray-300 mb-4">These actions may affect your session stability</p>
-                        <div class="flex flex-wrap gap-3">
-                            <button class="bg-red-600 hover:bg-red-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="resetAllSettings()">
-                                🗑️ Reset All Settings
-                            </button>
-                            <button class="bg-orange-600 hover:bg-orange-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="maintenanceMode()">
-                                🔧 Maintenance Mode
-                            </button>
-                            <button class="bg-purple-600 hover:bg-purple-700 px-4 py-2 text-white rounded-lg text-sm transition" onclick="fullDiagnostic()">
-                                🔬 Full Diagnostic
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Informations Système -->
-                <div class="card-modern rounded-2xl p-6">
-                    <h2 class="text-xl font-bold mb-6 gradient-text">SYSTEM INFORMATION</h2>
-                    <div class="grid md:grid-cols-3 gap-6">
-                        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4">
-                            <h4 class="font-semibold text-accent mb-3">Client</h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Version:</span>
-                                    <span>v2.1.4</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Build:</span>
-                                    <span>2025-07-25</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Status:</span>
-                                    <span class="text-green-400">Up to date</span>
-                                </div>
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">PERFORMANCE</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="fpsLimit" class="block text-sm font-medium text-gray-300 mb-2">FPS Limit: <span id="fpsLimitValue">144</span></label>
+                                <input type="range" id="fpsLimit" data-setting-id="fpsLimit" min="30" max="300" value="144" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer neon-border">
                             </div>
-                        </div>
-                        
-                        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4">
-                            <h4 class="font-semibold text-accent mb-3">Virtual Machine</h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Android:</span>
-                                    <span>12.0 (API 31)</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">RAM:</span>
-                                    <span id="vm-ram">4 GB</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Uptime:</span>
-                                    <span id="vm-uptime">47h 23m</span>
-                                </div>
+                            <div>
+                                <label for="renderQuality" class="block text-sm font-medium text-gray-300 mb-2">Render Quality:</label>
+                                <select id="renderQuality" data-setting-id="renderQuality" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:border-accent">
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high" selected>High</option>
+                                    <option value="ultra">Ultra</option>
+                                </select>
                             </div>
-                        </div>
-                        
-                        <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4">
-                            <h4 class="font-semibold text-accent mb-3">Connection</h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">IP:</span>
-                                    <span>192.168.**.***</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Ping:</span>
-                                    <span class="text-green-400" id="ping">8ms</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">VPN:</span>
-                                    <span class="text-green-400">Active</span>
-                                </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Hardware Acceleration</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="hardwareAcceleration" data-setting-id="hardwareAcceleration" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Boutons d'action globaux -->
-                <div class="flex justify-between items-center">
-                    <div class="space-x-3">
-                        <button class="btn-cyber px-6 py-3 text-white rounded-lg font-semibold" onclick="saveSettings()">
-                            💾 Save Settings
-                        </button>
-                        <button class="bg-gray-600 hover:bg-gray-700 px-6 py-3 text-white rounded-lg font-semibold transition" onclick="restoreDefaults()">
-                            🔄 Restore Defaults
-                        </button>
+                <!-- Colonne 2: Paramètres de sécurité et réseau -->
+                <div class="space-y-6">
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">SECURITY & NETWORK</h2>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Enable VPN</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="enableVpn" data-setting-id="enableVpn">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label for="vpnRegion" class="block text-sm font-medium text-gray-300 mb-2">VPN Region:</label>
+                                <select id="vpnRegion" data-setting-id="vpnRegion" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:border-accent">
+                                    <option value="auto">Auto</option>
+                                    <option value="us">United States</option>
+                                    <option value="eu">Europe</option>
+                                    <option value="asia">Asia</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Anti-ban protection</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="antiBanProtection" data-setting-id="antiBanProtection" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Spoof HWID</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="spoofHwid" data-setting-id="spoofHwid" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="text-xs text-gray-400" id="last-save">
-                        Last save: 23 minutes ago
+
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">ACCOUNT</h2>
+                        <div class="space-y-4">
+                            <button class="btn-cyber w-full px-4 py-2 rounded-lg text-white font-semibold">
+                                Change Password
+                            </button>
+                            <button class="btn-cyber w-full px-4 py-2 rounded-lg text-white font-semibold">
+                                Manage Subscription
+                            </button>
+                            <button id="logoutButton" class="w-full bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white font-semibold transition">
+                                Logout
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -971,83 +488,11 @@
     </div>
 
     <script>
-        // Configuration
         const USERS_JSON_URL = '/account/users.json';
         let currentUser = null;
         let userSubscription = null;
-        let settings = {};
 
-        // Default settings
-        const defaultSettings = {
-            // Session
-            autoLogout: 60,
-            darkMode: true,
-            notifications: true,
-            language: 'en',
-            systemSound: true,
-            autoSave: true,
-            
-            // VM Performance
-            graphicsQuality: 'medium',
-            resolution: '1080p',
-            vsync: false,
-            
-            // VM Security
-            ipRotation: 15,
-            spoofImei: true,
-            antiBan: true,
-            
-            // VM Storage
-            autoSnapshots: 1,
-            autoClean: true,
-            
-            // Sensibles
-            injectionMode: 'safe',
-            actionDelay: 150,
-            debugMode: false,
-            detailedLogs: false,
-            experimentalBypass: false,
-            telemetry: true
-        };
-
-        // Loading user data from users.json
-        async function loadUserData() {
-            try {
-                const response = await fetch(USERS_JSON_URL);
-                const data = await response.json();
-                
-                // Récupération automatique de l'utilisateur connecté
-                let username = 
-                    sessionStorage.getItem('currentUser') || 
-                    localStorage.getItem('currentUser') || 
-                    getCookie('currentUser') || 
-                    'admin';
-                
-                console.log('Detected user:', username);
-                
-                currentUser = data.users.find(user => user.username === username);
-                
-                if (currentUser) {
-                    userSubscription = currentUser.subscription;
-                    updateUserInterface();
-                    loadSettings();
-                } else {
-                    console.error('User not found:', username);
-                    currentUser = data.users.find(user => user.username === 'admin');
-                    if (currentUser) {
-                        userSubscription = currentUser.subscription;
-                        updateUserInterface();
-                        loadSettings();
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading user data:', error);
-                document.getElementById('current-user').textContent = 'Connection error';
-                document.getElementById('current-plan').textContent = 'Unavailable';
-            }
-        }
-
-        // Fonction utilitaire pour lire les cookies
+        // Helper function to get a cookie
         function getCookie(name) {
             const nameEQ = name + "=";
             const ca = document.cookie.split(';');
@@ -1059,256 +504,110 @@
             return null;
         }
 
-        // Mise à jour de l'interface utilisateur
+        async function loadUserData() {
+            try {
+                const response = await fetch(USERS_JSON_URL);
+                const data = await response.json();
+                
+                let username = 
+                    sessionStorage.getItem('currentUser') || 
+                    localStorage.getItem('currentUser') || 
+                    getCookie('currentUser') || 
+                    'admin';
+                
+                currentUser = data.users.find(user => user.username === username);
+                
+                if (currentUser) {
+                    userSubscription = currentUser.subscription.find(sub => sub.game === 'cr');
+                    if (userSubscription) {
+                        updateUserInterface();
+                        loadSettings();
+                    } else {
+                        console.error('CR subscription not found for user:', username);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                document.getElementById('current-user').textContent = 'Connection Error';
+                document.getElementById('current-plan').textContent = 'Not Available';
+            }
+        }
+
         function updateUserInterface() {
             if (!currentUser || !userSubscription) return;
 
-            // Update user information
-            document.getElementById('current-user').textContent = currentUser.username;
-            document.getElementById('user-avatar').textContent = currentUser.username.charAt(0).toUpperCase();
-            
+            document.getElementById('header-user').textContent = currentUser.username;
             const packNames = {
                 '1': 'Pack 1 - Supreme',
-                '2': 'Pack 2 - Dominator', 
+                '2': 'Pack 2 - Dominator',
                 '3': 'Pack 3 - Godmode'
             };
-            
-            document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Unknown Pack';
+            document.getElementById('header-plan').textContent = packNames[userSubscription.type] || 'Unknown pack';
+            document.getElementById('user-avatar').textContent = currentUser.username.charAt(0).toUpperCase();
+        }
 
-            // Adapter l'affichage VM selon le pack
-            const userPackLevel = parseInt(userSubscription.type);
-            if (userPackLevel >= 3) {
-                document.getElementById('vm-ram').textContent = '8 GB';
-            } else {
-                document.getElementById('vm-ram').textContent = '4 GB';
+        function saveSetting(id, value) {
+            if (currentUser) {
+                localStorage.setItem(`cr_${currentUser.username}_setting_${id}`, value);
+                console.log(`Setting saved: ${id} = ${value}`);
             }
         }
 
-        // Charger les paramètres depuis localStorage
         function loadSettings() {
-            const savedSettings = localStorage.getItem(`settings_${currentUser.username}`);
-            if (savedSettings) {
-                settings = { ...defaultSettings, ...JSON.parse(savedSettings) };
-            } else {
-                settings = { ...defaultSettings };
-            }
-            
-            applySettingsToUI();
-        }
+            if (!currentUser) return;
 
-        // Appliquer les paramètres à l'interface
-        function applySettingsToUI() {
-            // Session
-            document.getElementById('auto-logout').value = settings.autoLogout;
-            document.getElementById('dark-mode').checked = settings.darkMode;
-            document.getElementById('notifications').checked = settings.notifications;
-            document.getElementById('language').value = settings.language;
-            document.getElementById('system-sound').checked = settings.systemSound;
-            document.getElementById('auto-save').checked = settings.autoSave;
-            
-            // VM Performance
-            document.getElementById('graphics-quality').value = settings.graphicsQuality;
-            document.getElementById('resolution').value = settings.resolution;
-            document.getElementById('vsync').checked = settings.vsync;
-            
-            // VM Security
-            document.getElementById('ip-rotation').value = settings.ipRotation;
-            document.getElementById('spoof-imei').checked = settings.spoofImei;
-            document.getElementById('anti-ban').checked = settings.antiBan;
-            
-            // VM Storage
-            document.getElementById('auto-snapshots').value = settings.autoSnapshots;
-            document.getElementById('auto-clean').checked = settings.autoClean;
-            
-            // Sensibles
-            document.getElementById('injection-mode').value = settings.injectionMode;
-            document.getElementById('action-delay').value = settings.actionDelay;
-            document.getElementById('debug-mode').checked = settings.debugMode;
-            document.getElementById('detailed-logs').checked = settings.detailedLogs;
-            document.getElementById('experimental-bypass').checked = settings.experimentalBypass;
-            document.getElementById('telemetry').checked = settings.telemetry;
-        }
+            document.querySelectorAll('[data-setting-id]').forEach(element => {
+                const settingId = element.dataset.settingId;
+                const savedValue = localStorage.getItem(`cr_${currentUser.username}_setting_${settingId}`);
 
-        // Sauvegarder les paramètres
-        function saveSettings() {
-            // Collecter tous les paramètres depuis l'UI
-            settings = {
-                // Session
-                autoLogout: parseInt(document.getElementById('auto-logout').value),
-                darkMode: document.getElementById('dark-mode').checked,
-                notifications: document.getElementById('notifications').checked,
-                language: document.getElementById('language').value,
-                systemSound: document.getElementById('system-sound').checked,
-                autoSave: document.getElementById('auto-save').checked,
-                
-                // VM Performance
-                graphicsQuality: document.getElementById('graphics-quality').value,
-                resolution: document.getElementById('resolution').value,
-                vsync: document.getElementById('vsync').checked,
-                
-                // VM Security
-                ipRotation: parseInt(document.getElementById('ip-rotation').value),
-                spoofImei: document.getElementById('spoof-imei').checked,
-                antiBan: document.getElementById('anti-ban').checked,
-                
-                // VM Storage
-                autoSnapshots: parseInt(document.getElementById('auto-snapshots').value),
-                autoClean: document.getElementById('auto-clean').checked,
-                
-                // Sensibles
-                injectionMode: document.getElementById('injection-mode').value,
-                actionDelay: parseInt(document.getElementById('action-delay').value),
-                debugMode: document.getElementById('debug-mode').checked,
-                detailedLogs: document.getElementById('detailed-logs').checked,
-                experimentalBypass: document.getElementById('experimental-bypass').checked,
-                telemetry: document.getElementById('telemetry').checked
-            };
-
-            // Sauvegarder dans localStorage
-            localStorage.setItem(`settings_${currentUser.username}`, JSON.stringify(settings));
-            
-            // Update save time
-            const now = new Date();
-            document.getElementById('last-save').textContent = `Last save: ${now.toLocaleTimeString()}`;
-            
-            // Notification de succès
-            showNotification('Settings saved successfully!', 'success');
-        }
-
-        // Restaurer les paramètres par défaut
-        function restoreDefaults() {
-            if (confirm('Are you sure you want to restore all settings to default?')) {
-                settings = { ...defaultSettings };
-                applySettingsToUI();
-                showNotification('Default settings restored', 'info');
-            }
-        }
-
-        // Actions VM
-        function restartVM() {
-            if (confirm('Restart the virtual machine? This will take a few minutes.')) {
-                showNotification('Restarting VM...', 'info');
-                setTimeout(() => {
-                    showNotification('VM restarted successfully!', 'success');
-                }, 3000);
-            }
-        }
-
-        function createSnapshot() {
-            showNotification('Creating snapshot...', 'info');
-            setTimeout(() => {
-                showNotification('Snapshot created successfully!', 'success');
-            }, 2000);
-        }
-
-        function restoreSnapshot() {
-            if (confirm('Restore the latest snapshot? Unsaved data will be lost.')) {
-                showNotification('Restoring snapshot...', 'info');
-                setTimeout(() => {
-                    showNotification('Snapshot restored successfully!', 'success');
-                }, 4000);
-            }
-        }
-
-        function cleanCache() {
-            showNotification('Cleaning cache...', 'info');
-            setTimeout(() => {
-                showNotification('Cache cleaned successfully!', 'success');
-                // Update storage usage
-                document.getElementById('storage-usage').textContent = '2.1 GB / 15 GB';
-                document.getElementById('storage-progress').style.width = '14%';
-            }, 1500);
-        }
-
-        // Actions dangereuses
-        function resetAllSettings() {
-            if (confirm('⚠️ WARNING: Reset ALL settings? This action is irreversible!')) {
-                localStorage.removeItem(`settings_${currentUser.username}`);
-                settings = { ...defaultSettings };
-                applySettingsToUI();
-                showNotification('All settings have been reset', 'warning');
-            }
-        }
-
-        function maintenanceMode() {
-            if (confirm('Activate maintenance mode? Your session will be temporarily unavailable.')) {
-                showNotification('Maintenance mode activated', 'warning');
-            }
-        }
-
-        function fullDiagnostic() {
-            showNotification('Running full diagnostic...', 'info');
-            setTimeout(() => {
-                showNotification('Diagnostic complete - No issues detected', 'success');
-            }, 5000);
-        }
-
-        // Système de notifications
-        function showNotification(message, type = 'info') {
-            const colors = {
-                success: 'bg-green-600',
-                error: 'bg-red-600',
-                warning: 'bg-yellow-600',
-                info: 'bg-blue-600'
-            };
-
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 opacity-0 transition-opacity duration-300`;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.classList.remove('opacity-0');
-            }, 100);
-            
-            setTimeout(() => {
-                notification.classList.add('opacity-0');
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            }, 3000);
-        }
-
-        // Sauvegarde automatique
-        function enableAutoSave() {
-            setInterval(() => {
-                if (settings.autoSave) {
-                    saveSettings();
+                if (savedValue !== null) {
+                    if (element.type === 'checkbox') {
+                        element.checked = (savedValue === 'true');
+                    } else if (element.tagName === 'SELECT' || element.type === 'range') {
+                        element.value = savedValue;
+                    }
                 }
-            }, 30000);
-        }
 
-        // Gestion sidebar mobile
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const sidebar = document.getElementById('sidebar');
-
-        if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('mobile-open');
+                // Update range input display
+                if (element.type === 'range') {
+                    const valueDisplay = document.getElementById(`${settingId}Value`);
+                    if (valueDisplay) {
+                        valueDisplay.textContent = element.value;
+                    }
+                }
             });
         }
 
-        // Fermer la sidebar en cliquant à l'extérieur sur mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
-                    sidebar.classList.remove('mobile-open');
-                }
-            }
-        });
-
-        // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
             loadUserData();
-            enableAutoSave();
 
-            // Add event listeners for settings changes
+            document.getElementById('logoutButton').addEventListener('click', () => {
+                document.cookie = "isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                sessionStorage.removeItem('currentUser');
+                localStorage.removeItem('currentUser');
+                window.location.href = '/account/login.html';
+            });
+
+            // Generic event listener for all settings with data-setting-id
             document.querySelectorAll('[data-setting-id]').forEach(element => {
-                element.addEventListener('change', saveSettings);
-                if (element.type === 'number') {
-                    element.addEventListener('input', saveSettings); // For immediate feedback on number inputs
-                }
+                element.addEventListener('change', (event) => {
+                    const settingId = event.target.dataset.settingId;
+                    let value;
+                    if (event.target.type === 'checkbox') {
+                        value = event.target.checked;
+                    } else {
+                        value = event.target.value;
+                    }
+                    saveSetting(settingId, value);
+
+                    // Update range input display immediately on change
+                    if (event.target.type === 'range') {
+                        const valueDisplay = document.getElementById(`${settingId}Value`);
+                        if (valueDisplay) {
+                            valueDisplay.textContent = value;
+                        }
+                    }
+                });
             });
         });
     </script>

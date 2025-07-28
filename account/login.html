@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" style="visibility: hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,13 +65,14 @@
 
         // Check auth state and redirect
         onAuthStateChanged(auth, (user) => {
-            console.log('login.html: onAuthStateChanged triggered.');
             if (user) {
-                console.log('login.html: User is signed in:', user.email, user.uid);
-                console.log('login.html: Redirecting to /account/hct/lobby.html');
-                window.location.href = '/account/hct/lobby.html';
+                // If user is logged in and trying to access login.html, redirect to lobby.html
+                if (window.location.pathname.endsWith('/account/login.html')) {
+                    window.location.href = '/account/hct/lobby.html';
+                }
             } else {
-                console.log('login.html: User is not signed in.');
+                // If user is not logged in, make the login page visible
+                document.documentElement.style.visibility = 'visible';
             }
         });
 
@@ -121,7 +122,8 @@
             <nav class="hidden md:flex space-x-8">
                 <a href="../index.html" class="hover:text-accent transition">Homepage</a>
                 <a href="../products.html" class="hover:text-accent transition">Products</a>
-                <a href="../about.html" class="hover:text-accent transition">About</a>
+                <a href="about.html" class="hover:text-accent transition">About</a>
+                <a href="update.html" class="hover:text-accent transition">Update</a>
             </nav>
             <div class="flex items-center space-x-4">
                 <a href="login.html">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Lobby - HCT | Hackboot</title>
+    <title>Game Lobby - Hackboot</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="shortcut icon" href="../../img/favicon.ico" />
@@ -138,9 +138,34 @@
 
         .status-online { background-color: #10b981; }
         .status-maintenance { background-color: #f59e0b; }
+
+        /* Loader styles */
+        .loader-spinner {
+            border-top-color: var(--accent);
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .initial-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .fade-in {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-dark text-gray-200 font-sans bg-grid h-screen flex flex-col overflow-hidden">
+    <!-- Loader -->
+    <div id="loader" class="fixed inset-0 flex items-center justify-center bg-dark z-50 transition-opacity duration-500 opacity-100">
+        <div class="loader-spinner border-4 border-t-4 border-accent border-t-transparent rounded-full w-12 h-12 animate-spin"></div>
+    </div>
     <!-- Header -->
     <header class="border-b border-gray-800 bg-dark/80 backdrop-blur-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -324,6 +349,7 @@
             updateStats();
 
             console.log('Interface mise à jour pour:', currentUser.username || currentUser.email);
+            hideLoader();
         }
 
         // Render games based on user subscriptions
@@ -372,6 +398,18 @@
             }
         }
 
+        function hideLoader() {
+            const loader = document.getElementById('loader');
+            const body = document.body;
+            if (loader) {
+                loader.classList.add('loader-hidden');
+                loader.addEventListener('transitionend', () => {
+                    loader.remove();
+                    body.classList.add('fade-in');
+                });
+            }
+        }
+
         // Add hover effects and animations
         document.addEventListener('DOMContentLoaded', function() {
             // Add card hover effects
@@ -386,6 +424,7 @@
                     this.style.transform = 'translateY(0) scale(1)';
                 });
             });
+            loadUserData(); // Start loading data after DOM is ready
         });
 
         onAuthStateChanged(auth, async (user) => {

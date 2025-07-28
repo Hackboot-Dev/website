@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="visibility: hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,6 +44,7 @@
                 console.log("Dashboard: No user is signed in. Redirecting to login.");
                 window.location.href = '/account/login.html';
             }
+            document.documentElement.style.visibility = 'visible';
         });
 
         window.logout = async function() {
@@ -976,7 +977,7 @@
                         </button>
                     </div>
                     
-                    <div class="flex items-center space-x-3">
+                    <a href="/account/hct/lobby.html" title="Retourner aux lobby" class="flex items-center space-x-3 cursor-pointer">
                         <div class="text-right">
                             <div id="header-user" class="text-sm font-medium"></div>
                             <div id="header-plan" class="text-xs text-gray-400"></div>
@@ -984,7 +985,7 @@
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
                             <span id="user-avatar" class="text-white font-bold">AD</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </header>
