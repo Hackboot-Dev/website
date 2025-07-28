@@ -201,64 +201,18 @@
         </div>
     </main>
 
-    <script>
-        // Helper function to get a cookie
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // Protect the lobby page
-        (function() {
-            const isLoggedIn = getCookie("isLoggedIn");
-            if (isLoggedIn !== "true") {
-                window.location.href = '../login.html';
-                return;
-            }
-        })();
+        import { firebaseConfig } from "../../debug_files/firebase_config.js";
 
-        // Global variable for current user
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
         let currentUser = null;
-
-        // Load user data and initialize
-        async function loadUserData() {
-            try {
-                const response = await fetch('../users.json');
-                const data = await response.json();
-                
-                let username = 
-                    sessionStorage.getItem('currentUser') || 
-                    localStorage.getItem('currentUser') || 
-                    getCookie('currentUser') || 
-                    'admin';
-
-                console.log('Utilisateur détecté:', username);
-                
-                currentUser = data.users.find(user => user.username === username);
-                
-                if (!currentUser) {
-                    console.error('Utilisateur non trouvé:', username);
-                    currentUser = data.users.find(user => user.username === 'admin');
-                }
-
-                if (currentUser) {
-                    updateUserDisplay();
-                } else {
-                    console.error('Aucun utilisateur trouvé, redirection vers login');
-                    logout();
-                }
-                
-            } catch (error) {
-                console.error('Erreur lors du chargement des données utilisateur:', error);
-                logout();
-            }
-        }
 
         // Game configurations
         const gameConfigs = {
@@ -360,7 +314,7 @@
             // Update username in header
             const userDisplay = document.querySelector('.text-accent');
             if (userDisplay) {
-                userDisplay.textContent = currentUser.username;
+                userDisplay.textContent = currentUser.username || currentUser.email;
             }
 
             // Render available games
@@ -369,7 +323,7 @@
             // Update stats
             updateStats();
 
-            console.log('Interface mise à jour pour:', currentUser.username);
+            console.log('Interface mise à jour pour:', currentUser.username || currentUser.email);
         }
 
         // Render games based on user subscriptions
@@ -418,24 +372,8 @@
             }
         }
 
-        // Logout function
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                // Clear all authentication data
-                document.cookie = "isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                sessionStorage.removeItem('currentUser');
-                localStorage.removeItem('currentUser');
-                
-                // Redirect to login
-                window.location.href = '../login.html';
-            }
-        }
-
         // Add hover effects and animations
         document.addEventListener('DOMContentLoaded', function() {
-            // Load user data first
-            loadUserData();
-
             // Add card hover effects
             const cards = document.querySelectorAll('[class*="card-"]');
             
@@ -449,6 +387,40 @@
                 });
             });
         });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                console.log("User is signed in:", user.email);
+                // Fetch user data from Firestore
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if (userDocSnap.exists()) {
+                    currentUser = { ...userDocSnap.data(), uid: user.uid, email: user.email };
+                    updateUserDisplay();
+                } else {
+                    console.error("No user data found in Firestore for UID:", user.uid);
+                    // Optionally, create a new user entry in Firestore or redirect
+                    logout();
+                }
+            } else {
+                console.log("No user is signed in. Redirecting to login.");
+                window.location.href = '../login.html';
+            }
+        });
+
+        // Logout function
+        window.logout = async function() {
+            if (confirm('Are you sure you want to logout?')) {
+                try {
+                    await signOut(auth);
+                    // Redirection handled by onAuthStateChanged
+                } catch (error) {
+                    console.error('Logout Error:', error);
+                    alert('Failed to log out: ' + error.message);
+                }
+            }
+        };
     </script>
 </body>
 </html>
