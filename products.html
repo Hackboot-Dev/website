@@ -1742,7 +1742,9 @@
         
         // Fonction pour gérer le menu mobile
         function setupMobileMenu() {
+            console.log('🔄 setupMobileMenu() - Début de la fonction');
             const menuButton = document.querySelector('.md\\:hidden.p-2'); // Bouton du menu burger
+            console.log('🔍 Menu button trouvé:', menuButton);
             const mobileMenuContainer = document.createElement('div');
             
             // Créer le conteneur du menu mobile
@@ -1755,11 +1757,13 @@
             
             // Cloner les éléments de navigation pour le menu mobile
             const navItems = document.querySelector('nav.hidden.md\\:flex').cloneNode(true);
+            console.log('🔍 Nav items trouvé:', navItems);
             navItems.classList.remove('hidden', 'md:flex', 'space-x-8');
             navItems.classList.add('flex', 'flex-col', 'space-y-8', 'text-2xl', 'items-center');
             
             // Cloner le bouton Client Area
             const clientAreaBtn = document.querySelector('.hidden.md\\:block.px-4.py-2').cloneNode(true);
+            console.log('🔍 Client area button trouvé:', clientAreaBtn);
             clientAreaBtn.classList.remove('hidden', 'md:block');
             clientAreaBtn.classList.add('mt-10', 'px-8', 'py-4', 'text-xl');
             
@@ -1794,9 +1798,12 @@
             
             // Ouvrir le menu mobile
             function openMobileMenu() {
+                console.log('🚀 openMobileMenu() - Menu burger cliqué !');
                 mobileMenuContainer.style.display = 'flex';
+                console.log('✅ Menu container display = flex');
                 setTimeout(() => {
                     mobileMenuContainer.classList.remove('translate-x-full');
+                    console.log('✅ Classe translate-x-full supprimée');
                     document.body.style.overflow = 'hidden'; // Empêcher le défilement
                     animateMenuItems();
                 }, 10);
@@ -1812,7 +1819,18 @@
             }
             
             // Événements pour ouvrir/fermer le menu
-            menuButton.addEventListener('click', openMobileMenu);
+            if (menuButton) {
+                menuButton.addEventListener('click', openMobileMenu);
+                console.log('✅ Event listener ajouté au menu button');
+                
+                // Test immédiat du click
+                menuButton.addEventListener('click', function() {
+                    console.log('🔥 CLICK DÉTECTÉ sur le menu button !');
+                });
+            } else {
+                console.error('❌ ERREUR: Menu button non trouvé !');
+            }
+            
             closeButton.addEventListener('click', closeMobileMenu);
             
             // Fermer le menu quand un lien est cliqué
@@ -1853,7 +1871,9 @@
         
         // Observer toutes les cartes produits
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 DOM Content Loaded - products.html');
             // Configuration du menu mobile
+            console.log('🔧 Appel de setupMobileMenu()');
             setupMobileMenu();
             
             const cards = document.querySelectorAll('.product-card');
