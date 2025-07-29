@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en" style="visibility: hidden;">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L0XGLP6GY"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0L0XGLP6GY');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Headers de sécurité -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://firestore.googleapis.com; frame-ancestors 'none';">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <title>hackboot.fr Dashboard - Warzone Interface</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Protection CSRF -->
+    <script src="../../../js/csrf-protection.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { firebaseConfig } from "../../../debug_files/firebase_config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '/account/login.html';
+            } 
+            document.documentElement.style.visibility = 'visible';
+        });
+    </script>
+    <style>
+        :root {
+            --primary: #6d28d9;
+            --accent: #10b981;
+            --neon: #00f0ff;
+            --matrix: #00ff41;
+            --dark: #0a0b14;
+            --dark-lighter: #121826;
+            --card: #1a1d2e;
+            --card-hover: #242844;
+            --border: #2d3748;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+        
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+        
+        *::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        *::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        *::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+        
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+        
+        body {
+            font-family: 'Oxanium', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-lighter) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Animations et effets */
+        .feature-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(31, 41, 55, 0.5);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .feature-toggle > div:first-child {
+            flex-grow: 1;
+            padding-right: 10px; /* Add some space between text and toggle */
+        }
+        .feature-toggle .toggle-switch {
+            flex-shrink: 0;
+        }
+        
+        .feature-toggle:hover {
+            border-color: var(--accent);
+        }
+        
+        .feature-toggle.disabled {
+            opacity: 0.4;
+            background: rgba(31, 41, 55, 0.2);
+            border-color: rgba(75, 85, 99, 0.3);
+            cursor: not-allowed;
+        }
+        
+        .feature-toggle.disabled:hover {
+            border-color: rgba(75, 85, 99, 0.3);
+        }
+        
+        .feature-toggle.disabled .toggle-switch {
+            pointer-events: none;
+        }
+        
+        .feature-toggle.disabled .font-medium {
+            color: rgba(156, 163, 175, 0.6) !important;
+        }
+        
+        .feature-toggle.disabled .text-gray-400 {
+            color: rgba(156, 163, 175, 0.4) !important;
+        }
+        
+        /* Tooltip système */
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+            border: 1px solid var(--accent);
+            margin-bottom: 8px;
+        }
+        
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .feature-toggle.disabled:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--accent);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        
+        input:disabled + .toggle-slider {
+            background-color: rgba(75, 85, 99, 0.5);
+            cursor: not-allowed;
+        }
+        
+        input:disabled + .toggle-slider:before {
+            background-color: rgba(156, 163, 175, 0.5);
+        }
+        
+        .pack-disabled {
+            opacity: 1;
+        }
+        
+        .pack-disabled .feature-toggle {
+            background: rgba(31, 41, 55, 0.2);
+            border-color: rgba(75, 85, 99, 0.3);
+        }
+        
+        .upgrade-overlay {
+            display: none;
+        }
+        
+        .pack-disabled .upgrade-overlay {
+            display: none;
+        }
+        
+        .upgrade-message {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card);
+            border-radius: 1rem;
+            border: 2px solid var(--accent);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 50;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
+            50% { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor; }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8), 0 0 30px rgba(16, 185, 129, 0.4); }
+        }
+        
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes matrix-rain {
+            0% { transform: translateY(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        .animate-glow { animation: glow 2s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-slide-in { animation: slide-in 0.6s ease-out; }
+        
+        /* Styles personnalisés */
+        .gradient-text {
+            background: linear-gradient(90deg, var(--neon), var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        .card-modern {
+            background: linear-gradient(145deg, var(--card), var(--dark-lighter));
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-modern:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(16, 185, 129, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-effect {
+            background: rgba(26, 29, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .neon-border {
+            border: 2px solid transparent;
+            background: linear-gradient(var(--card), var(--card)) padding-box,
+                        linear-gradient(90deg, var(--neon), var(--primary)) border-box;
+        }
+        
+        .status-indicator {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .status-dot::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0.3;
+            animation: pulse-glow 2s infinite;
+        }
+        
+        .btn-cyber {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border: 1px solid var(--neon);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-cyber:hover::before {
+            left: 100%;
+        }
+        
+        .btn-cyber:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .terminal-modern {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--matrix);
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+        
+        .terminal-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(90deg, var(--matrix), transparent);
+            opacity: 0.1;
+        }
+        
+        .progress-bar {
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--accent), var(--neon));
+            height: 100%;
+            border-radius: 10px;
+            position: relative;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--card);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-collapsed {
+            transform: translateX(-240px);
+        }
+        
+        .main-content {
+            transition: margin-left 0.3s ease;
+        }
+        
+        .tab-button {
+            position: relative;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-button.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        
+        .tab-button:hover {
+            color: var(--text-primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 50;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar fixed top-0 left-0 h-full glass-effect z-40">
+        <div class="p-6">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center mr-3">
+                    <span class="text-white font-bold text-lg">C</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold gradient-text">hackboot.fr</h1>
+                    <p class="text-xs text-gray-400">Dashboard Pro</p>
+                </div>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center p-3 rounded-lg bg-accent bg-opacity-20 text-accent">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="settings.html" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                    </svg>
+                    Settings
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Features
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    History
+                </a>
+            </nav>
+            
+            <div class="mt-8 p-4 bg-purple-900 bg-opacity-30 rounded-lg">
+                <h3 class="font-semibold text-sm mb-2">System Status</h3>
+                <div class="status-indicator">
+                    <div class="status-dot bg-green-400 animate-pulse-glow"></div>
+                    <span class="text-sm text-green-400">Operational</span>
+                </div>
+                <div class="mt-3">
+                    <div class="text-xs text-gray-400 mb-1">Uptime</div>
+                    <div class="text-sm font-semibold">47h 23m</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div id="main-content" class="main-content ml-72 min-h-screen">
+        <!-- Header -->
+        <header class="glass-effect p-6 border-b border-gray-700">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="p-2 rounded-lg hover:bg-gray-700 mr-4 md:hidden">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold gradient-text">WARZONE DASHBOARD</h1>
+                        <div class="flex items-center mt-1">
+                            <span class="px-2 py-1 bg-purple-900 text-purple-300 text-xs font-bold rounded-full uppercase mr-3">LEGENDARY</span>
+                            <div class="status-indicator">
+                                <div class="status-dot bg-green-400"></div>
+                                <span class="text-sm text-green-400">Undetectable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="p-2 rounded-lg hover:bg-gray-700 relative">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+                            </svg>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+                        </button>
+                    </div>
+                    
+                    <a href="/account/hct/lobby.html" title="Retourner aux lobby" class="flex items-center space-x-3 cursor-pointer">
+                        <div class="text-right">
+                            <div id="header-user" class="text-sm font-medium"></div>
+                            <div id="header-plan" class="text-xs text-gray-400"></div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
+                            <span id="user-avatar" class="text-white font-bold">AD</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Onglets -->
+        <div class="px-6 py-4 border-b border-gray-700">
+            <div class="flex space-x-1">
+                <button class="tab-button active" data-tab="dashboard">Dashboard</button>
+                <button class="tab-button" data-tab="features">Features</button>
+                <button class="tab-button" data-tab="stats">Statistics</button>
+                <button class="tab-button" data-tab="console">Console</button>
+            </div>
+        </div>
+
+        <!-- Contenu des onglets -->
+        <div class="p-6">
+            <!-- Onglet Dashboard -->
+            <div id="tab-dashboard" class="tab-content animate-slide-in">
+                <!-- Métriques principales -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="metric-card card-modern">
+                        <div class="text-3xl font-bold text-cyan-400 animate-glow mb-2">2.87</div>
+                        <div class="text-gray-400 text-sm">K/D Ratio</div>
+                        <div class="progress-bar h-2 mt-3">
+                            <div class="progress-fill" style="width: 87%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card card-modern">
+                        <div class="text-3xl font-bold text-purple-400 animate-glow mb-2">124</div>
+                        <div class="text-gray-400 text-sm">Total Wins</div>
+                        <div class="progress-bar h-2 mt-3">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card card-modern">
+                        <div class="text-3xl font-bold text-green-400 animate-glow mb-2">23%</div>
+                        <div class="text-gray-400 text-sm">Top 10%</div>
+                        <div class="progress-bar h-2 mt-3">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card card-modern">
+                        <div class="text-3xl font-bold text-yellow-400 animate-glow mb-2">1850</div>
+                        <div class="text-gray-400 text-sm">Avg. Score/Game</div>
+                        <div class="progress-bar h-2 mt-3">
+                            <div class="progress-fill" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grille principale -->
+                <div class="feature-grid mb-8">
+                    <!-- Status système amélioré -->
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">SYSTEM STATUS</h2>
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="text-sm text-gray-400">Injection</div>
+                                    <div class="text-lg font-semibold text-green-400">Active</div>
+                                </div>
+                                <div class="w-12 h-12 rounded-full bg-green-400 bg-opacity-20 flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="text-sm text-gray-400">Anti-detection</div>
+                                    <div class="text-lg font-semibold text-green-400">Protected</div>
+                                </div>
+                                <div class="w-12 h-12 rounded-full bg-green-400 bg-opacity-20 flex items-center justify-center animate-pulse-glow">
+                                    <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4">
+                                <div class="text-sm text-gray-400 mb-2">Last Update</div>
+                                <div class="text-green-400 font-mono text-sm">warzone_kernel.sys v3.2.1</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Session de jeu -->
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">CURRENT SESSION</h2>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Duration</span>
+                                <span class="font-semibold">1h 45m</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Matches Played</span>
+                                <span class="font-semibold text-purple-400">8</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Wins</span>
+                                <span class="font-semibold text-green-400">3</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Kills</span>
+                                <span class="font-semibold text-cyan-400">78</span>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <div class="text-sm text-gray-400 mb-2">Active Modules</div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-purple-900 bg-opacity-40 text-purple-300 text-xs rounded-full border border-purple-500">Aimbot</span>
+                                    <span class="px-3 py-1 bg-cyan-900 bg-opacity-40 text-cyan-300 text-xs rounded-full border border-cyan-500">ESP</span>
+                                    <span class="px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500">Spoofer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activité récente -->
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">RECENT ACTIVITY</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 rounded-lg bg-green-500 bg-opacity-20 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-sm">HWID spoofing updated</div>
+                                    <div class="text-gray-400 text-xs">25 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 rounded-lg bg-yellow-500 bg-opacity-20 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-sm">New game patch detected</div>
+                                    <div class="text-gray-400 text-xs">2 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance en temps réel -->
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">REAL-TIME PERFORMANCE</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-400">CPU</span>
+                                    <span class="text-cyan-400">35%</span>
+                                </div>
+                                <div class="progress-bar h-3">
+                                    <div class="progress-fill" style="width: 35%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-400">Memory</span>
+                                    <span class="text-purple-400">60%</span>
+                                </div>
+                                <div class="progress-bar h-3">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-400">Network</span>
+                                    <span class="text-green-400">8%</span>
+                                </div>
+                                <div class="progress-bar h-3">
+                                    <div class="progress-fill" style="width: 8%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-green-400">144</div>
+                                    <div class="text-xs text-gray-400">Avg FPS</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-cyan-400">25ms</div>
+                                    <div class="text-xs text-gray-400">Latency</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions rapides -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <button class="btn-cyber text-white px-6 py-4 rounded-xl font-semibold text-lg shadow-lg">
+                        🚀 Start Matchmaking
+                    </button>
+                    <button class="btn-cyber text-white px-6 py-4 rounded-xl font-semibold text-lg shadow-lg">
+                        ⚙️ Loadout Editor
+                    </button>
+                    <button class="btn-cyber text-white px-6 py-4 rounded-xl font-semibold text-lg shadow-lg">
+                        📊 Match History
+                    </button>
+                </div>
+            </div>
+
+            <!-- Onglet Features -->
+            <div id="tab-features" class="tab-content hidden">
+                <!-- Info utilisateur et abonnement -->
+                <div class="mb-6 p-4 bg-gray-800 bg-opacity-30 rounded-lg border border-accent">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="text-lg font-semibold">User: <span id="current-user" class="text-accent">Chargement...</span></div>
+                            <div class="text-sm text-gray-400">Subscription: <span id="current-plan" class="text-cyan-400">Checking...</span></div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-gray-400">Status</div>
+                            <div id="plan-status" class="status-indicator">
+                                <div class="status-dot bg-green-400"></div>
+                                <span class="text-sm text-green-400">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grille des fonctionnalités avec packs -->
+                <div class="space-y-8">
+                    <!-- Pack 1 - Warzone Reaper -->
+                    <div class="card-modern rounded-2xl p-6" id="pack-1">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 class="text-xl font-bold gradient-text">PACK 1 - WARZONE REAPER</h2>
+                                <p class="text-gray-400 text-sm">€600/mois - Essential features for domination</p>
+                            </div>
+                            <span class="px-3 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full border border-green-500">AVAILABLE</span>
+                        </div>
+                        
+                        <div class="grid lg:grid-cols-3 gap-6">
+                            <!-- Cheat Features Pack 1 -->
+                            <div>
+                                <h4 class="font-semibold mb-3 text-accent">Cheat Features:</h4>
+                                <div class="space-y-3">
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="advancedAimbot">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Advanced Aimbot</div>
+                                            <div class="text-sm text-gray-400">Custom FOV, smoothing, bone selection</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="fullESP">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Full ESP</div>
+                                            <div class="text-sm text-gray-400">Names, distance, HP, weapons, loot</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="noRecoilSpread">
+                                        <div>
+                                            <div class="font-medium text-green-400">No Recoil / No Spread</div>
+                                            <div class="text-sm text-gray-400">Weapons & vehicles</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="smartTriggerbot">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Smart Triggerbot</div>
+                                            <div class="text-sm text-gray-400">Auto-fire when crosshair meets enemy</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="bulletTeleport">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Bullet teleport / hitreg boost</div>
+                                            <div class="text-sm text-gray-400">Server-dependent</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="aiPrediction">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">AI prediction</div>
+                                            <div class="text-sm text-gray-400">Enemy movement tracking</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="fovUnlock">
+                                        <div>
+                                            <div class="font-medium text-green-400">FOV unlock</div>
+                                            <div class="text-sm text-gray-400">Full visual freedom</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="radarHack">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Radar hack (2D/3D)</div>
+                                            <div class="text-sm text-gray-400">Active without UAV</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="antiFlashSmoke">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Anti-flash / anti-smoke</div>
+                                            <div class="text-sm text-gray-400">Clear vision</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="autoEnemyPing">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Auto enemy ping on detection</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="autoArmorLoot">
+                                        <div>
+                                            <div class="font-medium text-green-400">Auto-armor and auto-loot</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="autoAirstrikeKillstreak">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Auto-airstrike and killstreak activation</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="botLobbyFinder">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Bot-lobby finder</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="spectatorListAntiSpectate">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Spectator list + anti-spectate mode</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="lagCompensationExploit">
+                                        <div>
+                                            <div class="font-medium text-green-400">Lag compensation exploit</div>
+                                            <div class="text-sm text-gray-400">Stable ping spoofing</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="autoUAVGhostDetection">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Auto-fire UAV & Ghost detection</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Unlock Features Pack 1 -->
+                            <div>
+                                <h4 class="font-semibold mb-3 text-accent">Unlock Features:</h4>
+                                <div class="space-y-3">
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="statFaker">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Stat Faker</div>
+                                            <div class="text-sm text-gray-400">K/D, accuracy, wins, match history</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="maxedWeaponLevels">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Maxed Weapon Levels</div>
+                                            <div class="text-sm text-gray-400">Full account unlock</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="sbmmBypass">
+                                        <div>
+                                            <div class="font-medium text-green-400">SBMM Bypass</div>
+                                            <div class="text-sm text-gray-400">Manual matchmaking</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- VM Environment Pack 1 -->
+                            <div>
+                                <h4 class="font-semibold mb-3 text-accent">VM Environment:</h4>
+                                <div class="space-y-3">
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="rootedVMKernelInjection">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Rooted VM with secure kernel injection</div>
+                                            <div class="text-sm text-gray-400">8-16 GB RAM / GPU passthrough</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="fullHardwareSpoofer">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Full Hardware Spoofer</div>
+                                            <div class="text-sm text-gray-400">BIOS, MAC, disk, GPU ID</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="builtInVPN">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Built-in VPN</div>
+                                            <div class="text-sm text-gray-400">Dynamic IP rotation</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="failSafeAutoDisable">
+                                        <div>
+                                            <div class="font-medium text-green-400">Fail-safe auto-disable on COD updates</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="1" data-feature-id="twoFactorAuthHWIDLocking">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">2FA authentication + HWID locking</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PACK 2 - WARZONE REAPER 2 -->
+                    <div class="card-modern rounded-2xl p-6" id="pack-2">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 class="text-xl font-bold gradient-text">PACK 2 - WARZONE REAPER 2</h2>
+                                <p class="text-gray-400 text-sm">€1650/month - Maximum power, full control</p>
+                            </div>
+                            <span class="pack-status-badge px-3 py-1 text-xs rounded-full border"></span>
+                        </div>
+                        
+                        <div class="grid lg:grid-cols-3 gap-6">
+                            <div>
+                                <h4 class="font-semibold mb-3 text-accent">Advanced Cheat Features:</h4>
+                                <div class="space-y-3">
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="kernelPacketManipulation">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Kernel-level packet manipulation</div>
+                                            <div class="text-sm text-gray-400">Experimental</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="serverLagInducer">
+                                        <div>
+                                            <div class="font-medium text-green-400">Server lag inducer / desync control</div>
+                                            <div class="text-sm text-gray-400">Disrupt enemy connections</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="aiSmartAutomation">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">AI-controlled smart automation</div>
+                                            <div class="text-sm text-gray-400">Full combat logic</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="ghostLobbies">
+                                        <div>
+                                            <div class="font-medium text-red-400">Ghost lobbies</div>
+                                            <div class="text-sm text-gray-400">Complete bot lobby simulation</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="liveMacroEditor">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Live macro editor + scenario scripting engine</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="liveEnemyTracking">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Live enemy tracking across matches</div>
+                                            <div class="text-sm text-gray-400">UAV spoofing</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="pingBalancingExploit">
+                                        <div>
+                                            <div class="font-medium text-green-400">Ping balancing exploit with latency shaping</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 class="font-semibold mb-3 text-accent">Full Unlock Suite:</h4>
+                                <div class="space-y-3">
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="unlockAllSkins">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Unlock All Skins, Blueprints, Operators</div>
+                                            <div class="text-sm text-gray-400">Full cosmetic access</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="xpTokenSpoofer">
+                                        <div>
+                                            <div class="font-medium text-purple-400">XP & Token Spoofer</div>
+                                            <div class="text-sm text-gray-400">Server persistent</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="matchHistoryRewrite">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Match history rewrite tool</div>
+                                            <div class="text-sm text-gray-400">Fully custom</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="prestigeRankFreeze">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Prestige faker + rank freeze</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="tournamentBypass">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Tournament bypass & top 100 spoof</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 class="font-semibold mb-3 text-accent">VM & Security Features:</h4>
+                                <div class="space-y-3">
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="dedicatedUltraVM">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Dedicated Ultra-VM</div>
+                                            <div class="text-sm text-gray-400">16GB RAM, 6vCPU, RTX passthrough</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="realtimeHardwareObfuscation">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Real-time hardware fingerprint obfuscation</div>
+                                            <div class="text-sm text-gray-400">Multi-layer spoofing</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="multiLayerSpoofing">
+                                        <div>
+                                            <div class="font-medium text-green-400">Multi-layer spoofing: BIOS, SMBIOS, GPU, CPU & EFI</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="autoRebuildHWID">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Auto-rebuild HWID every session</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="remoteKillSwitch">
+                                        <div>
+                                            <div class="font-medium text-purple-400">Remote kill switch + live session monitor</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="builtInShadowing">
+                                        <div>
+                                            <div class="font-medium text-cyan-400">Built-in shadowing and stealth cloaking layers</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="obsShadowPlayProof">
+                                        <div>
+                                            <div class="font-medium text-green-400">OBS / ShadowPlay streaming-proof overlay</div>
+                                            <div class="text-sm text-gray-400"></div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="feature-toggle" data-pack="2" data-feature-id="antiPatchSurvival">
+                                        <div>
+                                            <div class="font-medium text-yellow-400">Anti-patch survival module</div>
+                                            <div class="text-sm text-gray-400">Auto isolate & rollback</div>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouton d'upgrade -->
+                <div id="upgrade-section" class="text-center mt-8" style="display: none;">
+                    <div class="card-modern rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold gradient-text mb-4">UPGRADE YOUR SUBSCRIPTION</h3>
+                        <p class="text-gray-400 mb-6">Unlock more features with a higher pack</p>
+                        <button class="btn-cyber px-8 py-3 text-white rounded-xl font-semibold text-lg">
+                            🚀 Upgrade now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet Statistics -->
+            <div id="tab-stats" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Graphique des performances -->
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">WEEKLY PERFORMANCE</h2>
+                        <div class="h-64 bg-gray-800 bg-opacity-30 rounded-lg flex items-center justify-center">
+                            <div class="text-center">
+                                <svg class="w-16 h-16 mx-auto text-gray-500 mb-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+                                </svg>
+                                <div class="text-gray-400">Chart of K/D per day</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics détaillées -->
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">DETAILED STATISTICS</h2>
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center p-4 bg-gray-800 bg-opacity-30 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-400">1,567</div>
+                                    <div class="text-sm text-gray-400">Total Kills</div>
+                                </div>
+                                <div class="text-center p-4 bg-gray-800 bg-opacity-30 rounded-lg">
+                                    <div class="text-2xl font-bold text-purple-400">324</div>
+                                    <div class="text-sm text-gray-400">Matches Played</div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-400">Win Rate</span>
+                                    <span class="text-green-400">38%</span>
+                                </div>
+                                <div class="progress-bar h-3">
+                                    <div class="progress-fill" style="width: 38%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-400">Headshot Accuracy</span>
+                                    <span class="text-cyan-400">22%</span>
+                                </div>
+                                <div class="progress-bar h-3">
+                                    <div class="progress-fill" style="width: 22%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-gray-400">AI Efficiency</span>
+                                    <span class="text-yellow-400">98%</span>
+                                </div>
+                                <div class="progress-bar h-3">
+                                    <div class="progress-fill" style="width: 98%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History des matchs -->
+                <div class="card-modern rounded-2xl p-6">
+                    <h2 class="text-xl font-bold mb-6 gradient-text">MATCH HISTORY</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-gray-700">
+                                    <th class="text-left p-3 text-gray-400">Time</th>
+                                    <th class="text-left p-3 text-gray-400">Result</th>
+                                    <th class="text-left p-3 text-gray-400">Kills</th>
+                                    <th class="text-left p-3 text-gray-400">Damage</th>
+                                    <th class="text-left p-3 text-gray-400">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody class="space-y-2">
+                                <tr class="border-b border-gray-800">
+                                    <td class="p-3 text-sm">14:32</td>
+                                    <td class="p-3"><span class="px-2 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full">Win</span></td>
+                                    <td class="p-3 text-sm text-green-400">24</td>
+                                    <td class="p-3 text-sm">3250</td>
+                                    <td class="p-3 text-sm">23:45</td>
+                                </tr>
+                                <tr class="border-b border-gray-800">
+                                    <td class="p-3 text-sm">14:28</td>
+                                    <td class="p-3"><span class="px-2 py-1 bg-red-900 bg-opacity-40 text-red-300 text-xs rounded-full">Loss</span></td>
+                                    <td class="p-3 text-sm text-red-400">8</td>
+                                    <td class="p-3 text-sm">1200</td>
+                                    <td class="p-3 text-sm">18:12</td>
+                                </tr>
+                                <tr class="border-b border-gray-800">
+                                    <td class="p-3 text-sm">14:21</td>
+                                    <td class="p-3"><span class="px-2 py-1 bg-green-900 bg-opacity-40 text-green-300 text-xs rounded-full">Win</span></td>
+                                    <td class="p-3 text-sm text-green-400">17</td>
+                                    <td class="p-3 text-sm">2800</td>
+                                    <td class="p-3 text-sm">28:05</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet Console -->
+            <div id="tab-console" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Console principale -->
+                    <div class="lg:col-span-2">
+                        <div class="card-modern rounded-2xl p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-xl font-bold gradient-text">GAME CONSOLE</h2>
+                                <div class="flex space-x-2">
+                                    <button class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition">
+                                        Refresh
+                                    </button>
+                                    <button class="btn-cyber px-4 py-2 text-white rounded-lg text-sm">
+                                        Inject
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-modern rounded-lg p-4 h-96 overflow-y-auto font-mono text-sm">
+                                <div class="text-green-400 animate-pulse">_</div>
+                            </div>
+                            
+                            <div class="mt-4 flex">
+                                <input type="text" placeholder="Enter a command..." class="flex-1 bg-gray-800 border border-gray-600 rounded-l-lg px-4 py-2 text-white focus:outline-none focus:border-accent">
+                                <button class="bg-accent hover:bg-opacity-80 px-6 py-2 rounded-r-lg text-white transition">
+                                    Execute
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panneau de contrôle -->
+                    <div class="space-y-6">
+                        <div class="card-modern rounded-2xl p-6">
+                            <h3 class="text-lg font-bold mb-4 gradient-text">QUICK CONTROLS</h3>
+                            <div class="space-y-3">
+                                <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
+                                    Start Match
+                                </button>
+                                <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-2 rounded-lg transition">
+                                    Toggle Aimbot
+                                </button>
+                                <button class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition">
+                                    Emergency Stop
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-modern rounded-2xl p-6">
+                            <h3 class="text-lg font-bold mb-4 gradient-text">MODULE STATUS</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">Aimbot</span>
+                                    <div class="status-indicator">
+                                        <div class="status-dot bg-green-400"></div>
+                                        <span class="text-xs text-green-400">Active</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">ESP</span>
+                                    <div class="status-indicator">
+                                        <div class="status-dot bg-green-400"></div>
+                                        <span class="text-xs text-green-400">Active</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">Spoofer</span>
+                                    <div class="status-indicator">
+                                        <div class="status-dot bg-yellow-400"></div>
+                                        <span class="text-xs text-yellow-400">Randomizing</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const USERS_JSON_URL = '/account/users.json';
+            let currentUser = null;
+            let userSubscription = null;
+
+            // --- Tab Switching Logic ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            function activateTab(tabName) {
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+
+                const selectedContent = document.getElementById(`tab-${tabName}`);
+                const selectedButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
+
+                if (selectedContent && selectedButton) {
+                    selectedContent.classList.remove('hidden');
+                    selectedButton.classList.add('active');
+                } else {
+                    // Fallback to the dashboard tab if the selected one doesn't exist
+                    document.getElementById('tab-dashboard').classList.remove('hidden');
+                    document.querySelector('.tab-button[data-tab="dashboard"]').classList.add('active');
+                }
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.dataset.tab;
+                    localStorage.setItem('lastActiveTab', tabName);
+                    activateTab(tabName);
+                });
+            });
+
+            // --- User Data and UI Logic ---
+            async function loadUserData() {
+                try {
+                    const response = await fetch(USERS_JSON_URL);
+                    const data = await response.json();
+                    
+                    let username = 
+                    sessionStorage.getItem('currentUser') || 
+                    localStorage.getItem('currentUser') || 
+                    'admin';
+                    currentUser = data.users.find(user => user.username === username);
+                    
+                    if (currentUser) {
+                        userSubscription = currentUser.subscription.find(sub => sub.game === 'warzone');
+                        if (userSubscription) {
+                            updateUserInterface();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading user data:', error);
+                }
+            }
+
+            
+
+            function updateUserInterface() {
+                if (!currentUser || !userSubscription) return;
+
+                document.getElementById('current-user').textContent = currentUser.username;
+                const packNames = { '1': 'Pack 1 - Reaper (€600/mois)', '2': 'Pack 2 - Reaper 2 (€1650/mois)' };
+                document.getElementById('current-plan').textContent = packNames[userSubscription.type] || 'Unknown';
+
+                const headerUser = document.getElementById('header-user');
+                if (headerUser) headerUser.textContent = currentUser.username;
+                const headerPlan = document.getElementById('header-plan');
+                if (headerPlan) headerPlan.textContent = packNames[userSubscription.type] || 'Unknown';
+                const avatar = document.getElementById('user-avatar');
+                if (avatar) avatar.textContent = currentUser.username.charAt(0).toUpperCase();
+
+                const userPackLevel = parseInt(userSubscription.type);
+                for (let packLevel = 1; packLevel <= 2; packLevel++) {
+                    const packElement = document.getElementById(`pack-${packLevel}`);
+                    if (!packElement) continue;
+
+                    const isAvailable = packLevel <= userPackLevel;
+                    packElement.classList.toggle('pack-disabled', !isAvailable);
+                    
+                    const statusBadge = packElement.querySelector('.pack-status-badge');
+                    if (statusBadge) {
+                        statusBadge.textContent = isAvailable ? 'AVAILABLE' : 'UPGRADE REQUIS';
+                        statusBadge.className = `pack-status-badge px-3 py-1 text-xs rounded-full border ${isAvailable ? 'bg-green-900 bg-opacity-40 text-green-300 border-green-500' : 'bg-red-900 bg-opacity-40 text-red-300 border-red-500'}`;
+                    }
+
+                    packElement.querySelectorAll('.feature-toggle').forEach(toggle => {
+                        toggle.classList.toggle('disabled', !isAvailable);
+                        const input = toggle.querySelector('input[type="checkbox"]');
+                        if (input) input.disabled = !isAvailable;
+                    });
+                }
+            }
+
+            // --- Initial Load ---
+            const lastActiveTab = localStorage.getItem('lastActiveTab');
+            activateTab(lastActiveTab || 'dashboard');
+            loadUserData();
+
+            // --- Interactive Console Logic ---
+            const terminal = document.querySelector('#tab-console .terminal-modern');
+            const terminalInput = document.querySelector('#tab-console input[type="text"]');
+            const terminalExecuteButton = document.querySelector('#tab-console .bg-accent');
+
+            function addConsoleMessage(message, type = 'info') {
+                if (!terminal) return;
+                const newLine = document.createElement('div');
+                const now = new Date();
+                const timeStamp = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+                
+                let colorClass = 'text-white';
+                if (type === 'info') colorClass = 'text-cyan-400';
+                else if (type === 'success') colorClass = 'text-green-400';
+                else if (type === 'warning') colorClass = 'text-yellow-400';
+                else if (type === 'error') colorClass = 'text-red-400';
+                else if (type === 'user') colorClass = 'text-white';
+
+                // Sanitize message to prevent HTML injection
+                const textNode = document.createTextNode(`> ${message}`);
+                const messageDiv = document.createElement('div');
+                messageDiv.appendChild(textNode);
+
+                // Sécurisation XSS : éviter innerHTML
+                const logDiv = document.createElement('div');
+                logDiv.className = colorClass;
+                logDiv.textContent = `${timeStamp} ${messageDiv.textContent || messageDiv.innerText || ''}`;
+                newLine.appendChild(logDiv);
+                
+                const cursor = terminal.querySelector('.animate-pulse');
+                if (cursor) {
+                    terminal.insertBefore(newLine, cursor);
+                } else {
+                    terminal.appendChild(newLine);
+                }
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+
+            function handleTerminalCommand(command) {
+                const args = command.split(' ');
+                const cmd = args[0].toLowerCase();
+
+                switch (cmd) {
+                    case '/help':
+                        addConsoleMessage('Available commands: /help, /status, /inject, /panic, /loadout <name>', 'info');
+                        break;
+                    case '/status':
+                        addConsoleMessage('System Status: All modules operational.', 'success');
+                        addConsoleMessage('Aimbot: Active | ESP: Active | Spoofer: Idle', 'info');
+                        break;
+                    case '/inject':
+                        addConsoleMessage('Injecting latest payload...', 'warning');
+                        setTimeout(() => addConsoleMessage('Injection successful. Kernel driver v3.2.1 loaded.', 'success'), 1500);
+                        break;
+                    case '/panic':
+                        addConsoleMessage('EMERGENCY STOP ACTIVATED. Disabling all modules...', 'error');
+                        setTimeout(() => addConsoleMessage('All systems disabled. Safe to exit.', 'info'), 2000);
+                        break;
+                    case '/loadout':
+                        if (args.length > 1) {
+                            addConsoleMessage(`Loading loadout: ${args.slice(1).join(' ')}...`, 'info');
+                            setTimeout(() => addConsoleMessage('Loadout applied.', 'success'), 1000);
+                        } else {
+                            addConsoleMessage('Usage: /loadout <name>', 'error');
+                        }
+                        break;
+                    default:
+                        addConsoleMessage(`Unknown command: ${command}`, 'error');
+                }
+            }
+
+            if (terminalExecuteButton && terminalInput) {
+                terminalExecuteButton.addEventListener('click', () => {
+                    const command = terminalInput.value.trim();
+                    if (command) {
+                        addConsoleMessage(command, 'user');
+                        terminalInput.value = '';
+                        handleTerminalCommand(command);
+                    }
+                });
+
+                terminalInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        terminalExecuteButton.click();
+                    } else if (e.key === '/') {
+                        addConsoleMessage('Available commands: /help, /status, /inject, /panic, /loadout <name>', 'info');
+                    }
+                });
+            }
+            
+            addConsoleMessage('Warzone Console Initialized. Type /help for commands.', 'success');
+        });
+    </script>

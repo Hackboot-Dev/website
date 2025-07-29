@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" style="visibility: hidden;">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L0XGLP6GY"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0L0XGLP6GY');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>hackboot.fr Settings - Overwatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { firebaseConfig } from "../../../debug_files/firebase_config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '/account/login.html';
+            } 
+            document.documentElement.style.visibility = 'visible';
+        });
+    </script>
+    <style>
+        :root {
+            --primary: #6d28d9;
+            --accent: #10b981;
+            --neon: #00f0ff;
+            --matrix: #00ff41;
+            --dark: #0a0b14;
+            --dark-lighter: #121826;
+            --card: #1a1d2e;
+            --card-hover: #242844;
+            --border: #2d3748;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        *::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        body {
+            font-family: 'Oxanium', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-lighter) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animations et effets */
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
+            50% { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor; }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8), 0 0 30px rgba(16, 185, 129, 0.4); }
+        }
+
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-glow { animation: glow 2s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-slide-in { animation: slide-in 0.6s ease-out; }
+
+        /* Styles personnalisés */
+        .gradient-text {
+            background: linear-gradient(90deg, var(--neon), var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .card-modern {
+            background: linear-gradient(145deg, var(--card), var(--dark-lighter));
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-modern:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(16, 185, 129, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-effect {
+            background: rgba(26, 29, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .neon-border {
+            border: 2px solid transparent;
+            background: linear-gradient(var(--card), var(--card)) padding-box,
+                        linear-gradient(90deg, var(--neon), var(--primary)) border-box;
+        }
+
+        .status-indicator {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .status-dot::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0.3;
+            animation: pulse-glow 2s infinite;
+        }
+
+        .btn-cyber {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border: 1px solid var(--neon);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-cyber:hover::before {
+            left: 100%;
+        }
+
+        .btn-cyber:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--accent);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        input:disabled + .toggle-slider {
+            background-color: rgba(75, 85, 99, 0.5);
+            cursor: not-allowed;
+        }
+
+        input:disabled + .toggle-slider:before {
+            background-color: rgba(156, 163, 175, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 50;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar fixed top-0 left-0 h-full glass-effect z-40">
+        <div class="p-6">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center mr-3">
+                    <span class="text-white font-bold text-lg">C</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold gradient-text">hackboot.fr</h1>
+                    <p class="text-xs text-gray-400">Dashboard Pro</p>
+                </div>
+            </div>
+
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg bg-accent bg-opacity-20 text-accent">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                    </svg>
+                    Settings
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Features
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    History
+                </a>
+            </nav>
+
+            <div class="mt-8 p-4 bg-purple-900 bg-opacity-30 rounded-lg">
+                <h3 class="font-semibold text-sm mb-2">System Status</h3>
+                <div class="status-indicator">
+                    <div class="status-dot bg-green-400 animate-pulse-glow"></div>
+                    <span class="text-sm text-green-400">Operational</span>
+                </div>
+                <div class="mt-3">
+                    <div class="text-xs text-gray-400 mb-1">Uptime</div>
+                    <div class="text-sm font-semibold">47h 23m</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div id="main-content" class="main-content ml-72 min-h-screen">
+        <!-- Header -->
+        <header class="glass-effect p-6 border-b border-gray-700">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="p-2 rounded-lg hover:bg-gray-700 mr-4 md:hidden">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold gradient-text">OVERWATCH SETTINGS</h1>
+                        <div class="flex items-center mt-1">
+                            <span class="px-2 py-1 bg-purple-900 text-purple-300 text-xs font-bold rounded-full uppercase mr-3">LEGENDARY</span>
+                            <div class="status-indicator">
+                                <div class="status-dot bg-green-400"></div>
+                                <span class="text-sm text-green-400">Undetectable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="p-2 rounded-lg hover:bg-gray-700 relative">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+                            </svg>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+                        </button>
+                    </div>
+
+                    <a href="/account/hct/lobby.html" title="Retourner aux lobby" class="flex items-center space-x-3 cursor-pointer">
+                        <div class="text-right">
+                            <div id="header-user" class="text-sm font-medium"></div>
+                            <div id="header-plan" class="text-xs text-gray-400"></div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-cyan-400 flex items-center justify-center">
+                            <span id="user-avatar" class="text-white font-bold">AD</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenu des paramètres -->
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Colonne 1: Paramètres généraux -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">GENERAL SETTINGS</h2>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Enable all features</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="enableAllFeatures" data-setting-id="enableAllFeatures">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Auto-update client</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoUpdateClient" data-setting-id="autoUpdateClient" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Launch with Windows</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="launchWithWindows" data-setting-id="launchWithWindows">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Minimize to tray</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="minimizeToTray" data-setting-id="minimizeToTray" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">System telemetry</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="telemetry" data-setting-id="telemetry" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">PERFORMANCE</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="fpsLimit" class="block text-sm font-medium text-gray-300 mb-2">FPS Limit: <span id="fpsLimitValue">144</span></label>
+                                <input type="range" id="fpsLimit" data-setting-id="fpsLimit" min="30" max="300" value="144" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer neon-border">
+                            </div>
+                            <div>
+                                <label for="renderQuality" class="block text-sm font-medium text-gray-300 mb-2">Render Quality:</label>
+                                <select id="renderQuality" data-setting-id="renderQuality" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:border-accent">
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high" selected>High</option>
+                                    <option value="ultra">Ultra</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Hardware Acceleration</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="hardwareAcceleration" data-setting-id="hardwareAcceleration" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colonne 2: Paramètres de sécurité et réseau -->
+                <div class="space-y-6">
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">SECURITY & NETWORK</h2>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Enable VPN</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="enableVpn" data-setting-id="enableVpn">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label for="vpnRegion" class="block text-sm font-medium text-gray-300 mb-2">VPN Region:</label>
+                                <select id="vpnRegion" data-setting-id="vpnRegion" class="w-full p-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:border-accent">
+                                    <option value="auto">Auto</option>
+                                    <option value="us">United States</option>
+                                    <option value="eu">Europe</option>
+                                    <option value="asia">Asia</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Anti-ban protection</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="antiBanProtection" data-setting-id="antiBanProtection" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <label class="text-sm font-medium text-gray-300">Spoof HWID</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="spoofHwid" data-setting-id="spoofHwid" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-modern rounded-2xl p-6">
+                        <h2 class="text-xl font-bold mb-6 gradient-text">ACCOUNT</h2>
+                        <div class="space-y-4">
+                            <button class="btn-cyber w-full px-4 py-2 rounded-lg text-white font-semibold">
+                                Change Password
+                            </button>
+                            <button class="btn-cyber w-full px-4 py-2 rounded-lg text-white font-semibold">
+                                Manage Subscription
+                            </button>
+                            <button id="logoutButton" class="w-full bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white font-semibold transition">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+    </script>
+</body>
+</html>
