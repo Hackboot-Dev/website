@@ -1,7 +1,7 @@
 {
     "Overwatch 2": {
         "PACK 1 - Phantom": {
-            "price_eur_per_month": 410,
+            "price_eur_per_month": 380,
             "cheat_features": [
                 "Advanced aimbot (FOV, smoothing, hit-scan, bones)",
                 "Full ESP (names, HP, boxes, weapons)",
@@ -35,7 +35,7 @@
             ]
         },
         "PACK 2 - Dominion": {
-            "price_eur_per_month": 600,
+            "price_eur_per_month": 500,
             "cheat_features": [
                 "Advanced aimbot (FOV, smoothing, hit-scan, bones)",
                 "Full ESP (names, HP, boxes, weapons)",
@@ -79,7 +79,7 @@
             ]
         },
         "PACK 3 - Godmode": {
-            "price_eur_per_month": 1000,
+            "price_eur_per_month": 850,
             "cheat_features": [
                 "Advanced Aimbot (FOV, smoothing, hit-scan, bone prioritization)",
                 "Full ESP (names, HP, boxes, weapons, skeleton, distance)",
@@ -128,7 +128,7 @@
     },
     "Clash Royale": {
         "PACK 1 - Supreme": {
-            "price_eur_per_month": 180,
+            "price_eur_per_month": 130,
             "cheat_features": [
                 "Full card tracking (hand, cycle, next card)",
                 "Real-time opponent elixir estimation",
@@ -155,7 +155,7 @@
             ]
         },
         "PACK 2 - Dominator": {
-            "price_eur_per_month": 230,
+            "price_eur_per_month": 180,
             "cheat_features": [
                 "Full card tracking (hand, cycle, next card)",
                 "Opponent elixir estimation (OCR / memory)",
@@ -188,7 +188,7 @@
             ]
         },
         "PACK 3 - Godmode": {
-            "price_eur_per_month": 290,
+            "price_eur_per_month": 230,
             "cheat_features": [
                 "Full card tracking (hand, cycle, next card)",
                 "Opponent elixir estimation (OCR / memory)",
@@ -227,7 +227,7 @@
     },
     "Warzone": {
         "PACK 1 - Reaper": {
-            "price_eur_per_month": 600,
+            "price_eur_per_month": 500,
             "cheat_features": [
                 "Advanced aimbot (custom FOV, smoothing, bone selection, silent aim)",
                 "Smart triggerbot (auto-fire when crosshair meets enemy)",
@@ -263,7 +263,7 @@
             ]
         },
         "PACK 2 - Reaper 2": {
-            "price_eur_per_month": 1650,
+            "price_eur_per_month": 900,
             "cheat_features": [
                 "Kernel-level packet manipulation (experimental)",
                 "Server lag inducer / desync control",
@@ -292,35 +292,46 @@
             ]
         }
     },
-    "Tools & Services": {
-        "Universal Injector": {
-            "price_eur_per_month": 59.99,
-            "features": [
-                "Injection dans 50+ jeux",
-                "Cheat loading system",
-                "Memory protection bypass",
-                "Custom script support",
-                "Real-time updates"
-            ]
-        },
-        "Performance Optimizer": {
-            "price_eur_per_month": 19.99,
-            "features": [
-                "FPS unlock (240+ FPS)",
-                "Input lag reduction",
-                "Memory optimization",
-                "Graphics enhancement",
-                "Network latency optimizer"
-            ]
-        },
-        "Streamer Shield": {
-            "price_eur_per_month": 24.99,
-            "features": [
-                "Stream-proof overlays",
-                "Spectator protection",
-                "Recording detection",
-                "Automatic hiding system",
-                "Multiple monitor support"
+    "Valorant": {
+        "PACK 1 - Oblivion": {
+            "price_eur_per_month": 450,
+            "cheat_features": [
+                "Advanced aimbot (FOV, smoothing, bone targeting, silent aim)",
+                "Full ESP (names, HP, armor, weapons, distance)",
+                "Clean wallhack with customizable colors",
+                "Smart triggerbot with humanization",
+                "No recoil / no spread compensation",
+                "Rapid fire and burst optimization",
+                "Auto-defuse / auto-plant spike",
+                "Movement prediction and leading",
+                "Anti-flash / anti-smoke vision",
+                "Radar hack (minimap enhancement)",
+                "Spectator list and anti-spectate mode",
+                "Custom crosshair and HUD",
+                "Humanized behavior patterns",
+                "Streamer mode (OBS/recording safe)",
+                "Tournament safe mode"
+            ],
+            "unlock_features": [
+                "All agents unlocked",
+                "All weapon skins unlocked (visual)",
+                "Battlepass progression boost",
+                "Rank display modifier",
+                "Match history customization"
+            ],
+            "vm_system_features": [
+                "Dedicated rooted VM with 8-16GB RAM",
+                "GPU passthrough for optimal performance",
+                "Full hardware spoofer (HWID, MAC, BIOS)",
+                "Advanced Vanguard bypass system",
+                "Built-in VPN with IP rotation",
+                "Automatic trace and log cleaner",
+                "Anti-ban protection with failsafes",
+                "Streaming-safe overlay system",
+                "120+ FPS stable performance",
+                "Automatic VM snapshots and restore",
+                "2FA authentication with HWID lock",
+                "24/7 remote monitoring and support"
             ]
         }
     }

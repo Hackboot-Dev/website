@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" style="visibility: hidden;">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L0XGLP6GY"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0L0XGLP6GY');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
+    <!-- Headers de sécurité -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://firestore.googleapis.com; frame-ancestors 'none';">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <title>hackboot.fr Dashboard - Full Interface</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Protection CSRF -->
+    <script src="../../../js/csrf-protection.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -204,14 +220,28 @@
         function showUpgradeAlert(requiredPackLevel) {
             const alertDiv = document.createElement('div');
             alertDiv.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 opacity-0 transition-opacity duration-300';
-            alertDiv.innerHTML = `
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Pack ${requiredPackLevel} requis pour cette fonctionnalité</span>
-                </div>
-            `;
+            // Sécurisation XSS : création sécurisée des éléments
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'flex items-center';
+            
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'w-5 h-5 mr-2');
+            svg.setAttribute('fill', 'currentColor');
+            svg.setAttribute('viewBox', '0 0 20 20');
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('fill-rule', 'evenodd');
+            path.setAttribute('d', 'M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z');
+            path.setAttribute('clip-rule', 'evenodd');
+            
+            svg.appendChild(path);
+            
+            const span = document.createElement('span');
+            span.textContent = `Pack ${requiredPackLevel} requis pour cette fonctionnalité`;
+            
+            containerDiv.appendChild(svg);
+            containerDiv.appendChild(span);
+            alertDiv.appendChild(containerDiv);
             document.body.appendChild(alertDiv);
             
             // Animation d'apparition
@@ -302,7 +332,11 @@
             else if (type === 'warning') colorClass = 'text-yellow-400';
             else if (type === 'error') colorClass = 'text-red-400';
 
-            newLine.innerHTML = `<div class="${colorClass}">${timeStamp} > ${message}</div>`;
+            // Sécurisation XSS : utilisation de textContent au lieu d'innerHTML
+            const messageDiv = document.createElement('div');
+            messageDiv.className = colorClass;
+            messageDiv.textContent = `${timeStamp} > ${message}`;
+            newLine.appendChild(messageDiv);
             
             const cursor = terminal.querySelector('.animate-pulse');
             terminal.insertBefore(newLine, cursor);
@@ -421,6 +455,8 @@
         </script>
     <title>hackboot.fr Dashboard - Full Interface</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Protection CSRF -->
+    <script src="../../../js/csrf-protection.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -1953,14 +1989,28 @@
         function showUpgradeAlert(requiredPackLevel) {
             const alertDiv = document.createElement('div');
             alertDiv.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 opacity-0 transition-opacity duration-300';
-            alertDiv.innerHTML = `
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>Pack ${requiredPackLevel} requis pour cette fonctionnalité</span>
-                </div>
-            `;
+            // Sécurisation XSS : création sécurisée des éléments
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'flex items-center';
+            
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'w-5 h-5 mr-2');
+            svg.setAttribute('fill', 'currentColor');
+            svg.setAttribute('viewBox', '0 0 20 20');
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('fill-rule', 'evenodd');
+            path.setAttribute('d', 'M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z');
+            path.setAttribute('clip-rule', 'evenodd');
+            
+            svg.appendChild(path);
+            
+            const span = document.createElement('span');
+            span.textContent = `Pack ${requiredPackLevel} requis pour cette fonctionnalité`;
+            
+            containerDiv.appendChild(svg);
+            containerDiv.appendChild(span);
+            alertDiv.appendChild(containerDiv);
             document.body.appendChild(alertDiv);
             
             // Animation d'apparition
@@ -2051,7 +2101,11 @@
             else if (type === 'warning') colorClass = 'text-yellow-400';
             else if (type === 'error') colorClass = 'text-red-400';
 
-            newLine.innerHTML = `<div class="${colorClass}">${timeStamp} > ${message}</div>`;
+            // Sécurisation XSS : utilisation de textContent au lieu d'innerHTML
+            const messageDiv = document.createElement('div');
+            messageDiv.className = colorClass;
+            messageDiv.textContent = `${timeStamp} > ${message}`;
+            newLine.appendChild(messageDiv);
             
             const cursor = terminal.querySelector('.animate-pulse');
             terminal.insertBefore(newLine, cursor);

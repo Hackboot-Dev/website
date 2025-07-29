@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" style="visibility: hidden;">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L0XGLP6GY"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0L0XGLP6GY');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
+    <!-- Headers de sécurité -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://firestore.googleapis.com; frame-ancestors 'none';">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <title>hackboot.fr Dashboard - Overwatch Interface</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Protection CSRF -->
+    <script src="../../../js/csrf-protection.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
         <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -1296,7 +1312,11 @@
                 const messageDiv = document.createElement('div');
                 messageDiv.appendChild(textNode);
 
-                newLine.innerHTML = `<div class="${colorClass}">${timeStamp} ${messageDiv.innerHTML}</div>`;
+                // Sécurisation XSS : éviter innerHTML
+                const logDiv = document.createElement('div');
+                logDiv.className = colorClass;
+                logDiv.textContent = `${timeStamp} ${messageDiv.textContent || messageDiv.innerText || ''}`;
+                newLine.appendChild(logDiv);
                 
                 const cursor = terminal.querySelector('.animate-pulse');
                 if (cursor) {
