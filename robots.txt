@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Pages non indexées
+Disallow: /account/
+Disallow: /node_modules/
+Disallow: /about.html
+Disallow: /products/tools/streamer-shield.html
+Disallow: /products/tools/performance-optimizer.html
+
+# Sitemap
+Sitemap: https://hackboot.fr/sitemap.xml
+
+# Temps d'attente entre les requêtes (en secondes)
+Crawl-delay: 1
