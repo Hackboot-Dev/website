@@ -14,6 +14,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.ico">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="shortcut icon" href="/img/favicon.ico" />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -1742,26 +1743,7 @@
         
         // Fonction pour gérer le menu mobile
         function setupMobileMenu() {
-            console.log('🔄 setupMobileMenu() - Début de la fonction');
-            console.log('🔍 DOM prêt, recherche du bouton menu...');
-            
-            // Essayer plusieurs sélecteurs pour trouver le bouton
-            const menuButton1 = document.querySelector('button.md\\:hidden.p-2');
-            const menuButton2 = document.querySelector('button.md\\:hidden');
-            const menuButton3 = document.querySelector('.fa-bars')?.parentElement;
-            
-            console.log('🔍 Sélecteur 1 (button.md\\:hidden.p-2):', menuButton1);
-            console.log('🔍 Sélecteur 2 (button.md\\:hidden):', menuButton2);
-            console.log('🔍 Sélecteur 3 (.fa-bars parent):', menuButton3);
-            
-            const menuButton = menuButton1 || menuButton2 || menuButton3;
-            console.log('🔍 Menu button final choisi:', menuButton);
-            
-            if (menuButton) {
-                console.log('📋 Classes du bouton:', menuButton.classList.toString());
-                console.log('📋 HTML du bouton:', menuButton.outerHTML);
-            }
-            
+            const menuButton = document.querySelector('.md\:hidden.p-2'); // Bouton du menu burger
             const mobileMenuContainer = document.createElement('div');
             
             // Créer le conteneur du menu mobile
@@ -1773,14 +1755,12 @@
             mobileMenuContainer.style.display = 'none';
             
             // Cloner les éléments de navigation pour le menu mobile
-            const navItems = document.querySelector('nav').cloneNode(true);
-            console.log('🔍 Nav items trouvé:', navItems);
+            const navItems = document.querySelector('nav.hidden.md\:flex').cloneNode(true);
             navItems.classList.remove('hidden', 'md:flex', 'space-x-8');
             navItems.classList.add('flex', 'flex-col', 'space-y-8', 'text-2xl', 'items-center');
             
             // Cloner le bouton Client Area
-            const clientAreaBtn = document.querySelector('button.hidden.md\\:block').cloneNode(true);
-            console.log('🔍 Client area button trouvé:', clientAreaBtn);
+            const clientAreaBtn = document.querySelector('.hidden.md\:block.px-4.py-2').cloneNode(true);
             clientAreaBtn.classList.remove('hidden', 'md:block');
             clientAreaBtn.classList.add('mt-10', 'px-8', 'py-4', 'text-xl');
             
@@ -1815,18 +1795,9 @@
             
             // Ouvrir le menu mobile
             function openMobileMenu() {
-                console.log('🚀 openMobileMenu() - FONCTION APPELÉE !');
-                console.log('📱 Mobile menu container:', mobileMenuContainer);
-                console.log('📝 Classes actuelles:', mobileMenuContainer.classList.toString());
-                
                 mobileMenuContainer.style.display = 'flex';
-                console.log('✅ Menu container display = flex');
-                console.log('📏 Container dimensions:', mobileMenuContainer.offsetWidth, 'x', mobileMenuContainer.offsetHeight);
-                
                 setTimeout(() => {
                     mobileMenuContainer.classList.remove('translate-x-full');
-                    console.log('✅ Classe translate-x-full supprimée');
-                    console.log('📝 Nouvelles classes:', mobileMenuContainer.classList.toString());
                     document.body.style.overflow = 'hidden'; // Empêcher le défilement
                     animateMenuItems();
                 }, 10);
@@ -1843,29 +1814,8 @@
             
             // Événements pour ouvrir/fermer le menu
             if (menuButton) {
-                console.log('✅ Menu button trouvé, ajout des event listeners');
-                
-                // Ajouter un log plus détaillé pour le clic
-                menuButton.addEventListener('click', function(event) {
-                    console.log('🔥 CLICK DÉTECTÉ sur le menu button !');
-                    console.log('Event target:', event.target);
-                    console.log('Current target:', event.currentTarget);
-                    console.log('Appel de openMobileMenu...');
-                    openMobileMenu();
-                });
-                
-                console.log('✅ Event listener ajouté au menu button');
-            } else {
-                console.error('❌ ERREUR: Menu button non trouvé !');
-                console.log('Tentative de recherche avec d\'autres sélecteurs...');
-                
-                // Essayer d'autres sélecteurs
-                const altButton1 = document.querySelector('button[class*="md:hidden"]');
-                const altButton2 = document.querySelector('.fa-bars').parentElement;
-                console.log('Alt button 1:', altButton1);
-                console.log('Alt button 2:', altButton2);
+                menuButton.addEventListener('click', openMobileMenu);
             }
-            
             closeButton.addEventListener('click', closeMobileMenu);
             
             // Fermer le menu quand un lien est cliqué
