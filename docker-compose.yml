@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: vmplatform_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: vmplatform
+      POSTGRES_PASSWORD: vmplatform_dev_2024
+      POSTGRES_DB: vmplatform
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - vmplatform_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: vmplatform_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - vmplatform_network
+
+  api:
+    build:
+      context: .
+      dockerfile: ./infrastructure/docker/api/Dockerfile.dev
+    container_name: vmplatform_api
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://vmplatform:vmplatform_dev_2024@postgres:5432/vmplatform
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev_jwt_secret_change_in_production
+      JWT_REFRESH_SECRET: dev_jwt_refresh_secret_change_in_production
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/api:/app/apps/api
+      - ./packages:/app/packages
+      - /app/node_modules
+      - /app/apps/api/node_modules
+    networks:
+      - vmplatform_network
+    command: npm run dev --workspace=apps/api
+
+  web:
+    build:
+      context: .
+      dockerfile: ./infrastructure/docker/web/Dockerfile.dev
+    container_name: vmplatform_web
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web:/app/apps/web
+      - ./packages:/app/packages
+      - /app/node_modules
+      - /app/apps/web/node_modules
+      - /app/apps/web/.next
+    networks:
+      - vmplatform_network
+    command: npm run dev --workspace=apps/web
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: vmplatform_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - vmplatform_network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  vmplatform_network:
+    driver: bridge

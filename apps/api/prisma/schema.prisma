@@ -1,0 +1,317 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  SUPPORT
+  CUSTOMER
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum InstanceStatus {
+  PENDING
+  RUNNING
+  STOPPED
+  SUSPENDED
+  DELETED
+}
+
+enum SubscriptionType {
+  HOURLY
+  MONTHLY
+  YEARLY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+  SUSPENDED
+}
+
+enum TransactionType {
+  PAYMENT
+  REFUND
+  CREDIT
+  DEBIT
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum TicketPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+model User {
+  id                String        @id @default(uuid())
+  email             String        @unique
+  username          String        @unique
+  passwordHash      String        @map("password_hash")
+  role              UserRole      @default(CUSTOMER)
+  firstName         String?       @map("first_name")
+  lastName          String?       @map("last_name")
+  phone             String?
+  balance           Decimal       @default(0.00) @db.Decimal(10, 2)
+  status            UserStatus    @default(ACTIVE)
+  emailVerified     Boolean       @default(false) @map("email_verified")
+  twoFactorEnabled  Boolean       @default(false) @map("two_factor_enabled")
+  twoFactorSecret   String?       @map("two_factor_secret")
+  lastLoginAt       DateTime?     @map("last_login_at")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  instances         Instance[]
+  subscriptions     Subscription[]
+  transactions      Transaction[]
+  tickets           SupportTicket[]
+  ticketMessages    TicketMessage[]
+  auditLogs         AuditLog[]
+  refreshTokens     RefreshToken[]
+  emailVerifications EmailVerification[]
+  passwordResets    PasswordReset[]
+  assignedTickets   SupportTicket[] @relation("AssignedTickets")
+
+  @@map("users")
+}
+
+model Product {
+  id           String     @id @default(uuid())
+  name         String
+  slug         String     @unique
+  description  String?
+  category     String?
+  specsJson    Json       @map("specs_json")
+  pricingJson  Json       @map("pricing_json")
+  featuresJson Json?      @map("features_json")
+  status       String     @default("active")
+  sortOrder    Int        @default(0) @map("sort_order")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  instances    Instance[]
+
+  @@map("products")
+}
+
+model Instance {
+  id            String         @id @default(uuid())
+  userId        String         @map("user_id")
+  productId     String         @map("product_id")
+  name          String
+  hostname      String?
+  ipAddress     String?        @map("ip_address")
+  status        InstanceStatus @default(PENDING)
+  metadataJson  Json?          @map("metadata_json")
+  resourcesJson Json?          @map("resources_json")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  startedAt     DateTime?      @map("started_at")
+  stoppedAt     DateTime?      @map("stopped_at")
+  expiresAt     DateTime?      @map("expires_at")
+  deletedAt     DateTime?      @map("deleted_at")
+
+  user          User           @relation(fields: [userId], references: [id])
+  product       Product        @relation(fields: [productId], references: [id])
+  subscriptions Subscription[]
+  tickets       SupportTicket[]
+
+  @@index([userId])
+  @@index([productId])
+  @@index([status])
+  @@map("instances")
+}
+
+model Subscription {
+  id          String             @id @default(uuid())
+  userId      String             @map("user_id")
+  instanceId  String?            @map("instance_id")
+  type        SubscriptionType
+  price       Decimal            @db.Decimal(10, 2)
+  currency    String             @default("USD")
+  status      SubscriptionStatus @default(ACTIVE)
+  autoRenew   Boolean            @default(true) @map("auto_renew")
+  periodStart DateTime           @map("period_start")
+  periodEnd   DateTime           @map("period_end")
+  cancelledAt DateTime?          @map("cancelled_at")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
+
+  user         User          @relation(fields: [userId], references: [id])
+  instance     Instance?     @relation(fields: [instanceId], references: [id])
+  transactions Transaction[]
+
+  @@index([userId])
+  @@index([instanceId])
+  @@index([status])
+  @@map("subscriptions")
+}
+
+model Transaction {
+  id                   String            @id @default(uuid())
+  userId               String            @map("user_id")
+  subscriptionId       String?           @map("subscription_id")
+  amount               Decimal           @db.Decimal(10, 2)
+  currency             String            @default("USD")
+  type                 TransactionType
+  status               TransactionStatus @default(PENDING)
+  paymentMethod        String?           @map("payment_method")
+  paymentProvider      String?           @map("payment_provider")
+  providerTransactionId String?          @map("provider_transaction_id")
+  metadataJson         Json?             @map("metadata_json")
+  processedAt          DateTime?         @map("processed_at")
+  createdAt            DateTime          @default(now()) @map("created_at")
+
+  user         User          @relation(fields: [userId], references: [id])
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([status])
+  @@map("transactions")
+}
+
+model SupportTicket {
+  id                String         @id @default(uuid())
+  userId            String         @map("user_id")
+  assignedToId      String?        @map("assigned_to")
+  instanceId        String?        @map("instance_id")
+  subject           String
+  description       String?
+  category          String?
+  priority          TicketPriority @default(NORMAL)
+  status            TicketStatus   @default(OPEN)
+  resolvedAt        DateTime?      @map("resolved_at")
+  satisfactionRating Int?          @map("satisfaction_rating")
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
+
+  user         User            @relation(fields: [userId], references: [id])
+  assignedTo   User?           @relation("AssignedTickets", fields: [assignedToId], references: [id])
+  instance     Instance?       @relation(fields: [instanceId], references: [id])
+  messages     TicketMessage[]
+
+  @@index([userId])
+  @@index([assignedToId])
+  @@index([status])
+  @@index([priority])
+  @@map("support_tickets")
+}
+
+model TicketMessage {
+  id              String   @id @default(uuid())
+  ticketId        String   @map("ticket_id")
+  userId          String   @map("user_id")
+  message         String
+  attachmentsJson Json?    @map("attachments_json")
+  isInternal      Boolean  @default(false) @map("is_internal")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id])
+  user   User          @relation(fields: [userId], references: [id])
+
+  @@index([ticketId])
+  @@map("ticket_messages")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?  @map("user_id")
+  action     String
+  entityType String?  @map("entity_type")
+  entityId   String?  @map("entity_id")
+  oldValues  Json?    @map("old_values")
+  newValues  Json?    @map("new_values")
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  metadata   Json?
+  timestamp  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([timestamp])
+  @@map("audit_logs")
+}
+
+model Setting {
+  key         String   @id
+  value       String
+  type        String
+  category    String?
+  description String?
+  isPublic    Boolean  @default(false) @map("is_public")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  token     String    @unique
+  expiresAt DateTime  @map("expires_at")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model EmailVerification {
+  id         String    @id @default(uuid())
+  userId     String    @map("user_id")
+  token      String    @unique
+  expiresAt  DateTime  @map("expires_at")
+  verifiedAt DateTime? @map("verified_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("email_verifications")
+}
+
+model PasswordReset {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  token     String    @unique
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("password_resets")
+}
