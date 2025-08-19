@@ -1,0 +1,104 @@
+{
+  "nav": {
+    "infrastructure": "Infrastructure",
+    "pricing": "Pricing",
+    "documentation": "Documentation",
+    "support": "Support",
+    "signIn": "Sign In",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "label": "2025 INFRASTRUCTURE",
+    "title": {
+      "1": "Cloud",
+      "2": "Computing",
+      "3": "Redefined"
+    },
+    "subtitle": "Infrastructure as code meets enterprise-grade security. Deploy, scale, monitor—effortlessly.",
+    "cta": {
+      "primary": "Start Building",
+      "secondary": "View Pricing"
+    },
+    "metrics": {
+      "uptime": "UPTIME",
+      "responseTime": "RESPONSE TIME",
+      "globalNodes": "GLOBAL NODES"
+    },
+    "status": "ALL SYSTEMS OPERATIONAL",
+    "scroll": "SCROLL"
+  },
+  "features": {
+    "label": "PLATFORM FEATURES",
+    "title": {
+      "1": "Built for scale.",
+      "2": "Designed for developers."
+    },
+    "subtitle": "Enterprise-grade infrastructure with developer-first tooling. Ship faster without compromising on reliability.",
+    "globalInfra": {
+      "title": "Global Infrastructure",
+      "desc": "Multi-region deployment with edge optimization for minimal latency worldwide.",
+      "metric": "5 Regions"
+    },
+    "security": {
+      "title": "Enterprise Security",
+      "desc": "End-to-end encryption with SOC2 compliance and automated threat detection.",
+      "metric": "99.9% SLA"
+    },
+    "devExp": {
+      "title": "Developer Experience",
+      "desc": "Git-based workflows with instant previews and collaborative development tools.",
+      "metric": "<2min Deploy"
+    },
+    "autoScale": {
+      "title": "Auto Scaling",
+      "desc": "Intelligent resource allocation that adapts to traffic patterns automatically.",
+      "metric": "0-100K RPS"
+    }
+  },
+  "pricing": {
+    "label": "TRANSPARENT PRICING",
+    "title": {
+      "1": "Simple pricing.",
+      "2": "No surprises."
+    },
+    "subtitle": "Choose the plan that fits your needs. Scale up or down anytime. Cancel whenever you want.",
+    "starter": {
+      "name": "Starter",
+      "desc": "Perfect for side projects"
+    },
+    "pro": {
+      "name": "Professional",
+      "desc": "For growing businesses"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "desc": "For large organizations"
+    },
+    "recommended": "RECOMMENDED",
+    "cta": {
+      "trial": "Start Free Trial",
+      "contact": "Contact Sales"
+    },
+    "note": "All plans include 14-day free trial. No credit card required."
+  },
+  "cta": {
+    "label": "READY TO BUILD",
+    "title": {
+      "1": "Ship faster.",
+      "2": "Scale smarter."
+    },
+    "subtitle": "Join developers who choose performance over complexity. Deploy in minutes, not hours.",
+    "primary": "Start Free Trial",
+    "secondary": "View Plans",
+    "metrics": {
+      "deployTime": "DEPLOYMENT TIME",
+      "satisfaction": "DEVELOPER SATISFACTION",
+      "projects": "PROJECTS DEPLOYED"
+    },
+    "features": {
+      "config": "Zero configuration required",
+      "scaling": "Auto-scaling infrastructure",
+      "monitoring": "24/7 monitoring included"
+    }
+  }
+}

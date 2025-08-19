@@ -8,13 +8,12 @@ export default function HeroSection() {
   const { t } = useLanguage();
   
   // Animations d'entrée au chargement pour le hero
-  const yearReveal = useEntryAnimation({ delay: 100 });
-  const titleReveal = useEntryAnimation({ delay: 300 });
-  const subtitleReveal = useEntryAnimation({ delay: 500 });
-  const ctaReveal = useEntryAnimation({ delay: 700 });
-  const { visibleItems } = useStaggerEntry(3, 150, 800); // 3 métriques, 150ms de délai, commence à 800ms
-  const statusReveal = useEntryAnimation({ delay: 1150 });
-  const scrollReveal = useEntryAnimation({ delay: 1300 });
+  const titleReveal = useEntryAnimation({ delay: 100 });
+  const subtitleReveal = useEntryAnimation({ delay: 300 });
+  const ctaReveal = useEntryAnimation({ delay: 500 });
+  const { visibleItems } = useStaggerEntry(3, 150, 600); // 3 métriques, 150ms de délai, commence à 600ms
+  const statusReveal = useEntryAnimation({ delay: 950 });
+  const scrollReveal = useEntryAnimation({ delay: 1100 });
   const geometryParallax = useParallax(0.3);
 
   return (
@@ -33,23 +32,13 @@ export default function HeroSection() {
         <div className="absolute top-48 right-24 w-1 h-1 bg-zinc-500 rounded-full animate-subtle-float"></div>
       </div>
 
-      <div className="relative z-10 h-screen flex items-center">
+      <div className="relative z-10 h-screen flex items-center pt-20">
         <div className="container mx-auto px-8">
           <div className="grid grid-cols-12 gap-8 items-center">
             
             {/* Left side - Main content */}
             <div className="col-span-12 lg:col-span-7">
               
-              {/* Year indicator avec animation */}
-              <div 
-                ref={yearReveal.elementRef}
-                className="mb-12"
-                style={yearReveal.style}
-              >
-                <span className="text-xs tracking-[0.3em] text-zinc-500 font-mono">
-                  {t('hero.label')}
-                </span>
-              </div>
 
               {/* Main title avec animations */}
               <div 
