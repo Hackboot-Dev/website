@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "infrastructure": "Infrastructure",
+    "products": "Produits",
+    "pricing": "Tarifs",
+    "documentation": "Documentation",
+    "support": "Support",
+    "signIn": "Connexion",
+    "getStarted": "Commencer"
+  },
+  "products": {
+    "title": "Nos Produits",
+    "subtitle": "Choisissez la solution qui correspond parfaitement à vos besoins",
+    "categories": {
+      "vps": {
+        "name": "VPS",
+        "description": "Serveurs privés virtuels haute performance",
+        "subtitle": "De 29€/mois - AMD EPYC™, NVMe, 99.9% SLA"
+      },
+      "gpu": {
+        "name": "GPU Cloud",
+        "description": "Puissance GPU pour IA et Machine Learning",
+        "subtitle": "De 469€/mois - Tesla T4, RTX 4090, A100"
+      },
+      "webhosting": {
+        "name": "Hébergement Web",
+        "description": "Hébergement optimisé pour sites et applications",
+        "subtitle": "De 19€/mois - PHP, Node.js, SSL inclus"
+      }
+    },
+    "viewAll": "Voir tous les produits",
+    "pricing": {
+      "monthly": "mois",
+      "annual": "an",
+      "hourly": "heure",
+      "from": "à partir de"
+    }
+  },
+  "hero": {
+    "label": "INFRASTRUCTURE 2025",
+    "title": {
+      "1": "Cloud",
+      "2": "Computing",
+      "3": "Redéfini"
+    },
+    "subtitle": "Infrastructure as code avec sécurité enterprise. Déployez, adaptez, surveillez—sans effort.",
+    "cta": {
+      "primary": "Commencer",
+      "secondary": "Voir les tarifs"
+    },
+    "metrics": {
+      "uptime": "DISPONIBILITÉ",
+      "responseTime": "TEMPS DE RÉPONSE",
+      "globalNodes": "NŒUDS GLOBAUX"
+    },
+    "status": "TOUS LES SYSTÈMES OPÉRATIONNELS",
+    "scroll": "DÉFILER"
+  },
+  "features": {
+    "label": "FONCTIONNALITÉS",
+    "title": {
+      "1": "Conçu pour l'échelle.",
+      "2": "Pensé pour les développeurs."
+    },
+    "subtitle": "Infrastructure enterprise avec outils développeur. Livrez plus rapidement sans compromettre la fiabilité.",
+    "globalInfra": {
+      "title": "Infrastructure Globale",
+      "desc": "Déploiement multi-régions avec optimisation edge pour une latence minimale.",
+      "metric": "5 Régions"
+    },
+    "security": {
+      "title": "Sécurité Enterprise",
+      "desc": "Chiffrement bout-en-bout avec conformité SOC2 et détection automatique des menaces.",
+      "metric": "99.9% SLA"
+    },
+    "devExp": {
+      "title": "Expérience Développeur",
+      "desc": "Workflows Git avec aperçus instantanés et outils de collaboration.",
+      "metric": "<2min Déploiement"
+    },
+    "autoScale": {
+      "title": "Auto-Scaling",
+      "desc": "Allocation intelligente des ressources qui s'adapte automatiquement au trafic.",
+      "metric": "0-100K RPS"
+    }
+  },
+  "pricing": {
+    "label": "TARIFS TRANSPARENTS",
+    "title": {
+      "1": "Tarifs simples.",
+      "2": "Sans surprises."
+    },
+    "subtitle": "Choisissez le plan qui vous convient. Adaptez à tout moment. Annulez quand vous voulez.",
+    "starter": {
+      "name": "Starter",
+      "desc": "Parfait pour les projets personnels"
+    },
+    "pro": {
+      "name": "Professionnel",
+      "desc": "Pour les entreprises en croissance"
+    },
+    "enterprise": {
+      "name": "Entreprise",
+      "desc": "Pour les grandes organisations"
+    },
+    "recommended": "RECOMMANDÉ",
+    "cta": {
+      "trial": "Essai Gratuit",
+      "contact": "Contacter Commercial"
+    },
+    "note": "Tous les plans incluent 14 jours d'essai gratuit. Aucune carte de crédit requise."
+  },
+  "cta": {
+    "label": "PRÊT À CRÉER",
+    "title": {
+      "1": "Livrez plus vite.",
+      "2": "Adaptez intelligemment."
+    },
+    "subtitle": "Rejoignez les développeurs qui choisissent la performance plutôt que la complexité. Déployez en minutes, pas en heures.",
+    "primary": "Essai Gratuit",
+    "secondary": "Voir les Plans",
+    "metrics": {
+      "deployTime": "TEMPS DE DÉPLOIEMENT",
+      "satisfaction": "SATISFACTION DÉVELOPPEUR",
+      "projects": "PROJETS DÉPLOYÉS"
+    },
+    "features": {
+      "config": "Aucune configuration requise",
+      "scaling": "Infrastructure auto-adaptative",
+      "monitoring": "Surveillance 24/7 incluse"
+    }
+  }
+}

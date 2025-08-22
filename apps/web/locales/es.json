@@ -1,0 +1,104 @@
+{
+  "nav": {
+    "infrastructure": "Infraestructura",
+    "pricing": "Precios",
+    "documentation": "Documentación",
+    "support": "Soporte",
+    "signIn": "Iniciar Sesión",
+    "getStarted": "Comenzar"
+  },
+  "hero": {
+    "label": "INFRAESTRUCTURA 2025",
+    "title": {
+      "1": "Cloud",
+      "2": "Computing",
+      "3": "Redefinido"
+    },
+    "subtitle": "Infraestructura como código con seguridad empresarial. Despliega, escala, monitorea—sin esfuerzo.",
+    "cta": {
+      "primary": "Comenzar a Construir",
+      "secondary": "Ver Precios"
+    },
+    "metrics": {
+      "uptime": "DISPONIBILIDAD",
+      "responseTime": "TIEMPO DE RESPUESTA",
+      "globalNodes": "NODOS GLOBALES"
+    },
+    "status": "TODOS LOS SISTEMAS OPERATIVOS",
+    "scroll": "DESPLAZAR"
+  },
+  "features": {
+    "label": "CARACTERÍSTICAS DE LA PLATAFORMA",
+    "title": {
+      "1": "Construido para escalar.",
+      "2": "Diseñado para desarrolladores."
+    },
+    "subtitle": "Infraestructura de nivel empresarial con herramientas pensadas para desarrolladores. Envía más rápido sin comprometer la confiabilidad.",
+    "globalInfra": {
+      "title": "Infraestructura Global",
+      "desc": "Despliegue multi-región con optimización de borde para latencia mínima mundial.",
+      "metric": "5 Regiones"
+    },
+    "security": {
+      "title": "Seguridad Empresarial",
+      "desc": "Cifrado extremo a extremo con cumplimiento SOC2 y detección automática de amenazas.",
+      "metric": "99.9% SLA"
+    },
+    "devExp": {
+      "title": "Experiencia del Desarrollador",
+      "desc": "Flujos de trabajo basados en Git con previsualizaciones instantáneas y herramientas colaborativas.",
+      "metric": "<2min Despliegue"
+    },
+    "autoScale": {
+      "title": "Auto Escalado",
+      "desc": "Asignación inteligente de recursos que se adapta automáticamente a los patrones de tráfico.",
+      "metric": "0-100K RPS"
+    }
+  },
+  "pricing": {
+    "label": "PRECIOS TRANSPARENTES",
+    "title": {
+      "1": "Precios simples.",
+      "2": "Sin sorpresas."
+    },
+    "subtitle": "Elige el plan que se adapte a tus necesidades. Escala hacia arriba o abajo en cualquier momento. Cancela cuando quieras.",
+    "starter": {
+      "name": "Inicial",
+      "desc": "Perfecto para proyectos personales"
+    },
+    "pro": {
+      "name": "Profesional",
+      "desc": "Para empresas en crecimiento"
+    },
+    "enterprise": {
+      "name": "Empresarial",
+      "desc": "Para grandes organizaciones"
+    },
+    "recommended": "RECOMENDADO",
+    "cta": {
+      "trial": "Prueba Gratuita",
+      "contact": "Contactar Ventas"
+    },
+    "note": "Todos los planes incluyen prueba gratuita de 14 días. No se requiere tarjeta de crédito."
+  },
+  "cta": {
+    "label": "LISTO PARA CONSTRUIR",
+    "title": {
+      "1": "Envía más rápido.",
+      "2": "Escala más inteligente."
+    },
+    "subtitle": "Únete a desarrolladores que eligen rendimiento sobre complejidad. Despliega en minutos, no horas.",
+    "primary": "Prueba Gratuita",
+    "secondary": "Ver Planes",
+    "metrics": {
+      "deployTime": "TIEMPO DE DESPLIEGUE",
+      "satisfaction": "SATISFACCIÓN DEL DESARROLLADOR",
+      "projects": "PROYECTOS DESPLEGADOS"
+    },
+    "features": {
+      "config": "Sin configuración requerida",
+      "scaling": "Infraestructura de auto-escalado",
+      "monitoring": "Monitoreo 24/7 incluido"
+    }
+  }
+}
