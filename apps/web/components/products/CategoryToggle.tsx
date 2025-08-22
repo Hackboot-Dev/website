@@ -1,7 +1,7 @@
 'use client';
 // /workspaces/website/apps/web/components/products/CategoryToggle.tsx
-// Description: Toggle pour les catégories de produits
-// Last modified: 2025-08-16
+// Description: Toggle sophistiqué pour les catégories de produits
+// Last modified: 2025-08-22
 // Related docs: /docs/JOURNAL.md
 
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
@@ -17,22 +17,38 @@ export default function CategoryToggle({ name, count, isActive, onClick }: Categ
   return (
     <button
       onClick={onClick}
-      className={`group flex items-center space-x-2 px-4 py-2 rounded-lg border transition-all duration-300 ${
+      className={`group relative flex items-center space-x-3 px-5 py-3 rounded-xl border transition-all duration-500 overflow-hidden ${
         isActive
-          ? 'bg-white text-zinc-950 border-white shadow-sm'
-          : 'bg-zinc-900/30 text-zinc-400 border-zinc-700/50 hover:text-white hover:bg-zinc-800/50 hover:border-zinc-600'
+          ? 'bg-white text-zinc-950 border-white shadow-lg transform scale-105'
+          : 'bg-zinc-900/20 backdrop-blur-sm text-zinc-400 border-zinc-800/30 hover:text-white hover:bg-zinc-800/40 hover:border-zinc-700/50 hover:transform hover:scale-102'
       }`}
     >
-      <span className="text-sm font-medium tracking-wide">
+      {/* Glow effect pour l'état actif */}
+      {isActive && (
+        <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-white/10 rounded-xl"></div>
+      )}
+      
+      {/* Shimmer effect au hover */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+      
+      <span className={`relative z-10 text-sm font-light tracking-wide transition-all duration-300 ${
+        isActive ? 'font-medium' : ''
+      }`}>
         {name}
       </span>
-      <span className={`text-xs px-2 py-0.5 rounded-full font-mono ${
+      
+      <span className={`relative z-10 text-xs px-2.5 py-1 rounded-lg font-mono transition-all duration-300 ${
         isActive
-          ? 'bg-zinc-950/10 text-zinc-600'
-          : 'bg-zinc-800 text-zinc-500 group-hover:bg-zinc-700 group-hover:text-zinc-400'
+          ? 'bg-zinc-950/10 text-zinc-600 shadow-sm'
+          : 'bg-zinc-800/50 text-zinc-500 group-hover:bg-zinc-700/50 group-hover:text-zinc-400'
       }`}>
         {count}
       </span>
+      
+      {/* Indicateur subtil pour l'état actif */}
+      {isActive && (
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-zinc-950/20 rounded-full"></div>
+      )}
     </button>
   );
 }

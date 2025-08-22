@@ -1,7 +1,7 @@
 'use client';
 // /workspaces/website/apps/web/components/products/ProductCard.tsx
-// Description: Carte produit avec design Awwwards
-// Last modified: 2025-08-16
+// Description: Carte produit sophistiquée avec design Awwwards
+// Last modified: 2025-08-22
 // Related docs: /docs/JOURNAL.md
 
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
@@ -217,127 +217,149 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
 
   return (
     <div
-      className={`group relative bg-zinc-900/30 backdrop-blur-sm border border-zinc-800/50 rounded-xl p-6 transition-all duration-500 hover:bg-zinc-900/50 hover:border-zinc-700/60 hover:shadow-xl hover:shadow-zinc-950/20 ${
-        isHovered ? 'transform hover:-translate-y-2' : ''
-      }`}
+      className="group relative bg-zinc-900/20 backdrop-blur-sm border border-zinc-800/30 rounded-2xl p-6 transition-all duration-700 hover:bg-zinc-900/40 hover:border-zinc-700/50 hover:shadow-2xl hover:shadow-zinc-950/30 hover:-translate-y-1 overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{
-        animationDelay: `${index * 100}ms`,
-      }}
     >
-      {/* Category Badge */}
-      <div className="flex items-center justify-between mb-4">
-        <div className={`inline-flex items-center space-x-1 px-2 py-1 rounded-md text-xs font-mono border ${getCategoryColor()}`}>
-          <span>{getCategoryIcon()}</span>
-          <span>{product.category.toUpperCase()}</span>
+      {/* Glow effect subtil */}
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.02] to-transparent"></div>
+      </div>
+      
+      {/* Header sophistiqué */}
+      <div className="relative flex items-center justify-between mb-6">
+        <div className={`inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-light border backdrop-blur-sm ${getCategoryColor()}`}>
+          <span className="text-sm">{getCategoryIcon()}</span>
+          <span className="tracking-wide">{product.category.toUpperCase()}</span>
         </div>
         
         {product.trial && (
-          <div className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-md border border-emerald-500/20">
-            Essai {product.trial}
+          <div className="text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20 backdrop-blur-sm font-light">
+            <span className="text-emerald-300">✨</span> Essai {product.trial}
           </div>
         )}
       </div>
 
       {/* Product Name & Usage */}
-      <div className="mb-4">
-        <h3 className="text-lg font-light text-white mb-1 group-hover:text-zinc-100 transition-colors">
+      <div className="relative mb-6">
+        <h3 className="text-xl font-extralight text-white mb-2 group-hover:text-zinc-100 transition-all duration-500 tracking-tight">
           {product.name}
         </h3>
-        <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">
+        <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-all duration-500 font-light leading-relaxed">
           {product.usage}
         </p>
+        
+        {/* Ligne décorative */}
+        <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-transparent via-zinc-700/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       </div>
 
-      {/* Price */}
-      <div className="mb-6">
-        <div className="flex items-baseline space-x-1">
-          <span className="text-2xl font-light text-white">
-            {getPrice()}€
+      {/* Price Section Sophistiquée */}
+      <div className="relative mb-8">
+        <div className="flex items-baseline space-x-2 mb-3">
+          <span className="text-3xl font-extralight text-white group-hover:text-zinc-100 transition-colors duration-500">
+            {getPrice()}
           </span>
-          <span className="text-sm text-zinc-400">
+          <span className="text-lg font-light text-white">€</span>
+          <span className="text-sm text-zinc-500 font-light tracking-wide">
             {getPriceSuffix()}
           </span>
         </div>
         
-        {/* Price Explanations */}
-        {pricingMode === 'annual' && product.annual && (
-          <div className="mt-2 space-y-1">
-            <p className="text-xs text-zinc-500">
-              *payé annuellement ({product.annual}€/an)
-            </p>
-            {product.monthly && (
-              <p className="text-xs text-emerald-400">
-                💰 Économise {Math.round(((product.monthly * 12 - product.annual) / (product.monthly * 12)) * 100)}% vs mensuel
-              </p>
-            )}
+        {/* Badge d'économie ou info */}
+        {pricingMode === 'annual' && product.annual && product.monthly && (
+          <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-1 mb-2">
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+            <span className="text-xs text-emerald-400 font-light">
+              Économise {Math.round(((product.monthly * 12 - product.annual) / (product.monthly * 12)) * 100)}%
+            </span>
           </div>
         )}
         
-        {pricingMode === 'hourly' && product.hourly && (
-          <div className="mt-2">
-            <p className="text-xs text-zinc-500">
-              ≈ {Math.round(product.hourly * 24 * 30)}€/mois si 24/7
-            </p>
-            <p className="text-xs text-blue-400">
-              ⚡ Facturation à l'usage réel
-            </p>
+        {pricingMode === 'hourly' && (
+          <div className="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 rounded-lg px-3 py-1 mb-2">
+            <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
+            <span className="text-xs text-blue-400 font-light">Facturation à l'usage</span>
           </div>
         )}
         
-        {pricingMode === 'monthly' && product.hourly && product.monthly && (
-          <div className="mt-2">
-            <p className="text-xs text-zinc-500">
-              ≈ {product.hourly.toFixed(3)}€/heure
-            </p>
-            <p className="text-xs text-emerald-400">
-              📅 Prix fixe, ressources garanties
-            </p>
+        {pricingMode === 'monthly' && (
+          <div className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 rounded-lg px-3 py-1 mb-2">
+            <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+            <span className="text-xs text-zinc-400 font-light">Ressources garanties 24/7</span>
           </div>
         )}
         
-        {/* Special cases for storage and CDN */}
-        {product.category === 'storage' && (
-          <div className="mt-2">
-            <p className="text-xs text-zinc-500">
-              Minimum {product.min_size}, maximum {product.max_size}
-            </p>
-            <p className="text-xs text-blue-400">
-              💾 Stockage haute performance
-            </p>
-          </div>
-        )}
-        
-        {product.category === 'cdn' && product.traffic_extra_per_gb && (
-          <div className="mt-2">
-            <p className="text-xs text-zinc-500">
-              Trafic supplémentaire: {product.traffic_extra_per_gb}€/GB
-            </p>
-            <p className="text-xs text-green-400">
-              🌍 Réseau global optimisé
-            </p>
-          </div>
-        )}
+        {/* Info contextuelle discrète */}
+        <div className="text-xs text-zinc-500 font-light">
+          {pricingMode === 'annual' && product.annual && (
+            <span>Payé annuellement • {product.annual}€/an</span>
+          )}
+          {pricingMode === 'hourly' && product.hourly && (
+            <span>≈ {Math.round(product.hourly * 24 * 30)}€/mois en continu</span>
+          )}
+          {pricingMode === 'monthly' && product.hourly && (
+            <span>≈ {product.hourly.toFixed(3)}€/heure</span>
+          )}
+        </div>
       </div>
 
-      {/* Specs */}
-      <div className="space-y-3 mb-6">
-        {getMainSpecs().map((spec, specIndex) => (
-          <div key={specIndex} className="flex items-center justify-between text-sm">
-            <span className="text-zinc-400">{spec.label}</span>
-            <span className="text-zinc-300 font-mono text-xs">{spec.value}</span>
-          </div>
-        ))}
+      {/* Specs Section Sophistiquée */}
+      <div className="space-y-4 mb-8">
+        <div className="flex items-center space-x-2 mb-3">
+          <div className="w-3 h-px bg-gradient-to-r from-zinc-600 to-transparent"></div>
+          <span className="text-xs text-zinc-500 uppercase tracking-wider font-light">Spécifications</span>
+        </div>
+        
+        <div className="grid grid-cols-1 gap-3">
+          {getMainSpecs().slice(0, 3).map((spec, specIndex) => (
+            <div key={specIndex} className="flex items-center justify-between py-2 border-b border-zinc-800/30 last:border-b-0">
+              <span className="text-sm text-zinc-400 font-light">{spec.label}</span>
+              <span className="text-sm text-zinc-300 font-mono tracking-tight bg-zinc-800/20 px-2 py-1 rounded text-xs">
+                {spec.value}
+              </span>
+            </div>
+          ))}
+          
+          {getMainSpecs().length > 3 && (
+            <div className="text-center pt-2">
+              <span className="text-xs text-zinc-500 hover:text-zinc-400 transition-colors cursor-pointer">
+                +{getMainSpecs().length - 3} autres specs
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* CTA Button */}
-      <button className="w-full bg-white text-zinc-950 py-2.5 px-4 rounded-lg text-sm font-medium tracking-wide transition-all duration-300 hover:bg-zinc-100 hover:shadow-lg hover:shadow-white/10 group-hover:transform group-hover:scale-105">
-        Choisir ce plan
-      </button>
+      {/* CTA Button Sophistiqué */}
+      <div className="relative">
+        <button className="w-full bg-white text-zinc-950 py-3 px-4 rounded-xl text-sm font-light tracking-wide transition-all duration-500 hover:bg-zinc-100 hover:shadow-xl hover:shadow-white/20 group-hover:transform group-hover:scale-[1.02] relative overflow-hidden">
+          <span className="relative z-10">Choisir cette configuration</span>
+          
+          {/* Shimmer effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+        </button>
+        
+        {/* Prix rapide en hover */}
+        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 text-xs text-white whitespace-nowrap pointer-events-none">
+          {getPrice()}€{getPriceSuffix()}
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full border-4 border-transparent border-t-zinc-900"></div>
+        </div>
+      </div>
 
-      {/* Hover Effect Line */}
-      <div className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-zinc-600 to-transparent group-hover:w-full transition-all duration-500"></div>
+      {/* Effets de hover sophistiqués */}
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+        {/* Border glow */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-zinc-600/20 via-transparent to-zinc-800/20"></div>
+        
+        {/* Corner accents */}
+        <div className="absolute top-0 right-0 w-8 h-8">
+          <div className="absolute top-2 right-2 w-1 h-1 bg-zinc-400 rounded-full animate-pulse"></div>
+        </div>
+        
+        <div className="absolute bottom-0 left-0 w-8 h-8">
+          <div className="absolute bottom-2 left-2 w-1 h-1 bg-zinc-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+        </div>
+      </div>
     </div>
   );
 }
