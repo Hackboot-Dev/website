@@ -136,4 +136,11 @@
   .animate-fade-in-up {
     animation: fade-in-up 0.6s ease-out forwards;
   }
+  
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
 }

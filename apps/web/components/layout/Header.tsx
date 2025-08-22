@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 import { useScrollProgress } from '../../hooks/useAwwardsAnimation';
 import { useLanguage } from '../../contexts/LanguageContext';
 import LanguageSelector from '../ui/LanguageSelector';
+import ProductsDropdown from '../ui/ProductsDropdown';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,6 +47,7 @@ export default function Header() {
             <Link href="/infrastructure" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
               <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.infrastructure')}</span>
             </Link>
+            <ProductsDropdown />
             <Link href="/pricing" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
               <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.pricing')}</span>
             </Link>
@@ -87,6 +89,9 @@ export default function Header() {
             <nav className="flex flex-col space-y-4">
               <Link href="/infrastructure" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
                 {t('nav.infrastructure')}
+              </Link>
+              <Link href="/products" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
+                {t('nav.products')}
               </Link>
               <Link href="/pricing" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
                 {t('nav.pricing')}

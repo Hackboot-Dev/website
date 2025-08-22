@@ -1,11 +1,40 @@
 {
   "nav": {
     "infrastructure": "Infrastructure",
+    "products": "Products",
     "pricing": "Pricing",
     "documentation": "Documentation",
     "support": "Support",
     "signIn": "Sign In",
     "getStarted": "Get Started"
+  },
+  "products": {
+    "title": "Our Products",
+    "subtitle": "Choose the perfect solution for your needs",
+    "categories": {
+      "vps": {
+        "name": "VPS",
+        "description": "High-performance virtual private servers",
+        "subtitle": "From €29/month - AMD EPYC™, NVMe, 99.9% SLA"
+      },
+      "gpu": {
+        "name": "GPU Cloud",
+        "description": "GPU power for AI and Machine Learning",
+        "subtitle": "From €469/month - Tesla T4, RTX 4090, A100"
+      },
+      "webhosting": {
+        "name": "Web Hosting",
+        "description": "Optimized hosting for websites and applications",
+        "subtitle": "From €19/month - PHP, Node.js, SSL included"
+      }
+    },
+    "viewAll": "View all products",
+    "pricing": {
+      "monthly": "month",
+      "annual": "year",
+      "hourly": "hour",
+      "from": "from"
+    }
   },
   "hero": {
     "label": "2025 INFRASTRUCTURE",

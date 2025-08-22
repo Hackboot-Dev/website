@@ -1,124 +1,135 @@
+'use client';
+// /workspaces/website/apps/web/components/layout/Footer.tsx
+// Description: Footer avec design Awwwards minimal
+// Last modified: 2025-08-16
+// Related docs: /docs/JOURNAL.md
+
+// DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
+
 import Link from 'next/link';
-import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
+  const footerLinks = {
+    products: [
+      { name: 'VPS', href: '/products#vps' },
+      { name: 'GPU Cloud', href: '/products#gpu' },
+      { name: 'Hébergement Web', href: '/products#webhosting' },
+      { name: 'Tarifs', href: '/pricing' }
+    ],
+    company: [
+      { name: 'À propos', href: '/about' },
+      { name: 'Blog', href: '/blog' },
+      { name: 'Carrières', href: '/careers' },
+      { name: 'Contact', href: '/contact' }
+    ],
+    support: [
+      { name: 'Documentation', href: '/docs' },
+      { name: 'Status', href: '/status' },
+      { name: 'Support', href: '/support' },
+      { name: 'API', href: '/api' }
+    ],
+    legal: [
+      { name: 'Conditions', href: '/terms' },
+      { name: 'Confidentialité', href: '/privacy' },
+      { name: 'Cookies', href: '/cookies' },
+      { name: 'RGPD', href: '/gdpr' }
+    ]
+  };
+
   return (
-    <footer className="bg-darker text-gray-300 border-t border-white/5">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">VM</span>
-              </div>
-              <span className="text-white font-semibold text-xl">VMCloud</span>
-            </div>
-            <p className="text-sm mb-4">
-              Votre partenaire de confiance pour l'hébergement cloud haute performance.
+    <footer className="bg-zinc-950 border-t border-zinc-800/50">
+      <div className="container mx-auto px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+          
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="text-white font-light text-xl tracking-wide hover:tracking-widest transition-all duration-300">
+              VMCloud
+            </Link>
+            <p className="text-zinc-400 text-sm mt-4 font-light max-w-xs">
+              Infrastructure cloud haute performance pour développeurs et entreprises.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:text-primary transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-            </div>
           </div>
 
           {/* Products */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Produits</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/vps" className="hover:text-primary transition-colors">
-                  VPS Linux
-                </Link>
-              </li>
-              <li>
-                <Link href="/vps-windows" className="hover:text-primary transition-colors">
-                  VPS Windows
-                </Link>
-              </li>
-              <li>
-                <Link href="/dedicated" className="hover:text-primary transition-colors">
-                  Serveurs Dédiés
-                </Link>
-              </li>
-              <li>
-                <Link href="/cloud" className="hover:text-primary transition-colors">
-                  Cloud Computing
-                </Link>
-              </li>
+            <h3 className="text-white text-sm font-medium tracking-wide mb-4">Produits</h3>
+            <ul className="space-y-3">
+              {footerLinks.products.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-zinc-400 text-sm hover:text-white transition-colors duration-300 hover:tracking-wide"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h3 className="text-white text-sm font-medium tracking-wide mb-4">Entreprise</h3>
+            <ul className="space-y-3">
+              {footerLinks.company.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-zinc-400 text-sm hover:text-white transition-colors duration-300 hover:tracking-wide"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Support</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/docs" className="hover:text-blue-400 transition">
-                  Documentation
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-blue-400 transition">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="/status" className="hover:text-blue-400 transition">
-                  Statut des services
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-blue-400 transition">
-                  Contact
-                </Link>
-              </li>
+            <h3 className="text-white text-sm font-medium tracking-wide mb-4">Support</h3>
+            <ul className="space-y-3">
+              {footerLinks.support.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-zinc-400 text-sm hover:text-white transition-colors duration-300 hover:tracking-wide"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Legal */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Contact</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start space-x-2">
-                <Mail className="w-4 h-4 mt-0.5" />
-                <span>support@vmcloud.com</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <Phone className="w-4 h-4 mt-0.5" />
-                <span>+33 1 23 45 67 89</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <MapPin className="w-4 h-4 mt-0.5" />
-                <span>Paris, France</span>
-              </li>
+            <h3 className="text-white text-sm font-medium tracking-wide mb-4">Légal</h3>
+            <ul className="space-y-3">
+              {footerLinks.legal.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-zinc-400 text-sm hover:text-white transition-colors duration-300 hover:tracking-wide"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-gray-400 mb-4 md:mb-0">
-            © 2024 VMCloud. Tous droits réservés.
+        <div className="border-t border-zinc-800/50 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-zinc-500 text-sm">
+            © 2025 VMCloud. Tous droits réservés.
           </p>
-          <div className="flex space-x-6 text-sm">
-            <Link href="/privacy" className="hover:text-primary transition-colors">
-              Confidentialité
-            </Link>
-            <Link href="/terms" className="hover:text-primary transition-colors">
-              Conditions
-            </Link>
-            <Link href="/legal" className="hover:text-primary transition-colors">
-              Mentions légales
-            </Link>
+          <div className="flex items-center space-x-6 mt-4 md:mt-0">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+              <span className="text-zinc-500 text-xs tracking-wider">Tous les systèmes opérationnels</span>
+            </div>
           </div>
         </div>
       </div>
