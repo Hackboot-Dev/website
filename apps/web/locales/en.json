@@ -26,7 +26,11 @@
         "name": "Web Hosting",
         "description": "Optimized hosting for websites and applications",
         "subtitle": "From €19/month - PHP, Node.js, SSL included"
-      }
+      },
+      "paas": { "name": "PaaS" },
+      "loadbalancer": { "name": "Load Balancer" },
+      "storage": { "name": "Storage" },
+      "cdn": { "name": "CDN" }
     },
     "viewAll": "View all products",
     "pricing": {
@@ -34,7 +38,85 @@
       "annual": "year",
       "hourly": "hour",
       "from": "from"
+    },
+    "ui": {
+      "recommendedTitle": "Recommended offers",
+      "recommendedSubtitle": "Three clear picks. No overload.",
+      "configurationsTitle": "Configurations",
+      "choose": "Choose",
+      "chooseConfig": "Choose this configuration",
+      "details": "Details",
+      "hide": "Hide",
+      "showMore": "Show more",
+      "modeLabel": "Mode",
+      "categories": {
+        "all": "All products"
+      },
+      "toggle": {
+        "monthly": "Monthly",
+        "annualShort": "Annual",
+        "hourly": "Hourly"
+      },
+      "annualNote": "Monthly equivalent on annual commitment",
+      "switchNote": "Switch between modes",
+      "hero": {
+        "label": "Premium Infrastructure",
+        "title1": "Solutions",
+        "title2": "Cloud",
+        "subtitle1": "From simple instances to high‑performance GPU clusters.",
+        "subtitle2": "European premium infrastructure, transparent billing."
+      },
+      "stats": {
+        "configurations": "Configurations",
+        "categories": "Categories",
+        "modes": "Pricing Modes"
+      },
+      "billing": {
+        "title": "Smart billing",
+        "hourly": "Hourly: pay for actual usage",
+        "monthly": "Monthly: fixed price, guarantees",
+        "annual": "Annual: up to 50% savings"
+      },
+      "trial": "Trial",
+      "included": "Included:",
+      "saves": "Saves",
+      "badges": {
+        "hourly": "Usage-based billing",
+        "monthly": "Guaranteed resources 24/7"
+      },
+      "specs": {
+        "title": "Specifications",
+        "cpu": "CPU",
+        "gpu": "GPU",
+        "vram": "VRAM",
+        "ram": "RAM",
+        "storage": "Storage",
+        "bandwidth": "Bandwidth",
+        "sites": "Sites",
+        "containers": "Containers",
+        "ipv4": "IPv4",
+        "network": "Network",
+        "databases": "Databases",
+        "emails": "Emails",
+        "ssl": "SSL",
+        "protocols": "Protocols",
+        "rps": "RPS",
+        "type": "Type",
+        "throughput": "Throughput",
+        "pops": "PoPs",
+        "traffic": "Traffic"
+      },
+      "price": {
+        "perHour": "/h",
+        "perMonth": "/mo",
+        "perMonthStar": "/mo*",
+        "perGbPerMonth": "/GB/mo"
+      }
     }
+  },
+  "common": {
+    "langUnavailable": "Language unavailable",
+    "na": "N/A"
   },
   "hero": {
     "label": "2025 INFRASTRUCTURE",

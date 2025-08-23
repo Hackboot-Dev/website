@@ -26,7 +26,11 @@
         "name": "Hébergement Web",
         "description": "Hébergement optimisé pour sites et applications",
         "subtitle": "De 19€/mois - PHP, Node.js, SSL inclus"
-      }
+      },
+      "paas": { "name": "PaaS" },
+      "loadbalancer": { "name": "Load Balancer" },
+      "storage": { "name": "Stockage" },
+      "cdn": { "name": "CDN" }
     },
     "viewAll": "Voir tous les produits",
     "pricing": {
@@ -34,6 +38,92 @@
       "annual": "an",
       "hourly": "heure",
       "from": "à partir de"
+    },
+    "ui": {
+      "recommendedTitle": "Offres recommandées",
+      "recommendedSubtitle": "3 choix clairs, sans surcharge d’informations.",
+      "configurationsTitle": "Configurations",
+      "choose": "Choisir",
+      "chooseConfig": "Choisir cette configuration",
+      "details": "Détails",
+      "hide": "Masquer",
+      "showMore": "Afficher plus",
+      "modeLabel": "Mode",
+      "categories": {
+        "all": "Tous les produits"
+      },
+      "toggle": {
+        "monthly": "Mensuel",
+        "annualShort": "Annuel",
+        "hourly": "Horaire"
+      },
+      "annualNote": "Prix mensuel équivalent sur engagement annuel",
+      "switchNote": "Basculer entre les modes",
+      "hero": {
+        "label": "Infrastructure Premium",
+        "title1": "Solutions",
+        "title2": "Cloud",
+        "subtitle1": "De la simple instance aux clusters GPU haute performance.",
+        "subtitle2": "Infrastructure européenne premium, facturation transparente."
+      },
+      "stats": {
+        "configurations": "Configurations",
+        "categories": "Catégories",
+        "modes": "Modes Prix"
+      },
+      "billing": {
+        "title": "Facturation intelligente",
+        "hourly": "Horaire : payez à l'usage réel",
+        "monthly": "Mensuel : prix fixe, garanties",
+        "annual": "Annuel : jusqu'à 50% d'économies"
+      },
+      "trial": "Essai",
+      "included": "Inclus :",
+      "saves": "Économise",
+      "badges": {
+        "hourly": "Facturation à l'usage",
+        "monthly": "Ressources garanties 24/7"
+      },
+      "specs": {
+        "title": "Spécifications",
+        "cpu": "CPU",
+        "gpu": "GPU",
+        "vram": "VRAM",
+        "ram": "RAM",
+        "storage": "Stockage",
+        "bandwidth": "Bande passante",
+        "sites": "Sites",
+        "containers": "Containers",
+        "ipv4": "IPv4",
+        "network": "Réseau",
+        "databases": "Bases",
+        "emails": "Emails",
+        "ssl": "SSL",
+        "protocols": "Protocoles",
+        "rps": "RPS",
+        "type": "Type",
+        "throughput": "Débit",
+        "pops": "PoPs",
+        "traffic": "Trafic"
+      },
+      "price": {
+        "perHour": "/h",
+        "perMonth": "/mois",
+        "perMonthStar": "/mois*",
+        "perGbPerMonth": "/GB/mois"
+      }
+    }
+  },
+  "common": {
+    "langUnavailable": "Langue indisponible",
+    "na": "N/A"
+  },
+  "products": {
+    "categories": {
+      "paas": {"name": "PaaS"},
+      "loadbalancer": {"name": "Load Balancer"},
+      "storage": {"name": "Stockage"},
+      "cdn": {"name": "CDN"}
     }
   },
   "hero": {
