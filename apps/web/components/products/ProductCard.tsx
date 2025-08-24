@@ -81,6 +81,59 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
   const { t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
 
+  function getCategoryTheme(category: string) {
+    const themes = {
+      vps: { 
+        color: 'blue', 
+        icon: '🖥️', 
+        name: 'VPS',
+        styles: 'bg-blue-500/15 text-blue-300 border-blue-500/30'
+      },
+      gpu: { 
+        color: 'purple', 
+        icon: '⚡', 
+        name: 'GPU',
+        styles: 'bg-purple-500/15 text-purple-300 border-purple-500/30'
+      },
+      webhosting: { 
+        color: 'emerald', 
+        icon: '🌐', 
+        name: 'Web',
+        styles: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+      },
+      paas: { 
+        color: 'cyan', 
+        icon: '🐳', 
+        name: 'PaaS',
+        styles: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
+      },
+      loadbalancer: { 
+        color: 'orange', 
+        icon: '⚖️', 
+        name: 'LB',
+        styles: 'bg-orange-500/15 text-orange-300 border-orange-500/30'
+      },
+      storage: { 
+        color: 'yellow', 
+        icon: '💾', 
+        name: 'Storage',
+        styles: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/30'
+      },
+      cdn: { 
+        color: 'green', 
+        icon: '🌍', 
+        name: 'CDN',
+        styles: 'bg-green-500/15 text-green-300 border-green-500/30'
+      }
+    };
+    return themes[category] || { 
+      color: 'zinc', 
+      icon: '💻', 
+      name: category,
+      styles: 'bg-zinc-500/15 text-zinc-300 border-zinc-500/30'
+    };
+  }
+
   const getPrice = () => {
     // Pour les produits Storage qui ont un prix au GB
     if (product.price_per_gb_month && product.category === 'storage') {
@@ -103,112 +156,71 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
   const getPriceSuffix = () => {
     // Pour les produits Storage qui ont un prix au GB
     if (product.price_per_gb_month && product.category === 'storage') {
-      return '/GB/mois';
+      return t('products.ui.price.perGbPerMonth') || '/GB/mois';
     }
     
     switch (pricingMode) {
       case 'hourly':
-        return '/h';
+        return t('products.ui.price.perHour') || '/h';
       case 'monthly':
-        return '/mois';
+        return t('products.ui.price.perMonth') || '/mois';
       case 'annual':
-        return '/mois*';
+        return t('products.ui.price.perMonthStar') || '/mois*';
       default:
         return '/mois';
     }
   };
 
-  const getCategoryIcon = () => {
-    switch (product.category) {
-      case 'vps':
-        return '🖥️';
-      case 'gpu':
-        return '⚡';
-      case 'webhosting':
-        return '🌐';
-      case 'paas':
-        return '🐳';
-      case 'loadbalancer':
-        return '⚖️';
-      case 'storage':
-        return '💾';
-      case 'cdn':
-        return '🌍';
-      default:
-        return '💻';
-    }
-  };
-
-  const getCategoryColor = () => {
-    switch (product.category) {
-      case 'vps':
-        return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
-      case 'gpu':
-        return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
-      case 'webhosting':
-        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
-      case 'paas':
-        return 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20';
-      case 'loadbalancer':
-        return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
-      case 'storage':
-        return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20';
-      case 'cdn':
-        return 'bg-green-500/10 text-green-400 border-green-500/20';
-      default:
-        return 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20';
-    }
-  };
 
   const getMainSpecs = () => {
     const specs = [];
     
     // Specs communes
-    if (product.vcpu) specs.push({ label: 'CPU', value: product.vcpu });
-    if (product.gpu) specs.push({ label: 'GPU', value: product.gpu });
-    if (product.ram) specs.push({ label: 'RAM', value: product.ram });
-    if (product.storage) specs.push({ label: 'Storage', value: product.storage });
+    if (product.vcpu) specs.push({ label: t('products.labels.cpu') || 'CPU', value: product.vcpu });
+    if (product.gpu) specs.push({ label: t('products.labels.gpu') || 'GPU', value: product.gpu });
+    if (product.ram) specs.push({ label: t('products.labels.ram') || 'RAM', value: product.ram });
+    if (product.storage) specs.push({ label: t('products.labels.storage') || 'Storage', value: product.storage });
     
     // Specs spécifiques selon la catégorie
     switch (product.category) {
       case 'vps':
       case 'gpu':
-        if (product.bandwidth) specs.push({ label: 'Bande passante', value: product.bandwidth });
-        if (product.performance) specs.push({ label: 'Performance', value: product.performance });
-        if (product.interconnect) specs.push({ label: 'Interconnect', value: product.interconnect });
+        if (product.bandwidth) specs.push({ label: t('products.labels.bandwidth') || 'Bande passante', value: product.bandwidth });
+        if (product.performance) specs.push({ label: t('products.labels.performance') || 'Performance', value: product.performance });
+        if (product.interconnect) specs.push({ label: t('products.labels.interconnect') || 'Interconnect', value: product.interconnect });
         break;
         
       case 'webhosting':
-        if (product.sites) specs.push({ label: 'Sites', value: product.sites });
-        if (product.databases) specs.push({ label: 'Bases de données', value: product.databases });
-        if (product.emails) specs.push({ label: 'Emails', value: product.emails });
-        if (product.ssl) specs.push({ label: 'SSL', value: product.ssl });
+        if (product.sites) specs.push({ label: t('products.labels.sites') || 'Sites', value: product.sites });
+        if (product.databases) specs.push({ label: t('products.labels.databases') || 'Bases de données', value: product.databases });
+        if (product.emails) specs.push({ label: t('products.labels.emails') || 'Emails', value: product.emails });
+        if (product.ssl) specs.push({ label: t('products.labels.ssl') || 'SSL', value: product.ssl });
         break;
         
       case 'paas':
-        if (product.containers) specs.push({ label: 'Containers', value: product.containers });
-        if (product.environments) specs.push({ label: 'Environnements', value: product.environments });
-        if (product.auto_scaling) specs.push({ label: 'Auto-scaling', value: product.auto_scaling === true ? 'Oui' : product.auto_scaling });
+        if (product.containers) specs.push({ label: t('products.labels.containers') || 'Containers', value: product.containers });
+        if (product.environments) specs.push({ label: t('products.labels.environments') || 'Environnements', value: product.environments });
+        if (product.auto_scaling) specs.push({ label: t('products.labels.scaling') || 'Auto-scaling', value: product.auto_scaling === true ? (t('common.yes') || 'Oui') : product.auto_scaling });
         break;
         
       case 'loadbalancer':
-        if (product.backends_max) specs.push({ label: 'Backends max', value: product.backends_max });
-        if (product.requests_per_sec) specs.push({ label: 'Requêtes/sec', value: product.requests_per_sec });
-        if (product.protocols) specs.push({ label: 'Protocoles', value: product.protocols });
+        if (product.backends_max) specs.push({ label: t('products.labels.backendsMax') || 'Backends max', value: product.backends_max });
+        if (product.requests_per_sec) specs.push({ label: t('products.labels.requestsPerSec') || 'Requêtes/sec', value: product.requests_per_sec });
+        if (product.protocols) specs.push({ label: t('products.labels.protocols') || 'Protocoles', value: product.protocols });
         break;
         
       case 'storage':
-        if (product.type) specs.push({ label: 'Type', value: product.type });
-        if (product.iops_per_tb) specs.push({ label: 'IOPS/TB', value: product.iops_per_tb });
-        if (product.latency) specs.push({ label: 'Latence', value: product.latency });
-        if (product.min_size && product.max_size) specs.push({ label: 'Taille', value: `${product.min_size} - ${product.max_size}` });
+        if (product.type) specs.push({ label: t('products.labels.type') || 'Type', value: product.type });
+        if (product.iops_per_tb) specs.push({ label: t('products.labels.iopsPerTb') || 'IOPS/TB', value: product.iops_per_tb });
+        if (product.latency) specs.push({ label: t('products.labels.latency') || 'Latence', value: product.latency });
+        if (product.min_size && product.max_size) specs.push({ label: t('products.labels.size') || 'Taille', value: `${product.min_size} - ${product.max_size}` });
         break;
         
       case 'cdn':
-        if (product.pops) specs.push({ label: 'PoPs', value: product.pops });
-        if (product.traffic_included) specs.push({ label: 'Trafic inclus', value: product.traffic_included });
-        if (product.domains) specs.push({ label: 'Domaines', value: product.domains });
-        if (product.waf) specs.push({ label: 'WAF', value: product.waf === true ? 'Inclus' : product.waf || 'Non' });
+        if (product.pops) specs.push({ label: t('products.labels.pops') || 'PoPs', value: product.pops });
+        if (product.traffic_included) specs.push({ label: t('products.labels.trafficIncluded') || 'Trafic inclus', value: product.traffic_included });
+        if (product.domains) specs.push({ label: t('products.labels.domains') || 'Domaines', value: product.domains });
+        if (product.waf) specs.push({ label: t('products.labels.waf') || 'WAF', value: product.waf === true ? (t('common.included') || 'Inclus') : product.waf || (t('common.no') || 'Non') });
         break;
     }
 
@@ -228,14 +240,14 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
       
       {/* Header sophistiqué */}
       <div className="relative flex items-center justify-between mb-6">
-        <div className={`inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-light border backdrop-blur-sm ${getCategoryColor()}`}>
-          <span className="text-sm">{getCategoryIcon()}</span>
-          <span className="tracking-wide">{product.category.toUpperCase()}</span>
+        <div className={`inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-light border backdrop-blur-sm ${getCategoryTheme(product.category).styles}`}>
+          <span className="text-sm">{getCategoryTheme(product.category).icon}</span>
+          <span className="tracking-wide">{getCategoryTheme(product.category).name}</span>
         </div>
         
         {product.trial && (
           <div className="text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20 backdrop-blur-sm font-light">
-            <span className="text-emerald-300">✨</span> Essai {product.trial}
+            <span className="text-emerald-300">✨</span> {t('products.ui.trial') || 'Essai'} {product.trial}
           </div>
         )}
       </div>
@@ -270,7 +282,7 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
           <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-1 mb-2">
             <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
             <span className="text-xs text-emerald-400 font-light">
-              Économise {Math.round(((product.monthly * 12 - product.annual) / (product.monthly * 12)) * 100)}%
+              {t('products.ui.saves') || 'Économise'} {Math.round(((product.monthly * 12 - product.annual) / (product.monthly * 12)) * 100)}%
             </span>
           </div>
         )}
@@ -278,27 +290,27 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
         {pricingMode === 'hourly' && (
           <div className="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 rounded-lg px-3 py-1 mb-2">
             <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
-            <span className="text-xs text-blue-400 font-light">Facturation à l'usage</span>
+            <span className="text-xs text-blue-400 font-light">{t('products.ui.badges.hourly') || 'Facturation à l\'usage'}</span>
           </div>
         )}
         
         {pricingMode === 'monthly' && (
           <div className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 rounded-lg px-3 py-1 mb-2">
             <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
-            <span className="text-xs text-zinc-400 font-light">Ressources garanties 24/7</span>
+            <span className="text-xs text-zinc-400 font-light">{t('products.ui.badges.monthly') || 'Ressources garanties 24/7'}</span>
           </div>
         )}
         
         {/* Info contextuelle discrète */}
         <div className="text-xs text-zinc-500 font-light">
           {pricingMode === 'annual' && product.annual && (
-            <span>Payé annuellement • {product.annual}€/an</span>
+            <span>{t('products.ui.paidAnnually') || 'Payé annuellement'} • {product.annual}€/{t('common.year') || 'an'}</span>
           )}
           {pricingMode === 'hourly' && product.hourly && (
-            <span>≈ {Math.round(product.hourly * 24 * 30)}€/mois en continu</span>
+            <span>≈ {Math.round(product.hourly * 24 * 30)}€/{t('common.month') || 'mois'} {t('products.ui.continuous') || 'en continu'}</span>
           )}
           {pricingMode === 'monthly' && product.hourly && (
-            <span>≈ {product.hourly.toFixed(3)}€/heure</span>
+            <span>≈ {product.hourly.toFixed(3)}€/{t('common.hour') || 'heure'}</span>
           )}
         </div>
       </div>
@@ -307,7 +319,7 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
       <div className="space-y-4 mb-8">
         <div className="flex items-center space-x-2 mb-3">
           <div className="w-3 h-px bg-gradient-to-r from-zinc-600 to-transparent"></div>
-          <span className="text-xs text-zinc-500 uppercase tracking-wider font-light">Spécifications</span>
+          <span className="text-xs text-zinc-500 uppercase tracking-wider font-light">{t('products.ui.specs.title') || 'Spécifications'}</span>
         </div>
         
         <div className="grid grid-cols-1 gap-3">
@@ -323,7 +335,7 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
           {getMainSpecs().length > 3 && (
             <div className="text-center pt-2">
               <span className="text-xs text-zinc-500 hover:text-zinc-400 transition-colors cursor-pointer">
-                +{getMainSpecs().length - 3} autres specs
+                +{getMainSpecs().length - 3} {t('products.ui.otherSpecs') || 'autres specs'}
               </span>
             </div>
           )}
@@ -333,7 +345,7 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
       {/* CTA Button Sophistiqué */}
       <div className="relative">
         <button className="w-full bg-white text-zinc-950 py-3 px-4 rounded-xl text-sm font-light tracking-wide transition-all duration-500 hover:bg-zinc-100 hover:shadow-xl hover:shadow-white/20 group-hover:transform group-hover:scale-[1.02] relative overflow-hidden">
-          <span className="relative z-10">Choisir cette configuration</span>
+          <span className="relative z-10">{t('products.ui.chooseConfig') || 'Choisir cette configuration'}</span>
           
           {/* Shimmer effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>

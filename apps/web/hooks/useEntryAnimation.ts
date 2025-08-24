@@ -44,24 +44,42 @@ export function useEntryAnimation(options: EntryAnimationOptions = {}) {
   };
 }
 
-export function useStaggerEntry(itemsCount: number, staggerDelay: number = 100, initialDelay: number = 0) {
-  const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(itemsCount).fill(false));
+export function useStaggerEntry(itemsCount: number, staggerDelay: number = 100, initialDelay: number = 0, resetKey?: string) {
+  const [visibleItems, setVisibleItems] = useState<boolean[]>([]);
+  const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
 
   useEffect(() => {
+    // Nettoyer les timeouts précédents
+    timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
+    timeoutsRef.current = [];
+
+    // Réinitialiser avec le nouveau nombre d'items
+    setVisibleItems(new Array(itemsCount).fill(false));
+
+    if (itemsCount === 0) return;
+
     // Démarrer après le délai initial
-    setTimeout(() => {
+    const initialTimeout = setTimeout(() => {
       // Révélation progressive des items
       Array.from({ length: itemsCount }, (_, i) => {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
           setVisibleItems(prev => {
             const newState = [...prev];
             newState[i] = true;
             return newState;
           });
         }, i * staggerDelay);
+        timeoutsRef.current.push(timeout);
       });
     }, initialDelay);
-  }, [itemsCount, staggerDelay, initialDelay]);
+    
+    timeoutsRef.current.push(initialTimeout);
+
+    return () => {
+      timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
+      timeoutsRef.current = [];
+    };
+  }, [itemsCount, staggerDelay, initialDelay, resetKey]);
 
   return { visibleItems };
 }

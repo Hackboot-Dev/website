@@ -1,0 +1,259 @@
+/* Design Tokens System */
+:root {
+  /* === COLORS === */
+  /* Background Colors */
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #1C1C1E;
+  --color-bg-tertiary: #161616;
+  --color-bg-card: #1C1C1E;
+  --color-bg-overlay: rgba(0, 0, 0, 0.8);
+
+  /* Text Colors */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #BDC3C7;
+  --color-text-tertiary: #95A5A6;
+  --color-text-muted: #7F8C8D;
+
+  /* Accent & CTA Colors - Désaturés pour fond sombre */
+  --color-accent-primary: #27AE60;
+  --color-accent-primary-hover: #219150;
+  --color-accent-primary-active: #1E8449;
+  --color-accent-primary-disabled: #2C3E50;
+
+  /* Badge Category Colors - Palette désaturée et harmonisée */
+  --color-badge-vps: #4A90E2;
+  --color-badge-gpu: #8E44AD;
+  --color-badge-webhosting: #16A085;
+  --color-badge-paas: #4A90E2;
+  --color-badge-loadbalancer: #CA8C34;
+  --color-badge-storage: #4A90E2;
+  --color-badge-cdn: #D35400;
+
+  /* Badge Tier Colors - Hiérarchie claire et désaturée */
+  --color-tier-starter: #5CB574;    /* Vert doux */
+  --color-tier-pro: #6B9BD1;       /* Bleu moyen */
+  --color-tier-enterprise: #A37AB8; /* Violet sophistiqué */
+
+  /* Border Colors */
+  --color-border-primary: rgba(255, 255, 255, 0.1);
+  --color-border-secondary: rgba(255, 255, 255, 0.05);
+  --color-border-accent: rgba(255, 255, 255, 0.2);
+
+  /* === TYPOGRAPHY === */
+  /* Font Sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+
+  /* === SPACING === */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* === BORDERS === */
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+
+  /* === SHADOWS === */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+
+  /* === COMPONENTS === */
+  /* Badge */
+  --badge-height: 24px;
+  --badge-padding: 0 8px;
+  --badge-border-radius: var(--border-radius-sm);
+  --badge-font-size: var(--font-size-xs);
+  --badge-font-weight: var(--font-weight-medium);
+
+  /* Button */
+  --button-height: 44px;
+  --button-min-width: 120px;
+  --button-padding: 0 24px;
+  --button-border-radius: var(--border-radius-sm);
+  --button-font-size: var(--font-size-sm);
+  --button-font-weight: var(--font-weight-semibold);
+
+  /* Card */
+  --card-padding: 32px;
+  --card-padding-mobile: 20px;
+  --card-border-radius: var(--border-radius-md);
+  --card-gap: 16px;
+
+  /* Grid */
+  --grid-gap: 24px;
+  --grid-gap-tablet: 16px;
+  --grid-gap-mobile: 12px;
+  --grid-cols-desktop: 4;
+  --grid-cols-tablet: 2;
+  --grid-cols-mobile: 1;
+
+  /* === TRANSITIONS === */
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.2s ease-in-out;
+  --transition-slow: 0.3s ease-in-out;
+}
+
+/* === UTILITY CLASSES === */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: var(--badge-height);
+  padding: var(--badge-padding);
+  border-radius: var(--badge-border-radius);
+  font-size: var(--badge-font-size);
+  font-weight: var(--badge-font-weight);
+  line-height: 1;
+  border: 1px solid transparent;
+  transition: all var(--transition-normal);
+}
+
+/* Badges catégories - Couleurs désaturées et harmonisées */
+.badge-category-vps { background: rgba(74, 144, 226, 0.12); color: #7BB4E8; border-color: rgba(74, 144, 226, 0.25); }
+.badge-category-gpu { background: rgba(142, 68, 173, 0.12); color: #B98CC7; border-color: rgba(142, 68, 173, 0.25); }
+.badge-category-webhosting { background: rgba(22, 160, 133, 0.12); color: #4FA99E; border-color: rgba(22, 160, 133, 0.25); }
+.badge-category-paas { background: rgba(74, 144, 226, 0.12); color: #7BB4E8; border-color: rgba(74, 144, 226, 0.25); }
+.badge-category-loadbalancer { background: rgba(202, 140, 52, 0.12); color: #E6B870; border-color: rgba(202, 140, 52, 0.25); }
+.badge-category-storage { background: rgba(74, 144, 226, 0.12); color: #7BB4E8; border-color: rgba(74, 144, 226, 0.25); }
+.badge-category-cdn { background: rgba(211, 84, 0, 0.12); color: #E69967; border-color: rgba(211, 84, 0, 0.25); }
+
+/* Badges gammes - Hiérarchie visuelle claire */
+.badge-tier-starter { background: rgba(92, 181, 116, 0.12); color: #7BC296; border-color: rgba(92, 181, 116, 0.25); }
+.badge-tier-pro { background: rgba(107, 155, 209, 0.12); color: #8BBAE1; border-color: rgba(107, 155, 209, 0.25); }
+.badge-tier-enterprise { background: rgba(163, 122, 184, 0.12); color: #C19BD4; border-color: rgba(163, 122, 184, 0.25); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--button-height);
+  min-width: var(--button-min-width);
+  padding: var(--button-padding);
+  border-radius: var(--button-border-radius);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: var(--color-accent-primary);
+  color: var(--color-text-primary);
+  box-shadow: 0 2px 4px rgba(34, 160, 94, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(34, 160, 94, 0.3);
+}
+
+.btn-primary:active {
+  background: var(--color-accent-primary-active);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(34, 160, 94, 0.4);
+  transition: all 0.1s ease-out;
+}
+
+.btn-primary:disabled {
+  background: var(--color-accent-primary-disabled);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  border-color: var(--color-border-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: var(--card-padding-mobile);
+  }
+  
+  .badge {
+    font-size: var(--font-size-xs);
+    height: 20px;
+    padding: 0 6px;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 16px;
+    margin-bottom: 0;
+  }
+}
+
+/* Icons */
+.icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5px;
+}
+
+.icon-sm {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.5px;
+}
+
+/* Text clamping */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

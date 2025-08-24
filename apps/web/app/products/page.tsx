@@ -5,12 +5,15 @@
 // Last modified: 2025-08-22
 // Related docs: /docs/JOURNAL.md
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import productsData from '../../data/products.json';
 import { useStaggerEntry } from '../../hooks/useEntryAnimation';
 import { useLanguage } from '../../contexts/LanguageContext';
+import Badge from '../../components/ui/Badge';
+import Button from '../../components/ui/Button';
+import { getCategoryIcon, ArrowRightIcon, CPUIcon, RAMIcon, StorageIcon, NetworkIcon } from '../../components/ui/Icons';
 
 type Category = 'all' | 'vps' | 'gpu' | 'webhosting' | 'paas' | 'loadbalancer' | 'storage' | 'cdn';
 type PricingMode = 'monthly' | 'annual' | 'hourly';
@@ -31,17 +34,26 @@ export default function ProductsPage() {
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
   
   const filteredProducts = getFilteredProducts();
-  const { visibleItems } = useStaggerEntry(filteredProducts.length, 100, 600);
+  const filterKey = `${selectedCategory}-${pricingMode}`;
+  const { visibleItems } = useStaggerEntry(filteredProducts.length, 80, 100, filterKey);
   
   useEffect(() => {
     // Animation d'entrée de la page
     const timer = setTimeout(() => setIsLoaded(true), 200);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    // Fermer toutes les cartes expandées lors du changement de filtre
+    setExpandedCards({});
+    setShowAllProducts(false);
+  }, [selectedCategory, pricingMode]);
   
   function getFilteredProducts() {
+    let products = [];
+    
     if (selectedCategory === 'all') {
-      return [
+      products = [
         ...productsData.vps.map(p => ({ ...p, category: 'vps' })),
         ...productsData.gpu.map(p => ({ ...p, category: 'gpu' })),
         ...productsData.webhosting.map(p => ({ ...p, category: 'webhosting' })),
@@ -50,8 +62,39 @@ export default function ProductsPage() {
         ...productsData.storage.map(p => ({ ...p, category: 'storage' })),
         ...productsData.cdn.map(p => ({ ...p, category: 'cdn' }))
       ];
+    } else {
+      products = productsData[selectedCategory].map(p => ({ ...p, category: selectedCategory }));
     }
-    return productsData[selectedCategory].map(p => ({ ...p, category: selectedCategory }));
+
+    // Tri intelligent : d'abord par catégorie, puis par prix
+    return products.sort((a, b) => {
+      // Si on affiche toutes les catégories, trier d'abord par catégorie
+      if (selectedCategory === 'all') {
+        const categoryOrder = ['vps', 'gpu', 'webhosting', 'paas', 'loadbalancer', 'storage', 'cdn'];
+        const categoryA = categoryOrder.indexOf(a.category);
+        const categoryB = categoryOrder.indexOf(b.category);
+        
+        if (categoryA !== categoryB) {
+          return categoryA - categoryB;
+        }
+      }
+      
+      // Puis trier par prix
+      const priceA = getPriceForSort(a);
+      const priceB = getPriceForSort(b);
+      return priceA - priceB;
+    });
+  }
+
+  function getPriceForSort(product: any) {
+    if (product.price_per_gb_month && product.category === 'storage') {
+      return product.price_per_gb_month;
+    }
+    switch (pricingMode) {
+      case 'hourly': return product.hourly || product.monthly || 999999;
+      case 'annual': return product.annual ? product.annual / 12 : product.monthly || 999999;
+      default: return product.monthly || product.hourly || 999999;
+    }
   }
 
   const getTotalProductCount = () => {
@@ -59,64 +102,75 @@ export default function ProductsPage() {
   };
 
   const categories = [
-    { key: 'all' as Category, name: 'Tous les produits', count: getTotalProductCount() },
-    { key: 'vps' as Category, name: 'VPS Cloud', count: productsData.vps.length },
-    { key: 'gpu' as Category, name: 'GPU Computing', count: productsData.gpu.length },
-    { key: 'webhosting' as Category, name: 'Web Hosting', count: productsData.webhosting.length },
-    { key: 'paas' as Category, name: 'Platform as a Service', count: productsData.paas.length },
-    { key: 'loadbalancer' as Category, name: 'Load Balancer', count: productsData.loadbalancer.length },
-    { key: 'storage' as Category, name: 'Stockage', count: productsData.storage.length },
-    { key: 'cdn' as Category, name: 'CDN', count: productsData.cdn.length }
+    { key: 'all' as Category, name: tt('products.categories.all', 'Tous les produits', 'All products'), count: getTotalProductCount() },
+    { key: 'vps' as Category, name: tt('products.categories.vps', 'VPS Cloud', 'VPS Cloud'), count: productsData.vps.length },
+    { key: 'gpu' as Category, name: tt('products.categories.gpu', 'GPU Computing', 'GPU Computing'), count: productsData.gpu.length },
+    { key: 'webhosting' as Category, name: tt('products.categories.webhosting', 'Web Hosting', 'Web Hosting'), count: productsData.webhosting.length },
+    { key: 'paas' as Category, name: tt('products.categories.paas', 'Platform as a Service', 'Platform as a Service'), count: productsData.paas.length },
+    { key: 'loadbalancer' as Category, name: tt('products.categories.loadbalancer', 'Load Balancer', 'Load Balancer'), count: productsData.loadbalancer.length },
+    { key: 'storage' as Category, name: tt('products.categories.storage', 'Stockage', 'Storage'), count: productsData.storage.length },
+    { key: 'cdn' as Category, name: tt('products.categories.cdn', 'CDN', 'CDN'), count: productsData.cdn.length }
   ];
 
-  // Helper: base monthly-like price for curation (storage uses price_per_gb_month)
-  const getBaseMonthly = (product: any) => {
-    if (product.price_per_gb_month && product.category === 'storage') return product.price_per_gb_month;
-    return product.monthly ?? product.annual ?? product.hourly ?? 0;
-  };
 
-  // Helper: pick 3 curated offers (entry, balanced, max) for clarity
-  const curatedOffers = useMemo(() => {
-    const list = [...filteredProducts].sort((a, b) => getBaseMonthly(a) - getBaseMonthly(b));
-    if (list.length === 0) return [] as any[];
-    if (list.length <= 3) return list;
-    const first = list[0];
-    const middle = list[Math.floor(list.length / 2)];
-    const last = list[list.length - 1];
-    return [first, middle, last];
-  }, [filteredProducts]);
-
-  const { visibleItems: visibleCurated } = useStaggerEntry(curatedOffers.length, 120, 300);
 
   const initialGridCount = 8;
 
   const toggleCard = (key: string) => setExpandedCards(prev => ({ ...prev, [key]: !prev[key] }));
 
+  // Fonction pour déterminer la gamme de prix et son style
+  function getPriceRange(product: any) {
+    const price = getPriceForSort(product);
+    
+    if (product.category === 'storage') {
+      if (price <= 1) return { tier: 'starter', label: 'Économique', color: 'emerald' };
+      if (price <= 5) return { tier: 'pro', label: 'Standard', color: 'blue' };
+      return { tier: 'enterprise', label: 'Premium', color: 'purple' };
+    }
+    
+    if (price <= 50) return { tier: 'starter', label: 'Starter', color: 'emerald' };
+    if (price <= 500) return { tier: 'pro', label: 'Professional', color: 'blue' };
+    return { tier: 'enterprise', label: 'Enterprise', color: 'purple' };
+  }
+
+  function getCategoryTheme(category: string) {
+    const themes = {
+      vps: { name: 'VPS', type: 'vps' as const },
+      gpu: { name: 'GPU', type: 'gpu' as const },
+      webhosting: { name: 'Web', type: 'webhosting' as const },
+      paas: { name: 'PaaS', type: 'paas' as const },
+      loadbalancer: { name: 'LB', type: 'loadbalancer' as const },
+      storage: { name: 'Storage', type: 'storage' as const },
+      cdn: { name: 'CDN', type: 'cdn' as const }
+    };
+    return themes[category] || { name: category, type: 'vps' as const };
+  }
+
   const getHighlights = (product: any): { label: string; value: string }[] => {
     // keep it short: usage + 2 key specs based on category
     const specs: { label: string; value: string | number }[] = [];
-    if (product.usage) specs.push({ label: 'Idéal pour', value: String(product.usage) });
+    if (product.usage) specs.push({ label: tt('products.labels.idealFor', 'Idéal pour', 'Ideal for'), value: String(product.usage) });
     if (product.category === 'gpu') {
-      if (product.gpu) specs.push({ label: 'GPU', value: String(product.gpu) });
-      if (product.vram) specs.push({ label: 'VRAM', value: String(product.vram) });
+      if (product.gpu) specs.push({ label: tt('products.labels.gpu', 'GPU', 'GPU'), value: String(product.gpu) });
+      if (product.vram) specs.push({ label: tt('products.labels.vram', 'VRAM', 'VRAM'), value: String(product.vram) });
     } else if (product.category === 'vps') {
-      if (product.vcpu) specs.push({ label: 'CPU', value: String(product.vcpu) });
-      if (product.ram) specs.push({ label: 'RAM', value: String(product.ram) });
+      if (product.vcpu) specs.push({ label: tt('products.labels.cpu', 'CPU', 'CPU'), value: String(product.vcpu) });
+      if (product.ram) specs.push({ label: tt('products.labels.ram', 'RAM', 'RAM'), value: String(product.ram) });
     } else if (product.category === 'webhosting') {
-      if (product.sites) specs.push({ label: 'Sites', value: String(product.sites) });
-      if (product.storage) specs.push({ label: 'Stockage', value: String(product.storage) });
+      if (product.sites) specs.push({ label: tt('products.labels.sites', 'Sites', 'Sites'), value: String(product.sites) });
+      if (product.storage) specs.push({ label: tt('products.labels.storage', 'Stockage', 'Storage'), value: String(product.storage) });
     } else if (product.category === 'paas') {
-      if (product.containers) specs.push({ label: 'Containers', value: String(product.containers) });
-      if (product.auto_scaling) specs.push({ label: 'Scaling', value: String(product.auto_scaling) });
+      if (product.containers) specs.push({ label: tt('products.labels.containers', 'Containers', 'Containers'), value: String(product.containers) });
+      if (product.auto_scaling) specs.push({ label: tt('products.labels.scaling', 'Scaling', 'Scaling'), value: String(product.auto_scaling) });
     } else if (product.category === 'loadbalancer') {
-      if (product.requests_per_sec) specs.push({ label: 'RPS', value: String(product.requests_per_sec) });
-      if (product.protocols) specs.push({ label: 'Protocoles', value: String(product.protocols) });
+      if (product.requests_per_sec) specs.push({ label: tt('products.labels.rps', 'RPS', 'RPS'), value: String(product.requests_per_sec) });
+      if (product.protocols) specs.push({ label: tt('products.labels.protocols', 'Protocoles', 'Protocols'), value: String(product.protocols) });
     } else if (product.category === 'storage') {
-      if (product.type) specs.push({ label: 'Type', value: String(product.type) });
-      if (product.throughput) specs.push({ label: 'Débit', value: String(product.throughput) });
+      if (product.type) specs.push({ label: tt('products.labels.type', 'Type', 'Type'), value: String(product.type) });
+      if (product.throughput) specs.push({ label: tt('products.labels.throughput', 'Débit', 'Throughput'), value: String(product.throughput) });
     } else if (product.category === 'cdn') {
-      if (product.pops) specs.push({ label: 'PoPs', value: String(product.pops) });
-      if (product.traffic_included) specs.push({ label: 'Trafic inclus', value: String(product.traffic_included) });
+      if (product.pops) specs.push({ label: tt('products.labels.pops', 'PoPs', 'PoPs'), value: String(product.pops) });
+      if (product.traffic_included) specs.push({ label: tt('products.labels.trafficIncluded', 'Trafic inclus', 'Traffic included'), value: String(product.traffic_included) });
     }
     return specs.slice(0, 3) as { label: string; value: string }[];
   };
@@ -153,7 +207,7 @@ export default function ProductsPage() {
         </div>
         
         <div className={`relative z-10 pt-28 pb-10 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-          <div className="container mx-auto px-8">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-12 gap-8 items-center">
               
               <div className={`col-span-12 lg:col-span-8 transition-all duration-700 delay-150 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
@@ -179,7 +233,7 @@ export default function ProductsPage() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-8 max-w-lg">
+                <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-lg">
                   <div className="text-center group">
                     <div className="text-2xl font-extralight text-white mb-1 group-hover:text-zinc-300 transition-colors">
                       {getTotalProductCount()}
@@ -227,10 +281,10 @@ export default function ProductsPage() {
 
       {/* Filtres en sidebar (desktop) + barre sticky (mobile), offres et grille */}
       <section className="py-8 bg-zinc-950">
-        <div className="container mx-auto px-8 max-w-7xl">
-          {/* Barre filtres mobile sticky */}
-          <div className="md:hidden sticky top-20 z-40 -mt-2 mb-4">
-            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar bg-zinc-900/40 border border-zinc-800/40 px-3 py-2 rounded-xl">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1600px]">
+          {/* Barre filtres mobile sticky - pleine largeur */}
+          <div className="md:hidden sticky top-20 z-40 -mt-2 mb-4 -mx-4 sm:-mx-6">
+            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar bg-zinc-900/90 backdrop-blur-md border-t border-b border-zinc-800/60 px-4 py-3 shadow-lg">
               {categories.map((category) => (
                 <button
                   key={`m-${category.key}`}
@@ -252,9 +306,9 @@ export default function ProductsPage() {
           <div className="grid grid-cols-12 gap-8">
             {/* Sidebar Desktop */}
             <aside className="hidden md:block md:col-span-4 lg:col-span-3">
-              <div className="sticky top-24 space-y-6">
-                <div className="bg-zinc-900/30 backdrop-blur-sm border border-zinc-800/40 rounded-2xl p-4">
-                  <h4 className="text-sm text-white mb-3">Catégories</h4>
+              <div className="sticky top-24 space-y-4">
+                <div className="bg-zinc-900/60 backdrop-blur-sm border border-zinc-800/50 rounded-2xl p-4">
+                  <h4 className="text-sm text-white mb-3">{tt('products.ui.categoriesTitle', 'Catégories', 'Categories')}</h4>
                   <div className="space-y-2">
                     {categories.map((category) => (
                       <button
@@ -268,11 +322,11 @@ export default function ProductsPage() {
                     ))}
                   </div>
                 </div>
-                <div className="bg-zinc-900/30 backdrop-blur-sm border border-zinc-800/40 rounded-2xl p-4">
-                  <h4 className="text-sm text-white mb-3">Mode de prix</h4>
-                  <div className="relative flex items-center bg-zinc-900/20 rounded-xl p-1.5 border border-zinc-800/30 overflow-hidden">
+                <div className="bg-zinc-900/60 backdrop-blur-sm border border-zinc-800/50 rounded-2xl p-4">
+                  <h4 className="text-sm text-white mb-3">{tt('products.ui.pricingModeTitle', 'Mode de prix', 'Pricing mode')}</h4>
+                  <div className="relative flex flex-col xl:flex-row xl:items-center bg-zinc-900/20 rounded-xl p-1.5 border border-zinc-800/30 overflow-hidden gap-1.5 xl:gap-0">
                     <div 
-                      className="absolute bg-white rounded-lg transition-all duration-300 ease-out shadow-xl" 
+                      className="absolute bg-white rounded-lg transition-all duration-300 ease-out shadow-xl hidden xl:block" 
                       style={{ width: '33.333%', height: 'calc(100% - 12px)', top: '6px', left: `calc(${['monthly', 'annual', 'hourly'].indexOf(pricingMode) * 33.333}% + 6px)` }}
                     />
                     {[
@@ -285,7 +339,10 @@ export default function ProductsPage() {
                         <button
                           key={`d-${mode}`}
                           onClick={() => setPricingMode(['monthly', 'annual', 'hourly'][index] as PricingMode)}
-                          className={`relative z-10 px-3 py-3 text-[12px] md:text-xs font-light rounded-lg transition-all basis-1/3 min-w-0 ${isActive? 'text-zinc-950':'text-zinc-400 hover:text-white'}`}
+                          className={`relative z-10 px-3 py-3 text-[12px] md:text-xs font-light rounded-lg transition-all xl:basis-1/3 min-w-0 ${isActive ? 
+                            'text-zinc-950 xl:text-zinc-950 bg-white xl:bg-transparent' : 
+                            'text-zinc-400 hover:text-white bg-transparent'
+                          }`}
                         >
                           <span className="block w-full truncate">{mode}</span>
                         </button>
@@ -294,7 +351,7 @@ export default function ProductsPage() {
                   </div>
                   <p className="mt-2 text-[11px] text-zinc-500">{pricingMode==='annual'?(t('products.ui.annualNote')||'Prix mensuel équivalent sur engagement annuel'):(t('products.ui.switchNote')||'Basculer entre les modes')}</p>
                 </div>
-                <button onClick={() => { setSelectedCategory('all'); setPricingMode('monthly'); }} className="w-full text-sm text-zinc-300 hover:text-white border border-zinc-800/40 hover:border-zinc-700/60 rounded-xl py-2">Réinitialiser</button>
+                <button onClick={() => { setSelectedCategory('all'); setPricingMode('monthly'); }} className="w-full text-sm text-zinc-300 hover:text-white border border-zinc-800/40 hover:border-zinc-700/60 rounded-xl py-2">{tt('products.ui.reset', 'Réinitialiser', 'Reset')}</button>
               </div>
             </aside>
 
@@ -303,7 +360,7 @@ export default function ProductsPage() {
               <div className={`flex items-end justify-between mb-6 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
                 <div>
                   <h4 className="text-xl text-white font-extralight tracking-tight">{t('products.ui.configurationsTitle') || 'Configurations'}</h4>
-                  <p className="text-zinc-500 text-xs">{filteredProducts.length} configuration{filteredProducts.length > 1 ? 's' : ''} disponible{filteredProducts.length > 1 ? 's' : ''}</p>
+                  <p className="text-zinc-500 text-xs">{filteredProducts.length} {tt('products.ui.configuration', 'configuration', 'configuration')}{filteredProducts.length > 1 ? 's' : ''} {tt('products.ui.available', 'disponible', 'available')}{filteredProducts.length > 1 ? 's' : ''}</p>
                 </div>
                 <div className="hidden md:block text-xs text-zinc-500">{t('products.ui.modeLabel') || 'Mode'}: <span className="text-zinc-300">{
                   pricingMode === 'hourly' 
@@ -314,79 +371,16 @@ export default function ProductsPage() {
                 }</span></div>
               </div>
 
-              {/* Offres recommandées */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                {curatedOffers.map((product, i) => {
-                  const key = `${product.category}-${product.name}-curated`;
-                  const price = (() => {
-                    if (product.price_per_gb_month && product.category === 'storage') return product.price_per_gb_month;
-                    switch (pricingMode) {
-                      case 'hourly': return product.hourly ?? product.monthly;
-                      case 'annual': return product.annual ? Math.round(product.annual / 12) : product.monthly;
-                      default: return product.monthly ?? product.hourly ?? product.annual;
-                    }
-                  })();
-                  const suffix = product.category === 'storage' && product.price_per_gb_month ? '/GB/mois' : pricingMode === 'hourly' ? '/h' : '/mois';
-                  const hl = getHighlights(product);
-                  return (
-                    <div
-                      key={key}
-                      className={`group relative rounded-2xl border border-zinc-800/40 bg-zinc-900/30 backdrop-blur-sm p-6 transition-all duration-700 overflow-hidden ${visibleCurated[i] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
-                      style={{ transitionDelay: `${i * 80}ms` }}
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <div className="text-xs text-zinc-500 tracking-wide mb-1">{String(product.category).toUpperCase()}</div>
-                          <h4 className="text-lg text-white tracking-tight">{product.name}</h4>
-                        </div>
-                        {product.trial && (
-                          <div className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">{(t('products.ui.trial') || (language==='fr'?'Essai':'Trial'))} {product.trial}</div>
-                        )}
-                      </div>
-                      <ul className="space-y-2 mb-4">
-                        {hl.map(({ label, value }, idx) => (
-                          <li key={idx} className="flex items-center justify-between">
-                            <span className="text-xs text-zinc-500">{label}</span>
-                            <span className="text-xs text-zinc-300 font-mono bg-zinc-800/30 rounded px-2 py-0.5">{value}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="flex items-baseline space-x-2 mb-5">
-                        <span className="text-3xl text-white font-extralight">{price}</span>
-                        <span className="text-lg text-white">€</span>
-                        <span className="text-sm text-zinc-500">{suffix}</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <button className="flex-1 bg-white text-zinc-950 py-2.5 rounded-xl text-sm tracking-wide transition-all duration-300 hover:bg-zinc-100 hover:shadow-lg">{t('products.ui.choose') || (language==='fr'?'Choisir':'Choose')}</button>
-                        <button onClick={() => toggleCard(key)} className="px-3 py-2 rounded-lg border border-zinc-800/40 text-zinc-400 hover:text-white hover:border-zinc-700/60 text-xs">{t('products.ui.details') || (language==='fr'?'Détails':'Details')}</button>
-                      </div>
-                      {expandedCards[key] && (
-                        <div className="mt-4 border-t border-zinc-800/40 pt-4">
-                          <p className="text-xs text-zinc-500">{t('products.ui.included') || (language==='fr'?'Inclus :':'Included:')}</p>
-                          <div className="mt-2 grid grid-cols-2 gap-2">
-                            {[product.vcpu && `CPU: ${product.vcpu}`, product.gpu && `GPU: ${product.gpu}`, product.ram && `RAM: ${product.ram}`, product.storage && `Stockage: ${product.storage}`, product.bandwidth && `Bande passante: ${product.bandwidth}`]
-                              .filter(Boolean)
-                              .slice(0, 6)
-                              .map((line, idx) => (
-                                <div key={idx} className="text-xs text-zinc-400 bg-zinc-800/20 rounded px-2 py-1">{line as string}</div>
-                              ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
 
-              {/* Grille produits */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+              {/* Grille produits avec spacing optimisé */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-4 lg:gap-6">
                 {(showAllProducts ? filteredProducts : filteredProducts.slice(0, initialGridCount)).map((product, index) => {
                 const getPrice = () => {
                   if (product.price_per_gb_month && product.category === 'storage') {
                     return product.price_per_gb_month;
                   }
                   switch (pricingMode) {
-                    case 'hourly': return product.hourly;
+                    case 'hourly': return product.hourly || product.monthly;
                     case 'monthly': return product.monthly;
                     case 'annual': return product.annual ? Math.round(product.annual / 12) : product.monthly;
                     default: return product.monthly;
@@ -405,35 +399,17 @@ export default function ProductsPage() {
                   }
                 };
 
-                const getCategoryIcon = () => {
-                  const icons = {
-                    vps: '🖥️', gpu: '⚡', webhosting: '🌐', paas: '🐳',
-                    loadbalancer: '⚖️', storage: '💾', cdn: '🌍'
-                  };
-                  return icons[product.category] || '💻';
-                };
-
-                const getCategoryColor = () => {
-                  const colors = {
-                    vps: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-                    gpu: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-                    webhosting: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-                    paas: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
-                    loadbalancer: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-                    storage: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
-                    cdn: 'bg-green-500/10 text-green-400 border-green-500/20'
-                  };
-                  return colors[product.category] || 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20';
-                };
+                const categoryTheme = getCategoryTheme(product.category);
+                const priceRange = getPriceRange(product);
 
                 const cardKey = `${product.category}-${index}`;
                 return (
                 <div
                   key={cardKey}
-                  className={`group relative bg-zinc-900/20 backdrop-blur-sm border border-zinc-800/30 rounded-2xl p-6 transition-all duration-700 hover:bg-zinc-900/40 hover:border-zinc-700/50 hover:shadow-2xl hover:shadow-zinc-950/30 hover:-translate-y-1 overflow-hidden ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  className={`card group relative overflow-hidden flex flex-col ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   style={{ 
-                    transitionDelay: `${index * 100}ms`,
-                    transition: 'all 0.7s cubic-bezier(0.16, 1, 0.3, 1)'
+                    transitionDelay: `${index * 80}ms`,
+                    transition: 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                   }}
                 >
                   {/* Glow effect subtil */}
@@ -441,132 +417,101 @@ export default function ProductsPage() {
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.02] to-transparent"></div>
                   </div>
                   
-                  {/* Header sophistiqué */}
-                  <div className="relative flex items-center justify-between mb-6">
-                    <div className={`inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-light border backdrop-blur-sm ${getCategoryColor()}`}>
-                      <span className="text-sm">{getCategoryIcon()}</span>
-                      <span className="tracking-wide">{product.category.toUpperCase()}</span>
+                  {/* Contenu principal - flex-1 pour pousser les actions en bas */}
+                  <div className="flex-1">
+                  {/* Header avec badges - 2 badges max responsive */}
+                  <div className="flex items-start justify-between mb-4 sm:mb-6">
+                    <div className="flex gap-1.5 sm:gap-2 flex-wrap">
+                      <Badge 
+                        variant="category" 
+                        type={categoryTheme.type}
+                        icon={getCategoryIcon(product.category, { size: 'sm' })}
+                        className="text-xs"
+                      >
+                        {categoryTheme.name}
+                      </Badge>
+                      
+                      <Badge 
+                        variant="tier" 
+                        type={priceRange.tier as any}
+                        className="text-xs"
+                      >
+                        {priceRange.label}
+                      </Badge>
                     </div>
-                    
-                    {product.trial && (
-                      <div className="text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20 backdrop-blur-sm font-light">
-                        <span className="text-emerald-300">✨</span> {tt('products.ui.trial','Essai','Trial')} {product.trial}
-                      </div>
-                    )}
                   </div>
                   
-                  {/* Product Name & Usage */}
-                  <div className="relative mb-6">
-                    <h3 className="text-xl font-extralight text-white mb-2 group-hover:text-zinc-100 transition-all duration-500 tracking-tight">
+                  {/* Product Name & Usage - hauteur responsive */}
+                  <div className="mb-4 sm:mb-6 h-16 sm:h-20">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2 leading-tight tracking-wide line-clamp-1">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-all duration-500 font-light leading-relaxed">
+                    <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed line-clamp-2">
                       {product.usage}
                     </p>
-                    
-                    {/* Ligne décorative */}
-                    <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-transparent via-zinc-700/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                   </div>
 
-                  {/* Price Section Sophistiquée */}
-                  <div className="relative mb-8">
-                    <div className="flex items-baseline space-x-2 mb-3">
-                      <span className="text-3xl font-extralight text-white group-hover:text-zinc-100 transition-colors duration-500">
-                        {getPrice()}
+                  {/* Prix simplifié responsive */}
+                  <div className="mb-6 sm:mb-8">
+                    <div className="flex items-end space-x-1">
+                      <span className="text-xl sm:text-2xl font-bold text-white leading-none">
+                        {getPrice()}€
                       </span>
-                      <span className="text-lg font-light text-white">€</span>
-                      <span className="text-sm text-zinc-500 font-light tracking-wide">
+                      <span className="text-xs sm:text-sm text-zinc-400 font-normal pb-0.5 ml-0.5">
                         {getPriceSuffix()}
                       </span>
                     </div>
-                    
-                    {/* Badge d'économie ou info */}
-                    {pricingMode === 'annual' && product.annual && product.monthly && (
-                      <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-1 mb-2">
-                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
-                        <span className="text-xs text-emerald-400 font-light">
-                          {tt('products.ui.saves','Économise','Saves')} {Math.round(((product.monthly * 12 - product.annual) / (product.monthly * 12)) * 100)}%
-                        </span>
-                      </div>
-                    )}
-                    
-                    {pricingMode === 'hourly' && (
-                      <div className="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 rounded-lg px-3 py-1 mb-2">
-                        <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
-                        <span className="text-xs text-blue-400 font-light">{tt("products.ui.badges.hourly","Facturation à l'usage","Usage-based billing")}</span>
-                      </div>
-                    )}
-                    
-                    {pricingMode === 'monthly' && (
-                      <div className="inline-flex items-center space-x-2 bg-zinc-500/10 border border-zinc-500/20 rounded-lg px-3 py-1 mb-2">
-                        <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
-                        <span className="text-xs text-zinc-400 font-light">{tt("products.ui.badges.monthly","Ressources garanties 24/7","Guaranteed resources 24/7")}</span>
-                      </div>
-                    )}
                   </div>
                   
-                  {/* Specs Section Sophistiquée */}
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-center space-x-2 mb-3">
-                      <div className="w-3 h-px bg-gradient-to-r from-zinc-600 to-transparent"></div>
-                      <span className="text-xs text-zinc-500 uppercase tracking-wider font-light">{tt('products.ui.specs.title','Spécifications','Specifications')}</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 gap-3">
-                      {[
-                        product.vcpu && { label: tt('products.ui.specs.cpu','CPU','CPU'), value: product.vcpu },
-                        product.gpu && { label: tt('products.ui.specs.gpu','GPU','GPU'), value: product.gpu },
-                        product.ram && { label: tt('products.ui.specs.ram','RAM','RAM'), value: product.ram },
-                        product.storage && { label: tt('products.ui.specs.storage','Stockage','Storage'), value: product.storage },
-                        product.bandwidth && { label: tt('products.ui.specs.bandwidth','Bande passante','Bandwidth'), value: product.bandwidth },
-                        product.sites && { label: tt('products.ui.specs.sites','Sites','Sites'), value: product.sites },
-                        product.containers && { label: tt('products.ui.specs.containers','Containers','Containers'), value: product.containers }
-                      ].filter(Boolean).slice(0, 3).map((spec: any, specIndex: number) => (
-                        <div key={specIndex} className="flex items-center justify-between py-2 border-b border-zinc-800/30 last:border-b-0">
-                          <span className="text-sm text-zinc-400 font-light">{spec.label}</span>
-                          <span className="text-sm text-zinc-300 font-mono tracking-tight bg-zinc-800/20 px-2 py-1 rounded text-xs">
-                            {spec.value}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
                   </div>
 
-                  {/* CTA + Details toggle */}
-                  <div className="relative flex items-center gap-3">
-                    <button className="flex-1 bg-white text-zinc-950 py-3 px-4 rounded-xl text-sm font-light tracking-wide transition-all duration-300 hover:bg-zinc-100 hover:shadow-lg relative overflow-hidden">
-                      <span className="relative z-10">{t('products.ui.chooseConfig') || 'Choisir cette configuration'}</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                  {/* Actions - footer fixé en bas */}
+                  <div className="space-y-3">
+                    <Button
+                      variant="primary"
+                      className="w-full"
+                      icon={<ArrowRightIcon size="sm" />}
+                      iconPosition="right"
+                    >
+                      {t('products.ui.configure') || 'Configurer'}
+                    </Button>
+                    
+                    <button 
+                      onClick={() => toggleCard(cardKey)} 
+                      className="w-full text-xs text-zinc-400 hover:text-zinc-300 transition-colors py-2"
+                    >
+                      {expandedCards[cardKey] ? (t('products.ui.hide') || 'Masquer') : (t('products.ui.details') || 'Voir détails')}
                     </button>
-                    <button onClick={() => toggleCard(cardKey)} className="px-3 py-3 rounded-xl border border-zinc-800/40 text-zinc-400 hover:text-white hover:border-zinc-700/60 text-xs min-w-[92px]">
-                      {expandedCards[cardKey] ? (t('products.ui.hide') || 'Masquer') : (t('products.ui.details') || 'Détails')}
-                    </button>
+                    
+                    <p className="text-xs text-zinc-500 text-center leading-relaxed">
+                      {tt('products.ui.configureInfo', 'Personnalisez les ressources • Paiement sécurisé', 'Customize resources • Secure payment')}
+                    </p>
                   </div>
 
                   {/* Expandable details */}
-                  {expandedCards[cardKey] && (
+                  <div className={`overflow-hidden transition-all duration-500 ease-out ${expandedCards[cardKey] ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="mt-4 border-t border-zinc-800/30 pt-4">
                       <div className="grid grid-cols-1 gap-2">
                         {[
-                          product.vcpu && { label: 'CPU', value: product.vcpu },
-                          product.gpu && { label: 'GPU', value: product.gpu },
-                          product.vram && { label: 'VRAM', value: product.vram },
-                          product.ram && { label: 'RAM', value: product.ram },
-                          product.storage && { label: 'Stockage', value: product.storage },
-                          product.bandwidth && { label: 'Bande passante', value: product.bandwidth },
-                          product.ipv4 && { label: 'IPv4', value: product.ipv4 },
-                          product.network && { label: 'Réseau', value: product.network },
-                          product.databases && { label: 'Bases', value: product.databases },
-                          product.emails && { label: 'Emails', value: product.emails },
-                          product.ssl && { label: 'SSL', value: product.ssl },
-                          product.containers && { label: 'Containers', value: product.containers },
-                          product.auto_scaling && { label: 'Scaling', value: product.auto_scaling },
-                          product.protocols && { label: 'Protocoles', value: product.protocols },
-                          product.requests_per_sec && { label: 'RPS', value: product.requests_per_sec },
-                          product.type && { label: 'Type', value: product.type },
-                          product.throughput && { label: 'Débit', value: product.throughput },
-                          product.pops && { label: 'PoPs', value: product.pops },
-                          product.traffic_included && { label: 'Trafic', value: product.traffic_included },
+                          product.vcpu && { label: tt('products.labels.cpu','CPU','CPU'), value: product.vcpu },
+                          product.gpu && { label: tt('products.labels.gpu','GPU','GPU'), value: product.gpu },
+                          product.vram && { label: tt('products.labels.vram','VRAM','VRAM'), value: product.vram },
+                          product.ram && { label: tt('products.labels.ram','RAM','RAM'), value: product.ram },
+                          product.storage && { label: tt('products.labels.storage','Stockage','Storage'), value: product.storage },
+                          product.bandwidth && { label: tt('products.labels.bandwidth','Bande passante','Bandwidth'), value: product.bandwidth },
+                          product.ipv4 && { label: tt('products.labels.ipv4','IPv4','IPv4'), value: product.ipv4 },
+                          product.network && { label: tt('products.labels.network','Réseau','Network'), value: product.network },
+                          product.databases && { label: tt('products.labels.databases','Bases','Databases'), value: product.databases },
+                          product.emails && { label: tt('products.labels.emails','Emails','Emails'), value: product.emails },
+                          product.ssl && { label: tt('products.labels.ssl','SSL','SSL'), value: product.ssl },
+                          product.containers && { label: tt('products.labels.containers','Containers','Containers'), value: product.containers },
+                          product.auto_scaling && { label: tt('products.labels.scaling','Scaling','Scaling'), value: product.auto_scaling },
+                          product.protocols && { label: tt('products.labels.protocols','Protocoles','Protocols'), value: product.protocols },
+                          product.requests_per_sec && { label: tt('products.labels.rps','RPS','RPS'), value: product.requests_per_sec },
+                          product.type && { label: tt('products.labels.type','Type','Type'), value: product.type },
+                          product.throughput && { label: tt('products.labels.throughput','Débit','Throughput'), value: product.throughput },
+                          product.pops && { label: tt('products.labels.pops','PoPs','PoPs'), value: product.pops },
+                          product.traffic_included && { label: tt('products.labels.traffic','Trafic','Traffic'), value: product.traffic_included },
                         ]
                           .filter(Boolean)
                           .slice(0, 10)
@@ -578,7 +523,7 @@ export default function ProductsPage() {
                           ))}
                       </div>
                     </div>
-                  )}
+                  </div>
 
                   {/* Effets de hover sophistiqués */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
@@ -601,7 +546,10 @@ export default function ProductsPage() {
             {/* Show more */}
             {!showAllProducts && filteredProducts.length > initialGridCount && (
               <div className="flex justify-center mt-10">
-                <button onClick={() => setShowAllProducts(true)} className="px-5 py-3 rounded-xl border border-zinc-800/40 text-zinc-300 hover:text-white hover:border-zinc-700/60 text-sm">
+                <button 
+                  onClick={() => setShowAllProducts(true)} 
+                  className="px-5 py-3 rounded-xl border border-zinc-800/40 text-zinc-300 hover:text-white hover:border-zinc-700/60 text-sm transition-all duration-300 hover:bg-zinc-900/20 hover:transform hover:scale-105"
+                >
                   {(t('products.ui.showMore') || 'Afficher plus')} ({filteredProducts.length - initialGridCount})
                 </button>
               </div>
