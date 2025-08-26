@@ -5,7 +5,7 @@
 
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
-export type Language = 'en' | 'fr' | 'es';
+export type Language = 'en' | 'fr';
 
 export interface Translations {
   [key: string]: any;
@@ -21,15 +21,14 @@ const loadingPromises = new Map<Language, Promise<Translations>>();
 /**
  * Liste des langues supportées
  */
-export const supportedLanguages: Language[] = ['en', 'fr', 'es'];
+export const supportedLanguages: Language[] = ['en', 'fr'];
 
 /**
  * Informations sur les langues pour l'interface
  */
 export const languageInfo = {
   en: { name: 'EN', flag: '🇺🇸', fullName: 'English' },
-  fr: { name: 'FR', flag: '🇫🇷', fullName: 'Français' },
-  es: { name: 'ES', flag: '🇪🇸', fullName: 'Español' }
+  fr: { name: 'FR', flag: '🇫🇷', fullName: 'Français' }
 };
 
 /**

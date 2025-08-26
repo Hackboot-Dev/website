@@ -189,6 +189,17 @@ export const ChevronDownIcon: React.FC<IconProps> = ({ className = '', size = 'm
   </svg>
 );
 
+export const CheckIcon: React.FC<IconProps> = ({ className = '', size = 'md' }) => (
+  <svg 
+    className={`icon ${size === 'sm' ? 'icon-sm' : ''} ${className}`}
+    fill="none" 
+    stroke="currentColor" 
+    viewBox="0 0 24 24"
+  >
+    <polyline points="20,6 9,17 4,12"/>
+  </svg>
+);
+
 // Helper pour obtenir l'icône par catégorie
 export const getCategoryIcon = (category: string, props?: IconProps) => {
   switch (category) {
@@ -224,5 +235,6 @@ export default {
   Network: NetworkIcon,
   ArrowRight: ArrowRightIcon,
   ChevronDown: ChevronDownIcon,
+  Check: CheckIcon,
   getCategoryIcon
 };

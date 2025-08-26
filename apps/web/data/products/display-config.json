@@ -1,0 +1,1313 @@
+{
+  "vps": {
+    "displayName": "VPS",
+    "mainSpecs": [
+      {
+        "key": "vcpu",
+        "label": "CPU",
+        "icon": "CPU",
+        "tech": "AMD EPYC™ 7003",
+        "detail": "3.7 GHz Boost"
+      },
+      {
+        "key": "ram",
+        "label": "RAM",
+        "icon": "RAM",
+        "tech": "DDR4 ECC",
+        "detail": "3200 MHz"
+      },
+      {
+        "key": "storage",
+        "label": "Storage",
+        "icon": "Storage",
+        "tech": "NVMe PCIe 4.0",
+        "detail": "50K+ IOPS"
+      },
+      {
+        "key": "bandwidth",
+        "label": "Network",
+        "icon": "Network",
+        "tech": "10 Gbps Port",
+        "detail": "DDoS Protection"
+      }
+    ],
+    "cardSpecs": ["vcpu", "ram", "storage", "bandwidth"],
+    "technicalSections": [
+      {
+        "category": "Compute",
+        "category_fr": "Calcul",
+        "specs": [
+          { "name": "Processor", "value": "AMD EPYC™ 7003 Series" },
+          { "name": "Base Clock", "value": "2.9 GHz" },
+          { "name": "Boost Clock", "value": "3.7 GHz" },
+          { "name": "L3 Cache", "value": "32 MB" },
+          { "name": "Architecture", "value": "Zen 3 (7nm)" }
+        ]
+      },
+      {
+        "category": "Memory",
+        "category_fr": "Mémoire",
+        "specs": [
+          { "name": "Type", "value": "DDR4 ECC" },
+          { "name": "Speed", "value": "3200 MHz" },
+          { "name": "Channels", "value": "Dual Channel" },
+          { "name": "Error Correction", "value": "Yes" }
+        ]
+      },
+      {
+        "category": "Storage",
+        "category_fr": "Stockage",
+        "specs": [
+          { "name": "Type", "value": "NVMe PCIe 4.0" },
+          { "name": "Interface", "value": "M.2 2280" },
+          { "name": "IOPS", "value": "50,000+ Random" },
+          { "name": "Throughput", "value": "7,000 MB/s Read" }
+        ]
+      },
+      {
+        "category": "Network",
+        "category_fr": "Réseau",
+        "specs": [
+          { "name": "Port Speed", "value": "10 Gbps" },
+          { "name": "Uplink", "value": "Redundant 100G" },
+          { "name": "DDoS Protection", "value": "Included" },
+          { "name": "IPv6", "value": "Native Support" }
+        ]
+      }
+    ],
+    "benchmarks": {
+      "title": "Performance Benchmarks",
+      "title_fr": "Benchmarks de Performance",
+      "subtitle": "Real-world performance metrics",
+      "subtitle_fr": "Métriques de performance réelles",
+      "metrics": [
+        {
+          "name": "CPU Score",
+          "value": 2847,
+          "unit": "PassMark",
+          "comparison": "+23% vs competitors"
+        },
+        {
+          "name": "RAM Bandwidth",
+          "value": 51.2,
+          "unit": "GB/s",
+          "comparison": "DDR4-3200 ECC"
+        },
+        {
+          "name": "Storage IOPS",
+          "value": 65420,
+          "unit": "4K Random",
+          "comparison": "NVMe PCIe 4.0"
+        },
+        {
+          "name": "Network Latency",
+          "value": 0.2,
+          "unit": "ms",
+          "comparison": "Europe backbone"
+        }
+      ]
+    },
+    "security": {
+      "title": "Security & Compliance",
+      "title_fr": "Sécurité & Conformité",
+      "subtitle": "Advanced protection and certifications",
+      "subtitle_fr": "Protection avancée et certifications",
+      "items": [
+        { "en": "AES-256 encryption at rest", "fr": "Chiffrement AES-256 au repos" },
+        { "en": "VLAN network isolation", "fr": "Réseau isolé par VLAN" },
+        { "en": "Application firewall included", "fr": "Firewall applicatif inclus" },
+        { "en": "24/7/365 monitoring", "fr": "Surveillance 24/7/365" },
+        { "en": "GDPR compliance", "fr": "Conformité RGPD" },
+        { "en": "ISO 27001 certification", "fr": "Certification ISO 27001" },
+        { "en": "Monthly security audit", "fr": "Audit sécurité mensuel" },
+        { "en": "Daily encrypted backup", "fr": "Backup chiffré quotidien" }
+      ]
+    },
+    "contactExpert": true,
+    "contactExpertText": "Besoin d'une configuration personnalisée ? Contactez nos experts infrastructure."
+  },
+  "gpu": {
+    "displayName": "GPU Cloud",
+    "mainSpecs": [
+      {
+        "key": "gpu",
+        "label": "GPU",
+        "icon": "CPU",
+        "tech": "Tesla/RTX/A100",
+        "detail": "NVIDIA Latest Gen"
+      },
+      {
+        "key": "vram",
+        "label": "VRAM",
+        "icon": "RAM",
+        "tech": "GDDR6X/HBM2",
+        "detail": "Up to 80GB"
+      },
+      {
+        "key": "performance",
+        "label": "AI Performance",
+        "icon": "CPU",
+        "tech": "TFLOPS",
+        "detail": "FP16 Tensor"
+      },
+      {
+        "key": "ram",
+        "label": "System RAM",
+        "icon": "RAM",
+        "tech": "DDR4 ECC",
+        "detail": "Up to 1TB"
+      }
+    ],
+    "cardSpecs": ["gpu", "vram", "vcpu", "ram", "performance"],
+    "technicalSections": [
+      {
+        "category": "GPU Hardware",
+        "category_fr": "Matériel GPU",
+        "specs": [
+          { "name": "GPU Models", "name_fr": "Modèles GPU", "value": "T4 / RTX 4090 / A100" },
+          { "name": "Architecture", "name_fr": "Architecture", "value": "Turing / Ada / Ampere" },
+          { "name": "CUDA Cores", "name_fr": "Cœurs CUDA", "value": "Up to 6912", "value_fr": "Jusqu'à 6912" },
+          { "name": "Tensor Cores", "name_fr": "Cœurs Tensor", "value": "3rd/4th Gen", "value_fr": "3ème/4ème Gén" },
+          { "name": "RT Cores", "value": "2nd/3rd Gen" },
+          { "name": "Memory Bandwidth", "name_fr": "Bande passante", "value": "Up to 2TB/s", "value_fr": "Jusqu'à 2TB/s" },
+          { "name": "Interconnect", "value": "NVLink/NVSwitch" },
+          { "name": "Multi-Instance GPU", "value": "MIG Support (A100)" }
+        ]
+      },
+      {
+        "category": "Software Stack",
+        "category_fr": "Stack Logicielle",
+        "specs": [
+          { "name": "CUDA Toolkit", "value": "11.8 / 12.x" },
+          { "name": "cuDNN", "value": "8.9.x Optimized" },
+          { "name": "TensorRT", "value": "8.6 LTS" },
+          { "name": "Frameworks", "value": "PyTorch, TensorFlow" },
+          { "name": "ML Tools", "value": "Jupyter, MLflow" },
+          { "name": "Containers", "value": "Docker + NVIDIA" },
+          { "name": "OS", "value": "Ubuntu, Rocky Linux" },
+          { "name": "Container OS", "value": "Boot < 10s optimized" }
+        ]
+      },
+      {
+        "category": "Performance Specs",
+        "category_fr": "Performances",
+        "specs": [
+          { "name": "FP32 Performance", "value": "Up to 82.6 TFLOPS" },
+          { "name": "FP16 Performance", "value": "Up to 312 TFLOPS" },
+          { "name": "INT8 Performance", "value": "Up to 624 TOPS" },
+          { "name": "Training Speed", "value": "2x-5x vs CPU" },
+          { "name": "Inference Speed", "value": "10x-50x vs CPU" },
+          { "name": "Memory Speed", "value": "GDDR6X/HBM2e" },
+          { "name": "PCIe Interface", "value": "Gen 4.0 x16" },
+          { "name": "Power Efficiency", "value": "Optimized TDP" }
+        ]
+      },
+      {
+        "category": "Networking & Storage",
+        "category_fr": "Réseau & Stockage",
+        "specs": [
+          { "name": "Network Ports", "value": "25-100 Gbps available" },
+          { "name": "InfiniBand", "value": "100 Gbps option" },
+          { "name": "GPU Direct Storage", "value": "Bypass CPU I/O" },
+          { "name": "RDMA", "value": "RoCE support" },
+          { "name": "Storage Type", "value": "NVMe PCIe 4.0" },
+          { "name": "Storage IOPS", "value": "Up to 2M+" },
+          { "name": "Storage Options", "value": "RAID 0, BeeGFS" },
+          { "name": "Object Storage", "value": "S3 Compatible" }
+        ]
+      },
+      {
+        "category": "Hackboot Optimizations",
+        "category_fr": "Optimisations Hackboot",
+        "specs": [
+          { "name": "GPU Boost", "value": "+15% performance" },
+          { "name": "Memory Pooling", "value": "+20% efficiency" },
+          { "name": "Fast Provisioning", "value": "< 2 min deployment" },
+          { "name": "Auto-scaling", "value": "Horizontal scaling" },
+          { "name": "Smart Scheduling", "value": "Optimal job placement" },
+          { "name": "Pre-warmed Images", "value": "Instant start" },
+          { "name": "Custom Kernels", "value": "Optimized drivers" },
+          { "name": "24/7 Monitoring", "value": "Real-time metrics" }
+        ]
+      }
+    ],
+    "benchmarks": {
+      "title": "AI/ML Performance Benchmarks",
+      "title_fr": "Benchmarks Performance IA/ML",
+      "subtitle": "Real-world results on production workloads",
+      "subtitle_fr": "Résultats réels sur workloads production",
+      "metrics": [
+        {
+          "name": "ResNet-50 Training",
+          "value": 1247,
+          "unit": "images/sec",
+          "comparison": "TensorFlow 2.x"
+        },
+        {
+          "name": "BERT-Large Fine-tuning",
+          "value": 892,
+          "unit": "samples/sec",
+          "comparison": "PyTorch 2.x"
+        },
+        {
+          "name": "Stable Diffusion",
+          "value": 47,
+          "unit": "img/min",
+          "comparison": "512x512 50 steps"
+        },
+        {
+          "name": "LLaMA-2 7B Inference",
+          "value": 124,
+          "unit": "tokens/sec",
+          "comparison": "FP16 quantized"
+        },
+        {
+          "name": "3D Rendering",
+          "value": 2.3,
+          "unit": "x faster",
+          "comparison": "vs RTX 3090"
+        },
+        {
+          "name": "Video Transcoding",
+          "value": 8,
+          "unit": "streams",
+          "comparison": "4K HEVC real-time"
+        }
+      ]
+    },
+    "features": {
+      "title": "Fonctionnalités GPU Cloud",
+      "items": [
+        { "en": "Multi-GPU support with NVLink/NVSwitch", "fr": "Multi-GPU support avec NVLink/NVSwitch" },
+        { "en": "Pre-configured GPU containers", "fr": "Containers GPU pré-configurés" },
+        { "en": "Jupyter Lab with ML extensions", "fr": "Jupyter Lab avec extensions ML" },
+        { "en": "Real-time GPU monitoring (nvidia-smi)", "fr": "Monitoring GPU temps réel (nvidia-smi)" },
+        { "en": "Horizontal and vertical auto-scaling", "fr": "Auto-scaling horizontal et vertical" },
+        { "en": "Spot instances up to -80%", "fr": "Spot instances jusqu'à -80%" },
+        { "en": "Hourly/monthly/annual reservation", "fr": "Réservation horaire/mensuelle/annuelle" },
+        { "en": "Live migration without interruption", "fr": "Migration live sans interruption" },
+        { "en": "Automatic model backup", "fr": "Backup des modèles automatique" },
+        { "en": "Complete automation API", "fr": "API complète pour automatisation" },
+        { "en": "Major AI frameworks support", "fr": "Support des principaux frameworks IA" },
+        { "en": "Native CI/CD integration", "fr": "Intégration CI/CD native" }
+      ]
+    },
+    "security": {
+      "title": "GPU Security & Compliance",
+      "title_fr": "Sécurité & Conformité GPU",
+      "subtitle": "Enterprise protection for AI workloads",
+      "subtitle_fr": "Protection enterprise pour workloads IA",
+      "items": [
+        { "en": "Complete GPU isolation per VM", "fr": "Isolation GPU complète par VM" },
+        { "en": "VRAM and system memory encryption", "fr": "Chiffrement VRAM et mémoire système" },
+        { "en": "Secure Boot with UEFI", "fr": "Secure Boot avec UEFI" },
+        { "en": "Secure container runtime (gVisor)", "fr": "Container runtime sécurisé (gVisor)" },
+        { "en": "AI model audit and traceability", "fr": "Audit et traçabilité des modèles IA" },
+        { "en": "GDPR/EU AI Act compliance", "fr": "Conformité GDPR/AI Act européen" },
+        { "en": "L7 firewall with SSL inspection", "fr": "Firewall L7 avec inspection SSL" },
+        { "en": "DDoS protection up to 3 Tbps", "fr": "Protection DDoS jusqu'à 3 Tbps" },
+        { "en": "Encrypted dataset backup", "fr": "Backup chiffré des datasets" },
+        { "en": "Zero Trust access with MFA", "fr": "Accès Zero Trust avec MFA" },
+        { "en": "ML anomaly monitoring", "fr": "Monitoring des anomalies ML" },
+        { "en": "ISO 27001 & SOC 2 certified", "fr": "ISO 27001 & SOC 2 certifié" }
+      ]
+    },
+    "useCases": {
+      "title": "Cas d'usage GPU",
+      "items": [
+        "Training de modèles deep learning",
+        "Fine-tuning de LLMs",
+        "Inference haute performance",
+        "Computer vision et traitement d'images",
+        "Rendu 3D et ray tracing",
+        "Simulation scientifique",
+        "Mining de cryptomonnaies",
+        "Transcoding vidéo massivement parallèle",
+        "Analyse de données massives",
+        "Recherche pharmaceutique",
+        "Modélisation financière",
+        "Gaming cloud et streaming"
+      ]
+    },
+    "pricing": {
+      "title": "Options tarifaires flexibles",
+      "modes": [
+        { "name": "Horaire", "discount": "Base", "ideal": "Tests et développement" },
+        { "name": "Mensuel", "discount": "-35%", "ideal": "Production continue" },
+        { "name": "Annuel", "discount": "-48%", "ideal": "Workloads stables" },
+        { "name": "Spot", "discount": "-60 à -80%", "ideal": "Batch processing" }
+      ]
+    },
+    "support": {
+      "title": "Support Expert GPU",
+      "levels": [
+        { "name": "Standard", "response": "< 30 min", "availability": "24/7" },
+        { "name": "Pro", "response": "< 15 min", "availability": "24/7 Priority" },
+        { "name": "Enterprise", "response": "< 5 min", "availability": "Dedicated team" }
+      ]
+    },
+    "contactExpert": true,
+    "contactExpertText": "Besoin d'une architecture GPU sur mesure ? Nos experts IA sont à votre disposition pour optimiser vos workloads ML/DL."
+  },
+  "webhosting": {
+    "displayName": "Hébergement Web",
+    "mainSpecs": [
+      {
+        "key": "sites",
+        "label": "Sites",
+        "icon": "Network",
+        "tech": "Multi-domaines",
+        "detail": "SSL inclus"
+      },
+      {
+        "key": "storage",
+        "label": "Espace",
+        "icon": "Storage",
+        "tech": "NVMe SSD",
+        "detail": "Ultra-rapide"
+      },
+      {
+        "key": "bandwidth",
+        "label": "Trafic",
+        "icon": "Network",
+        "tech": "Premium CDN",
+        "detail": "Global"
+      },
+      {
+        "key": "databases",
+        "label": "DB",
+        "icon": "Storage",
+        "tech": "MySQL/PostgreSQL",
+        "detail": "Optimisées"
+      }
+    ],
+    "cardSpecs": ["sites", "storage", "bandwidth", "databases", "emails"],
+    "technicalSections": [
+      {
+        "category": "Web Technologies",
+        "category_fr": "Technologies Web",
+        "specs": [
+          { "name": "PHP", "value": "7.4 - 8.3" },
+          { "name": "Node.js", "value": "16 - 21 LTS" },
+          { "name": "Python", "value": "3.8 - 3.12" },
+          { "name": "Ruby", "value": "2.7 - 3.2" },
+          { "name": ".NET", "value": "6.0, 7.0, 8.0" },
+          { "name": "Packages", "name_fr": "Gestionnaires", "value": "Composer, npm, pip" },
+          { "name": "Web Servers", "name_fr": "Serveurs Web", "value": "Apache 2.4, Nginx" },
+          { "name": "Cache", "value": "Redis, Memcached" }
+        ]
+      },
+      {
+        "category": "1-Click Applications",
+        "category_fr": "Applications 1-Click",
+        "specs": [
+          { "name": "CMS", "value": "WordPress, Joomla" },
+          { "name": "E-commerce", "value": "WooCommerce, PrestaShop" },
+          { "name": "Forums", "value": "Discourse, phpBB, NodeBB" },
+          { "name": "Dev Tools", "name_fr": "Outils Dev", "value": "GitLab CE, Jenkins, SonarQube" },
+          { "name": "Analytics", "value": "Matomo, Plausible, Umami" },
+          { "name": "Setup Time", "name_fr": "Installation", "value": "< 30 seconds", "value_fr": "< 30 secondes" },
+          { "name": "Auto Updates", "name_fr": "Mises à jour", "value": "Security patches auto", "value_fr": "Patches sécurité auto" },
+          { "name": "Staging", "name_fr": "Staging", "value": "Test environments", "value_fr": "Environnements de test" }
+        ]
+      },
+      {
+        "category": "Databases",
+        "category_fr": "Bases de données",
+        "specs": [
+          { "name": "MySQL", "value": "5.7, 8.0, 8.1" },
+          { "name": "PostgreSQL", "value": "13, 14, 15, 16" },
+          { "name": "MariaDB", "value": "10.6, 10.11, 11" },
+          { "name": "MongoDB", "value": "5.0, 6.0, 7.0" },
+          { "name": "Redis", "value": "6.2, 7.0, 7.2" },
+          { "name": "phpMyAdmin", "value": "Web interface included", "value_fr": "Interface web incluse" },
+          { "name": "DB Backups", "name_fr": "Sauvegardes DB", "value": "Daily automatic", "value_fr": "Quotidiens automatiques" },
+          { "name": "Replication", "name_fr": "Réplication", "value": "Master-Slave available", "value_fr": "Master-Slave disponible" }
+        ]
+      },
+      {
+        "category": "Performance & CDN",
+        "specs": [
+          { "name": "HTTP/3 QUIC", "value": "Enabled by default", "value_fr": "Activé par défaut" },
+          { "name": "Brotli", "value": "Advanced compression", "value_fr": "Compression avancée" },
+          { "name": "Varnish Cache", "name_fr": "Cache Varnish", "value": "Pro and Enterprise", "value_fr": "Pro et Enterprise" },
+          { "name": "CDN", "value": "CloudFlare integrated", "value_fr": "CloudFlare intégré" },
+          { "name": "DDoS Protection", "name_fr": "Protection DDoS", "value": "10 Gbps to 1 Tbps", "value_fr": "10 Gbps à 1 Tbps" },
+          { "name": "WAF", "value": "ModSecurity rules" },
+          { "name": "PageSpeed", "value": "Score 95+ guaranteed", "value_fr": "Score 95+ garanti" },
+          { "name": "Uptime SLA", "value": "99.9% guaranteed", "value_fr": "99.9% garanti" }
+        ]
+      }
+    ],
+    "benchmarks": {
+      "title": "Web Performance",
+      "title_fr": "Performance Web",
+      "subtitle": "Optimized for speed and reliability",
+      "subtitle_fr": "Optimisé pour la vitesse et la fiabilité",
+      "metrics": [
+        {
+          "name": "PHP 8.3 Performance",
+          "value": 1247,
+          "unit": "req/s",
+          "comparison": "OPcache + JIT"
+        },
+        {
+          "name": "MySQL Queries",
+          "value": 12500,
+          "unit": "queries/s",
+          "comparison": "InnoDB optimized"
+        },
+        {
+          "name": "WordPress TTFB",
+          "value": 0.2,
+          "unit": "seconds",
+          "comparison": "Cached response"
+        },
+        {
+          "name": "Page Load Speed",
+          "value": 0.8,
+          "unit": "seconds",
+          "comparison": "Average site"
+        },
+        {
+          "name": "Uptime",
+          "value": 99.95,
+          "unit": "%",
+          "comparison": "Last 12 months"
+        },
+        {
+          "name": "Support Response",
+          "value": 5,
+          "unit": "minutes",
+          "comparison": "Average time"
+        }
+      ]
+    },
+    "features": {
+      "title": "Included Features",
+      "title_fr": "Fonctionnalités incluses",
+      "items": [
+        { "en": "Free SSL/TLS with Let's Encrypt", "fr": "SSL/TLS gratuit avec Let's Encrypt" },
+        { "en": "Daily automatic backup", "fr": "Backup automatique quotidien" },
+        { "en": "Multi-layer DDoS protection", "fr": "Protection DDoS multi-couches" },
+        { "en": "Unlimited professional email", "fr": "Email professionnel illimité" },
+        { "en": "Integrated Git deployment", "fr": "Git deployment intégré" },
+        { "en": "Staging environment", "fr": "Environnement de staging" },
+        { "en": "Free assisted migration", "fr": "Migration gratuite assistée" },
+        { "en": "cPanel/Plesk available", "fr": "cPanel/Plesk disponible" },
+        { "en": "24/7 support", "fr": "Support 24/7" },
+        { "en": "99.9% uptime SLA", "fr": "99.9% uptime SLA" },
+        { "en": "Real-time monitoring", "fr": "Monitoring temps réel" },
+        { "en": "Auto-scaling available", "fr": "Auto-scaling disponible" }
+      ]
+    },
+    "security": {
+      "title": "Web Hosting Security",
+      "title_fr": "Sécurité Web Hosting",
+      "subtitle": "Complete protection for your sites",
+      "subtitle_fr": "Protection complète pour vos sites",
+      "items": [
+        { "en": "Free auto-renewed SSL/TLS", "fr": "SSL/TLS gratuit et auto-renouvelé" },
+        { "en": "WAF (Web Application Firewall)", "fr": "WAF (Web Application Firewall)" },
+        { "en": "DDoS protection up to 1 Tbps", "fr": "Protection DDoS jusqu'à 1 Tbps" },
+        { "en": "Daily malware scan", "fr": "Scan malware quotidien" },
+        { "en": "Account isolation", "fr": "Isolation des comptes" },
+        { "en": "AES-256 encrypted backup", "fr": "Backup chiffré AES-256" },
+        { "en": "GDPR compliance", "fr": "Conformité RGPD" },
+        { "en": "ModSecurity rules", "fr": "Règles ModSecurity" },
+        { "en": "Hotlink protection", "fr": "Protection hotlink" },
+        { "en": "IP blocking", "fr": "Blocage IP" },
+        { "en": "2FA for admin access", "fr": "2FA pour accès admin" },
+        { "en": "Complete audit logs", "fr": "Logs d'audit complets" }
+      ]
+    },
+    "contactExpert": false
+  },
+  "paas": {
+    "displayName": "Platform as a Service",
+    "mainSpecs": [
+      {
+        "key": "containers",
+        "label": "Containers",
+        "icon": "CPU",
+        "tech": "Docker/K8s",
+        "detail": "Auto-scale"
+      },
+      {
+        "key": "ram_per_container",
+        "label": "RAM/Container",
+        "icon": "RAM",
+        "tech": "Dedicated",
+        "detail": "Guaranteed"
+      },
+      {
+        "key": "deployments_per_day",
+        "label": "Deployments",
+        "icon": "Network",
+        "tech": "CI/CD",
+        "detail": "Automated"
+      },
+      {
+        "key": "environments",
+        "label": "Environments",
+        "icon": "Network",
+        "tech": "Multi-stage",
+        "detail": "Dev/Staging/Prod"
+      }
+    ],
+    "cardSpecs": ["containers", "ram_per_container", "cpu_per_container", "deployments_per_day"],
+    "technicalSections": [
+      {
+        "category": "Container Platform",
+        "category_fr": "Plateforme Container",
+        "specs": [
+          { "name": "Container Runtime", "value": "Docker 24.x" },
+          { "name": "Orchestration", "value": "Kubernetes 1.28+" },
+          { "name": "Registry", "value": "Private registry included" },
+          { "name": "Build System", "value": "Dockerfile, Buildpacks" },
+          { "name": "Scaling", "value": "Horizontal & Vertical" },
+          { "name": "Load Balancing", "value": "Automatic with health checks" },
+          { "name": "Service Mesh", "value": "Istio optional" },
+          { "name": "Namespaces", "value": "Isolated environments" }
+        ]
+      },
+      {
+        "category": "CI/CD Pipeline",
+        "category_fr": "Pipeline CI/CD",
+        "specs": [
+          { "name": "Git Integration", "value": "GitHub, GitLab, Bitbucket" },
+          { "name": "Build Minutes", "value": "100-2000/month" },
+          { "name": "Deploy Hooks", "value": "Webhooks unlimited" },
+          { "name": "Rollback", "value": "1-click instant" },
+          { "name": "Blue-Green", "value": "Zero downtime deploy" },
+          { "name": "Canary Release", "value": "Progressive rollout" },
+          { "name": "Secrets Management", "value": "Vault integration" },
+          { "name": "GitOps", "value": "ArgoCD compatible" }
+        ]
+      },
+      {
+        "category": "Development Tools",
+        "category_fr": "Outils de Développement",
+        "specs": [
+          { "name": "Languages", "value": "All major languages" },
+          { "name": "Databases", "value": "Managed DB add-ons" },
+          { "name": "Caching", "value": "Redis, Memcached" },
+          { "name": "Message Queue", "value": "RabbitMQ, Kafka" },
+          { "name": "Monitoring", "value": "Prometheus, Grafana" },
+          { "name": "Logging", "value": "ELK Stack included" },
+          { "name": "APM", "value": "Application insights" },
+          { "name": "Debug", "value": "Remote debugging support" }
+        ]
+      },
+      {
+        "category": "Networking",
+        "category_fr": "Réseau",
+        "specs": [
+          { "name": "Custom Domains", "value": "Unlimited with SSL" },
+          { "name": "Load Balancer", "value": "Integrated L7" },
+          { "name": "Service Discovery", "value": "Automatic DNS" },
+          { "name": "Private Network", "value": "Isolated VPC" },
+          { "name": "Ingress Controller", "value": "NGINX/Traefik" },
+          { "name": "WebSockets", "value": "Full support" },
+          { "name": "gRPC", "value": "Native support" },
+          { "name": "IPv6", "value": "Dual stack ready" }
+        ]
+      }
+    ],
+    "benchmarks": {
+      "title": "DevOps Performance",
+      "title_fr": "Performance DevOps",
+      "subtitle": "Ultra-fast deployment and infinite scalability",
+      "subtitle_fr": "Déploiement ultra-rapide et scalabilité infinie",
+      "metrics": [
+        {
+          "name": "Deploy Time",
+          "value": 45,
+          "unit": "seconds",
+          "comparison": "Average rollout"
+        },
+        {
+          "name": "Scale Speed",
+          "value": 3,
+          "unit": "seconds",
+          "comparison": "0-10 replicas"
+        },
+        {
+          "name": "Build Time",
+          "value": 90,
+          "unit": "seconds",
+          "comparison": "Docker build"
+        },
+        {
+          "name": "Cold Start",
+          "value": 1.2,
+          "unit": "seconds",
+          "comparison": "Container boot"
+        },
+        {
+          "name": "Availability",
+          "value": 99.95,
+          "unit": "%",
+          "comparison": "Platform SLA"
+        },
+        {
+          "name": "Max Containers",
+          "value": 1000,
+          "unit": "per app",
+          "comparison": "K8s cluster"
+        }
+      ]
+    },
+    "features": {
+      "title": "PaaS Features",
+      "title_fr": "Fonctionnalités PaaS",
+      "items": [
+        "Déploiement Git automatique",
+        "Auto-scaling horizontal/vertical",
+        "Environnements multiples (dev/staging/prod)",
+        "Rollback instantané",
+        "Blue-Green deployments",
+        "Canary releases",
+        "Service mesh avec Istio",
+        "Monitoring et APM intégrés",
+        "Logs centralisés ELK",
+        "Backup automatique",
+        "CI/CD pipeline complet",
+        "GitOps ready avec ArgoCD"
+      ]
+    },
+    "security": {
+      "title": "Container Security",
+      "title_fr": "Sécurité Container",
+      "subtitle": "Enterprise-level protection",
+      "subtitle_fr": "Protection niveau entreprise",
+      "items": [
+        { "en": "Automatic vulnerability scanning", "fr": "Scan de vulnérabilités automatique" },
+        { "en": "Runtime protection (Falco)", "fr": "Runtime protection (Falco)" },
+        { "en": "Kubernetes network policies", "fr": "Network policies Kubernetes" },
+        { "en": "Secrets management (Vault)", "fr": "Secrets management (Vault)" },
+        { "en": "Granular RBAC", "fr": "RBAC granulaire" },
+        { "en": "Image signing and verification", "fr": "Image signing et verification" },
+        { "en": "Admission controllers", "fr": "Admission controllers" },
+        { "en": "Pod Security Standards", "fr": "Pod Security Standards" },
+        { "en": "Complete audit logging", "fr": "Audit logging complet" },
+        { "en": "CIS benchmarks compliance", "fr": "Conformité CIS benchmarks" },
+        { "en": "Kernel isolation (gVisor)", "fr": "Isolation kernel (gVisor)" },
+        { "en": "Zero Trust networking", "fr": "Zero Trust networking" }
+      ]
+    },
+    "contactExpert": true,
+    "contactExpertText": "Architecture microservices complexe ? Nos experts DevOps/SRE vous accompagnent dans votre transformation cloud-native."
+  },
+  "loadbalancer": {
+    "displayName": "Load Balancer",
+    "mainSpecs": [
+      {
+        "key": "requests_per_sec",
+        "label": "Throughput",
+        "icon": "Network",
+        "tech": "L4/L7 Balancing",
+        "detail": "Up to 1M req/s"
+      },
+      {
+        "key": "backends_max",
+        "label": "Backends",
+        "icon": "Network",
+        "tech": "Health Checks",
+        "detail": "Auto-failover"
+      },
+      {
+        "key": "protocols",
+        "label": "Protocols",
+        "icon": "Network",
+        "tech": "Multi-protocol",
+        "detail": "HTTP/TCP/UDP"
+      },
+      {
+        "key": "regions",
+        "label": "Availability",
+        "icon": "Network",
+        "tech": "Multi-AZ",
+        "detail": "Geo-redundant"
+      }
+    ],
+    "cardSpecs": ["requests_per_sec", "backends_max", "ssl_tls", "protocols"],
+    "technicalSections": [
+      {
+        "category": "Load Balancing",
+        "category_fr": "Équilibrage de charge",
+        "specs": [
+          { "name": "Types", "value": "L4 & L7" },
+          { "name": "Algorithms", "value": "RR, LC, IP Hash" },
+          { "name": "Persistence", "value": "Cookie, IP, Custom" },
+          { "name": "Health Check", "value": "HTTP, TCP, Custom" },
+          { "name": "SSL Termination", "value": "Hardware accelerated" },
+          { "name": "WebSockets", "value": "Full support" },
+          { "name": "HTTP/3", "value": "QUIC protocol support" },
+          { "name": "gRPC", "value": "Native load balancing" }
+        ]
+      },
+      {
+        "category": "High Availability",
+        "category_fr": "Haute Disponibilité",
+        "specs": [
+          { "name": "Redundancy", "value": "Active-Active, Active-Passive" },
+          { "name": "Failover Time", "value": "< 1 second" },
+          { "name": "Multi-AZ", "value": "Cross-datacenter" },
+          { "name": "Geo-routing", "value": "Proximity-based" },
+          { "name": "Anycast IP", "value": "Global routing" },
+          { "name": "DDoS Protection", "value": "Up to 3 Tbps" },
+          { "name": "Auto-scaling", "value": "Dynamic capacity" },
+          { "name": "SLA", "value": "99.99% uptime" }
+        ]
+      },
+      {
+        "category": "Advanced Features",
+        "category_fr": "Fonctionnalités Avancées",
+        "specs": [
+          { "name": "Rate Limiting", "value": "Per IP, URL, Header" },
+          { "name": "Request Routing", "value": "Path, Header, Method based" },
+          { "name": "Response Caching", "value": "In-memory cache" },
+          { "name": "Compression", "value": "Gzip, Brotli" },
+          { "name": "WAF Integration", "value": "ModSecurity compatible" },
+          { "name": "Custom Headers", "value": "Add/Remove/Modify" },
+          { "name": "Logging", "value": "Real-time access logs" },
+          { "name": "Metrics", "value": "Prometheus compatible" }
+        ]
+      },
+      {
+        "category": "Monitoring & Analytics",
+        "category_fr": "Monitoring & Analyses",
+        "specs": [
+          { "name": "Real-time Stats", "value": "Requests, Latency, Errors" },
+          { "name": "Health Dashboard", "value": "Backend status live" },
+          { "name": "Traffic Analytics", "value": "Geographic, Device, Browser" },
+          { "name": "Performance Metrics", "value": "P50, P95, P99 latencies" },
+          { "name": "Error Tracking", "value": "5xx, 4xx breakdown" },
+          { "name": "Alerting", "value": "Email, SMS, Webhook" },
+          { "name": "API Access", "value": "REST & GraphQL" },
+          { "name": "Export", "value": "CSV, JSON, Grafana" }
+        ]
+      }
+    ],
+    "benchmarks": {
+      "title": "Load Balancing Performance",
+      "title_fr": "Performance Load Balancing",
+      "subtitle": "Enterprise-grade load distribution",
+      "subtitle_fr": "Distribution de charge enterprise-grade",
+      "metrics": [
+        {
+          "name": "Max Throughput",
+          "value": 1000000,
+          "unit": "req/s",
+          "comparison": "L7 HTTPS"
+        },
+        {
+          "name": "TCP Connections",
+          "value": 10000000,
+          "unit": "concurrent",
+          "comparison": "L4 mode"
+        },
+        {
+          "name": "SSL TPS",
+          "value": 50000,
+          "unit": "handshakes/s",
+          "comparison": "RSA 2048"
+        },
+        {
+          "name": "Added Latency",
+          "value": 0.1,
+          "unit": "ms",
+          "comparison": "P50 overhead"
+        },
+        {
+          "name": "Failover Time",
+          "value": 0.5,
+          "unit": "seconds",
+          "comparison": "Backend failure"
+        },
+        {
+          "name": "Uptime SLA",
+          "value": 99.99,
+          "unit": "%",
+          "comparison": "Guaranteed"
+        }
+      ]
+    },
+    "features": {
+      "title": "Load Balancer Features",
+      "title_fr": "Fonctionnalités Load Balancer",
+      "items": [
+        "SSL/TLS termination avec Let's Encrypt",
+        "Health checks avancés personnalisables",
+        "Algorithmes de répartition multiples",
+        "Session persistence configurable",
+        "WebSockets et HTTP/2 support",
+        "Compression Gzip/Brotli automatique",
+        "Rate limiting et throttling",
+        "Geo-routing et failover automatique",
+        "Monitoring temps réel intégré",
+        "API REST pour automatisation",
+        "Protection DDoS multi-couches",
+        "Zero downtime reconfiguration"
+      ]
+    },
+    "security": {
+      "title": "Load Balancer Security",
+      "title_fr": "Sécurité Load Balancer",
+      "subtitle": "Advanced traffic protection",
+      "subtitle_fr": "Protection avancée du trafic",
+      "items": [
+        "SSL/TLS avec Perfect Forward Secrecy",
+        "Protection DDoS jusqu'à 3 Tbps",
+        "WAF intégré avec rules OWASP",
+        "Rate limiting par IP/URL",
+        "Geo-blocking par pays",
+        "Blacklist/Whitelist IP",
+        "Header security (HSTS, CSP)",
+        "Authentication basique/OAuth",
+        "Chiffrement backend TLS",
+        "Audit logs complets",
+        "Conformité PCI-DSS",
+        "Isolation réseau complète"
+      ]
+    },
+    "useCases": {
+      "title": "Use Cases",
+      "title_fr": "Cas d'usage",
+      "items": [
+        "Sites web haute disponibilité",
+        "Applications microservices",
+        "APIs REST/GraphQL",
+        "Streaming vidéo/audio",
+        "Gaming servers",
+        "E-commerce haute charge",
+        "SaaS multi-tenant",
+        "IoT data ingestion",
+        "WebSockets real-time",
+        "Multi-region failover",
+        "Blue-green deployments",
+        "A/B testing traffic split"
+      ]
+    },
+    "contactExpert": true,
+    "contactExpertText": "Architecture haute disponibilité complexe ? Nos ingénieurs réseau conçoivent votre infrastructure résiliente."
+  },
+  "storage": {
+    "displayName": "Stockage Cloud",
+    "mainSpecs": [
+      {
+        "key": "type",
+        "label": "Type",
+        "icon": "Storage",
+        "tech": "NVMe PCIe 4.0",
+        "detail": "Enterprise Plus"
+      },
+      {
+        "key": "iops_per_tb",
+        "label": "IOPS/TB",
+        "icon": "Storage",
+        "tech": "Guaranteed",
+        "detail": "Up to 500K"
+      },
+      {
+        "key": "throughput",
+        "label": "Throughput",
+        "icon": "Storage",
+        "tech": "Sequential",
+        "detail": "Up to 14 GB/s"
+      },
+      {
+        "key": "latency",
+        "label": "Latency",
+        "icon": "Storage",
+        "tech": "Ultra-low",
+        "detail": "< 0.05ms"
+      }
+    ],
+    "cardSpecs": ["type", "iops_per_tb", "latency", "throughput", "min_size", "max_size"],
+    "technicalSections": [
+      {
+        "category": "Block Storage",
+        "category_fr": "Stockage en Bloc",
+        "specs": [
+          { "name": "Types", "value": "SSD, NVMe Gen3/4" },
+          { "name": "RAID", "value": "0, 1, 5, 10" },
+          { "name": "Encryption", "value": "AES-256 at rest" },
+          { "name": "Snapshots", "value": "Instant, incremental" },
+          { "name": "Cloning", "value": "Zero-copy clones" },
+          { "name": "Resize", "value": "Online expansion" },
+          { "name": "Multi-attach", "value": "Shared volumes" },
+          { "name": "Backup", "value": "Automated daily" }
+        ]
+      },
+      {
+        "category": "Object Storage S3",
+        "category_fr": "Stockage Objet S3",
+        "specs": [
+          { "name": "Compatibility", "value": "S3 API v4 complete" },
+          { "name": "Durability", "value": "99.999999999% (11 9's)" },
+          { "name": "Availability", "value": "99.99% SLA" },
+          { "name": "Versioning", "value": "Automatic with history" },
+          { "name": "Lifecycle", "value": "Policy-based archiving" },
+          { "name": "Replication", "value": "Cross-region automatic" },
+          { "name": "CDN Integration", "value": "Direct edge caching" },
+          { "name": "Access Control", "value": "IAM, ACL, Policies" }
+        ]
+      },
+      {
+        "category": "Performance Tiers",
+        "category_fr": "Niveaux de Performance",
+        "specs": [
+          { "name": "SSD Standard", "value": "10K IOPS, 500 MB/s" },
+          { "name": "NVMe Performance", "value": "50K IOPS, 2 GB/s" },
+          { "name": "NVMe Extreme", "value": "200K IOPS, 7 GB/s" },
+          { "name": "Dedicated NVMe", "value": "500K+ IOPS, 14 GB/s" },
+          { "name": "Latency Range", "value": "0.05ms - 1ms" },
+          { "name": "Burst Performance", "value": "3x baseline for 30min" },
+          { "name": "QoS Guaranteed", "value": "Min IOPS assured" },
+          { "name": "Cache Layer", "value": "NVMe cache for HDD" }
+        ]
+      },
+      {
+        "category": "Backup & Archive",
+        "category_fr": "Sauvegarde & Archive",
+        "specs": [
+          { "name": "Backup Frequency", "value": "Hourly to monthly" },
+          { "name": "Retention", "value": "7 days to 7 years" },
+          { "name": "Deduplication", "value": "Block-level dedupe" },
+          { "name": "Compression", "value": "LZ4, Zstandard" },
+          { "name": "Archive Tiers", "value": "Hot, Cool, Cold" },
+          { "name": "Retrieval Time", "value": "Instant to 24h" },
+          { "name": "Compliance", "value": "WORM, Legal hold" },
+          { "name": "Disaster Recovery", "value": "Geo-redundant copies" }
+        ]
+      }
+    ],
+    "benchmarks": {
+      "title": "Storage Performance",
+      "title_fr": "Performance Stockage",
+      "subtitle": "Real workload benchmarks",
+      "subtitle_fr": "Benchmarks sur workloads réels",
+      "metrics": [
+        {
+          "name": "4K Random Read",
+          "value": 500000,
+          "unit": "IOPS",
+          "comparison": "NVMe Extreme"
+        },
+        {
+          "name": "4K Random Write",
+          "value": 450000,
+          "unit": "IOPS",
+          "comparison": "NVMe Extreme"
+        },
+        {
+          "name": "Sequential Read",
+          "value": 14000,
+          "unit": "MB/s",
+          "comparison": "Large files"
+        },
+        {
+          "name": "Sequential Write",
+          "value": 12000,
+          "unit": "MB/s",
+          "comparison": "Large files"
+        },
+        {
+          "name": "Latency P50",
+          "value": 0.05,
+          "unit": "ms",
+          "comparison": "Median latency"
+        },
+        {
+          "name": "Latency P99",
+          "value": 0.5,
+          "unit": "ms",
+          "comparison": "99th percentile"
+        }
+      ]
+    },
+    "features": {
+      "title": "Storage Features",
+      "title_fr": "Fonctionnalités Storage",
+      "items": [
+        "Snapshots instantanés illimités",
+        "Chiffrement AES-256 au repos",
+        "Réplication cross-region automatique",
+        "Resize online sans downtime",
+        "Thin provisioning intelligent",
+        "Compression transparente",
+        "Déduplication automatique",
+        "QoS avec IOPS garantis",
+        "Multi-attach pour clusters",
+        "API REST complète",
+        "Monitoring temps réel",
+        "Backup automatisé configurable"
+      ]
+    },
+    "security": {
+      "title": "Storage Security",
+      "title_fr": "Sécurité Storage",
+      "subtitle": "Maximum data protection",
+      "subtitle_fr": "Protection des données maximale",
+      "items": [
+        "Chiffrement AES-256-GCM",
+        "Clés de chiffrement client (BYOK)",
+        "Erasure coding pour durabilité",
+        "Immutable snapshots",
+        "WORM compliance (Write Once)",
+        "Audit trail complet",
+        "Réplication géo-redondante",
+        "Versioning automatique",
+        "Access control granulaire",
+        "Data residency garantie EU",
+        "Conformité RGPD/HIPAA",
+        "Zero-knowledge encryption option"
+      ]
+    },
+    "useCases": {
+      "title": "Storage Use Cases",
+      "title_fr": "Cas d'usage Storage",
+      "items": [
+        "Bases de données haute performance",
+        "Stockage VM et containers",
+        "Big Data et analytics",
+        "Backup et archivage",
+        "Content delivery (CDN origin)",
+        "Machine Learning datasets",
+        "Video streaming storage",
+        "DevOps artifacts repository",
+        "Disaster recovery",
+        "File sharing enterprise",
+        "Medical imaging (PACS)",
+        "Surveillance video retention"
+      ]
+    },
+    "contactExpert": false
+  },
+  "cdn": {
+    "displayName": "Content Delivery Network",
+    "mainSpecs": [
+      {
+        "key": "pops",
+        "label": "Edge PoPs",
+        "icon": "Network",
+        "tech": "Global Network",
+        "detail": "150+ locations"
+      },
+      {
+        "key": "traffic_included",
+        "label": "Bandwidth",
+        "icon": "Network",
+        "tech": "Included Traffic",
+        "detail": "Up to 1 PB"
+      },
+      {
+        "key": "purge",
+        "label": "Cache Purge",
+        "icon": "Network",
+        "tech": "Instant Global",
+        "detail": "< 30 seconds"
+      },
+      {
+        "key": "waf",
+        "label": "Security",
+        "icon": "Network",
+        "tech": "WAF + DDoS",
+        "detail": "AI-powered"
+      }
+    ],
+    "cardSpecs": ["pops", "traffic_included", "domains", "purge"],
+    "technicalSections": [
+      {
+        "category": "Global Network",
+        "category_fr": "Réseau Global",
+        "specs": [
+          { "name": "Locations", "value": "150+ PoPs" },
+          { "name": "Network Capacity", "value": "200+ Tbps" },
+          { "name": "Anycast", "value": "Global BGP" },
+          { "name": "Peering", "value": "Major ISPs direct" },
+          { "name": "Coverage", "value": "6 continents" },
+          { "name": "China Network", "value": "Mainland China PoPs" },
+          { "name": "Last Mile", "value": "ISP optimization" },
+          { "name": "IPv6", "value": "Full dual-stack" }
+        ]
+      },
+      {
+        "category": "Caching & Delivery",
+        "category_fr": "Cache & Distribution",
+        "specs": [
+          { "name": "Cache Control", "value": "Full HTTP headers" },
+          { "name": "Cache Rules", "value": "Custom TTL per path" },
+          { "name": "Purge Options", "value": "URL, Tag, Wildcard" },
+          { "name": "Compression", "value": "Gzip, Brotli auto" },
+          { "name": "HTTP/2", "value": "Server push enabled" },
+          { "name": "HTTP/3", "value": "QUIC protocol" },
+          { "name": "Range Requests", "value": "Byte-range caching" },
+          { "name": "Stale Content", "value": "Serve while revalidate" }
+        ]
+      },
+      {
+        "category": "Security Features",
+        "category_fr": "Fonctionnalités Sécurité",
+        "specs": [
+          { "name": "WAF", "value": "OWASP Core Rule Set" },
+          { "name": "DDoS Protection", "value": "Layer 3/4/7" },
+          { "name": "Bot Management", "value": "AI-based detection" },
+          { "name": "Rate Limiting", "value": "Configurable thresholds" },
+          { "name": "Geo-blocking", "value": "Country-level control" },
+          { "name": "Hotlink Protection", "value": "Referer validation" },
+          { "name": "Token Auth", "value": "Secure URL signing" },
+          { "name": "SSL/TLS", "value": "Free certificates" }
+        ]
+      },
+      {
+        "category": "Media & Streaming",
+        "category_fr": "Média & Streaming",
+        "specs": [
+          { "name": "Video Delivery", "value": "HLS, DASH, HDS" },
+          { "name": "Live Streaming", "value": "< 3s latency" },
+          { "name": "Image Optimization", "value": "Auto-format, resize" },
+          { "name": "Video Processing", "value": "Transcoding on-the-fly" },
+          { "name": "Adaptive Bitrate", "value": "Quality switching" },
+          { "name": "Origin Shield", "value": "Additional cache layer" },
+          { "name": "Bandwidth Saving", "value": "Up to 90% reduction" },
+          { "name": "4K/8K Support", "value": "Ultra HD ready" }
+        ]
+      },
+      {
+        "category": "Edge Computing",
+        "category_fr": "Edge Computing",
+        "specs": [
+          { "name": "Edge Functions", "value": "JavaScript at edge" },
+          { "name": "Edge Workers", "value": "Compute at PoPs" },
+          { "name": "Edge KV Store", "value": "Distributed database" },
+          { "name": "A/B Testing", "value": "Traffic splitting" },
+          { "name": "URL Rewriting", "value": "Pattern matching" },
+          { "name": "Header Manipulation", "value": "Add/Remove/Modify" },
+          { "name": "Response Time", "value": "< 5ms overhead" },
+          { "name": "Languages", "value": "JS, WASM support" }
+        ]
+      }
+    ],
+    "benchmarks": {
+      "title": "CDN Performance Metrics",
+      "title_fr": "Métriques Performance CDN",
+      "subtitle": "Results measured on global network",
+      "subtitle_fr": "Résultats mesurés sur réseau global",
+      "metrics": [
+        {
+          "name": "Cache Hit Ratio",
+          "value": 95.2,
+          "unit": "%",
+          "comparison": "Global average"
+        },
+        {
+          "name": "TTFB P50",
+          "value": 28,
+          "unit": "ms",
+          "comparison": "Global median"
+        },
+        {
+          "name": "TTFB P95",
+          "value": 85,
+          "unit": "ms",
+          "comparison": "95th percentile"
+        },
+        {
+          "name": "Bandwidth Savings",
+          "value": 87,
+          "unit": "%",
+          "comparison": "Origin offload"
+        },
+        {
+          "name": "Request/s",
+          "value": 10000000,
+          "unit": "req/s",
+          "comparison": "Global capacity"
+        },
+        {
+          "name": "Uptime",
+          "value": 99.99,
+          "unit": "%",
+          "comparison": "Network SLA"
+        }
+      ]
+    },
+    "features": {
+      "title": "CDN Features",
+      "title_fr": "Fonctionnalités CDN",
+      "items": [
+        "150+ PoPs dans le monde entier",
+        "Purge instantané < 30 secondes",
+        "WAF avec rules OWASP",
+        "Protection DDoS multi-couches",
+        "Image optimization automatique",
+        "Video streaming adaptatif",
+        "SSL/TLS gratuit avec auto-renewal",
+        "HTTP/2 et HTTP/3 support",
+        "Analytics temps réel",
+        "API REST complète",
+        "Edge computing functions",
+        "Origin shield protection"
+      ]
+    },
+    "security": {
+      "title": "CDN Security",
+      "title_fr": "Sécurité CDN",
+      "subtitle": "Complete edge protection",
+      "subtitle_fr": "Protection edge complète",
+      "items": [
+        "WAF avec ML/AI detection",
+        "Protection DDoS jusqu'à 3 Tbps",
+        "Bot management intelligent",
+        "Rate limiting configurable",
+        "Geo-blocking précis",
+        "Token authentication",
+        "HTTPS enforced (HSTS)",
+        "TLS 1.3 avec 0-RTT",
+        "DNSSEC validation",
+        "Content Security Policy",
+        "PCI DSS compliant",
+        "SOC 2 Type II certified"
+      ]
+    },
+    "useCases": {
+      "title": "CDN Use Cases",
+      "title_fr": "Cas d'usage CDN",
+      "items": [
+        "Sites web haute traffic",
+        "E-commerce global",
+        "Streaming vidéo/audio",
+        "Gaming assets delivery",
+        "Software distribution",
+        "API acceleration",
+        "Mobile app content",
+        "IoT data collection",
+        "Live events streaming",
+        "News & media sites",
+        "SaaS applications",
+        "Static site hosting"
+      ]
+    },
+    "analytics": {
+      "title": "Analytics & Reporting",
+      "items": [
+        "Real-time traffic stats",
+        "Geographic distribution",
+        "Cache performance metrics",
+        "Bandwidth utilization",
+        "Error rate tracking",
+        "Bot traffic analysis",
+        "Security threats dashboard",
+        "Origin performance",
+        "Cost analysis",
+        "Custom reports",
+        "Data export (CSV, JSON)",
+        "API access to metrics"
+      ]
+    },
+    "contactExpert": false
+  }
+}

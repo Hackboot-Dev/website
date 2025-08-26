@@ -9,7 +9,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import productsData from '../../data/products.json';
+import productsData from '../../data/products/base.json';
 
 interface ProductCategory {
   name: string;

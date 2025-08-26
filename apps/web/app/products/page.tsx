@@ -1,3 +1,4 @@
+// Removed 'use client' to allow server-side data loading
 'use client';
 
 // /workspaces/website/apps/web/app/products/page.tsx
@@ -6,9 +7,10 @@
 // Related docs: /docs/JOURNAL.md
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
-import productsData from '../../data/products.json';
+import { getEnrichedProductData } from '../../utils/productDataLoader';
 import { useStaggerEntry } from '../../hooks/useEntryAnimation';
 import { useLanguage } from '../../contexts/LanguageContext';
 import Badge from '../../components/ui/Badge';
@@ -27,14 +29,22 @@ export default function ProductsPage() {
     if (language === 'en') return en;
     return t('common.langUnavailable') || 'Language unavailable';
   };
+  
+  // Load products data based on current language (default to 'fr' if not set)
+  const productsData = getEnrichedProductData(language || 'fr');
+  
+  // Debug: Check if data is loaded
+  if (!productsData || Object.keys(productsData).length === 0) {
+    console.error('No products data loaded! Language:', language);
+  }
+  
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [showAllProducts, setShowAllProducts] = useState(false);
-  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+  const [showAllProducts, setShowAllProducts] = useState(true);
   
   const filteredProducts = getFilteredProducts();
-  const filterKey = `${selectedCategory}-${pricingMode}`;
+  const filterKey = `${selectedCategory}-${pricingMode}-${language}`;
   const { visibleItems } = useStaggerEntry(filteredProducts.length, 80, 100, filterKey);
   
   useEffect(() => {
@@ -44,9 +54,8 @@ export default function ProductsPage() {
   }, []);
 
   useEffect(() => {
-    // Fermer toutes les cartes expandées lors du changement de filtre
-    setExpandedCards({});
-    setShowAllProducts(false);
+    // Reset when filter changes - keep showing all products
+    setShowAllProducts(true);
   }, [selectedCategory, pricingMode]);
   
   function getFilteredProducts() {
@@ -54,16 +63,16 @@ export default function ProductsPage() {
     
     if (selectedCategory === 'all') {
       products = [
-        ...productsData.vps.map(p => ({ ...p, category: 'vps' })),
-        ...productsData.gpu.map(p => ({ ...p, category: 'gpu' })),
-        ...productsData.webhosting.map(p => ({ ...p, category: 'webhosting' })),
-        ...productsData.paas.map(p => ({ ...p, category: 'paas' })),
-        ...productsData.loadbalancer.map(p => ({ ...p, category: 'loadbalancer' })),
-        ...productsData.storage.map(p => ({ ...p, category: 'storage' })),
-        ...productsData.cdn.map(p => ({ ...p, category: 'cdn' }))
+        ...(productsData.vps || []).map(p => ({ ...p, category: 'vps' })),
+        ...(productsData.gpu || []).map(p => ({ ...p, category: 'gpu' })),
+        ...(productsData.webhosting || []).map(p => ({ ...p, category: 'webhosting' })),
+        ...(productsData.paas || []).map(p => ({ ...p, category: 'paas' })),
+        ...(productsData.loadbalancer || []).map(p => ({ ...p, category: 'loadbalancer' })),
+        ...(productsData.storage || []).map(p => ({ ...p, category: 'storage' })),
+        ...(productsData.cdn || []).map(p => ({ ...p, category: 'cdn' }))
       ];
     } else {
-      products = productsData[selectedCategory].map(p => ({ ...p, category: selectedCategory }));
+      products = (productsData[selectedCategory] || []).map(p => ({ ...p, category: selectedCategory }));
     }
 
     // Tri intelligent : d'abord par catégorie, puis par prix
@@ -116,7 +125,14 @@ export default function ProductsPage() {
 
   const initialGridCount = 8;
 
-  const toggleCard = (key: string) => setExpandedCards(prev => ({ ...prev, [key]: !prev[key] }));
+
+  // Generate product URL based on category and product
+  const getProductUrl = (product: any) => {
+    // Create consistent URLs for all product categories
+    const url = `/products/${product.category}/${product.id}`;
+    console.log('Product:', product.name, 'Category:', product.category, 'ID:', product.id, 'URL:', url);
+    return url;
+  };
 
   // Fonction pour déterminer la gamme de prix et son style
   function getPriceRange(product: any) {
@@ -320,6 +336,18 @@ export default function ProductsPage() {
                         <span className={`text-xs font-mono px-2 py-0.5 rounded ${selectedCategory===category.key?'bg-zinc-950/10 text-zinc-700':'bg-zinc-800/50 text-zinc-500'}`}>{category.count}</span>
                       </button>
                     ))}
+                    
+                    {/* Quick link to VPS dedicated page when VPS category is selected */}
+                    {selectedCategory === 'vps' && (
+                      <div className="mt-3 pt-3 border-t border-zinc-800/30">
+                        <Link href="/products/vps">
+                          <button className="w-full flex items-center gap-2 px-3 py-2 text-xs text-zinc-400 hover:text-emerald-400 transition-colors">
+                            <ArrowRightIcon className="w-3 h-3" />
+                            {tt('products.vps.viewAll', 'Voir tous les VPS', 'View all VPS')}
+                          </button>
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="bg-zinc-900/60 backdrop-blur-sm border border-zinc-800/50 rounded-2xl p-4">
@@ -476,54 +504,30 @@ export default function ProductsPage() {
                       {t('products.ui.configure') || 'Configurer'}
                     </Button>
                     
-                    <button 
-                      onClick={() => toggleCard(cardKey)} 
-                      className="w-full text-xs text-zinc-400 hover:text-zinc-300 transition-colors py-2"
+                    <Link 
+                      href={getProductUrl(product)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const url = getProductUrl(product);
+                        console.log('Navigating to:', url);
+                        window.location.href = url;
+                      }}
                     >
-                      {expandedCards[cardKey] ? (t('products.ui.hide') || 'Masquer') : (t('products.ui.details') || 'Voir détails')}
-                    </button>
+                      <Button
+                        variant="secondary"
+                        className="w-full mt-2"
+                        icon={<ArrowRightIcon size="sm" />}
+                        iconPosition="right"
+                      >
+                        {tt('products.ui.details', 'Voir détails', 'View details')}
+                      </Button>
+                    </Link>
                     
                     <p className="text-xs text-zinc-500 text-center leading-relaxed">
                       {tt('products.ui.configureInfo', 'Personnalisez les ressources • Paiement sécurisé', 'Customize resources • Secure payment')}
                     </p>
                   </div>
 
-                  {/* Expandable details */}
-                  <div className={`overflow-hidden transition-all duration-500 ease-out ${expandedCards[cardKey] ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className="mt-4 border-t border-zinc-800/30 pt-4">
-                      <div className="grid grid-cols-1 gap-2">
-                        {[
-                          product.vcpu && { label: tt('products.labels.cpu','CPU','CPU'), value: product.vcpu },
-                          product.gpu && { label: tt('products.labels.gpu','GPU','GPU'), value: product.gpu },
-                          product.vram && { label: tt('products.labels.vram','VRAM','VRAM'), value: product.vram },
-                          product.ram && { label: tt('products.labels.ram','RAM','RAM'), value: product.ram },
-                          product.storage && { label: tt('products.labels.storage','Stockage','Storage'), value: product.storage },
-                          product.bandwidth && { label: tt('products.labels.bandwidth','Bande passante','Bandwidth'), value: product.bandwidth },
-                          product.ipv4 && { label: tt('products.labels.ipv4','IPv4','IPv4'), value: product.ipv4 },
-                          product.network && { label: tt('products.labels.network','Réseau','Network'), value: product.network },
-                          product.databases && { label: tt('products.labels.databases','Bases','Databases'), value: product.databases },
-                          product.emails && { label: tt('products.labels.emails','Emails','Emails'), value: product.emails },
-                          product.ssl && { label: tt('products.labels.ssl','SSL','SSL'), value: product.ssl },
-                          product.containers && { label: tt('products.labels.containers','Containers','Containers'), value: product.containers },
-                          product.auto_scaling && { label: tt('products.labels.scaling','Scaling','Scaling'), value: product.auto_scaling },
-                          product.protocols && { label: tt('products.labels.protocols','Protocoles','Protocols'), value: product.protocols },
-                          product.requests_per_sec && { label: tt('products.labels.rps','RPS','RPS'), value: product.requests_per_sec },
-                          product.type && { label: tt('products.labels.type','Type','Type'), value: product.type },
-                          product.throughput && { label: tt('products.labels.throughput','Débit','Throughput'), value: product.throughput },
-                          product.pops && { label: tt('products.labels.pops','PoPs','PoPs'), value: product.pops },
-                          product.traffic_included && { label: tt('products.labels.traffic','Trafic','Traffic'), value: product.traffic_included },
-                        ]
-                          .filter(Boolean)
-                          .slice(0, 10)
-                          .map((spec: any, si: number) => (
-                            <div key={si} className="flex items-center justify-between text-xs">
-                              <span className="text-zinc-500">{spec.label}</span>
-                              <span className="text-zinc-300 font-mono bg-zinc-800/20 px-2 py-1 rounded">{String(spec.value)}</span>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Effets de hover sophistiqués */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">

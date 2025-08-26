@@ -1,10 +1,4 @@
 'use client';
-// /workspaces/website/apps/web/hooks/useAwwardsAnimation.ts
-// Description: Hook pour animations style Awwwards - subtiles et sophistiquées
-// Last modified: 2025-08-16
-// Related docs: /docs/JOURNAL.md
-
-// DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -27,6 +21,7 @@ export function useRevealAnimation(options: AnimationOptions = {}) {
 
   const elementRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
     const element = elementRef.current;
@@ -34,8 +29,11 @@ export function useRevealAnimation(options: AnimationOptions = {}) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), delay);
+        if (entry.isIntersecting && !hasAnimated) {
+          setTimeout(() => {
+            setIsVisible(true);
+            setHasAnimated(true);
+          }, delay);
         }
       },
       { threshold, rootMargin }
@@ -43,15 +41,15 @@ export function useRevealAnimation(options: AnimationOptions = {}) {
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [threshold, rootMargin, delay]);
+  }, [threshold, rootMargin, delay, hasAnimated]);
 
   return {
     elementRef,
     isVisible,
     style: {
       opacity: isVisible ? 1 : 0,
-      transform: isVisible ? 'translateY(0px)' : 'translateY(30px)',
-      transition: `opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}`,
+      transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+      transition: hasAnimated ? `all ${duration}ms ${easing}` : 'none'
     }
   };
 }
@@ -67,7 +65,6 @@ export function useStaggerReveal(itemsCount: number, staggerDelay: number = 100)
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Révélation progressive des items
           Array.from({ length: itemsCount }, (_, i) => {
             setTimeout(() => {
               setVisibleItems(prev => {
@@ -119,7 +116,6 @@ export function useParallax(speed: number = 0.5) {
       const windowHeight = window.innerHeight;
       const scrolled = window.scrollY;
 
-      // Calculate parallax offset only when element is in viewport
       if (scrolled + windowHeight > elementTop && scrolled < elementTop + elementHeight) {
         const rate = (scrolled - elementTop + windowHeight) / (windowHeight + elementHeight);
         setOffset((rate - 0.5) * speed * 100);
@@ -127,7 +123,7 @@ export function useParallax(speed: number = 0.5) {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial call
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [speed]);
 
@@ -154,7 +150,6 @@ export function useTextRevealStagger(text: string, delay: number = 50) {
         if (entry.isIntersecting && !isTriggered) {
           setIsTriggered(true);
           
-          // Reveal characters progressively
           const chars = text.length;
           let currentChar = 0;
           

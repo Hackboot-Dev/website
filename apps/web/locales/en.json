@@ -60,6 +60,25 @@
       "configure": "Configure",
       "configureInfo": "Customize resources • Secure payment",
       "enterpriseNote": "High-performance configuration",
+      "totalAnnual": "Annual total",
+      "save": "save",
+      "deployIn60s": "Deploy in 60 seconds",
+      "readyToScale": "Ready to scale your infrastructure?",
+      "deploymentDescription": "Automated deployment. Assisted migration. 24/7 Support.",
+      "deploy": "Deploy",
+      "activate": "Activate",
+      "contactExpert": "Contact an expert",
+      "orderNow": "Order Now",
+      "viewDemo": "View Demo",
+      "getStarted": "Get Started",
+      "perHour": "/hour",
+      "perMonth": "/month",
+      "perYear": "/year",
+      "discount": "discount",
+      "savePerYear": "Save {amount}€ per year",
+      "readyToAccelerate": "Ready to accelerate your content?",
+      "globalContentAcceleration": "GLOBAL CONTENT ACCELERATION",
+      "deployNow": "Deploy now",
       "toggle": {
         "monthly": "Monthly",
         "annualShort": "Annual",
@@ -67,6 +86,27 @@
       },
       "annualNote": "Monthly equivalent on annual commitment",
       "switchNote": "Switch between modes",
+      "trial": "Free trial",
+      "choose": "Order now",
+      "technicalSpecs": "Technical specifications",
+      "similarProducts": "Similar products",
+      "needHelp": "Need help?",
+      "contactExpertAction": "Contact an expert",
+      "slaLabel": "SLA",
+      "supportLabel": "Support",
+      "onQuote": "On quote",
+      "configured": "Configured",
+      "monthlyBilling": "/month",
+      "annualBilling": "/month (annual billing)",
+      "hourlyBilling": "/hour",
+      "savePercent": "Save {percent}% ({amount}€/year)",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "business": "Business",
+        "enterprise": "Enterprise",
+        "premium": "Premium"
+      },
       "hero": {
         "label": "Premium Infrastructure",
         "title1": "Solutions",
@@ -119,7 +159,8 @@
         "perMonth": "/mo",
         "perMonthStar": "/mo*",
         "perGbPerMonth": "/GB/mo"
-      }
+      },
+      "details": "View details"
     }
   },
   "common": {
@@ -176,6 +217,75 @@
       "size": "Size",
       "domains": "Domains",
       "waf": "WAF"
+    },
+    "vps": {
+      "viewAll": "View all VPS"
+    },
+    "webhosting": {
+      "features": {
+        "cms": {
+          "title": "One-Click CMS",
+          "description": "Install WordPress, Joomla, Drupal in one click"
+        },
+        "ssl": {
+          "title": "Free SSL",
+          "description": "Let's Encrypt certificates auto-renewed"
+        },
+        "backup": {
+          "title": "Daily Backup",
+          "description": "Automatic backups with 30-day retention"
+        },
+        "support": {
+          "title": "24/7 Support",
+          "description": "Technical team available day and night"
+        }
+      },
+      "specs": {
+        "storage": "SSD Storage",
+        "bandwidth": "Bandwidth",
+        "domains": "Domains",
+        "emails": "Email Accounts"
+      }
+    },
+    "ui": {
+      "details": "View details"
+    },
+    "pricing": {
+      "hourly": "Hourly",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "save": "Save"
+    },
+    "cta": {
+      "configure": "Configure & Order",
+      "trial": "Free trial",
+      "ready": "Ready to get started with",
+      "description": "Setup in under 2 minutes, instant deployment."
+    },
+    "specs": {
+      "title": "Technical Specifications",
+      "loading": "Specifications available soon",
+      "contact": "Contact us for more information"
+    },
+    "faq": {
+      "provision": {
+        "title": "How fast is provisioning?",
+        "answer": "Under 60 seconds for most configurations."
+      },
+      "migration": {
+        "title": "Do you help with migration?",
+        "answer": "Yes, free migration for Pro tier and above."
+      },
+      "billing": {
+        "title": "How does billing work?",
+        "answer": "Monthly/Annual options, hourly for eligible products."
+      }
+    },
+    "target": "Target audience:",
+    "features": {
+      "support247": "24/7 Support",
+      "freeMigration": "Free migration",
+      "hotMigration": "Hot migration"
     }
   },
   "hero": {

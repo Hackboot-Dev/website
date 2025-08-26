@@ -60,6 +60,25 @@
       "configure": "Configurer",
       "configureInfo": "Personnalisez les ressources • Paiement sécurisé",
       "enterpriseNote": "Configuration haute performance",
+      "totalAnnual": "Total annuel",
+      "save": "économisez",
+      "deployIn60s": "Déployer en 60 secondes",
+      "readyToScale": "Prêt à scaler votre infrastructure?",
+      "deploymentDescription": "Déploiement automatisé. Migration assistée. Support 24/7.",
+      "deploy": "Déployer",
+      "activate": "Activer",
+      "contactExpert": "Contacter un expert",
+      "orderNow": "Commander maintenant",
+      "viewDemo": "Voir la démo",
+      "getStarted": "Commencer maintenant",
+      "perHour": "/heure",
+      "perMonth": "/mois",
+      "perYear": "/an",
+      "discount": "de réduction",
+      "savePerYear": "Économisez {amount}€ par an",
+      "readyToAccelerate": "Prêt à accélérer votre contenu?",
+      "globalContentAcceleration": "ACCÉLÉRATION DE CONTENU GLOBALE",
+      "deployNow": "Déployer maintenant",
       "toggle": {
         "monthly": "Mensuel",
         "annualShort": "Annuel",
@@ -67,6 +86,27 @@
       },
       "annualNote": "Prix mensuel équivalent sur engagement annuel",
       "switchNote": "Basculer entre les modes",
+      "trial": "Essai gratuit",
+      "choose": "Commander maintenant",
+      "technicalSpecs": "Spécifications techniques",
+      "similarProducts": "Produits similaires",
+      "needHelp": "Besoin d'aide ?",
+      "contactExpertAction": "Contacter un expert",
+      "slaLabel": "SLA",
+      "supportLabel": "Support",
+      "onQuote": "Sur devis",
+      "configured": "Configuré",
+      "monthlyBilling": "/mois",
+      "annualBilling": "/mois (facturation annuelle)",
+      "hourlyBilling": "/heure",
+      "savePercent": "Économisez {percent}% ({amount}€/an)",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "business": "Business",
+        "enterprise": "Enterprise",
+        "premium": "Premium"
+      },
       "hero": {
         "label": "Infrastructure Premium",
         "title1": "Solutions",
@@ -119,7 +159,8 @@
         "perMonth": "/mois",
         "perMonthStar": "/mois*",
         "perGbPerMonth": "/GB/mois"
-      }
+      },
+      "details": "Voir détails"
     }
   },
   "common": {
@@ -176,6 +217,75 @@
       "size": "Taille",
       "domains": "Domaines",
       "waf": "WAF"
+    },
+    "vps": {
+      "viewAll": "Voir tous les VPS"
+    },
+    "webhosting": {
+      "features": {
+        "cms": {
+          "title": "CMS en 1-Click",
+          "description": "Installez WordPress, Joomla, Drupal en un clic"
+        },
+        "ssl": {
+          "title": "SSL Gratuit",
+          "description": "Certificats Let's Encrypt renouvelés automatiquement"
+        },
+        "backup": {
+          "title": "Backup Quotidien",
+          "description": "Sauvegardes automatiques avec rétention 30 jours"
+        },
+        "support": {
+          "title": "Support 24/7",
+          "description": "Équipe technique disponible jour et nuit"
+        }
+      },
+      "specs": {
+        "storage": "Stockage SSD",
+        "bandwidth": "Bande passante",
+        "domains": "Domaines",
+        "emails": "Emails"
+      }
+    },
+    "ui": {
+      "details": "Voir détails"
+    },
+    "pricing": {
+      "hourly": "Horaire",
+      "monthly": "Mensuel",
+      "annual": "Annuel",
+      "save": "Économie"
+    },
+    "cta": {
+      "configure": "Configurer & Commander",
+      "trial": "Essai gratuit",
+      "ready": "Prêt à démarrer avec",
+      "description": "Configuration en moins de 2 minutes, déploiement immédiat."
+    },
+    "specs": {
+      "title": "Spécifications Techniques",
+      "loading": "Spécifications disponibles bientôt",
+      "contact": "Contactez-nous pour plus d'informations"
+    },
+    "faq": {
+      "provision": {
+        "title": "Quel est le délai de mise en service ?",
+        "answer": "Moins de 60 secondes pour la plupart des configurations."
+      },
+      "migration": {
+        "title": "Aidez-vous pour la migration ?",
+        "answer": "Oui, migration gratuite pour les offres Pro et plus."
+      },
+      "billing": {
+        "title": "Comment fonctionne la facturation ?",
+        "answer": "Mensuel/Annuel au choix, horaire selon les produits."
+      }
+    },
+    "target": "Public cible:",
+    "features": {
+      "support247": "Support 24/7",
+      "freeMigration": "Migration gratuite",
+      "hotMigration": "Migration à chaud"
     }
   },
   "hero": {

@@ -1,0 +1,90 @@
+{
+  "paas-container": {
+    "usage": "Apps modernes",
+    "description": "Plateforme container pour déployer vos applications modernes avec simplicité et agilité.",
+    "use_cases": [
+      "Applications Node.js",
+      "APIs REST/GraphQL",
+      "Microservices simples",
+      "Applications Python/Django",
+      "Prototypes rapides"
+    ],
+    "features": [
+      "1 container inclus",
+      "2 GB RAM par container",
+      "Déploiement Git webhook",
+      "Environnements Dev + Prod",
+      "SSL automatique",
+      "Logs centralisés",
+      "Monitoring intégré"
+    ],
+    "target_audience": "Développeurs, startups, projets personnels",
+    "highlight": "Simplicité maximale"
+  },
+  "paas-business": {
+    "usage": "Multi-apps",
+    "description": "Plateforme multi-applications avec auto-scaling et pipelines CI/CD intégrés pour équipes de développement.",
+    "use_cases": [
+      "Applications multi-tier",
+      "Microservices orchestrés",
+      "APIs de production",
+      "Applications React/Vue.js",
+      "Services backend"
+    ],
+    "features": [
+      "5 containers inclus",
+      "Auto-scaling horizontal",
+      "Pipeline CI/CD intégré",
+      "3 environnements (Dev/Staging/Prod)",
+      "Load balancing automatique",
+      "Base de données managée",
+      "Monitoring APM"
+    ],
+    "target_audience": "Équipes dev, scale-ups, PME tech",
+    "highlight": "Auto-scaling inclus"
+  },
+  "paas-scale": {
+    "usage": "Auto-scaling",
+    "description": "Plateforme haute performance avec scaling automatique vertical et horizontal pour applications à fort trafic.",
+    "use_cases": [
+      "Applications haute charge",
+      "E-commerce à pic de trafic",
+      "APIs publiques",
+      "SaaS en croissance",
+      "Applications viral"
+    ],
+    "features": [
+      "20 containers max",
+      "Scaling H+V automatique",
+      "Multi-pipeline CI/CD",
+      "Environnements illimités",
+      "Cache Redis inclus",
+      "CDN intégré",
+      "Alertes intelligentes"
+    ],
+    "target_audience": "Scale-ups, SaaS, applications virales",
+    "highlight": "Scaling intelligent"
+  },
+  "paas-kubernetes": {
+    "usage": "Microservices",
+    "description": "Cluster Kubernetes managé complet pour architectures microservices complexes et applications cloud-native.",
+    "use_cases": [
+      "Microservices complexes",
+      "Applications cloud-native",
+      "Orchestration avancée",
+      "Multi-tenant SaaS",
+      "Infrastructure as Code"
+    ],
+    "features": [
+      "Cluster K8s complet",
+      "Namespaces illimités",
+      "Helm charts inclus",
+      "GitOps avec ArgoCD",
+      "Service mesh Istio",
+      "Monitoring Prometheus",
+      "Support Kubernetes expert"
+    ],
+    "target_audience": "Entreprises, DevOps teams, architectures complexes",
+    "highlight": "Kubernetes managé complet"
+  }
+}

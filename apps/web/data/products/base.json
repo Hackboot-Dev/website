@@ -1,8 +1,10 @@
 {
   "vps": [
     {
+      "id": "vps-nano",
       "name": "VPS-NANO",
-      "usage": "Dev & Tests",
+      "category": "vps",
+      "tier": "starter",
       "vcpu": "1x AMD EPYC™",
       "ram": "2 GB DDR4 ECC",
       "storage": "40 GB NVMe",
@@ -12,11 +14,15 @@
       "hourly": 0.049,
       "monthly": 29,
       "annual": 290,
-      "trial": "24h"
+      "trial": "24h",
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "vps-starter",
       "name": "VPS-STARTER",
-      "usage": "Sites Web",
+      "category": "vps",
+      "tier": "starter",
       "vcpu": "2x AMD EPYC™",
       "ram": "4 GB DDR4 ECC",
       "storage": "80 GB NVMe",
@@ -26,11 +32,15 @@
       "hourly": 0.089,
       "monthly": 49,
       "annual": 490,
-      "trial": "24h"
+      "trial": "24h",
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "vps-performance",
       "name": "VPS-PERFORMANCE",
-      "usage": "Production",
+      "category": "vps",
+      "tier": "pro",
       "vcpu": "4x AMD EPYC™",
       "ram": "8 GB DDR4 ECC",
       "storage": "160 GB NVMe",
@@ -40,11 +50,15 @@
       "hourly": 0.179,
       "monthly": 99,
       "annual": 990,
-      "trial": false
+      "trial": false,
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "vps-business",
       "name": "VPS-BUSINESS",
-      "usage": "Apps Critiques",
+      "category": "vps",
+      "tier": "business",
       "vcpu": "6x AMD EPYC™",
       "ram": "16 GB DDR4 ECC",
       "storage": "320 GB NVMe",
@@ -54,11 +68,15 @@
       "hourly": 0.359,
       "monthly": 199,
       "annual": 1990,
-      "trial": false
+      "trial": false,
+      "sla": "99.95%",
+      "support_level": "business"
     },
     {
+      "id": "vps-enterprise",
       "name": "VPS-ENTERPRISE",
-      "usage": "Haute Performance",
+      "category": "vps",
+      "tier": "enterprise",
       "vcpu": "8x AMD EPYC™",
       "ram": "32 GB DDR4 ECC",
       "storage": "640 GB NVMe",
@@ -68,11 +86,15 @@
       "hourly": 0.719,
       "monthly": 399,
       "annual": 3990,
-      "trial": false
+      "trial": false,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     },
     {
+      "id": "vps-elite",
       "name": "VPS-ELITE",
-      "usage": "Workloads Intensifs",
+      "category": "vps",
+      "tier": "enterprise",
       "vcpu": "16x AMD EPYC™",
       "ram": "64 GB DDR4 ECC",
       "storage": "1.28 TB NVMe",
@@ -82,11 +104,15 @@
       "hourly": 1.439,
       "monthly": 799,
       "annual": 7990,
-      "trial": false
+      "trial": false,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     },
     {
+      "id": "vps-titanium",
       "name": "VPS-TITANIUM",
-      "usage": "Mission-Critique",
+      "category": "vps",
+      "tier": "premium",
       "vcpu": "32x AMD EPYC™",
       "ram": "128 GB DDR4 ECC",
       "storage": "2.56 TB NVMe",
@@ -96,11 +122,15 @@
       "hourly": 2.879,
       "monthly": 1599,
       "annual": 15990,
-      "trial": false
+      "trial": false,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     },
     {
+      "id": "vps-quantum",
       "name": "VPS-QUANTUM",
-      "usage": "Performance Extrême",
+      "category": "vps",
+      "tier": "premium",
       "vcpu": "48x AMD EPYC™",
       "ram": "256 GB DDR4 ECC",
       "storage": "5 TB NVMe",
@@ -110,13 +140,17 @@
       "hourly": 5.759,
       "monthly": 3199,
       "annual": 31990,
-      "trial": false
+      "trial": false,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     }
   ],
   "gpu": [
     {
+      "id": "gpu-starter",
       "name": "GPU-STARTER",
-      "usage": "Dev IA/ML",
+      "category": "gpu",
+      "tier": "starter",
       "gpu": "1x Tesla T4",
       "vram": "16 GB GDDR6",
       "vcpu": "8x AMD EPYC™",
@@ -126,11 +160,15 @@
       "performance": "65 TFLOPS",
       "hourly": 0.85,
       "monthly": 469,
-      "annual": 4690
+      "annual": 4690,
+      "sla": "99.5%",
+      "support_level": "standard"
     },
     {
+      "id": "gpu-pro",
       "name": "GPU-PRO",
-      "usage": "Training ML",
+      "category": "gpu",
+      "tier": "pro",
       "gpu": "1x RTX 4090",
       "vram": "24 GB GDDR6X",
       "vcpu": "16x AMD EPYC™",
@@ -140,11 +178,15 @@
       "performance": "82 TFLOPS",
       "hourly": 1.50,
       "monthly": 829,
-      "annual": 8290
+      "annual": 8290,
+      "sla": "99.9%",
+      "support_level": "pro"
     },
     {
+      "id": "gpu-business",
       "name": "GPU-BUSINESS",
-      "usage": "Production IA",
+      "category": "gpu",
+      "tier": "business",
       "gpu": "2x RTX 4090",
       "vram": "48 GB GDDR6X",
       "vcpu": "32x AMD EPYC™",
@@ -154,11 +196,15 @@
       "performance": "164 TFLOPS",
       "hourly": 2.90,
       "monthly": 1599,
-      "annual": 15990
+      "annual": 15990,
+      "sla": "99.9%",
+      "support_level": "pro"
     },
     {
+      "id": "gpu-enterprise",
       "name": "GPU-ENTERPRISE",
-      "usage": "Workloads intensifs",
+      "category": "gpu",
+      "tier": "enterprise",
       "gpu": "1x A100 40GB",
       "vram": "40 GB HBM2",
       "vcpu": "48x AMD EPYC™",
@@ -168,11 +214,15 @@
       "performance": "312 TFLOPS",
       "hourly": 4.20,
       "monthly": 2319,
-      "annual": 23190
+      "annual": 23190,
+      "sla": "99.95%",
+      "support_level": "enterprise"
     },
     {
+      "id": "gpu-quantum",
       "name": "GPU-QUANTUM",
-      "usage": "Multi-GPU Training",
+      "category": "gpu",
+      "tier": "premium",
       "gpu": "2x A100 40GB",
       "vram": "80 GB HBM2",
       "vcpu": "64x AMD EPYC™",
@@ -183,11 +233,15 @@
       "interconnect": "NVLink",
       "hourly": 8.40,
       "monthly": 4639,
-      "annual": 46390
+      "annual": 46390,
+      "sla": "99.95%",
+      "support_level": "enterprise"
     },
     {
+      "id": "gpu-titan",
       "name": "GPU-TITAN",
-      "usage": "Enterprise AI",
+      "category": "gpu",
+      "tier": "premium",
       "gpu": "1x A100 80GB",
       "vram": "80 GB HBM2e",
       "vcpu": "96x AMD EPYC™",
@@ -198,11 +252,15 @@
       "interconnect": "NVLink",
       "hourly": 5.50,
       "monthly": 3035,
-      "annual": 30350
+      "annual": 30350,
+      "sla": "99.95%",
+      "support_level": "enterprise"
     },
     {
+      "id": "gpu-cluster",
       "name": "GPU-CLUSTER",
-      "usage": "Distributed Computing",
+      "category": "gpu",
+      "tier": "premium",
       "gpu": "4x A100 40GB",
       "vram": "160 GB HBM2",
       "vcpu": "128x AMD EPYC™",
@@ -213,11 +271,15 @@
       "interconnect": "NVSwitch",
       "hourly": 16.80,
       "monthly": 9279,
-      "annual": 92790
+      "annual": 92790,
+      "sla": "99.95%",
+      "support_level": "enterprise"
     },
     {
+      "id": "gpu-supercompute",
       "name": "GPU-SUPERCOMPUTE",
-      "usage": "Research HPC",
+      "category": "gpu",
+      "tier": "premium",
       "gpu": "8x A100 80GB",
       "vram": "640 GB HBM2e",
       "vcpu": "256x AMD EPYC™",
@@ -228,13 +290,17 @@
       "interconnect": "NVSwitch + IB",
       "hourly": 33.60,
       "monthly": 18559,
-      "annual": 185590
+      "annual": 185590,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     }
   ],
   "webhosting": [
     {
+      "id": "web-starter",
       "name": "WEB-STARTER",
-      "usage": "Sites vitrines",
+      "category": "webhosting",
+      "tier": "starter",
       "sites": 1,
       "storage": "50 GB NVMe",
       "bandwidth": "1 TB/mois",
@@ -246,11 +312,15 @@
       "hourly": 0.035,
       "monthly": 19,
       "annual": 190,
-      "trial": "30 jours"
+      "trial": "30 jours",
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "web-business",
       "name": "WEB-BUSINESS",
-      "usage": "PME & E-commerce",
+      "category": "webhosting",
+      "tier": "business",
       "sites": 10,
       "storage": "200 GB NVMe",
       "bandwidth": "5 TB/mois",
@@ -262,11 +332,15 @@
       "hourly": 0.089,
       "monthly": 49,
       "annual": 490,
-      "trial": "30 jours"
+      "trial": "30 jours",
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "web-pro",
       "name": "WEB-PRO",
-      "usage": "Agences web",
+      "category": "webhosting",
+      "tier": "pro",
       "sites": 50,
       "storage": "500 GB NVMe",
       "bandwidth": "20 TB/mois",
@@ -278,11 +352,15 @@
       "hourly": 0.179,
       "monthly": 99,
       "annual": 990,
-      "trial": "14 jours"
+      "trial": "14 jours",
+      "sla": "99.9%",
+      "support_level": "pro"
     },
     {
+      "id": "web-enterprise",
       "name": "WEB-ENTERPRISE",
-      "usage": "Grandes entreprises",
+      "category": "webhosting",
+      "tier": "enterprise",
       "sites": "Illimité",
       "storage": "2 TB NVMe",
       "bandwidth": "Illimitée",
@@ -294,13 +372,17 @@
       "hourly": 0.359,
       "monthly": 199,
       "annual": 1990,
-      "trial": false
+      "trial": false,
+      "sla": "99.95%",
+      "support_level": "enterprise"
     }
   ],
   "paas": [
     {
+      "id": "paas-container",
       "name": "PAAS-CONTAINER",
-      "usage": "Apps modernes",
+      "category": "paas",
+      "tier": "starter",
       "containers": 1,
       "ram_per_container": "2 GB",
       "cpu_per_container": "1 vCPU",
@@ -311,11 +393,15 @@
       "ci_cd": "GitHub/GitLab webhook",
       "hourly": 0.10,
       "monthly": 59,
-      "annual": 590
+      "annual": 590,
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "paas-business",
       "name": "PAAS-BUSINESS",
-      "usage": "Multi-apps",
+      "category": "paas",
+      "tier": "business",
       "containers": 5,
       "ram_per_container": "4 GB",
       "cpu_per_container": "2 vCPU",
@@ -326,11 +412,15 @@
       "ci_cd": "Pipeline intégré",
       "hourly": 0.40,
       "monthly": 239,
-      "annual": 2390
+      "annual": 2390,
+      "sla": "99.9%",
+      "support_level": "pro"
     },
     {
+      "id": "paas-scale",
       "name": "PAAS-SCALE",
-      "usage": "Auto-scaling",
+      "category": "paas",
+      "tier": "pro",
       "containers": 20,
       "ram_per_container": "8 GB",
       "cpu_per_container": "4 vCPU",
@@ -341,11 +431,15 @@
       "ci_cd": "Multi-pipeline",
       "hourly": 1.20,
       "monthly": 719,
-      "annual": 7190
+      "annual": 7190,
+      "sla": "99.95%",
+      "support_level": "pro"
     },
     {
+      "id": "paas-kubernetes",
       "name": "PAAS-KUBERNETES",
-      "usage": "Microservices",
+      "category": "paas",
+      "tier": "enterprise",
       "containers": "Cluster K8s complet",
       "ram_per_container": "Configurable",
       "cpu_per_container": "Configurable",
@@ -356,13 +450,17 @@
       "ci_cd": "GitOps ready",
       "hourly": 2.00,
       "monthly": 1199,
-      "annual": 11990
+      "annual": 11990,
+      "sla": "99.95%",
+      "support_level": "enterprise"
     }
   ],
   "loadbalancer": [
     {
+      "id": "lb-starter",
       "name": "LB-STARTER",
-      "usage": "Petites applications",
+      "category": "loadbalancer",
+      "tier": "starter",
       "backends_max": 5,
       "requests_per_sec": "10K",
       "ssl_tls": "Let's Encrypt",
@@ -373,11 +471,15 @@
       "ddos_protection": "Basic",
       "hourly": 0.04,
       "monthly": 29,
-      "annual": 290
+      "annual": 290,
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "lb-business",
       "name": "LB-BUSINESS",
-      "usage": "Applications moyennes",
+      "category": "loadbalancer",
+      "tier": "business",
       "backends_max": 20,
       "requests_per_sec": "50K",
       "ssl_tls": "Let's Encrypt + Wildcard",
@@ -388,11 +490,15 @@
       "ddos_protection": "Advanced",
       "hourly": 0.14,
       "monthly": 99,
-      "annual": 990
+      "annual": 990,
+      "sla": "99.9%",
+      "support_level": "pro"
     },
     {
+      "id": "lb-enterprise",
       "name": "LB-ENTERPRISE",
-      "usage": "Applications critiques",
+      "category": "loadbalancer",
+      "tier": "enterprise",
       "backends_max": 100,
       "requests_per_sec": "200K",
       "ssl_tls": "Let's Encrypt + EV/Custom",
@@ -403,11 +509,15 @@
       "ddos_protection": "Premium",
       "hourly": 0.42,
       "monthly": 299,
-      "annual": 2990
+      "annual": 2990,
+      "sla": "99.95%",
+      "support_level": "enterprise"
     },
     {
+      "id": "lb-global",
       "name": "LB-GLOBAL",
-      "usage": "Global scale",
+      "category": "loadbalancer",
+      "tier": "premium",
       "backends_max": "Illimité",
       "requests_per_sec": "1M+",
       "ssl_tls": "Let's Encrypt + EV/Custom + HSM",
@@ -418,13 +528,17 @@
       "ddos_protection": "Enterprise",
       "hourly": 1.39,
       "monthly": 999,
-      "annual": 9990
+      "annual": 9990,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     }
   ],
   "storage": [
     {
+      "id": "storage-ssd",
       "name": "STORAGE-SSD",
-      "usage": "Stockage standard",
+      "category": "storage",
+      "tier": "starter",
       "type": "SSD SATA",
       "iops_per_tb": "10K",
       "latency": "< 1ms",
@@ -433,11 +547,15 @@
       "max_size": "10 TB",
       "snapshots": "Quotidien",
       "replication": false,
-      "price_per_gb_month": 0.10
+      "price_per_gb_month": 0.10,
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "storage-nvme",
       "name": "STORAGE-NVME",
-      "usage": "Hautes performances",
+      "category": "storage",
+      "tier": "pro",
       "type": "NVMe PCIe 3.0",
       "iops_per_tb": "50K",
       "latency": "< 0.5ms",
@@ -446,11 +564,15 @@
       "max_size": "30 TB",
       "snapshots": "Horaire",
       "replication": "Option",
-      "price_per_gb_month": 0.15
+      "price_per_gb_month": 0.15,
+      "sla": "99.95%",
+      "support_level": "pro"
     },
     {
+      "id": "storage-extreme",
       "name": "STORAGE-EXTREME",
-      "usage": "Performance maximale",
+      "category": "storage",
+      "tier": "business",
       "type": "NVMe PCIe 4.0",
       "iops_per_tb": "200K",
       "latency": "< 0.1ms",
@@ -459,11 +581,15 @@
       "max_size": "50 TB",
       "snapshots": "Continu",
       "replication": "Incluse",
-      "price_per_gb_month": 0.25
+      "price_per_gb_month": 0.25,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     },
     {
+      "id": "storage-dedicated",
       "name": "STORAGE-DEDICATED",
-      "usage": "Stockage dédié",
+      "category": "storage",
+      "tier": "premium",
       "type": "NVMe RAID 10",
       "iops_per_tb": "500K+",
       "latency": "< 0.05ms",
@@ -472,13 +598,17 @@
       "max_size": "100 TB",
       "snapshots": "Temps réel",
       "replication": "Multi-site",
-      "price_per_gb_month": 0.40
+      "price_per_gb_month": 0.40,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     }
   ],
   "cdn": [
     {
+      "id": "cdn-starter",
       "name": "CDN-STARTER",
-      "usage": "Sites basiques",
+      "category": "cdn",
+      "tier": "starter",
       "pops": "10 Europe",
       "traffic_included": "1 TB",
       "domains": 1,
@@ -488,11 +618,15 @@
       "waf": false,
       "image_optimization": false,
       "monthly": 19,
-      "traffic_extra_per_gb": 0.08
+      "traffic_extra_per_gb": 0.08,
+      "sla": "99.9%",
+      "support_level": "standard"
     },
     {
+      "id": "cdn-pro",
       "name": "CDN-PRO",
-      "usage": "Sites professionnels",
+      "category": "cdn",
+      "tier": "pro",
       "pops": "25 EU/US",
       "traffic_included": "10 TB",
       "domains": 10,
@@ -502,11 +636,15 @@
       "waf": "Basic",
       "image_optimization": true,
       "monthly": 99,
-      "traffic_extra_per_gb": 0.05
+      "traffic_extra_per_gb": 0.05,
+      "sla": "99.95%",
+      "support_level": "pro"
     },
     {
+      "id": "cdn-business",
       "name": "CDN-BUSINESS",
-      "usage": "Applications business",
+      "category": "cdn",
+      "tier": "business",
       "pops": "50 Mondial",
       "traffic_included": "100 TB",
       "domains": 50,
@@ -516,11 +654,15 @@
       "waf": "Advanced",
       "image_optimization": "Auto",
       "monthly": 499,
-      "traffic_extra_per_gb": 0.02
+      "traffic_extra_per_gb": 0.02,
+      "sla": "99.95%",
+      "support_level": "enterprise"
     },
     {
+      "id": "cdn-global",
       "name": "CDN-GLOBAL",
-      "usage": "Applications globales",
+      "category": "cdn",
+      "tier": "premium",
       "pops": "150+ Mondial",
       "traffic_included": "1 PB",
       "domains": "Illimité",
@@ -530,7 +672,9 @@
       "waf": "Custom rules",
       "image_optimization": "AI-powered",
       "monthly": 2499,
-      "traffic_extra_per_gb": 0.01
+      "traffic_extra_per_gb": 0.01,
+      "sla": "99.99%",
+      "support_level": "enterprise"
     }
   ]
 }

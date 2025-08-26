@@ -1,0 +1,170 @@
+{
+  "vps-nano": {
+    "usage": "Dev & Testing",
+    "description": "Perfect for application development and testing. Economical instance with all essential features.",
+    "use_cases": [
+      "Development environments",
+      "Application testing",
+      "Small personal projects",
+      "Learning Linux"
+    ],
+    "features": [
+      "AMD EPYC™ high-performance processor",
+      "ECC RAM for maximum reliability",
+      "Ultra-fast NVMe storage",
+      "24h free trial",
+      "Integrated VNC console",
+      "Daily snapshots",
+      "DDoS protection included"
+    ],
+    "target_audience": "Developers, students, small businesses",
+    "highlight": "Ideal to get started"
+  },
+  "vps-starter": {
+    "usage": "Web Sites",
+    "description": "Ideal solution for hosting your websites and lightweight applications with good performance.",
+    "use_cases": [
+      "WordPress websites",
+      "E-commerce stores",
+      "Simple web applications",
+      "Development servers"
+    ],
+    "features": [
+      "2 optimized AMD EPYC™ vCPU",
+      "4 GB ECC RAM",
+      "80 GB NVMe storage",
+      "Generous bandwidth",
+      "HTTP/2 and HTTP/3 support",
+      "Free Let's Encrypt SSL",
+      "Real-time monitoring"
+    ],
+    "target_audience": "SMEs, web developers, agencies",
+    "highlight": "Excellent value for money"
+  },
+  "vps-performance": {
+    "usage": "Production",
+    "description": "High-performance VPS for your production applications requiring stability and speed.",
+    "use_cases": [
+      "Production applications",
+      "Medium databases",
+      "Moderate traffic sites",
+      "Critical web services"
+    ],
+    "features": [
+      "4 dedicated AMD EPYC™ vCPU",
+      "8 GB ECC RAM",
+      "160 GB high-speed NVMe",
+      "20 TB bandwidth",
+      "Automatic backup",
+      "Advanced DDoS protection",
+      "99.9% SLA"
+    ],
+    "target_audience": "Enterprises, critical applications",
+    "highlight": "Guaranteed performance"
+  },
+  "vps-business": {
+    "usage": "Critical Apps",
+    "description": "Business VPS with extended resources and priority support for your critical applications.",
+    "use_cases": [
+      "Business applications",
+      "High-traffic e-commerce",
+      "Large databases",
+      "Critical customer services"
+    ],
+    "features": [
+      "6 high-performance AMD EPYC™ vCPU",
+      "16 GB ECC RAM",
+      "320 GB NVMe storage",
+      "2 IPv4 addresses included",
+      "Priority support",
+      "99.95% SLA",
+      "Advanced monitoring"
+    ],
+    "target_audience": "Enterprises, business applications",
+    "highlight": "Priority support included"
+  },
+  "vps-enterprise": {
+    "usage": "High Performance",
+    "description": "Enterprise solution with dedicated network and maximum performance for your most demanding workloads.",
+    "use_cases": [
+      "High-performance applications",
+      "Big Data and Analytics",
+      "Database servers",
+      "Critical infrastructure"
+    ],
+    "features": [
+      "8 high-frequency AMD EPYC™ vCPU",
+      "32 GB ECC RAM",
+      "640 GB enterprise NVMe",
+      "Dedicated 10 Gbps network",
+      "3 IPv4 included",
+      "99.99% SLA",
+      "24/7 enterprise support"
+    ],
+    "target_audience": "Large enterprises, critical workloads",
+    "highlight": "Dedicated network included"
+  },
+  "vps-elite": {
+    "usage": "Intensive Workloads",
+    "description": "Elite VPS for the most intensive workloads requiring significant resources.",
+    "use_cases": [
+      "Intensive computing",
+      "Machine Learning",
+      "3D/Video rendering",
+      "Scientific applications"
+    ],
+    "features": [
+      "16 optimized AMD EPYC™ vCPU",
+      "64 GB high-speed ECC RAM",
+      "1.28 TB NVMe storage",
+      "100 TB bandwidth",
+      "4 dedicated IPv4",
+      "Dedicated 10 Gbps network",
+      "Specialized technical support"
+    ],
+    "target_audience": "Research, scientific computing, tech companies",
+    "highlight": "Exceptional computing power"
+  },
+  "vps-titanium": {
+    "usage": "Mission-Critical",
+    "description": "Titanium infrastructure for mission-critical environments requiring maximum availability.",
+    "use_cases": [
+      "Financial services",
+      "Healthcare systems",
+      "Critical infrastructures",
+      "Enterprise applications"
+    ],
+    "features": [
+      "32 latest-gen AMD EPYC™ vCPU",
+      "128 GB ultra-fast ECC RAM",
+      "2.56 TB NVMe storage",
+      "Dedicated 25 Gbps network",
+      "8 IPv4 included",
+      "99.99% SLA",
+      "Dedicated engineer available"
+    ],
+    "target_audience": "Financial sector, healthcare, government",
+    "highlight": "Mission-critical availability"
+  },
+  "vps-quantum": {
+    "usage": "Extreme Performance",
+    "description": "The pinnacle of our VPS with extreme performance for the world's most demanding workloads.",
+    "use_cases": [
+      "HPC (High Performance Computing)",
+      "AI and Machine Learning",
+      "Scientific simulation",
+      "Big Data Analytics"
+    ],
+    "features": [
+      "48 top-performance AMD EPYC™ vCPU",
+      "256 GB enterprise ECC RAM",
+      "5 TB ultra-fast NVMe storage",
+      "Unlimited bandwidth",
+      "IPv4 /29 block included",
+      "Dedicated 25 Gbps network",
+      "Solutions architect support"
+    ],
+    "target_audience": "Research, Fortune 500, extreme applications",
+    "highlight": "Absolute performance"
+  }
+}

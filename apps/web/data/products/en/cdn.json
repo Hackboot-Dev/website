@@ -1,0 +1,34 @@
+{
+  "cdn-starter": {
+    "usage": "Basic sites",
+    "description": "European CDN to accelerate your websites with intelligent cache and shared SSL included.",
+    "use_cases": ["Static websites", "WordPress blogs", "Small e-commerce", "Showcase sites", "Light applications"],
+    "features": ["10 PoPs in Europe", "1 TB traffic included", "Free shared SSL", "Intelligent cache", "5-minute purge", "Basic analytics", "Standard support"],
+    "target_audience": "Individuals, small businesses, blogs",
+    "highlight": "Economical European CDN"
+  },
+  "cdn-pro": {
+    "usage": "Professional sites",
+    "description": "Europe/USA CDN with custom SSL, WAF and automatic image optimization for professional sites.",
+    "use_cases": ["E-commerce sites", "Web applications", "Media portals", "Corporate sites", "Public APIs"],
+    "features": ["25 PoPs Europe/USA", "10 TB traffic included", "Custom SSL included", "Basic WAF protection", "Auto image optimization", "30-second purge", "Advanced analytics"],
+    "target_audience": "SMEs, e-commerce, professional sites",
+    "highlight": "Image optimization included"
+  },
+  "cdn-business": {
+    "usage": "Business applications",
+    "description": "Global CDN with advanced WAF, instant purge and real-time analytics for critical applications.",
+    "use_cases": ["SaaS applications", "Global platforms", "Video streaming", "Critical APIs", "High-performance sites"],
+    "features": ["50 global PoPs", "100 TB traffic included", "Wildcard SSL included", "Advanced WAF", "Instant purge", "Real-time analytics", "Priority support"],
+    "target_audience": "Enterprises, SaaS, global applications",
+    "highlight": "Global coverage"
+  },
+  "cdn-global": {
+    "usage": "Global applications",
+    "description": "Premium CDN with AI, 150+ PoPs and AI-powered optimization.",
+    "use_cases": ["Multinationals", "4K/8K streaming", "Global applications", "Global gaming", "Media & entertainment"],
+    "features": ["150+ global PoPs", "1 PB traffic included", "Multi-domain SSL", "Custom WAF rules", "AI optimization", "Big data analytics", "Dedicated account manager"],
+    "target_audience": "Multinationals, global applications",
+    "highlight": "AI and 150+ PoPs"
+  }
+}
