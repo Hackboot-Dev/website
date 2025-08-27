@@ -63,20 +63,20 @@ export default function ProductsPage() {
     
     if (selectedCategory === 'all') {
       products = [
-        ...(productsData.vps || []).map(p => ({ ...p, category: 'vps' })),
-        ...(productsData.gpu || []).map(p => ({ ...p, category: 'gpu' })),
-        ...(productsData.webhosting || []).map(p => ({ ...p, category: 'webhosting' })),
-        ...(productsData.paas || []).map(p => ({ ...p, category: 'paas' })),
-        ...(productsData.loadbalancer || []).map(p => ({ ...p, category: 'loadbalancer' })),
-        ...(productsData.storage || []).map(p => ({ ...p, category: 'storage' })),
-        ...(productsData.cdn || []).map(p => ({ ...p, category: 'cdn' }))
+        ...(productsData.vps || []).map((p: any) => ({ ...p, category: 'vps' })),
+        ...(productsData.gpu || []).map((p: any) => ({ ...p, category: 'gpu' })),
+        ...(productsData.webhosting || []).map((p: any) => ({ ...p, category: 'webhosting' })),
+        ...(productsData.paas || []).map((p: any) => ({ ...p, category: 'paas' })),
+        ...(productsData.loadbalancer || []).map((p: any) => ({ ...p, category: 'loadbalancer' })),
+        ...(productsData.storage || []).map((p: any) => ({ ...p, category: 'storage' })),
+        ...(productsData.cdn || []).map((p: any) => ({ ...p, category: 'cdn' }))
       ];
     } else {
-      products = (productsData[selectedCategory] || []).map(p => ({ ...p, category: selectedCategory }));
+      products = ((productsData as any)[selectedCategory] || []).map((p: any) => ({ ...p, category: selectedCategory }));
     }
 
     // Tri intelligent : d'abord par catégorie, puis par prix
-    return products.sort((a, b) => {
+    return products.sort((a: any, b: any) => {
       // Si on affiche toutes les catégories, trier d'abord par catégorie
       if (selectedCategory === 'all') {
         const categoryOrder = ['vps', 'gpu', 'webhosting', 'paas', 'loadbalancer', 'storage', 'cdn'];
@@ -107,7 +107,7 @@ export default function ProductsPage() {
   }
 
   const getTotalProductCount = () => {
-    return Object.values(productsData).reduce((total, category) => total + category.length, 0);
+    return Object.values(productsData).reduce((total, category: any) => total + category.length, 0);
   };
 
   const categories = [
@@ -159,7 +159,7 @@ export default function ProductsPage() {
       storage: { name: 'Storage', type: 'storage' as const },
       cdn: { name: 'CDN', type: 'cdn' as const }
     };
-    return themes[category] || { name: category, type: 'vps' as const };
+    return (themes as any)[category] || { name: category, type: 'vps' as const };
   }
 
   const getHighlights = (product: any): { label: string; value: string }[] => {
@@ -400,8 +400,8 @@ export default function ProductsPage() {
               </div>
 
 
-              {/* Grille produits avec spacing optimisé */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-4 lg:gap-6">
+              {/* Grille produits avec spacing optimisé et centrage responsive */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-4 lg:gap-6 justify-items-center sm:justify-items-stretch">
                 {(showAllProducts ? filteredProducts : filteredProducts.slice(0, initialGridCount)).map((product, index) => {
                 const getPrice = () => {
                   if (product.price_per_gb_month && product.category === 'storage') {
@@ -434,7 +434,7 @@ export default function ProductsPage() {
                 return (
                 <div
                   key={cardKey}
-                  className={`card group relative overflow-hidden flex flex-col ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                  className={`card group relative overflow-hidden flex flex-col w-full max-w-sm sm:max-w-none ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   style={{ 
                     transitionDelay: `${index * 80}ms`,
                     transition: 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'

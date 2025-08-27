@@ -25,7 +25,9 @@ function StatItem({ value, suffix = '', label, decimals = 0, delay = 0 }: StatIt
 
   const formatValue = (num: number) => {
     if (decimals > 0) {
-      return (num / Math.pow(10, decimals)).toFixed(1);
+      // Avoid toFixed for consistent formatting between server and client
+      const value = num / Math.pow(10, decimals);
+      return String(Math.round(value * 10) / 10);
     }
     return num.toString();
   };

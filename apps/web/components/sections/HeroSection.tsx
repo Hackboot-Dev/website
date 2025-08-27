@@ -21,10 +21,10 @@ export default function HeroSection() {
       {/* Subtle noise texture */}
       <div className="absolute inset-0 opacity-[0.15] bg-noise"></div>
       
-      {/* Geometric accent avec parallaxe */}
+      {/* Geometric accent avec parallaxe - hidden on mobile */}
       <div 
         ref={geometryParallax.elementRef}
-        className="absolute top-0 right-0 w-1/3 h-full"
+        className="hidden lg:block absolute top-0 right-0 w-1/3 h-full"
         style={geometryParallax.style}
       >
         <div className="absolute top-32 right-16 w-px h-64 bg-gradient-to-b from-transparent via-zinc-600 to-transparent transition-all duration-700 hover:via-zinc-400"></div>
@@ -33,7 +33,7 @@ export default function HeroSection() {
       </div>
 
       <div className="relative z-10 h-screen flex items-center pt-20">
-        <div className="container mx-auto px-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-12 gap-8 items-center">
             
             {/* Left side - Main content */}
@@ -47,17 +47,17 @@ export default function HeroSection() {
                 style={titleReveal.style}
               >
                 <div className="overflow-hidden">
-                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-white leading-[0.9] hover:tracking-wide transition-all duration-500">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-white leading-[0.9] hover:tracking-wide transition-all duration-500">
                     {t('hero.title.1')}
                   </h1>
                 </div>
                 <div className="overflow-hidden">
-                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 leading-[0.9] hover:from-zinc-100 hover:to-zinc-300 transition-all duration-500">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 leading-[0.9] hover:from-zinc-100 hover:to-zinc-300 transition-all duration-500">
                     {t('hero.title.2')}
                   </h1>
                 </div>
-                <div className="flex items-center space-x-6 overflow-hidden">
-                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-white leading-[0.9] hover:tracking-wide transition-all duration-500">
+                <div className="flex items-center space-x-4 sm:space-x-6 overflow-hidden">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-white leading-[0.9] hover:tracking-wide transition-all duration-500">
                     {t('hero.title.3')}
                   </h1>
                   <div className="hidden md:block w-16 h-px bg-zinc-700 hover:w-24 hover:bg-zinc-500 transition-all duration-500"></div>
@@ -67,7 +67,7 @@ export default function HeroSection() {
               {/* Subtitle avec animation */}
               <p 
                 ref={subtitleReveal.elementRef}
-                className="text-lg text-zinc-400 max-w-md leading-relaxed mb-16 font-light hover:text-zinc-300 transition-colors duration-300"
+                className="text-base sm:text-lg text-zinc-400 max-w-md leading-relaxed mb-8 sm:mb-12 lg:mb-16 font-light hover:text-zinc-300 transition-colors duration-300"
                 style={subtitleReveal.style}
               >
                 {t('hero.subtitle')}
@@ -76,7 +76,7 @@ export default function HeroSection() {
               {/* CTA avec animations */}
               <div 
                 ref={ctaReveal.elementRef}
-                className="flex items-center space-x-8"
+                className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-8"
                 style={ctaReveal.style}
               >
                 <Link 
@@ -99,45 +99,45 @@ export default function HeroSection() {
             </div>
 
             {/* Right side - Stats/Info avec animations staggered */}
-            <div className="col-span-12 lg:col-span-5">
-              <div className="space-y-16">
+            <div className="col-span-12 lg:col-span-5 mt-12 lg:mt-0 px-4 sm:px-0">
+              <div className="space-y-8 sm:space-y-12 lg:space-y-16">
                 
                 {/* Performance metrics avec stagger */}
-                <div className="space-y-8">
+                <div className="space-y-4 sm:space-y-6 lg:space-y-8">
                   <div 
-                    className="flex justify-between items-end border-b border-zinc-800 pb-4 hover:border-zinc-600 transition-colors duration-300 group"
+                    className="flex justify-between items-end border-b border-zinc-800 pb-3 sm:pb-4 hover:border-zinc-600 transition-colors duration-300 group"
                     style={{
                       opacity: visibleItems[0] ? 1 : 0,
                       transform: visibleItems[0] ? 'translateY(0px)' : 'translateY(20px)',
                       transition: 'opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                   >
-                    <span className="text-xs text-zinc-500 tracking-wider group-hover:text-zinc-400 transition-colors">{t('hero.metrics.uptime')}</span>
-                    <span className="text-2xl font-light text-white group-hover:text-emerald-400 transition-colors duration-300">99.99%</span>
+                    <span className="text-xs text-zinc-500 tracking-wide sm:tracking-wider group-hover:text-zinc-400 transition-colors">{t('hero.metrics.uptime')}</span>
+                    <span className="text-xl sm:text-2xl font-light text-white group-hover:text-emerald-400 transition-colors duration-300">99.99%</span>
                   </div>
                   
                   <div 
-                    className="flex justify-between items-end border-b border-zinc-800 pb-4 hover:border-zinc-600 transition-colors duration-300 group"
+                    className="flex justify-between items-end border-b border-zinc-800 pb-3 sm:pb-4 hover:border-zinc-600 transition-colors duration-300 group"
                     style={{
                       opacity: visibleItems[1] ? 1 : 0,
                       transform: visibleItems[1] ? 'translateY(0px)' : 'translateY(20px)',
                       transition: 'opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                   >
-                    <span className="text-xs text-zinc-500 tracking-wider group-hover:text-zinc-400 transition-colors">{t('hero.metrics.responseTime')}</span>
-                    <span className="text-2xl font-light text-white group-hover:text-blue-400 transition-colors duration-300">&lt;50ms</span>
+                    <span className="text-xs text-zinc-500 tracking-wide sm:tracking-wider group-hover:text-zinc-400 transition-colors">{t('hero.metrics.responseTime')}</span>
+                    <span className="text-xl sm:text-2xl font-light text-white group-hover:text-blue-400 transition-colors duration-300">&lt;50ms</span>
                   </div>
                   
                   <div 
-                    className="flex justify-between items-end border-b border-zinc-800 pb-4 hover:border-zinc-600 transition-colors duration-300 group"
+                    className="flex justify-between items-end border-b border-zinc-800 pb-3 sm:pb-4 hover:border-zinc-600 transition-colors duration-300 group"
                     style={{
                       opacity: visibleItems[2] ? 1 : 0,
                       transform: visibleItems[2] ? 'translateY(0px)' : 'translateY(20px)',
                       transition: 'opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                   >
-                    <span className="text-xs text-zinc-500 tracking-wider group-hover:text-zinc-400 transition-colors">{t('hero.metrics.globalNodes')}</span>
-                    <span className="text-2xl font-light text-white group-hover:text-purple-400 transition-colors duration-300">247</span>
+                    <span className="text-xs text-zinc-500 tracking-wide sm:tracking-wider group-hover:text-zinc-400 transition-colors">{t('hero.metrics.globalNodes')}</span>
+                    <span className="text-xl sm:text-2xl font-light text-white group-hover:text-purple-400 transition-colors duration-300">247</span>
                   </div>
                 </div>
 
@@ -158,10 +158,10 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Bottom scroll indicator animé */}
+      {/* Bottom scroll indicator animé - hidden on mobile */}
       <div 
         ref={scrollReveal.elementRef}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="hidden sm:block absolute bottom-8 left-1/2 transform -translate-x-1/2"
         style={scrollReveal.style}
       >
         <div className="flex flex-col items-center space-y-2 group cursor-pointer">

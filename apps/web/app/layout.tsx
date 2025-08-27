@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from '../contexts/LanguageContext';
 import LanguageLoader from '../components/ui/LanguageLoader';
-import InitialLoader from '../components/ui/InitialLoader';
+import PageReadiness from '../components/ui/PageReadiness';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-zinc-950 text-white`}>
-        <InitialLoader />
+        <PageReadiness />
         <LanguageProvider>
           {children}
           <LanguageLoader />

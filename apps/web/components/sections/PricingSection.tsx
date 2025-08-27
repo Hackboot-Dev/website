@@ -56,24 +56,24 @@ export default function PricingSection() {
   const { containerRef, visibleItems } = useStaggerReveal(plans.length, 200);
 
   return (
-    <section className="relative py-32 bg-zinc-900 overflow-hidden">
-      {/* Geometric background elements - Pricing specific */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/3 w-px h-32 bg-gradient-to-b from-transparent via-zinc-500 to-transparent"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-20 h-px bg-gradient-to-r from-transparent via-zinc-500 to-transparent"></div>
-        <div className="absolute top-1/2 left-1/4 w-1 h-1 bg-zinc-500 rounded-full animate-subtle-float"></div>
-        {/* Diagonal accent lines for pricing */}
-        <div className="absolute top-1/3 right-1/4 w-12 h-px bg-zinc-600 transform rotate-45"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-8 h-px bg-zinc-600 transform -rotate-45"></div>
+    <section className="relative py-16 sm:py-24 lg:py-32 bg-zinc-900 overflow-hidden">
+      {/* Geometric background elements - Pricing specific - responsive */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="hidden sm:block absolute top-1/4 left-1/3 w-px h-32 bg-gradient-to-b from-transparent via-zinc-500 to-transparent"></div>
+        <div className="hidden sm:block absolute bottom-1/4 right-1/3 w-20 h-px bg-gradient-to-r from-transparent via-zinc-500 to-transparent"></div>
+        <div className="hidden md:block absolute top-1/2 left-1/4 w-1 h-1 bg-zinc-500 rounded-full animate-subtle-float"></div>
+        {/* Diagonal accent lines for pricing - hidden on mobile */}
+        <div className="hidden lg:block absolute top-1/3 right-1/4 w-12 h-px bg-zinc-600 transform rotate-45"></div>
+        <div className="hidden lg:block absolute bottom-1/3 left-1/3 w-8 h-px bg-zinc-600 transform -rotate-45"></div>
         {/* Subtle overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/10 via-transparent to-zinc-800/5"></div>
       </div>
 
-      <div className="container mx-auto px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-6xl mx-auto">
           
           {/* Section Header */}
-          <div className="mb-20">
+          <div className="mb-12 sm:mb-16 lg:mb-20 text-center lg:text-left">
             <div className="mb-8">
               <span className="text-xs tracking-[0.3em] text-zinc-500 font-mono">
                 {t('pricing.label')}
@@ -85,7 +85,7 @@ export default function PricingSection() {
               style={titleReveal.style}
               className="mb-6"
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-white leading-[1.1] max-w-4xl">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-white leading-[1.1] max-w-4xl mx-auto lg:mx-0">
                 {t('pricing.title.1')}
                 <span className="block text-gradient-subtle">
                   {t('pricing.title.2')}
@@ -97,14 +97,14 @@ export default function PricingSection() {
               ref={subtitleReveal.elementRef}
               style={subtitleReveal.style}
             >
-              <p className="text-lg text-zinc-400 max-w-2xl font-light">
+              <p className="text-base sm:text-lg text-zinc-400 max-w-2xl font-light mx-auto lg:mx-0">
                 {t('pricing.subtitle')}
               </p>
             </div>
           </div>
 
           {/* Pricing Grid */}
-          <div ref={containerRef} className="grid lg:grid-cols-3 gap-8">
+          <div ref={containerRef} className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-sm sm:max-w-none mx-auto">
             {plans.map((plan, index) => (
               <div
                 key={index}

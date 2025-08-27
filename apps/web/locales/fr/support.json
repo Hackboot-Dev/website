@@ -1,0 +1,269 @@
+{
+  "support": {
+    "hero": {
+      "badge": "Support & Assistance",
+      "title": "Centre d'Aide Hackboot",
+      "subtitle": "Nous sommes là pour vous",
+      "description": "Support technique expert disponible 24/7. Temps de réponse moyen < 15 minutes pour les clients Business et Enterprise.",
+      "searchPlaceholder": "Rechercher dans la base de connaissances...",
+      "popularSearches": {
+        "title": "Recherches populaires:",
+        "items": ["Comment créer une VM", "Configuration SSH", "API Documentation", "Facturation"]
+      }
+    },
+    
+    "stats": {
+      "responseTime": "Temps de réponse",
+      "responseTimeValue": "< 15 min",
+      "satisfaction": "Satisfaction client",
+      "satisfactionValue": "98%",
+      "uptime": "Disponibilité support",
+      "uptimeValue": "24/7",
+      "tickets": "Tickets résolus/mois",
+      "ticketsValue": "2,500+"
+    },
+    
+    "channels": {
+      "badge": "Canaux de Support",
+      "title": "Plusieurs Moyens de Nous Contacter",
+      "description": "Choisissez le canal qui vous convient le mieux",
+      
+      "ticket": {
+        "title": "Système de Tickets",
+        "description": "Créez un ticket pour un suivi détaillé de votre demande",
+        "features": ["Suivi en temps réel", "Historique complet", "Pièces jointes", "Priorité garantie"],
+        "responseTime": "Réponse sous 2h",
+        "availability": "24/7",
+        "cta": "Créer un Ticket"
+      },
+      
+      "livechat": {
+        "title": "Chat en Direct",
+        "description": "Assistance instantanée avec nos experts techniques",
+        "features": ["Réponse immédiate", "Partage d'écran", "Transfert d'expert", "Multilingue"],
+        "responseTime": "< 1 minute",
+        "availability": "24/7",
+        "cta": "Démarrer le Chat"
+      },
+      
+      "email": {
+        "title": "Support Email",
+        "description": "Pour les demandes non urgentes et la documentation",
+        "features": ["Réponse détaillée", "Documentation jointe", "Suivi par ticket", "Multi-destinataires"],
+        "responseTime": "< 4 heures",
+        "availability": "Jours ouvrés",
+        "email": "support@hackboot.com",
+        "cta": "Envoyer un Email"
+      },
+      
+      "phone": {
+        "title": "Support Téléphonique",
+        "description": "Ligne directe pour les urgences critiques (Enterprise)",
+        "features": ["Ligne dédiée", "Ingénieur senior", "Callback garanti", "Multilingue"],
+        "responseTime": "Immédiat",
+        "availability": "24/7 Enterprise",
+        "phone": "+372 555 0123",
+        "cta": "Planifier un Appel"
+      }
+    },
+    
+    "sla": {
+      "badge": "SLA & Garanties",
+      "title": "Engagements de Niveau de Service",
+      "description": "Nos garanties selon votre plan",
+      
+      "tiers": {
+        "standard": {
+          "name": "Standard",
+          "responseTime": "< 24h",
+          "availability": "Jours ouvrés",
+          "channels": ["Email", "Tickets"],
+          "priority": "Normal",
+          "escalation": "48h"
+        },
+        "business": {
+          "name": "Business",
+          "responseTime": "< 4h",
+          "availability": "24/7",
+          "channels": ["Email", "Tickets", "Chat"],
+          "priority": "Élevée",
+          "escalation": "12h"
+        },
+        "enterprise": {
+          "name": "Enterprise",
+          "responseTime": "< 15 min",
+          "availability": "24/7",
+          "channels": ["Tous canaux", "Ligne dédiée"],
+          "priority": "Critique",
+          "escalation": "1h",
+          "extras": ["Account Manager", "Ingénieur dédié", "Rapports mensuels"]
+        }
+      }
+    },
+    
+    "resources": {
+      "badge": "Ressources & Documentation",
+      "title": "Base de Connaissances",
+      "description": "Tout ce dont vous avez besoin pour réussir",
+      
+      "categories": {
+        "getting-started": {
+          "title": "Débuter",
+          "icon": "🚀",
+          "description": "Guides pour bien commencer",
+          "articles": "25 articles"
+        },
+        "api": {
+          "title": "Documentation API",
+          "icon": "📚",
+          "description": "Référence complète de l'API",
+          "articles": "150+ endpoints"
+        },
+        "tutorials": {
+          "title": "Tutoriels",
+          "icon": "🎓",
+          "description": "Guides pas à pas",
+          "articles": "45 tutoriels"
+        },
+        "troubleshooting": {
+          "title": "Dépannage",
+          "icon": "🔧",
+          "description": "Solutions aux problèmes courants",
+          "articles": "80 solutions"
+        },
+        "billing": {
+          "title": "Facturation",
+          "icon": "💳",
+          "description": "Gestion des paiements",
+          "articles": "15 articles"
+        },
+        "security": {
+          "title": "Sécurité",
+          "icon": "🔒",
+          "description": "Bonnes pratiques sécurité",
+          "articles": "30 guides"
+        }
+      }
+    },
+    
+    "faq": {
+      "badge": "Questions Fréquentes",
+      "title": "FAQ",
+      "description": "Réponses aux questions les plus courantes",
+      
+      "items": [
+        {
+          "question": "Comment créer ma première machine virtuelle ?",
+          "answer": "Connectez-vous à votre dashboard, cliquez sur 'Créer une VM', choisissez votre configuration (OS, CPU, RAM, stockage), sélectionnez une région, puis cliquez sur 'Déployer'. Votre VM sera prête en moins de 55 secondes."
+        },
+        {
+          "question": "Quels sont les moyens de paiement acceptés ?",
+          "answer": "Nous acceptons les cartes de crédit/débit (Visa, Mastercard, Amex), PayPal, virements SEPA, et Bitcoin. Les clients Enterprise peuvent bénéficier de la facturation mensuelle avec paiement par virement."
+        },
+        {
+          "question": "Comment configurer l'accès SSH à ma VM ?",
+          "answer": "Lors de la création de votre VM, ajoutez votre clé SSH publique. Une fois la VM déployée, connectez-vous via : ssh root@[ip-de-votre-vm]. Vous pouvez aussi gérer vos clés SSH depuis la section 'Sécurité' du dashboard."
+        },
+        {
+          "question": "Quelle est votre politique de remboursement ?",
+          "answer": "Nous offrons une garantie de remboursement de 7 jours pour les nouveaux clients. Au-delà, les crédits non utilisés peuvent être remboursés au prorata pour les clients ayant souscrit un engagement annuel."
+        },
+        {
+          "question": "Comment puis-je augmenter les ressources de ma VM ?",
+          "answer": "Vous pouvez redimensionner votre VM à tout moment depuis le dashboard. L'augmentation de RAM et CPU nécessite un redémarrage (< 30 secondes). L'ajout de stockage peut se faire à chaud sans interruption."
+        },
+        {
+          "question": "Proposez-vous des sauvegardes automatiques ?",
+          "answer": "Oui, nous proposons des snapshots automatiques toutes les 6h (rétention 7 jours) en option. Les clients Business et Enterprise bénéficient de sauvegardes quotidiennes avec 30 jours de rétention incluses."
+        }
+      ],
+      
+      "moreCta": "Voir toutes les FAQ"
+    },
+    
+    "status": {
+      "badge": "État des Services",
+      "title": "Status en Temps Réel",
+      "description": "Surveillez la santé de notre infrastructure",
+      "allOperational": "Tous les systèmes opérationnels",
+      "viewDetails": "Voir les détails",
+      "statusPage": "Page de status complète",
+      
+      "services": {
+        "compute": "Services Compute",
+        "network": "Réseau & CDN",
+        "storage": "Stockage",
+        "api": "API",
+        "dashboard": "Dashboard",
+        "support": "Support"
+      },
+      
+      "metrics": {
+        "uptime": "Uptime 30j",
+        "latency": "Latence",
+        "apiResponse": "API Response"
+      }
+    },
+    
+    "emergency": {
+      "badge": "Urgence",
+      "title": "Support d'Urgence 24/7",
+      "description": "Pour les incidents critiques affectant votre production",
+      "phone": "+372 555 0911",
+      "note": "Ligne réservée aux urgences critiques des clients Business et Enterprise",
+      "cta": "Déclarer une Urgence"
+    },
+    
+    "contact": {
+      "badge": "Contactez-nous",
+      "title": "Équipe Support Dédiée",
+      "description": "Des experts techniques à votre service",
+      
+      "form": {
+        "title": "Envoyez-nous un Message",
+        "name": "Nom complet",
+        "email": "Email",
+        "company": "Entreprise (optionnel)",
+        "subject": "Sujet",
+        "priority": "Priorité",
+        "priorities": {
+          "low": "Basse",
+          "medium": "Moyenne",
+          "high": "Élevée",
+          "critical": "Critique"
+        },
+        "category": "Catégorie",
+        "categories": {
+          "technical": "Technique",
+          "billing": "Facturation",
+          "sales": "Commercial",
+          "other": "Autre"
+        },
+        "message": "Message",
+        "attachment": "Joindre un fichier",
+        "submit": "Envoyer",
+        "submitting": "Envoi en cours..."
+      },
+      
+      "info": {
+        "headquarters": "Siège Social",
+        "address": "Harju maakond, Tallinn, Lasnamäe linnaosa",
+        "addressLine2": "Punane tn 6-219, 13619",
+        "country": "Estonie, UE",
+        "businessId": "Reg. 16962303",
+        "email": "Email Support",
+        "emailValue": "support@hackboot.com",
+        "phone": "Téléphone",
+        "phoneValue": "+372 555 0123"
+      }
+    },
+    
+    "cta": {
+      "title": "Besoin d'Aide Immédiate ?",
+      "description": "Notre équipe d'experts est disponible 24/7 pour vous assister. Temps de réponse moyen < 15 minutes.",
+      "primary": "Ouvrir un Ticket",
+      "secondary": "Chat en Direct",
+      "phone": "Ou appelez le +372 555 0123"
+    }
+  }
+}

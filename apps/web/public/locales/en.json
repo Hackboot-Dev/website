@@ -1,0 +1,385 @@
+{
+  "nav": {
+    "infrastructure": "Infrastructure",
+    "products": "Products",
+    "pricing": "Pricing",
+    "documentation": "Documentation",
+    "support": "Support",
+    "signIn": "Sign In",
+    "getStarted": "Get Started"
+  },
+  "products": {
+    "title": "Our Products",
+    "subtitle": "Choose the perfect solution for your needs",
+    "categories": {
+      "vps": {
+        "name": "VPS",
+        "description": "High-performance virtual private servers",
+        "subtitle": "From €29/month - AMD EPYC™, NVMe, 99.9% SLA"
+      },
+      "gpu": {
+        "name": "GPU Cloud",
+        "description": "GPU power for AI and Machine Learning",
+        "subtitle": "From €469/month - Tesla T4, RTX 4090, A100"
+      },
+      "webhosting": {
+        "name": "Web Hosting",
+        "description": "Optimized hosting for websites and applications",
+        "subtitle": "From €19/month - PHP, Node.js, SSL included"
+      },
+      "paas": { "name": "PaaS" },
+      "loadbalancer": { "name": "Load Balancer" },
+      "storage": { "name": "Storage" },
+      "cdn": { "name": "CDN" }
+    },
+    "viewAll": "View all products",
+    "pricing": {
+      "monthly": "month",
+      "annual": "year",
+      "hourly": "hour",
+      "from": "from"
+    },
+    "ui": {
+      "recommendedTitle": "Recommended offers",
+      "recommendedSubtitle": "Three clear picks. No overload.",
+      "configurationsTitle": "Configurations",
+      "choose": "Choose",
+      "chooseConfig": "Choose this configuration",
+      "details": "Details",
+      "hide": "Hide",
+      "showMore": "Show more",
+      "modeLabel": "Mode",
+      "categoriesTitle": "Categories",
+      "pricingModeTitle": "Pricing mode",
+      "reset": "Reset",
+      "configuration": "configuration",
+      "available": "available",
+      "paidAnnually": "Paid annually",
+      "continuous": "continuous",
+      "otherSpecs": "other specs",
+      "configure": "Configure",
+      "configureInfo": "Customize resources • Secure payment",
+      "enterpriseNote": "High-performance configuration",
+      "totalAnnual": "Annual total",
+      "save": "save",
+      "deployIn60s": "Deploy in 60 seconds",
+      "readyToScale": "Ready to scale your infrastructure?",
+      "deploymentDescription": "Automated deployment. Assisted migration. 24/7 Support.",
+      "deploy": "Deploy",
+      "activate": "Activate",
+      "contactExpert": "Contact an expert",
+      "orderNow": "Order Now",
+      "viewDemo": "View Demo",
+      "getStarted": "Get Started",
+      "perHour": "/hour",
+      "perMonth": "/month",
+      "perYear": "/year",
+      "discount": "discount",
+      "savePerYear": "Save {amount}€ per year",
+      "readyToAccelerate": "Ready to accelerate your content?",
+      "globalContentAcceleration": "GLOBAL CONTENT ACCELERATION",
+      "deployNow": "Deploy now",
+      "toggle": {
+        "monthly": "Monthly",
+        "annualShort": "Annual",
+        "hourly": "Hourly"
+      },
+      "annualNote": "Monthly equivalent on annual commitment",
+      "switchNote": "Switch between modes",
+      "trial": "Free trial",
+      "choose": "Order now",
+      "technicalSpecs": "Technical specifications",
+      "similarProducts": "Similar products",
+      "needHelp": "Need help?",
+      "contactExpertAction": "Contact an expert",
+      "slaLabel": "SLA",
+      "supportLabel": "Support",
+      "onQuote": "On quote",
+      "configured": "Configured",
+      "monthlyBilling": "/month",
+      "annualBilling": "/month (annual billing)",
+      "hourlyBilling": "/hour",
+      "savePercent": "Save {percent}% ({amount}€/year)",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "business": "Business",
+        "enterprise": "Enterprise",
+        "premium": "Premium"
+      },
+      "hero": {
+        "label": "Premium Infrastructure",
+        "title1": "Solutions",
+        "title2": "Cloud",
+        "subtitle1": "From simple instances to high‑performance GPU clusters.",
+        "subtitle2": "European premium infrastructure, transparent billing."
+      },
+      "stats": {
+        "configurations": "Configurations",
+        "categories": "Categories",
+        "modes": "Pricing Modes"
+      },
+      "billing": {
+        "title": "Smart billing",
+        "hourly": "Hourly: pay for actual usage",
+        "monthly": "Monthly: fixed price, guarantees",
+        "annual": "Annual: up to 50% savings"
+      },
+      "trial": "Trial",
+      "included": "Included:",
+      "saves": "Saves",
+      "badges": {
+        "hourly": "Usage-based billing",
+        "monthly": "Guaranteed resources 24/7"
+      },
+      "specs": {
+        "title": "Specifications",
+        "cpu": "CPU",
+        "gpu": "GPU",
+        "vram": "VRAM",
+        "ram": "RAM",
+        "storage": "Storage",
+        "bandwidth": "Bandwidth",
+        "sites": "Sites",
+        "containers": "Containers",
+        "ipv4": "IPv4",
+        "network": "Network",
+        "databases": "Databases",
+        "emails": "Emails",
+        "ssl": "SSL",
+        "protocols": "Protocols",
+        "rps": "RPS",
+        "type": "Type",
+        "throughput": "Throughput",
+        "pops": "PoPs",
+        "traffic": "Traffic"
+      },
+      "price": {
+        "perHour": "/h",
+        "perMonth": "/mo",
+        "perMonthStar": "/mo*",
+        "perGbPerMonth": "/GB/mo"
+      },
+      "details": "View details"
+    }
+  },
+  "common": {
+    "langUnavailable": "Language unavailable",
+    "na": "N/A",
+    "yes": "Yes",
+    "no": "No",
+    "included": "Included",
+    "year": "year",
+    "month": "month",
+    "hour": "hour"
+  },
+  "products": {
+    "categories": {
+      "all": "All products",
+      "vps": "VPS Cloud",
+      "gpu": "GPU Computing",
+      "webhosting": "Web Hosting",
+      "paas": "Platform as a Service",
+      "loadbalancer": "Load Balancer",
+      "storage": "Storage",
+      "cdn": "CDN"
+    },
+    "labels": {
+      "idealFor": "Ideal for",
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "vram": "VRAM",
+      "ram": "RAM",
+      "storage": "Storage",
+      "bandwidth": "Bandwidth",
+      "sites": "Sites",
+      "containers": "Containers",
+      "scaling": "Scaling",
+      "protocols": "Protocols",
+      "rps": "RPS",
+      "type": "Type",
+      "throughput": "Throughput",
+      "pops": "PoPs",
+      "trafficIncluded": "Traffic included",
+      "ipv4": "IPv4",
+      "network": "Network",
+      "databases": "Databases",
+      "emails": "Emails",
+      "ssl": "SSL",
+      "traffic": "Traffic",
+      "performance": "Performance",
+      "interconnect": "Interconnect",
+      "environments": "Environments",
+      "backendsMax": "Max backends",
+      "requestsPerSec": "Requests/sec",
+      "iopsPerTb": "IOPS/TB",
+      "latency": "Latency",
+      "size": "Size",
+      "domains": "Domains",
+      "waf": "WAF"
+    },
+    "vps": {
+      "viewAll": "View all VPS"
+    },
+    "webhosting": {
+      "features": {
+        "cms": {
+          "title": "One-Click CMS",
+          "description": "Install WordPress, Joomla, Drupal in one click"
+        },
+        "ssl": {
+          "title": "Free SSL",
+          "description": "Let's Encrypt certificates auto-renewed"
+        },
+        "backup": {
+          "title": "Daily Backup",
+          "description": "Automatic backups with 30-day retention"
+        },
+        "support": {
+          "title": "24/7 Support",
+          "description": "Technical team available day and night"
+        }
+      },
+      "specs": {
+        "storage": "SSD Storage",
+        "bandwidth": "Bandwidth",
+        "domains": "Domains",
+        "emails": "Email Accounts"
+      }
+    },
+    "ui": {
+      "details": "View details"
+    },
+    "pricing": {
+      "hourly": "Hourly",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "save": "Save"
+    },
+    "cta": {
+      "configure": "Configure & Order",
+      "trial": "Free trial",
+      "ready": "Ready to get started with",
+      "description": "Setup in under 2 minutes, instant deployment."
+    },
+    "specs": {
+      "title": "Technical Specifications",
+      "loading": "Specifications available soon",
+      "contact": "Contact us for more information"
+    },
+    "faq": {
+      "provision": {
+        "title": "How fast is provisioning?",
+        "answer": "Under 60 seconds for most configurations."
+      },
+      "migration": {
+        "title": "Do you help with migration?",
+        "answer": "Yes, free migration for Pro tier and above."
+      },
+      "billing": {
+        "title": "How does billing work?",
+        "answer": "Monthly/Annual options, hourly for eligible products."
+      }
+    },
+    "target": "Target audience:",
+    "features": {
+      "support247": "24/7 Support",
+      "freeMigration": "Free migration",
+      "hotMigration": "Hot migration"
+    }
+  },
+  "hero": {
+    "label": "2025 INFRASTRUCTURE",
+    "title": {
+      "1": "Cloud",
+      "2": "Computing",
+      "3": "Redefined"
+    },
+    "subtitle": "Infrastructure as code meets enterprise-grade security. Deploy, scale, monitor—effortlessly.",
+    "cta": {
+      "primary": "Start Building",
+      "secondary": "View Pricing"
+    },
+    "metrics": {
+      "uptime": "UPTIME",
+      "responseTime": "RESPONSE TIME",
+      "globalNodes": "GLOBAL NODES"
+    },
+    "status": "ALL SYSTEMS OPERATIONAL",
+    "scroll": "SCROLL"
+  },
+  "features": {
+    "label": "PLATFORM FEATURES",
+    "title": {
+      "1": "Built for scale.",
+      "2": "Designed for developers."
+    },
+    "subtitle": "Enterprise-grade infrastructure with developer-first tooling. Ship faster without compromising on reliability.",
+    "globalInfra": {
+      "title": "Global Infrastructure",
+      "desc": "Multi-region deployment with edge optimization for minimal latency worldwide.",
+      "metric": "5 Regions"
+    },
+    "security": {
+      "title": "Enterprise Security",
+      "desc": "End-to-end encryption with SOC2 compliance and automated threat detection.",
+      "metric": "99.9% SLA"
+    },
+    "devExp": {
+      "title": "Developer Experience",
+      "desc": "Git-based workflows with instant previews and collaborative development tools.",
+      "metric": "<2min Deploy"
+    },
+    "autoScale": {
+      "title": "Auto Scaling",
+      "desc": "Intelligent resource allocation that adapts to traffic patterns automatically.",
+      "metric": "0-100K RPS"
+    }
+  },
+  "pricing": {
+    "label": "TRANSPARENT PRICING",
+    "title": {
+      "1": "Simple pricing.",
+      "2": "No surprises."
+    },
+    "subtitle": "Choose the plan that fits your needs. Scale up or down anytime. Cancel whenever you want.",
+    "starter": {
+      "name": "Starter",
+      "desc": "Perfect for side projects"
+    },
+    "pro": {
+      "name": "Professional",
+      "desc": "For growing businesses"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "desc": "For large organizations"
+    },
+    "recommended": "RECOMMENDED",
+    "cta": {
+      "trial": "Start Free Trial",
+      "contact": "Contact Sales"
+    },
+    "note": "All plans include 14-day free trial. No credit card required."
+  },
+  "cta": {
+    "label": "READY TO BUILD",
+    "title": {
+      "1": "Ship faster.",
+      "2": "Scale smarter."
+    },
+    "subtitle": "Join developers who choose performance over complexity. Deploy in minutes, not hours.",
+    "primary": "Start Free Trial",
+    "secondary": "View Plans",
+    "metrics": {
+      "deployTime": "DEPLOYMENT TIME",
+      "satisfaction": "DEVELOPER SATISFACTION",
+      "projects": "PROJECTS DEPLOYED"
+    },
+    "features": {
+      "config": "Zero configuration required",
+      "scaling": "Auto-scaling infrastructure",
+      "monitoring": "24/7 monitoring included"
+    }
+  }
+}

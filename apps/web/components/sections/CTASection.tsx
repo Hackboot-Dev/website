@@ -10,24 +10,24 @@ export default function CTASection() {
   const ctaReveal = useRevealAnimation({ delay: 500 });
 
   return (
-    <section className="relative py-32 bg-gradient-to-br from-zinc-950 via-zinc-800 to-zinc-900 overflow-hidden">
-      {/* Geometric background elements - CTA specific */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-zinc-400 to-transparent"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-24 h-px bg-gradient-to-r from-transparent via-zinc-400 to-transparent"></div>
-        <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-zinc-400 rounded-full animate-subtle-float"></div>
-        {/* Unique pattern for CTA */}
-        <div className="absolute top-1/3 left-1/2 w-16 h-16 border border-zinc-700/30 rounded-full"></div>
-        <div className="absolute bottom-1/3 right-1/2 w-8 h-8 border border-zinc-600/40 rounded-full animate-subtle-float" style={{ animationDelay: '2s' }}></div>
+    <section className="relative py-16 sm:py-24 lg:py-32 bg-gradient-to-br from-zinc-950 via-zinc-800 to-zinc-900 overflow-hidden">
+      {/* Geometric background elements - CTA specific - responsive */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="hidden sm:block absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-zinc-400 to-transparent"></div>
+        <div className="hidden sm:block absolute bottom-1/4 right-1/3 w-24 h-px bg-gradient-to-r from-transparent via-zinc-400 to-transparent"></div>
+        <div className="hidden md:block absolute top-1/2 right-1/4 w-1 h-1 bg-zinc-400 rounded-full animate-subtle-float"></div>
+        {/* Unique pattern for CTA - hidden on mobile */}
+        <div className="hidden lg:block absolute top-1/3 left-1/2 w-16 h-16 border border-zinc-700/30 rounded-full"></div>
+        <div className="hidden lg:block absolute bottom-1/3 right-1/2 w-8 h-8 border border-zinc-600/40 rounded-full animate-subtle-float" style={{ animationDelay: '2s' }}></div>
         {/* Noise texture for final section */}
         <div className="absolute inset-0 bg-noise opacity-[0.03]"></div>
       </div>
 
-      <div className="container mx-auto px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-6xl mx-auto">
           
           {/* Two-column layout */}
-          <div className="grid grid-cols-12 gap-16 items-center">
+          <div className="grid grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
             
             {/* Left side - Content */}
             <div className="col-span-12 lg:col-span-7">
@@ -45,7 +45,7 @@ export default function CTASection() {
                 style={titleReveal.style}
                 className="mb-8"
               >
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-white leading-[1.1]">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-white leading-[1.1]">
                   {t('cta.title.1')}
                   <span className="block text-gradient-subtle">
                     {t('cta.title.2')}
@@ -59,7 +59,7 @@ export default function CTASection() {
                 style={contentReveal.style}
                 className="mb-12"
               >
-                <p className="text-lg text-zinc-400 max-w-lg leading-relaxed font-light">
+                <p className="text-base sm:text-lg text-zinc-400 max-w-lg leading-relaxed font-light">
                   {t('cta.subtitle')}
                 </p>
               </div>

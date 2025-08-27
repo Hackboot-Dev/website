@@ -11,10 +11,11 @@ import React from 'react';
 
 export interface BadgeProps {
   children: React.ReactNode;
-  variant: 'category' | 'tier' | 'trial' | 'info';
+  variant: 'category' | 'tier' | 'trial' | 'info' | 'outline' | 'primary' | 'secondary' | 'success' | 'premium';
   type?: 'vps' | 'gpu' | 'webhosting' | 'paas' | 'loadbalancer' | 'storage' | 'cdn' | 'starter' | 'pro' | 'enterprise';
   icon?: React.ReactNode;
   className?: string;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 const Badge: React.FC<BadgeProps> = ({ 
@@ -22,7 +23,8 @@ const Badge: React.FC<BadgeProps> = ({
   variant, 
   type, 
   icon, 
-  className = '' 
+  className = '',
+  size = 'md' 
 }) => {
   const getVariantClasses = () => {
     if (variant === 'category' && type) {
@@ -37,11 +39,32 @@ const Badge: React.FC<BadgeProps> = ({
     if (variant === 'info') {
       return 'bg-zinc-500/15 text-zinc-400 border-zinc-500/30';
     }
+    if (variant === 'outline') {
+      return 'bg-transparent text-zinc-400 border-zinc-600/50';
+    }
+    if (variant === 'primary') {
+      return 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30';
+    }
+    if (variant === 'secondary') {
+      return 'bg-purple-500/15 text-purple-400 border-purple-500/30';
+    }
+    if (variant === 'success') {
+      return 'bg-green-500/15 text-green-400 border-green-500/30';
+    }
+    if (variant === 'premium') {
+      return 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30';
+    }
     return '';
+  };
+  
+  const getSizeClasses = () => {
+    if (size === 'sm') return 'px-2 py-0.5 text-xs';
+    if (size === 'lg') return 'px-4 py-2 text-base';
+    return 'px-3 py-1 text-sm';
   };
 
   return (
-    <div className={`badge ${getVariantClasses()} ${className}`}>
+    <div className={`badge ${getVariantClasses()} ${getSizeClasses()} ${className}`}>
       {icon && <span className="mr-1.5">{icon}</span>}
       {children}
     </div>

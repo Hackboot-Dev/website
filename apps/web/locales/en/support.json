@@ -1,0 +1,269 @@
+{
+  "support": {
+    "hero": {
+      "badge": "Support & Assistance",
+      "title": "Hackboot Help Center",
+      "subtitle": "We're Here to Help",
+      "description": "Expert technical support available 24/7. Average response time < 15 minutes for Business and Enterprise customers.",
+      "searchPlaceholder": "Search knowledge base...",
+      "popularSearches": {
+        "title": "Popular searches:",
+        "items": ["How to create a VM", "SSH Configuration", "API Documentation", "Billing"]
+      }
+    },
+    
+    "stats": {
+      "responseTime": "Response Time",
+      "responseTimeValue": "< 15 min",
+      "satisfaction": "Customer Satisfaction",
+      "satisfactionValue": "98%",
+      "uptime": "Support Availability",
+      "uptimeValue": "24/7",
+      "tickets": "Tickets Resolved/Month",
+      "ticketsValue": "2,500+"
+    },
+    
+    "channels": {
+      "badge": "Support Channels",
+      "title": "Multiple Ways to Reach Us",
+      "description": "Choose the channel that works best for you",
+      
+      "ticket": {
+        "title": "Ticket System",
+        "description": "Create a ticket for detailed tracking of your request",
+        "features": ["Real-time tracking", "Complete history", "File attachments", "Guaranteed priority"],
+        "responseTime": "Response within 2h",
+        "availability": "24/7",
+        "cta": "Create Ticket"
+      },
+      
+      "livechat": {
+        "title": "Live Chat",
+        "description": "Instant assistance with our technical experts",
+        "features": ["Immediate response", "Screen sharing", "Expert transfer", "Multilingual"],
+        "responseTime": "< 1 minute",
+        "availability": "24/7",
+        "cta": "Start Chat"
+      },
+      
+      "email": {
+        "title": "Email Support",
+        "description": "For non-urgent requests and documentation",
+        "features": ["Detailed response", "Attached documentation", "Ticket tracking", "Multi-recipients"],
+        "responseTime": "< 4 hours",
+        "availability": "Business days",
+        "email": "support@hackboot.com",
+        "cta": "Send Email"
+      },
+      
+      "phone": {
+        "title": "Phone Support",
+        "description": "Direct line for critical emergencies (Enterprise)",
+        "features": ["Dedicated line", "Senior engineer", "Guaranteed callback", "Multilingual"],
+        "responseTime": "Immediate",
+        "availability": "24/7 Enterprise",
+        "phone": "+372 555 0123",
+        "cta": "Schedule Call"
+      }
+    },
+    
+    "sla": {
+      "badge": "SLA & Guarantees",
+      "title": "Service Level Agreements",
+      "description": "Our commitments based on your plan",
+      
+      "tiers": {
+        "standard": {
+          "name": "Standard",
+          "responseTime": "< 24h",
+          "availability": "Business days",
+          "channels": ["Email", "Tickets"],
+          "priority": "Normal",
+          "escalation": "48h"
+        },
+        "business": {
+          "name": "Business",
+          "responseTime": "< 4h",
+          "availability": "24/7",
+          "channels": ["Email", "Tickets", "Chat"],
+          "priority": "High",
+          "escalation": "12h"
+        },
+        "enterprise": {
+          "name": "Enterprise",
+          "responseTime": "< 15 min",
+          "availability": "24/7",
+          "channels": ["All channels", "Dedicated line"],
+          "priority": "Critical",
+          "escalation": "1h",
+          "extras": ["Account Manager", "Dedicated engineer", "Monthly reports"]
+        }
+      }
+    },
+    
+    "resources": {
+      "badge": "Resources & Documentation",
+      "title": "Knowledge Base",
+      "description": "Everything you need to succeed",
+      
+      "categories": {
+        "getting-started": {
+          "title": "Getting Started",
+          "icon": "🚀",
+          "description": "Guides to get you started",
+          "articles": "25 articles"
+        },
+        "api": {
+          "title": "API Documentation",
+          "icon": "📚",
+          "description": "Complete API reference",
+          "articles": "150+ endpoints"
+        },
+        "tutorials": {
+          "title": "Tutorials",
+          "icon": "🎓",
+          "description": "Step-by-step guides",
+          "articles": "45 tutorials"
+        },
+        "troubleshooting": {
+          "title": "Troubleshooting",
+          "icon": "🔧",
+          "description": "Common problem solutions",
+          "articles": "80 solutions"
+        },
+        "billing": {
+          "title": "Billing",
+          "icon": "💳",
+          "description": "Payment management",
+          "articles": "15 articles"
+        },
+        "security": {
+          "title": "Security",
+          "icon": "🔒",
+          "description": "Security best practices",
+          "articles": "30 guides"
+        }
+      }
+    },
+    
+    "faq": {
+      "badge": "Frequently Asked Questions",
+      "title": "FAQ",
+      "description": "Answers to the most common questions",
+      
+      "items": [
+        {
+          "question": "How do I create my first virtual machine?",
+          "answer": "Log in to your dashboard, click 'Create VM', choose your configuration (OS, CPU, RAM, storage), select a region, then click 'Deploy'. Your VM will be ready in less than 55 seconds."
+        },
+        {
+          "question": "What payment methods do you accept?",
+          "answer": "We accept credit/debit cards (Visa, Mastercard, Amex), PayPal, SEPA transfers, and Bitcoin. Enterprise customers can benefit from monthly invoicing with bank transfer payment."
+        },
+        {
+          "question": "How do I configure SSH access to my VM?",
+          "answer": "When creating your VM, add your public SSH key. Once the VM is deployed, connect via: ssh root@[your-vm-ip]. You can also manage your SSH keys from the 'Security' section of the dashboard."
+        },
+        {
+          "question": "What is your refund policy?",
+          "answer": "We offer a 7-day money-back guarantee for new customers. Beyond that, unused credits can be refunded pro-rata for customers with annual commitments."
+        },
+        {
+          "question": "How can I upgrade my VM resources?",
+          "answer": "You can resize your VM at any time from the dashboard. RAM and CPU upgrades require a reboot (< 30 seconds). Storage can be added hot without interruption."
+        },
+        {
+          "question": "Do you offer automatic backups?",
+          "answer": "Yes, we offer automatic snapshots every 6h (7-day retention) as an option. Business and Enterprise customers get daily backups with 30-day retention included."
+        }
+      ],
+      
+      "moreCta": "View all FAQs"
+    },
+    
+    "status": {
+      "badge": "Service Status",
+      "title": "Real-Time Status",
+      "description": "Monitor our infrastructure health",
+      "allOperational": "All systems operational",
+      "viewDetails": "View details",
+      "statusPage": "Full status page",
+      
+      "services": {
+        "compute": "Compute Services",
+        "network": "Network & CDN",
+        "storage": "Storage",
+        "api": "API",
+        "dashboard": "Dashboard",
+        "support": "Support"
+      },
+      
+      "metrics": {
+        "uptime": "30d Uptime",
+        "latency": "Latency",
+        "apiResponse": "API Response"
+      }
+    },
+    
+    "emergency": {
+      "badge": "Emergency",
+      "title": "24/7 Emergency Support",
+      "description": "For critical incidents affecting your production",
+      "phone": "+372 555 0911",
+      "note": "Line reserved for critical emergencies of Business and Enterprise customers",
+      "cta": "Report Emergency"
+    },
+    
+    "contact": {
+      "badge": "Contact Us",
+      "title": "Dedicated Support Team",
+      "description": "Technical experts at your service",
+      
+      "form": {
+        "title": "Send us a Message",
+        "name": "Full name",
+        "email": "Email",
+        "company": "Company (optional)",
+        "subject": "Subject",
+        "priority": "Priority",
+        "priorities": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High",
+          "critical": "Critical"
+        },
+        "category": "Category",
+        "categories": {
+          "technical": "Technical",
+          "billing": "Billing",
+          "sales": "Sales",
+          "other": "Other"
+        },
+        "message": "Message",
+        "attachment": "Attach file",
+        "submit": "Send",
+        "submitting": "Sending..."
+      },
+      
+      "info": {
+        "headquarters": "Headquarters",
+        "address": "Harju maakond, Tallinn, Lasnamäe linnaosa",
+        "addressLine2": "Punane tn 6-219, 13619",
+        "country": "Estonia, EU",
+        "businessId": "Reg. 16962303",
+        "email": "Email Support",
+        "emailValue": "support@hackboot.com",
+        "phone": "Phone",
+        "phoneValue": "+372 555 0123"
+      }
+    },
+    
+    "cta": {
+      "title": "Need Immediate Help?",
+      "description": "Our team of experts is available 24/7 to assist you. Average response time < 15 minutes.",
+      "primary": "Open Ticket",
+      "secondary": "Live Chat",
+      "phone": "Or call +372 555 0123"
+    }
+  }
+}

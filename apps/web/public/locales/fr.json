@@ -1,0 +1,385 @@
+{
+  "nav": {
+    "infrastructure": "Infrastructure",
+    "products": "Produits",
+    "pricing": "Tarifs",
+    "documentation": "Documentation",
+    "support": "Support",
+    "signIn": "Connexion",
+    "getStarted": "Commencer"
+  },
+  "products": {
+    "title": "Nos Produits",
+    "subtitle": "Choisissez la solution qui correspond parfaitement à vos besoins",
+    "categories": {
+      "vps": {
+        "name": "VPS",
+        "description": "Serveurs privés virtuels haute performance",
+        "subtitle": "De 29€/mois - AMD EPYC™, NVMe, 99.9% SLA"
+      },
+      "gpu": {
+        "name": "GPU Cloud",
+        "description": "Puissance GPU pour IA et Machine Learning",
+        "subtitle": "De 469€/mois - Tesla T4, RTX 4090, A100"
+      },
+      "webhosting": {
+        "name": "Hébergement Web",
+        "description": "Hébergement optimisé pour sites et applications",
+        "subtitle": "De 19€/mois - PHP, Node.js, SSL inclus"
+      },
+      "paas": { "name": "PaaS" },
+      "loadbalancer": { "name": "Load Balancer" },
+      "storage": { "name": "Stockage" },
+      "cdn": { "name": "CDN" }
+    },
+    "viewAll": "Voir tous les produits",
+    "pricing": {
+      "monthly": "mois",
+      "annual": "an",
+      "hourly": "heure",
+      "from": "à partir de"
+    },
+    "ui": {
+      "recommendedTitle": "Offres recommandées",
+      "recommendedSubtitle": "3 choix clairs, sans surcharge d’informations.",
+      "configurationsTitle": "Configurations",
+      "choose": "Choisir",
+      "chooseConfig": "Choisir cette configuration",
+      "details": "Détails",
+      "hide": "Masquer",
+      "showMore": "Afficher plus",
+      "modeLabel": "Mode",
+      "categoriesTitle": "Catégories",
+      "pricingModeTitle": "Mode de prix",
+      "reset": "Réinitialiser",
+      "configuration": "configuration",
+      "available": "disponible",
+      "paidAnnually": "Payé annuellement",
+      "continuous": "en continu",
+      "otherSpecs": "autres specs",
+      "configure": "Configurer",
+      "configureInfo": "Personnalisez les ressources • Paiement sécurisé",
+      "enterpriseNote": "Configuration haute performance",
+      "totalAnnual": "Total annuel",
+      "save": "économisez",
+      "deployIn60s": "Déployer en 60 secondes",
+      "readyToScale": "Prêt à scaler votre infrastructure?",
+      "deploymentDescription": "Déploiement automatisé. Migration assistée. Support 24/7.",
+      "deploy": "Déployer",
+      "activate": "Activer",
+      "contactExpert": "Contacter un expert",
+      "orderNow": "Commander maintenant",
+      "viewDemo": "Voir la démo",
+      "getStarted": "Commencer maintenant",
+      "perHour": "/heure",
+      "perMonth": "/mois",
+      "perYear": "/an",
+      "discount": "de réduction",
+      "savePerYear": "Économisez {amount}€ par an",
+      "readyToAccelerate": "Prêt à accélérer votre contenu?",
+      "globalContentAcceleration": "ACCÉLÉRATION DE CONTENU GLOBALE",
+      "deployNow": "Déployer maintenant",
+      "toggle": {
+        "monthly": "Mensuel",
+        "annualShort": "Annuel",
+        "hourly": "Horaire"
+      },
+      "annualNote": "Prix mensuel équivalent sur engagement annuel",
+      "switchNote": "Basculer entre les modes",
+      "trial": "Essai gratuit",
+      "choose": "Commander maintenant",
+      "technicalSpecs": "Spécifications techniques",
+      "similarProducts": "Produits similaires",
+      "needHelp": "Besoin d'aide ?",
+      "contactExpertAction": "Contacter un expert",
+      "slaLabel": "SLA",
+      "supportLabel": "Support",
+      "onQuote": "Sur devis",
+      "configured": "Configuré",
+      "monthlyBilling": "/mois",
+      "annualBilling": "/mois (facturation annuelle)",
+      "hourlyBilling": "/heure",
+      "savePercent": "Économisez {percent}% ({amount}€/an)",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "business": "Business",
+        "enterprise": "Enterprise",
+        "premium": "Premium"
+      },
+      "hero": {
+        "label": "Infrastructure Premium",
+        "title1": "Solutions",
+        "title2": "Cloud",
+        "subtitle1": "De la simple instance aux clusters GPU haute performance.",
+        "subtitle2": "Infrastructure européenne premium, facturation transparente."
+      },
+      "stats": {
+        "configurations": "Configurations",
+        "categories": "Catégories",
+        "modes": "Modes Prix"
+      },
+      "billing": {
+        "title": "Facturation intelligente",
+        "hourly": "Horaire : payez à l'usage réel",
+        "monthly": "Mensuel : prix fixe, garanties",
+        "annual": "Annuel : jusqu'à 50% d'économies"
+      },
+      "trial": "Essai",
+      "included": "Inclus :",
+      "saves": "Économise",
+      "badges": {
+        "hourly": "Facturation à l'usage",
+        "monthly": "Ressources garanties 24/7"
+      },
+      "specs": {
+        "title": "Spécifications",
+        "cpu": "CPU",
+        "gpu": "GPU",
+        "vram": "VRAM",
+        "ram": "RAM",
+        "storage": "Stockage",
+        "bandwidth": "Bande passante",
+        "sites": "Sites",
+        "containers": "Containers",
+        "ipv4": "IPv4",
+        "network": "Réseau",
+        "databases": "Bases",
+        "emails": "Emails",
+        "ssl": "SSL",
+        "protocols": "Protocoles",
+        "rps": "RPS",
+        "type": "Type",
+        "throughput": "Débit",
+        "pops": "PoPs",
+        "traffic": "Trafic"
+      },
+      "price": {
+        "perHour": "/h",
+        "perMonth": "/mois",
+        "perMonthStar": "/mois*",
+        "perGbPerMonth": "/GB/mois"
+      },
+      "details": "Voir détails"
+    }
+  },
+  "common": {
+    "langUnavailable": "Langue indisponible",
+    "na": "N/A",
+    "yes": "Oui",
+    "no": "Non",
+    "included": "Inclus",
+    "year": "an",
+    "month": "mois",
+    "hour": "heure"
+  },
+  "products": {
+    "categories": {
+      "all": "Tous les produits",
+      "vps": "VPS Cloud",
+      "gpu": "GPU Computing",
+      "webhosting": "Web Hosting",
+      "paas": "Platform as a Service",
+      "loadbalancer": "Load Balancer",
+      "storage": "Stockage",
+      "cdn": "CDN"
+    },
+    "labels": {
+      "idealFor": "Idéal pour",
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "vram": "VRAM",
+      "ram": "RAM",
+      "storage": "Stockage",
+      "bandwidth": "Bande passante",
+      "sites": "Sites",
+      "containers": "Containers",
+      "scaling": "Scaling",
+      "protocols": "Protocoles",
+      "rps": "RPS",
+      "type": "Type",
+      "throughput": "Débit",
+      "pops": "PoPs",
+      "trafficIncluded": "Trafic inclus",
+      "ipv4": "IPv4",
+      "network": "Réseau",
+      "databases": "Bases",
+      "emails": "Emails",
+      "ssl": "SSL",
+      "traffic": "Trafic",
+      "performance": "Performance",
+      "interconnect": "Interconnect",
+      "environments": "Environnements",
+      "backendsMax": "Backends max",
+      "requestsPerSec": "Requêtes/sec",
+      "iopsPerTb": "IOPS/TB",
+      "latency": "Latence",
+      "size": "Taille",
+      "domains": "Domaines",
+      "waf": "WAF"
+    },
+    "vps": {
+      "viewAll": "Voir tous les VPS"
+    },
+    "webhosting": {
+      "features": {
+        "cms": {
+          "title": "CMS en 1-Click",
+          "description": "Installez WordPress, Joomla, Drupal en un clic"
+        },
+        "ssl": {
+          "title": "SSL Gratuit",
+          "description": "Certificats Let's Encrypt renouvelés automatiquement"
+        },
+        "backup": {
+          "title": "Backup Quotidien",
+          "description": "Sauvegardes automatiques avec rétention 30 jours"
+        },
+        "support": {
+          "title": "Support 24/7",
+          "description": "Équipe technique disponible jour et nuit"
+        }
+      },
+      "specs": {
+        "storage": "Stockage SSD",
+        "bandwidth": "Bande passante",
+        "domains": "Domaines",
+        "emails": "Emails"
+      }
+    },
+    "ui": {
+      "details": "Voir détails"
+    },
+    "pricing": {
+      "hourly": "Horaire",
+      "monthly": "Mensuel",
+      "annual": "Annuel",
+      "save": "Économie"
+    },
+    "cta": {
+      "configure": "Configurer & Commander",
+      "trial": "Essai gratuit",
+      "ready": "Prêt à démarrer avec",
+      "description": "Configuration en moins de 2 minutes, déploiement immédiat."
+    },
+    "specs": {
+      "title": "Spécifications Techniques",
+      "loading": "Spécifications disponibles bientôt",
+      "contact": "Contactez-nous pour plus d'informations"
+    },
+    "faq": {
+      "provision": {
+        "title": "Quel est le délai de mise en service ?",
+        "answer": "Moins de 60 secondes pour la plupart des configurations."
+      },
+      "migration": {
+        "title": "Aidez-vous pour la migration ?",
+        "answer": "Oui, migration gratuite pour les offres Pro et plus."
+      },
+      "billing": {
+        "title": "Comment fonctionne la facturation ?",
+        "answer": "Mensuel/Annuel au choix, horaire selon les produits."
+      }
+    },
+    "target": "Public cible:",
+    "features": {
+      "support247": "Support 24/7",
+      "freeMigration": "Migration gratuite",
+      "hotMigration": "Migration à chaud"
+    }
+  },
+  "hero": {
+    "label": "INFRASTRUCTURE 2025",
+    "title": {
+      "1": "Cloud",
+      "2": "Computing",
+      "3": "Redéfini"
+    },
+    "subtitle": "Infrastructure as code avec sécurité enterprise. Déployez, adaptez, surveillez—sans effort.",
+    "cta": {
+      "primary": "Commencer",
+      "secondary": "Voir les tarifs"
+    },
+    "metrics": {
+      "uptime": "DISPONIBILITÉ",
+      "responseTime": "TEMPS DE RÉPONSE",
+      "globalNodes": "NŒUDS GLOBAUX"
+    },
+    "status": "TOUS LES SYSTÈMES OPÉRATIONNELS",
+    "scroll": "DÉFILER"
+  },
+  "features": {
+    "label": "FONCTIONNALITÉS",
+    "title": {
+      "1": "Conçu pour l'échelle.",
+      "2": "Pensé pour les développeurs."
+    },
+    "subtitle": "Infrastructure enterprise avec outils développeur. Livrez plus rapidement sans compromettre la fiabilité.",
+    "globalInfra": {
+      "title": "Infrastructure Globale",
+      "desc": "Déploiement multi-régions avec optimisation edge pour une latence minimale.",
+      "metric": "5 Régions"
+    },
+    "security": {
+      "title": "Sécurité Enterprise",
+      "desc": "Chiffrement bout-en-bout avec conformité SOC2 et détection automatique des menaces.",
+      "metric": "99.9% SLA"
+    },
+    "devExp": {
+      "title": "Expérience Développeur",
+      "desc": "Workflows Git avec aperçus instantanés et outils de collaboration.",
+      "metric": "<2min Déploiement"
+    },
+    "autoScale": {
+      "title": "Auto-Scaling",
+      "desc": "Allocation intelligente des ressources qui s'adapte automatiquement au trafic.",
+      "metric": "0-100K RPS"
+    }
+  },
+  "pricing": {
+    "label": "TARIFS TRANSPARENTS",
+    "title": {
+      "1": "Tarifs simples.",
+      "2": "Sans surprises."
+    },
+    "subtitle": "Choisissez le plan qui vous convient. Adaptez à tout moment. Annulez quand vous voulez.",
+    "starter": {
+      "name": "Starter",
+      "desc": "Parfait pour les projets personnels"
+    },
+    "pro": {
+      "name": "Professionnel",
+      "desc": "Pour les entreprises en croissance"
+    },
+    "enterprise": {
+      "name": "Entreprise",
+      "desc": "Pour les grandes organisations"
+    },
+    "recommended": "RECOMMANDÉ",
+    "cta": {
+      "trial": "Essai Gratuit",
+      "contact": "Contacter Commercial"
+    },
+    "note": "Tous les plans incluent 14 jours d'essai gratuit. Aucune carte de crédit requise."
+  },
+  "cta": {
+    "label": "PRÊT À CRÉER",
+    "title": {
+      "1": "Livrez plus vite.",
+      "2": "Adaptez intelligemment."
+    },
+    "subtitle": "Rejoignez les développeurs qui choisissent la performance plutôt que la complexité. Déployez en minutes, pas en heures.",
+    "primary": "Essai Gratuit",
+    "secondary": "Voir les Plans",
+    "metrics": {
+      "deployTime": "TEMPS DE DÉPLOIEMENT",
+      "satisfaction": "SATISFACTION DÉVELOPPEUR",
+      "projects": "PROJETS DÉPLOYÉS"
+    },
+    "features": {
+      "config": "Aucune configuration requise",
+      "scaling": "Infrastructure auto-adaptative",
+      "monitoring": "Surveillance 24/7 incluse"
+    }
+  }
+}

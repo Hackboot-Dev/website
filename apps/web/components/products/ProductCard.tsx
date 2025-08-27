@@ -77,12 +77,11 @@ interface ProductCardProps {
   index: number;
 }
 
-export default function ProductCard({ product, pricingMode, index }: ProductCardProps) {
+export default function ProductCard({ product, pricingMode }: ProductCardProps) {
   const { t } = useLanguage();
-  const [isHovered, setIsHovered] = useState(false);
 
   function getCategoryTheme(category: string) {
-    const themes = {
+    const themes: Record<string, { color: string; icon: string; name: string; styles: string }> = {
       vps: { 
         color: 'blue', 
         icon: '🖥️', 
@@ -310,7 +309,7 @@ export default function ProductCard({ product, pricingMode, index }: ProductCard
             <span>≈ {Math.round(product.hourly * 24 * 30)}€/{t('common.month') || 'mois'} {t('products.ui.continuous') || 'en continu'}</span>
           )}
           {pricingMode === 'monthly' && product.hourly && (
-            <span>≈ {product.hourly.toFixed(3)}€/{t('common.hour') || 'heure'}</span>
+            <span>≈ {Math.round(product.hourly * 1000) / 1000}€/{t('common.hour') || 'heure'}</span>
           )}
         </div>
       </div>

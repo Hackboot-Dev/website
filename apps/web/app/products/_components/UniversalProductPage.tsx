@@ -16,6 +16,7 @@ import Badge from '../../../components/ui/Badge';
 import { CPUIcon, RAMIcon, StorageIcon, NetworkIcon, CheckIcon } from '../../../components/ui/Icons';
 import SpecsModal from '../../../components/ui/SpecsModal';
 import displayConfig from '../../../data/products/display-config.json';
+import { formatNumber } from '../../../utils/formatNumber';
 
 type PricingMode = 'hourly' | 'monthly' | 'annual';
 
@@ -123,7 +124,7 @@ export default function UniversalProductPage({ product, category }: UniversalPro
 
   const benchmarks = config.benchmarks?.metrics?.map((metric: any) => ({
     test: language === 'fr' && metric.name_fr ? metric.name_fr : metric.name,
-    score: metric.value.toLocaleString() + ' ' + (language === 'fr' && metric.unit_fr ? metric.unit_fr : metric.unit),
+    score: formatNumber(metric.value) + ' ' + (language === 'fr' && metric.unit_fr ? metric.unit_fr : metric.unit),
     percentile: language === 'fr' && metric.comparison_fr ? metric.comparison_fr : metric.comparison
   })) || [];
 
@@ -203,7 +204,7 @@ export default function UniversalProductPage({ product, category }: UniversalPro
 
                 {/* Specs Grid with stagger animation - EXACT DESIGN */}
                 <div ref={specsContainerRef as React.RefObject<HTMLDivElement>} className="grid grid-cols-2 gap-4">
-                  {specs.map((spec, index) => (
+                  {specs.map((spec: any, index: number) => (
                     <div 
                       key={index} 
                       className="group relative bg-zinc-900/30 backdrop-blur border border-zinc-800/50 rounded-lg p-6 hover:bg-zinc-900/50 transition-all duration-500"
@@ -292,7 +293,7 @@ export default function UniversalProductPage({ product, category }: UniversalPro
                       {language === 'fr' ? 'Configurer' : 'Configure'}
                     </Button>
                     {product.trial && (
-                      <Button variant="outline" className="w-full">
+                      <Button variant="ghost" className="w-full border border-zinc-700">
                         {language === 'fr' ? `Essai ${product.trial}` : `${product.trial} Trial`}
                       </Button>
                     )}
@@ -340,7 +341,7 @@ export default function UniversalProductPage({ product, category }: UniversalPro
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {technicalSpecs.map((section: any, index) => (
+                {technicalSpecs.map((section: any, index: number) => (
                   <div key={index} className="bg-zinc-900/30 backdrop-blur border border-zinc-800/50 rounded-xl p-6 overflow-hidden">
                     <h3 className="text-lg font-medium text-white mb-6 truncate" title={section.category}>
                       {language === 'fr' && section.category_fr ? section.category_fr : section.category}
@@ -408,7 +409,7 @@ export default function UniversalProductPage({ product, category }: UniversalPro
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {benchmarks.map((benchmark, index) => (
+                {benchmarks.map((benchmark: any, index: number) => (
                   <div key={index} className="text-center group">
                     <div className="text-3xl font-extralight text-white mb-2 group-hover:text-blue-400 transition-colors">
                       {benchmark.score}
@@ -465,7 +466,7 @@ export default function UniversalProductPage({ product, category }: UniversalPro
               <p className="text-lg text-zinc-400 mb-8">
                 {config.contactExpertText}
               </p>
-              <Button variant="outline" className="mx-auto">
+              <Button variant="ghost" className="mx-auto border border-zinc-700">
                 {language === 'fr' ? 'Parler à un expert' : 'Talk to an expert'}
               </Button>
             </div>

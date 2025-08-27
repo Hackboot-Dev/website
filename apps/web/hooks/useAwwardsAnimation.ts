@@ -22,10 +22,24 @@ export function useRevealAnimation(options: AnimationOptions = {}) {
   const elementRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [isPageReady, setIsPageReady] = useState(false);
+
+  useEffect(() => {
+    // Wait for page to be ready
+    const checkPageReady = () => {
+      if (document.body.classList.contains('page-ready')) {
+        setIsPageReady(true);
+      } else {
+        setTimeout(checkPageReady, 50);
+      }
+    };
+    
+    checkPageReady();
+  }, []);
 
   useEffect(() => {
     const element = elementRef.current;
-    if (!element) return;
+    if (!element || !isPageReady) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -41,7 +55,7 @@ export function useRevealAnimation(options: AnimationOptions = {}) {
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [threshold, rootMargin, delay, hasAnimated]);
+  }, [threshold, rootMargin, delay, hasAnimated, isPageReady]);
 
   return {
     elementRef,
@@ -57,10 +71,24 @@ export function useRevealAnimation(options: AnimationOptions = {}) {
 export function useStaggerReveal(itemsCount: number, staggerDelay: number = 100) {
   const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(itemsCount).fill(false));
   const containerRef = useRef<HTMLElement>(null);
+  const [isPageReady, setIsPageReady] = useState(false);
+
+  useEffect(() => {
+    // Wait for page to be ready
+    const checkPageReady = () => {
+      if (document.body.classList.contains('page-ready')) {
+        setIsPageReady(true);
+      } else {
+        setTimeout(checkPageReady, 50);
+      }
+    };
+    
+    checkPageReady();
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || !isPageReady) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -81,7 +109,7 @@ export function useStaggerReveal(itemsCount: number, staggerDelay: number = 100)
 
     observer.observe(container);
     return () => observer.disconnect();
-  }, [itemsCount, staggerDelay]);
+  }, [itemsCount, staggerDelay, isPageReady]);
 
   return { containerRef, visibleItems };
 }

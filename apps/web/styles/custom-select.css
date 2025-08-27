@@ -1,0 +1,83 @@
+/* Custom Select Styling - Remove iOS native styles only */
+.custom-select {
+  /* Force removal of iOS native appearance */
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  
+  /* Prevent iOS zoom on focus */
+  font-size: 16px !important;
+  
+  /* Keep consistent border radius */
+  -webkit-border-radius: 0.75rem !important;
+  border-radius: 0.75rem !important;
+}
+
+/* iOS Safari specific targeting */
+@supports (-webkit-touch-callout: none) {
+  .custom-select {
+    -webkit-appearance: none !important;
+  }
+}
+
+/* Remove iOS tap highlight */
+.custom-select:focus {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Custom range slider - iOS compatible */
+input[type="range"] {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 100% !important;
+  height: 8px !important;
+  background: #3f3f46 !important;
+  border-radius: 8px !important;
+  outline: none !important;
+  opacity: 1 !important;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+/* Webkit browsers (Chrome, Safari, iOS) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 24px !important;
+  height: 24px !important;
+  background: #06b6d4 !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Firefox */
+input[type="range"]::-moz-range-thumb {
+  width: 24px !important;
+  height: 24px !important;
+  background: #06b6d4 !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  border: none !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Track for Firefox */
+input[type="range"]::-moz-range-track {
+  background: #3f3f46 !important;
+  height: 8px !important;
+  border-radius: 8px !important;
+}
+
+/* Focus states */
+input[type="range"]:focus {
+  outline: none !important;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+  background: #0891b2 !important;
+}
+
+input[type="range"]:active::-moz-range-thumb {
+  background: #0891b2 !important;
+}

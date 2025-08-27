@@ -60,6 +60,28 @@
     font-family: 'Inter', 'system-ui', sans-serif;
   }
   
+  /* Page loading states - prevent FOUC */
+  body.page-loading {
+    overflow: hidden !important;
+  }
+  
+  body.page-loading main,
+  body.page-loading header,
+  body.page-loading footer,
+  body.page-loading section {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+  
+  body.page-ready main,
+  body.page-ready header,
+  body.page-ready footer,
+  body.page-ready section {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+  }
+  
   /* Noise texture */
   .bg-noise {
     background-image: 

@@ -1,0 +1,123 @@
+/* /workspaces/website/apps/web/styles/animations.css
+   Description: Optimized CSS animations for scroll effects
+   Last modified: 2025-08-27 */
+
+/* Base animation classes */
+.animate-fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger animations for lists */
+.animate-stagger {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+.animate-stagger.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-stagger:nth-child(1) { transition-delay: 0ms; }
+.animate-stagger:nth-child(2) { transition-delay: 50ms; }
+.animate-stagger:nth-child(3) { transition-delay: 100ms; }
+.animate-stagger:nth-child(4) { transition-delay: 150ms; }
+.animate-stagger:nth-child(5) { transition-delay: 200ms; }
+.animate-stagger:nth-child(6) { transition-delay: 250ms; }
+
+/* Slide animations */
+.animate-slide-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-slide-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.animate-slide-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-slide-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale animations */
+.animate-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Performance optimizations */
+.will-animate {
+  will-change: transform, opacity;
+}
+
+/* Smooth entrance for hero */
+.hero-entrance {
+  animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle pulse for important elements */
+.pulse-subtle {
+  animation: subtlePulse 3s ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-stagger,
+  .animate-slide-left,
+  .animate-slide-right,
+  .animate-scale {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

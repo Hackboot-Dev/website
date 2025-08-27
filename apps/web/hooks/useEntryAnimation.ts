@@ -23,15 +23,32 @@ export function useEntryAnimation(options: EntryAnimationOptions = {}) {
 
   const elementRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isPageReady, setIsPageReady] = useState(false);
 
   useEffect(() => {
+    // Wait for page to be ready
+    const checkPageReady = () => {
+      if (document.body.classList.contains('page-ready')) {
+        setIsPageReady(true);
+      } else {
+        // Check again in a moment
+        setTimeout(checkPageReady, 50);
+      }
+    };
+    
+    checkPageReady();
+  }, []);
+
+  useEffect(() => {
+    if (!isPageReady) return;
+    
     // Animation d'entrée au chargement avec délai
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [delay]);
+  }, [delay, isPageReady]);
 
   return {
     elementRef,
@@ -46,9 +63,28 @@ export function useEntryAnimation(options: EntryAnimationOptions = {}) {
 
 export function useStaggerEntry(itemsCount: number, staggerDelay: number = 100, initialDelay: number = 0, resetKey?: string) {
   const [visibleItems, setVisibleItems] = useState<boolean[]>([]);
+  const [isPageReady, setIsPageReady] = useState(false);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
 
   useEffect(() => {
+    // Wait for page to be ready
+    const checkPageReady = () => {
+      if (document.body.classList.contains('page-ready')) {
+        setIsPageReady(true);
+      } else {
+        setTimeout(checkPageReady, 50);
+      }
+    };
+    
+    checkPageReady();
+  }, []);
+
+  useEffect(() => {
+    if (!isPageReady) {
+      setVisibleItems(new Array(itemsCount).fill(false));
+      return;
+    }
+
     // Nettoyer les timeouts précédents
     timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
     timeoutsRef.current = [];
@@ -79,7 +115,7 @@ export function useStaggerEntry(itemsCount: number, staggerDelay: number = 100, 
       timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
       timeoutsRef.current = [];
     };
-  }, [itemsCount, staggerDelay, initialDelay, resetKey]);
+  }, [itemsCount, staggerDelay, initialDelay, resetKey, isPageReady]);
 
   return { visibleItems };
 }
