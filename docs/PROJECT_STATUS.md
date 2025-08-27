@@ -63,8 +63,29 @@
 - [x] **NOUVEAU**: Formulaire de contact complet avec priorité et catégorie
 - [x] **NOUVEAU**: Section support d'urgence 24/7
 - [x] **NOUVEAU**: Intégration complète du système multilingue
+- [x] **NOUVEAU**: Badges de statut dynamiques sur chaque canal
+- [x] **NOUVEAU**: Configuration via channels.json
+
+### Système de Tickets
+- [x] **NOUVEAU**: Page complète de gestion des tickets
+- [x] **NOUVEAU**: Formulaire de création avec priorités et catégories
+- [x] **NOUVEAU**: Liste filtrable avec recherche en temps réel
+- [x] **NOUVEAU**: Stats dashboard (actifs, en cours, résolus)
+- [x] **NOUVEAU**: Design Awwwards avec animations
+
+### Chat IA avec Gemini
+- [x] **NOUVEAU**: Interface de chat moderne style WhatsApp
+- [x] **NOUVEAU**: Service Gemini pour intégration API
+- [x] **NOUVEAU**: Route API pour communication avec Gemini
+- [x] **NOUVEAU**: Mode mock pour tests sans API key
+- [x] **NOUVEAU**: Détection d'escalade vers support humain
+- [x] **NOUVEAU**: Support multilingue (FR/EN)
+- [x] **NOUVEAU**: Limite quotidienne gratuite (1500 requêtes)
+- [x] **NOUVEAU**: Génération automatique de tickets
 
 ## 🚧 En cours
+- [ ] Configuration de la clé API Gemini
+- [ ] Tests de l'intégration Gemini réelle
 - [ ] Optimisation des performances
 - [ ] Tests sur différents appareils
 - [ ] Backend API pour gestion des produits

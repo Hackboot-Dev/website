@@ -1,17 +1,17 @@
 'use client';
 
 // /workspaces/website/apps/web/app/support/page.tsx
-// Description: Support page with complete help center
+// Description: Support page with dynamic channel status from channels.json
 // Last modified: 2025-08-27
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Badge from '../../components/ui/Badge';
-import { Icons } from '../../components/ui/Icons';
 import { useLanguage } from '../../contexts/LanguageContext';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
+import channelsConfig from '../../data/support/channels.json';
 import {
   ChatBubbleLeftRightIcon,
   TicketIcon,
@@ -23,20 +23,43 @@ import {
   ClockIcon,
   StarIcon,
   ExclamationTriangleIcon,
+  XCircleIcon,
+  WrenchIcon,
+  BeakerIcon,
   ArrowRightIcon,
-  DocumentTextIcon,
-  AcademicCapIcon,
-  WrenchScrewdriverIcon,
-  CreditCardIcon,
-  ShieldCheckIcon,
-  ServerIcon,
-  GlobeAltIcon,
-  CpuChipIcon,
-  CircleStackIcon,
-  QuestionMarkCircleIcon
+  UserGroupIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline';
 
-// Support data structure
+// Icon mapping
+const iconMap = {
+  ticket: TicketIcon,
+  chat: ChatBubbleLeftRightIcon,
+  email: EnvelopeIcon,
+  phone: PhoneIcon,
+  community: UserGroupIcon,
+  ai: SparklesIcon
+};
+
+// Status icon mapping
+const statusIcons = {
+  'check-circle': CheckCircleIcon,
+  'x-circle': XCircleIcon,
+  'exclamation-triangle': ExclamationTriangleIcon,
+  'wrench': WrenchIcon,
+  'beaker': BeakerIcon
+};
+
+// Status colors
+const statusColors = {
+  green: 'text-green-500 bg-green-500/10 border-green-500/30',
+  yellow: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/30',
+  red: 'text-red-500 bg-red-500/10 border-red-500/30',
+  orange: 'text-orange-500 bg-orange-500/10 border-orange-500/30',
+  purple: 'text-purple-500 bg-purple-500/10 border-purple-500/30'
+};
+
+// Support data translations
 const supportData = {
   en: {
     hero: {
@@ -53,40 +76,15 @@ const supportData = {
       { label: "Availability", value: "24/7" },
       { label: "Tickets/Month", value: "2,500+" }
     ],
-    channels: [
-      {
-        icon: TicketIcon,
-        title: "Ticket System",
-        description: "Track your request with detailed history",
-        features: ["Real-time tracking", "File attachments", "Priority queue"],
-        responseTime: "< 2 hours",
-        cta: "Create Ticket"
-      },
-      {
-        icon: ChatBubbleLeftRightIcon,
-        title: "Live Chat",
-        description: "Instant help from our experts",
-        features: ["Immediate response", "Screen sharing", "Multilingual"],
-        responseTime: "< 1 minute",
-        cta: "Start Chat"
-      },
-      {
-        icon: EnvelopeIcon,
-        title: "Email Support",
-        description: "For non-urgent detailed requests",
-        features: ["Detailed responses", "Documentation", "Ticket tracking"],
-        responseTime: "< 4 hours",
-        cta: "Send Email"
-      },
-      {
-        icon: PhoneIcon,
-        title: "Phone Support",
-        description: "Direct line for Enterprise customers",
-        features: ["Dedicated line", "Senior engineers", "24/7 availability"],
-        responseTime: "Immediate",
-        cta: "Call Now"
-      }
-    ],
+    channelLabels: {
+      responseTime: "Response Time",
+      availability: "Availability",
+      status: "Status",
+      getSupport: "Get Support",
+      notAvailable: "Not Available",
+      requiresPlan: "Requires",
+      comingSoon: "Coming Soon"
+    },
     faq: {
       title: "Frequently Asked Questions",
       items: [
@@ -149,40 +147,15 @@ const supportData = {
       { label: "Disponibilité", value: "24/7" },
       { label: "Tickets/Mois", value: "2 500+" }
     ],
-    channels: [
-      {
-        icon: TicketIcon,
-        title: "Système de Tickets",
-        description: "Suivez votre demande avec historique détaillé",
-        features: ["Suivi temps réel", "Pièces jointes", "File prioritaire"],
-        responseTime: "< 2 heures",
-        cta: "Créer un Ticket"
-      },
-      {
-        icon: ChatBubbleLeftRightIcon,
-        title: "Chat en Direct",
-        description: "Aide instantanée de nos experts",
-        features: ["Réponse immédiate", "Partage d'écran", "Multilingue"],
-        responseTime: "< 1 minute",
-        cta: "Démarrer le Chat"
-      },
-      {
-        icon: EnvelopeIcon,
-        title: "Support Email",
-        description: "Pour les demandes détaillées non urgentes",
-        features: ["Réponses détaillées", "Documentation", "Suivi par ticket"],
-        responseTime: "< 4 heures",
-        cta: "Envoyer un Email"
-      },
-      {
-        icon: PhoneIcon,
-        title: "Support Téléphonique",
-        description: "Ligne directe pour clients Enterprise",
-        features: ["Ligne dédiée", "Ingénieurs senior", "Disponible 24/7"],
-        responseTime: "Immédiat",
-        cta: "Appeler"
-      }
-    ],
+    channelLabels: {
+      responseTime: "Temps de réponse",
+      availability: "Disponibilité",
+      status: "Statut",
+      getSupport: "Obtenir du support",
+      notAvailable: "Non disponible",
+      requiresPlan: "Nécessite",
+      comingSoon: "Bientôt disponible"
+    },
     faq: {
       title: "Questions Fréquemment Posées",
       items: [
@@ -233,8 +206,8 @@ const supportData = {
 };
 
 // Optimized intersection observer hook
-function useInView(options = {}) {
-  const [ref, setRef] = useState(null);
+function useInView(options: { rootMargin?: string; threshold?: number } = {}) {
+  const [ref, setRef] = useState<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
@@ -264,11 +237,35 @@ function useInView(options = {}) {
 }
 
 export default function SupportPage() {
-  const { locale } = useLanguage();
-  const [expandedFaq, setExpandedFaq] = useState(null);
+  const { language } = useLanguage();
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   
-  const t = supportData[locale] || supportData['en'];
+  const t = supportData[language] || supportData['en'];
+  const { channels, statusDefinitions } = channelsConfig;
+
+  // Get channel features for display
+  const getChannelFeatures = (channel: any) => {
+    const features = [];
+    if (channel.id === 'tickets') {
+      features.push('Real-time tracking', 'File attachments', 'Priority queue');
+    } else if (channel.id === 'livechat') {
+      features.push('Instant messaging', 'AI Assistant', 'Screen sharing');
+    } else if (channel.id === 'email') {
+      features.push('Detailed responses', 'Ticket tracking', 'Auto-reply');
+    } else if (channel.id === 'phone') {
+      features.push('Dedicated line', 'Senior engineers', 'Emergency hotline');
+    }
+    return features;
+  };
+
+  // Get channel availability text
+  const getAvailabilityText = (channel: any) => {
+    if (channel.availability.always) return '24/7';
+    if (typeof channel.availability.schedule === 'string') return channel.availability.schedule;
+    if (channel.availability.schedule?.weekdays) return 'Business hours';
+    return 'Limited';
+  };
 
   return (
     <div className="min-h-screen bg-black">
@@ -311,7 +308,7 @@ export default function SupportPage() {
               
               {/* Popular Searches */}
               <div className="flex items-center justify-center gap-3 flex-wrap">
-                {t.hero.popularSearches.map((search, idx) => (
+                {t.hero.popularSearches.map((search: string, idx: number) => (
                   <button
                     key={idx}
                     onClick={() => setSearchQuery(search)}
@@ -331,7 +328,7 @@ export default function SupportPage() {
         <div className="container mx-auto px-4">
           <AnimatedSection>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {t.stats.map((stat, idx) => (
+              {t.stats.map((stat: any, idx: number) => (
                 <div key={idx} className="text-center">
                   <p className="text-3xl font-bold text-white mb-2">{stat.value}</p>
                   <p className="text-zinc-500 text-sm">{stat.label}</p>
@@ -356,41 +353,83 @@ export default function SupportPage() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {t.channels.map((channel, idx) => {
-                const Icon = channel.icon;
+              {channels.filter((ch: any) => ch.enabled).map((channel: any) => {
+                const Icon = iconMap[channel.icon as keyof typeof iconMap];
+                const status = statusDefinitions[channel.status as keyof typeof statusDefinitions];
+                const StatusIcon = statusIcons[status.icon as keyof typeof statusIcons];
+                
                 return (
                   <div
-                    key={idx}
+                    key={channel.id}
                     className="group relative bg-zinc-950 border border-zinc-900 rounded-2xl p-6 hover:border-zinc-800 transition-all duration-300"
                   >
+                    {/* Status Badge */}
+                    <div className={`absolute top-4 right-4 flex items-center gap-1 px-2 py-1 rounded-full border ${statusColors[status.color as keyof typeof statusColors]}`}>
+                      <StatusIcon className="w-3 h-3" />
+                      <span className="text-xs font-medium">{status.label}</span>
+                    </div>
+                    
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity" />
                     
                     <Icon className="w-12 h-12 text-cyan-500 mb-4" />
                     
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      {channel.title}
+                      {channel.name}
                     </h3>
                     
                     <p className="text-zinc-500 text-sm mb-4">
-                      {channel.description}
+                      {channel.id === 'tickets' && 'Track your request with detailed history'}
+                      {channel.id === 'livechat' && 'Instant help from our AI & experts'}
+                      {channel.id === 'email' && 'For non-urgent detailed requests'}
+                      {channel.id === 'phone' && 'Direct line for urgent issues'}
                     </p>
                     
                     <ul className="space-y-2 mb-4">
-                      {channel.features.map((feature, fidx) => (
-                        <li key={fidx} className="text-zinc-400 text-sm flex items-start">
+                      {getChannelFeatures(channel).map((feature: string, idx: number) => (
+                        <li key={idx} className="text-zinc-400 text-sm flex items-start">
                           <CheckCircleIcon className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                           {feature}
                         </li>
                       ))}
                     </ul>
                     
-                    <p className="text-cyan-500 text-sm mb-4">
-                      Response: {channel.responseTime}
-                    </p>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-600">{t.channelLabels.responseTime}:</span>
+                        <span className="text-zinc-400">
+                          {channel.responseTime.average} {channel.responseTime.unit}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-600">{t.channelLabels.availability}:</span>
+                        <span className="text-zinc-400">{getAvailabilityText(channel)}</span>
+                      </div>
+                    </div>
                     
-                    <button className="w-full py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg transition-colors">
-                      {channel.cta}
-                    </button>
+                    {channel.status === 'available' || channel.status === 'beta' ? (
+                      <Link
+                        href={channel.url}
+                        className="block w-full py-2 bg-white/5 hover:bg-white/10 text-white text-center rounded-lg transition-colors"
+                      >
+                        {t.channelLabels.getSupport}
+                      </Link>
+                    ) : channel.status === 'limited' ? (
+                      <div className="w-full py-2 bg-zinc-900/50 text-zinc-500 text-center rounded-lg text-sm">
+                        {t.channelLabels.requiresPlan} {channel.minPlan}
+                      </div>
+                    ) : (
+                      <div className="w-full py-2 bg-zinc-900/50 text-zinc-600 text-center rounded-lg text-sm">
+                        {t.channelLabels.notAvailable}
+                      </div>
+                    )}
+                    
+                    {/* AI Badge for AI-powered channels */}
+                    {(channel.features?.aiAssistant || channel.id === 'ai_assistant') && (
+                      <div className="mt-3 flex items-center justify-center gap-1 text-xs text-purple-500">
+                        <SparklesIcon className="w-3 h-3" />
+                        <span>Powered by Gemini AI</span>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -410,7 +449,7 @@ export default function SupportPage() {
             </div>
 
             <div className="max-w-3xl mx-auto space-y-4">
-              {t.faq.items.map((item, idx) => (
+              {t.faq.items.map((item: any, idx: number) => (
                 <div
                   key={idx}
                   className="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden"
@@ -449,7 +488,7 @@ export default function SupportPage() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {t.resources.categories.map((category, idx) => (
+              {t.resources.categories.map((category: any, idx: number) => (
                 <Link
                   key={idx}
                   href={`/docs/${category.title.toLowerCase().replace(/\s+/g, '-')}`}
@@ -498,7 +537,7 @@ export default function SupportPage() {
 }
 
 // Animation wrapper component
-function AnimatedSection({ children }) {
+function AnimatedSection({ children }: { children: React.ReactNode }) {
   const [ref, inView] = useInView({ rootMargin: '-50px', threshold: 0.1 });
 
   return (
