@@ -7,7 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "npm run dev --workspace=@vm-platform/web",
+    "dev:web": "npm run dev --workspace=@vm-platform/web",
+    "dev:all": "turbo run dev",
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
@@ -30,5 +32,11 @@
   "engines": {
     "node": ">=20.0.0",
     "npm": ">=9.0.0"
+  },
+  "dependencies": {
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "react-markdown": "^10.1.0",
+    "react-syntax-highlighter": "^15.6.6",
+    "remark-gfm": "^4.0.1"
   }
 }

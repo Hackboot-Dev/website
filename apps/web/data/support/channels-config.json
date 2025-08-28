@@ -1,0 +1,151 @@
+{
+  "channels": [
+    {
+      "id": "tickets",
+      "name": "Ticket System",
+      "icon": "ticket",
+      "description": {
+        "en": "Track your request with detailed history",
+        "fr": "Suivez votre demande avec un historique détaillé"
+      },
+      "features": [
+        { "en": "Real-time tracking", "fr": "Suivi en temps réel" },
+        { "en": "File attachments", "fr": "Pièces jointes" },
+        { "en": "Priority queue", "fr": "File de priorité" }
+      ],
+      "availability": {
+        "type": "always",
+        "displayText": { "en": "24/7", "fr": "24h/7j" }
+      },
+      "responseTime": {
+        "value": 2,
+        "unit": { "en": "hours", "fr": "heures" }
+      },
+      "enabled": true,
+      "requiresAuth": true,
+      "minPlan": "starter",
+      "url": "/support/tickets"
+    },
+    {
+      "id": "livechat",
+      "name": "Live Chat",
+      "icon": "chat",
+      "description": {
+        "en": "Instant help from our experts",
+        "fr": "Aide instantanée de nos experts"
+      },
+      "features": [
+        { "en": "Instant messaging", "fr": "Messagerie instantanée" },
+        { "en": "Screen sharing", "fr": "Partage d'écran" },
+        { "en": "Quick resolution", "fr": "Résolution rapide" }
+      ],
+      "availability": {
+        "type": "schedule",
+        "timezone": "UTC",
+        "hours": {
+          "monday": { "start": "09:00", "end": "22:00" },
+          "tuesday": { "start": "09:00", "end": "22:00" },
+          "wednesday": { "start": "09:00", "end": "22:00" },
+          "thursday": { "start": "09:00", "end": "22:00" },
+          "friday": { "start": "09:00", "end": "22:00" },
+          "saturday": { "start": "10:00", "end": "18:00" },
+          "sunday": { "start": "10:00", "end": "18:00" }
+        },
+        "displayText": { 
+          "en": "Mon-Fri 9am-10pm, Weekends 10am-6pm UTC",
+          "fr": "Lun-Ven 9h-22h, Week-ends 10h-18h UTC"
+        }
+      },
+      "responseTime": {
+        "value": 30,
+        "unit": { "en": "seconds", "fr": "secondes" }
+      },
+      "enabled": true,
+      "requiresAuth": false,
+      "minPlan": "starter",
+      "url": "/support/chat"
+    },
+    {
+      "id": "email",
+      "name": "Email Support",
+      "icon": "email",
+      "description": {
+        "en": "For non-urgent detailed requests",
+        "fr": "Pour les demandes détaillées non urgentes"
+      },
+      "features": [
+        { "en": "Detailed responses", "fr": "Réponses détaillées" },
+        { "en": "Ticket tracking", "fr": "Suivi de ticket" },
+        { "en": "Auto-reply", "fr": "Réponse automatique" }
+      ],
+      "availability": {
+        "type": "always",
+        "displayText": { 
+          "en": "24/7 (Response on business days)",
+          "fr": "24h/7j (Réponse les jours ouvrés)"
+        }
+      },
+      "responseTime": {
+        "value": 4,
+        "unit": { "en": "hours", "fr": "heures" }
+      },
+      "enabled": true,
+      "requiresAuth": false,
+      "minPlan": "starter",
+      "email": "support@hackboot.com",
+      "url": "mailto:support@hackboot.com"
+    },
+    {
+      "id": "phone",
+      "name": "Phone Support",
+      "icon": "phone",
+      "description": {
+        "en": "Direct line for urgent issues",
+        "fr": "Ligne directe pour les problèmes urgents"
+      },
+      "features": [
+        { "en": "Dedicated line", "fr": "Ligne dédiée" },
+        { "en": "Senior engineers", "fr": "Ingénieurs seniors" },
+        { "en": "Emergency hotline", "fr": "Hotline d'urgence" }
+      ],
+      "availability": {
+        "type": "plan_based",
+        "plans": {
+          "business": {
+            "type": "schedule",
+            "timezone": "UTC",
+            "hours": {
+              "monday": { "start": "08:00", "end": "20:00" },
+              "tuesday": { "start": "08:00", "end": "20:00" },
+              "wednesday": { "start": "08:00", "end": "20:00" },
+              "thursday": { "start": "08:00", "end": "20:00" },
+              "friday": { "start": "08:00", "end": "20:00" }
+            }
+          },
+          "enterprise": {
+            "type": "always"
+          }
+        },
+        "displayText": {
+          "en": "Business: Mon-Fri 8am-8pm | Enterprise: 24/7",
+          "fr": "Business: Lun-Ven 8h-20h | Enterprise: 24h/7j"
+        }
+      },
+      "responseTime": {
+        "value": 0,
+        "unit": { "en": "immediate", "fr": "immédiat" }
+      },
+      "enabled": true,
+      "requiresAuth": true,
+      "minPlan": "business",
+      "phone": "+372 555 0123",
+      "emergencyPhone": "+372 555 0911",
+      "url": "tel:+3725550123"
+    }
+  ],
+  "statusColors": {
+    "available": "bg-green-500",
+    "unavailable": "bg-red-500",
+    "limited": "bg-yellow-500"
+  }
+}

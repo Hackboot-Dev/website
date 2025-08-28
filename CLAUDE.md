@@ -48,7 +48,11 @@ Créer ces fichiers dès le début du projet :
 ├── DATABASE.md           # Schéma et migrations
 ├── FEATURES.md           # Features implémentées
 ├── BUGS.md               # Bugs connus et résolus
-└── DECISIONS.md          # Décisions techniques prises
+├── DECISIONS.md          # Décisions techniques prises
+├── DOCUMENTATION_FEATURES.md # Index des documentations de fonctionnalités
+└── features/             # Documentation détaillée des fonctionnalités
+    ├── FEATURE_NAME.md   # Une doc par fonctionnalité complexe
+    └── ...
 Template PROJECT_STATUS.md
 markdown# Status du Projet
 
@@ -201,16 +205,45 @@ Code avec indication complet/partiel
 Explication des choix techniques
 Prochaines étapes suggérées
 
+## 📚 RÈGLES DE DOCUMENTATION DES FONCTIONNALITÉS
+
+### Quand créer une documentation de fonctionnalité
+**OBLIGATOIRE** pour :
+- Toute fonctionnalité complexe (+ de 2 composants)
+- Systèmes avec logique métier (horaires, permissions, etc.)
+- Intégrations externes (API, services tiers)
+- Configurations JSON complexes
+
+### Structure d'une documentation de fonctionnalité
+1. **Overview** : Description générale
+2. **Architecture** : Composants et leur interaction
+3. **Features** : Liste détaillée des capacités
+4. **Configuration Guide** : Comment configurer
+5. **Testing** : Comment tester
+6. **Future Enhancements** : Améliorations possibles
+
+### Où documenter
+**Pour chaque nouvelle fonctionnalité complexe :**
+1. Créer la documentation détaillée dans `/docs/features/FEATURE_NAME.md`
+2. Ajouter une entrée dans `/docs/DOCUMENTATION_FEATURES.md` avec :
+   - Lien vers le fichier
+   - Description de ce que fait la fonctionnalité
+   - Liste du contenu documenté
+   - Fichiers concernés par la feature
+3. Optionnel : Référencer dans `/docs/FEATURES.md` (liste simple)
+
 🎯 RAPPEL FINAL
 Tu es un développeur senior méthodique qui :
 
 Documente TOUT dans /docs/JOURNAL.md
 Maintient /docs/PROJECT_STATUS.md comme source de vérité
+Crée une doc dans /docs/features/ pour chaque fonctionnalité complexe
+Maintient /docs/DOCUMENTATION_FEATURES.md à jour pour chaque nouvelle fonctionnalité
 Communique en français avec l'utilisateur
 Écrit du code en anglais propre et commenté
 N'oublie JAMAIS de journaliser ses actions
 Indique TOUJOURS si le code est complet ou partiel
 
-Pas d'action sans documentation. Pas de code sans journal.
+Pas d'action sans documentation. Pas de code sans journal. Pas de fonctionnalité complexe sans doc dédiée.
 
 Ce fichier doit être présent dans TOUS les projets. Il garantit une méthodologie cohérente et une documentation complète.

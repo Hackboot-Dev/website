@@ -1,553 +1,536 @@
 'use client';
 
 // /workspaces/website/apps/web/app/support/page.tsx
-// Description: Support page with dynamic channel status from channels.json
-// Last modified: 2025-08-27
-// DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
+// Description: Support page with sophisticated Awwwards-level design
+// Last modified: 2025-08-28
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Badge from '../../components/ui/Badge';
 import { useLanguage } from '../../contexts/LanguageContext';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
-import channelsConfig from '../../data/support/channels.json';
+import SupportChannelsAdvanced from '../../components/support/SupportChannelsAdvanced';
+import SophisticatedBackground from '../../components/animations/SophisticatedBackground';
+import { useRevealAnimation, useStaggerReveal, useParallax } from '../../hooks/useAwwardsAnimation';
 import {
-  ChatBubbleLeftRightIcon,
-  TicketIcon,
-  EnvelopeIcon,
-  PhoneIcon,
-  MagnifyingGlassIcon,
   ChevronDownIcon,
-  CheckCircleIcon,
-  ClockIcon,
-  StarIcon,
-  ExclamationTriangleIcon,
-  XCircleIcon,
-  WrenchIcon,
-  BeakerIcon,
-  ArrowRightIcon,
-  UserGroupIcon,
-  SparklesIcon
+  ArrowUpRightIcon
 } from '@heroicons/react/24/outline';
 
-// Icon mapping
-const iconMap = {
-  ticket: TicketIcon,
-  chat: ChatBubbleLeftRightIcon,
-  email: EnvelopeIcon,
-  phone: PhoneIcon,
-  community: UserGroupIcon,
-  ai: SparklesIcon
-};
-
-// Status icon mapping
-const statusIcons = {
-  'check-circle': CheckCircleIcon,
-  'x-circle': XCircleIcon,
-  'exclamation-triangle': ExclamationTriangleIcon,
-  'wrench': WrenchIcon,
-  'beaker': BeakerIcon
-};
-
-// Status colors
-const statusColors = {
-  green: 'text-green-500 bg-green-500/10 border-green-500/30',
-  yellow: 'text-yellow-500 bg-yellow-500/10 border-yellow-500/30',
-  red: 'text-red-500 bg-red-500/10 border-red-500/30',
-  orange: 'text-orange-500 bg-orange-500/10 border-orange-500/30',
-  purple: 'text-purple-500 bg-purple-500/10 border-purple-500/30'
-};
-
-// Support data translations
 const supportData = {
   en: {
-    hero: {
-      badge: "Support & Assistance",
-      title: "Hackboot Help Center",
-      subtitle: "We're Here to Help",
-      description: "Expert technical support available 24/7. Average response time < 15 minutes.",
-      searchPlaceholder: "Search knowledge base...",
-      popularSearches: ["How to create a VM", "SSH Configuration", "API Documentation", "Billing"]
+    label: "SUPPORT",
+    title: {
+      1: "Enterprise-grade support",
+      2: "built for scale"
     },
+    subtitle: "Connecting you with solutions through intelligent routing and expert assistance.",
     stats: [
-      { label: "Response Time", value: "< 15 min" },
-      { label: "Satisfaction", value: "98%" },
-      { label: "Availability", value: "24/7" },
-      { label: "Tickets/Month", value: "2,500+" }
+      { value: "15", unit: "min", label: "AVG RESPONSE" },
+      { value: "98", unit: "%", label: "SATISFACTION" },
+      { value: "24", unit: "/7", label: "AVAILABILITY" },
+      { value: "95", unit: "%", label: "RESOLUTION" }
     ],
-    channelLabels: {
-      responseTime: "Response Time",
-      availability: "Availability",
-      status: "Status",
-      getSupport: "Get Support",
-      notAvailable: "Not Available",
-      requiresPlan: "Requires",
-      comingSoon: "Coming Soon"
+    knowledge: {
+      label: "RESOURCES",
+      title: {
+        1: "Self-service",
+        2: "knowledge base"
+      },
+      categories: [
+        { name: "Getting Started", count: "25", metric: "GUIDES" },
+        { name: "API Reference", count: "150+", metric: "ENDPOINTS" },
+        { name: "Tutorials", count: "45", metric: "LESSONS" },
+        { name: "Troubleshooting", count: "80", metric: "SOLUTIONS" },
+        { name: "Security", count: "30", metric: "PRACTICES" },
+        { name: "Billing", count: "15", metric: "ARTICLES" }
+      ]
     },
     faq: {
-      title: "Frequently Asked Questions",
+      label: "FAQ",
+      title: {
+        1: "Common questions",
+        2: "answered"
+      },
       items: [
         {
-          question: "How do I create my first virtual machine?",
-          answer: "Log in to your dashboard, click 'Create VM', choose your configuration, select a region, and click 'Deploy'. Your VM will be ready in less than 55 seconds."
+          q: "How do I create my first virtual machine?",
+          a: "Access dashboard → Create VM → Configure resources → Select region → Deploy. Ready in under 55 seconds."
         },
         {
-          question: "What payment methods do you accept?",
-          answer: "We accept credit/debit cards (Visa, Mastercard, Amex), PayPal, SEPA transfers, and Bitcoin. Enterprise customers can benefit from monthly invoicing."
+          q: "What payment methods are supported?",
+          a: "Credit/debit cards, PayPal, SEPA transfers, Bitcoin. Monthly invoicing available for Enterprise."
         },
         {
-          question: "How do I configure SSH access?",
-          answer: "Add your public SSH key when creating your VM. Once deployed, connect via: ssh root@[your-vm-ip]. Manage keys from the 'Security' dashboard section."
+          q: "How to configure SSH access?",
+          a: "Add public SSH key during VM creation. Connect: ssh root@[vm-ip]. Manage keys in Security dashboard."
         },
         {
-          question: "What is your refund policy?",
-          answer: "We offer a 7-day money-back guarantee for new customers. Unused credits can be refunded pro-rata for annual commitments."
+          q: "What is the refund policy?",
+          a: "7-day money-back guarantee for new customers. Pro-rata refunds for annual commitments."
         },
         {
-          question: "How can I upgrade my VM resources?",
-          answer: "Resize your VM anytime from the dashboard. RAM and CPU upgrades require a quick reboot (< 30 seconds). Storage can be added hot."
+          q: "Can I upgrade VM resources?",
+          a: "Resize anytime from dashboard. RAM/CPU upgrades require quick reboot. Storage hot-addable."
         },
         {
-          question: "Do you offer automatic backups?",
-          answer: "Yes, automatic snapshots every 6h with 7-day retention as an option. Business/Enterprise get daily backups with 30-day retention included."
+          q: "Are automatic backups available?",
+          a: "Snapshots every 6h with 7-day retention. Business/Enterprise: daily backups, 30-day retention."
         }
       ]
     },
-    resources: {
-      title: "Knowledge Base",
-      categories: [
-        { icon: "🚀", title: "Getting Started", count: "25 articles" },
-        { icon: "📚", title: "API Documentation", count: "150+ endpoints" },
-        { icon: "🎓", title: "Tutorials", count: "45 guides" },
-        { icon: "🔧", title: "Troubleshooting", count: "80 solutions" },
-        { icon: "💳", title: "Billing", count: "15 articles" },
-        { icon: "🔒", title: "Security", count: "30 guides" }
-      ]
-    },
     emergency: {
-      title: "24/7 Emergency Support",
-      description: "For critical production incidents",
+      label: "CRITICAL",
+      title: "Emergency hotline",
       phone: "+372 555 0911",
-      note: "Reserved for Business and Enterprise customers"
+      note: "Business & Enterprise only"
     }
   },
   fr: {
-    hero: {
-      badge: "Support & Assistance",
-      title: "Centre d'Aide Hackboot",
-      subtitle: "Nous sommes là pour vous",
-      description: "Support technique expert disponible 24/7. Temps de réponse moyen < 15 minutes.",
-      searchPlaceholder: "Rechercher dans la base de connaissances...",
-      popularSearches: ["Créer une VM", "Configuration SSH", "Documentation API", "Facturation"]
+    label: "SUPPORT",
+    title: {
+      1: "Support de niveau",
+      2: "entreprise"
     },
+    subtitle: "Solutions intelligentes et assistance experte pour votre infrastructure.",
     stats: [
-      { label: "Temps de réponse", value: "< 15 min" },
-      { label: "Satisfaction", value: "98%" },
-      { label: "Disponibilité", value: "24/7" },
-      { label: "Tickets/Mois", value: "2 500+" }
+      { value: "15", unit: "min", label: "TEMPS RÉPONSE" },
+      { value: "98", unit: "%", label: "SATISFACTION" },
+      { value: "24", unit: "/7", label: "DISPONIBILITÉ" },
+      { value: "95", unit: "%", label: "RÉSOLUTION" }
     ],
-    channelLabels: {
-      responseTime: "Temps de réponse",
-      availability: "Disponibilité",
-      status: "Statut",
-      getSupport: "Obtenir du support",
-      notAvailable: "Non disponible",
-      requiresPlan: "Nécessite",
-      comingSoon: "Bientôt disponible"
+    knowledge: {
+      label: "RESSOURCES",
+      title: {
+        1: "Base de",
+        2: "connaissances"
+      },
+      categories: [
+        { name: "Démarrage", count: "25", metric: "GUIDES" },
+        { name: "Référence API", count: "150+", metric: "ENDPOINTS" },
+        { name: "Tutoriels", count: "45", metric: "LEÇONS" },
+        { name: "Dépannage", count: "80", metric: "SOLUTIONS" },
+        { name: "Sécurité", count: "30", metric: "PRATIQUES" },
+        { name: "Facturation", count: "15", metric: "ARTICLES" }
+      ]
     },
     faq: {
-      title: "Questions Fréquemment Posées",
+      label: "FAQ",
+      title: {
+        1: "Questions",
+        2: "fréquentes"
+      },
       items: [
         {
-          question: "Comment créer ma première machine virtuelle ?",
-          answer: "Connectez-vous au dashboard, cliquez sur 'Créer une VM', choisissez votre configuration, sélectionnez une région et cliquez sur 'Déployer'. Votre VM sera prête en moins de 55 secondes."
+          q: "Comment créer ma première machine virtuelle ?",
+          a: "Dashboard → Créer VM → Configurer ressources → Région → Déployer. Prête en moins de 55 secondes."
         },
         {
-          question: "Quels moyens de paiement acceptez-vous ?",
-          answer: "Nous acceptons les cartes de crédit/débit (Visa, Mastercard, Amex), PayPal, virements SEPA et Bitcoin. Les clients Enterprise peuvent bénéficier de la facturation mensuelle."
+          q: "Quels moyens de paiement acceptés ?",
+          a: "Cartes crédit/débit, PayPal, SEPA, Bitcoin. Facturation mensuelle pour Enterprise."
         },
         {
-          question: "Comment configurer l'accès SSH ?",
-          answer: "Ajoutez votre clé SSH publique lors de la création de votre VM. Une fois déployée, connectez-vous via : ssh root@[ip-de-votre-vm]. Gérez vos clés depuis la section 'Sécurité' du dashboard."
+          q: "Comment configurer l'accès SSH ?",
+          a: "Ajouter clé SSH publique à la création. Connexion : ssh root@[ip-vm]. Gérer dans dashboard Sécurité."
         },
         {
-          question: "Quelle est votre politique de remboursement ?",
-          answer: "Nous offrons une garantie de remboursement de 7 jours pour les nouveaux clients. Les crédits non utilisés peuvent être remboursés au prorata pour les engagements annuels."
+          q: "Politique de remboursement ?",
+          a: "Garantie 7 jours nouveaux clients. Remboursements pro-rata pour engagements annuels."
         },
         {
-          question: "Comment augmenter les ressources de ma VM ?",
-          answer: "Redimensionnez votre VM à tout moment depuis le dashboard. Les augmentations de RAM et CPU nécessitent un redémarrage rapide (< 30 secondes). Le stockage peut être ajouté à chaud."
+          q: "Puis-je augmenter les ressources ?",
+          a: "Redimensionner depuis dashboard. RAM/CPU nécessitent redémarrage. Stockage ajout à chaud."
         },
         {
-          question: "Proposez-vous des sauvegardes automatiques ?",
-          answer: "Oui, snapshots automatiques toutes les 6h avec rétention de 7 jours en option. Business/Enterprise obtiennent des sauvegardes quotidiennes avec 30 jours de rétention inclus."
+          q: "Sauvegardes automatiques disponibles ?",
+          a: "Snapshots 6h avec rétention 7j. Business/Enterprise : quotidiennes, rétention 30j."
         }
       ]
     },
-    resources: {
-      title: "Base de Connaissances",
-      categories: [
-        { icon: "🚀", title: "Débuter", count: "25 articles" },
-        { icon: "📚", title: "Documentation API", count: "150+ endpoints" },
-        { icon: "🎓", title: "Tutoriels", count: "45 guides" },
-        { icon: "🔧", title: "Dépannage", count: "80 solutions" },
-        { icon: "💳", title: "Facturation", count: "15 articles" },
-        { icon: "🔒", title: "Sécurité", count: "30 guides" }
-      ]
-    },
     emergency: {
-      title: "Support d'Urgence 24/7",
-      description: "Pour les incidents critiques en production",
+      label: "CRITIQUE",
+      title: "Ligne d'urgence",
       phone: "+372 555 0911",
-      note: "Réservé aux clients Business et Enterprise"
+      note: "Business & Enterprise uniquement"
     }
   }
 };
 
-// Optimized intersection observer hook
-function useInView(options: { rootMargin?: string; threshold?: number } = {}) {
-  const [ref, setRef] = useState<HTMLElement | null>(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    if (!ref) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.unobserve(ref);
-        }
-      },
-      {
-        rootMargin: options.rootMargin || '-50px',
-        threshold: options.threshold || 0.1
-      }
-    );
-
-    observer.observe(ref);
-
-    return () => {
-      if (ref) observer.unobserve(ref);
-    };
-  }, [ref, options.rootMargin, options.threshold]);
-
-  return [setRef, inView];
-}
-
 export default function SupportPage() {
   const { language } = useLanguage();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [hoveredResource, setHoveredResource] = useState<number | null>(null);
   
   const t = supportData[language] || supportData['en'];
-  const { channels, statusDefinitions } = channelsConfig;
 
-  // Get channel features for display
-  const getChannelFeatures = (channel: any) => {
-    const features = [];
-    if (channel.id === 'tickets') {
-      features.push('Real-time tracking', 'File attachments', 'Priority queue');
-    } else if (channel.id === 'livechat') {
-      features.push('Instant messaging', 'AI Assistant', 'Screen sharing');
-    } else if (channel.id === 'email') {
-      features.push('Detailed responses', 'Ticket tracking', 'Auto-reply');
-    } else if (channel.id === 'phone') {
-      features.push('Dedicated line', 'Senior engineers', 'Emergency hotline');
-    }
-    return features;
-  };
-
-  // Get channel availability text
-  const getAvailabilityText = (channel: any) => {
-    if (channel.availability.always) return '24/7';
-    if (typeof channel.availability.schedule === 'string') return channel.availability.schedule;
-    if (channel.availability.schedule?.weekdays) return 'Business hours';
-    return 'Limited';
-  };
+  // Animations
+  const titleReveal = useRevealAnimation({ delay: 100 });
+  const subtitleReveal = useRevealAnimation({ delay: 300 });
+  const { containerRef: statsRef, visibleItems: statsVisible } = useStaggerReveal(4, 150);
+  const { containerRef: resourcesRef, visibleItems: resourcesVisible } = useStaggerReveal(6, 100);
+  const { containerRef: faqRef, visibleItems: faqVisible } = useStaggerReveal(6, 80);
+  const geometricParallax = useParallax(0.3);
+  const emergencyReveal = useRevealAnimation({ delay: 200 });
 
   return (
-    <div className="min-h-screen bg-black">
-      <Header />
-      
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/20 to-transparent" />
+    <>
+      <SophisticatedBackground />
+      <div className="min-h-screen bg-zinc-950">
+        {/* Subtle noise texture */}
+        <div className="fixed inset-0 opacity-[0.015] bg-noise pointer-events-none" />
         
-        <div className="container mx-auto px-4 relative">
-          <AnimatedSection>
-            <div className="max-w-4xl mx-auto text-center">
-              <Badge variant="outline" className="mb-6">
-                {t.hero.badge}
-              </Badge>
-              
-              <h1 className="text-5xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
-                {t.hero.title}
-              </h1>
-              
-              <p className="text-xl text-zinc-400 mb-4">
-                {t.hero.subtitle}
-              </p>
-              
-              <p className="text-zinc-500 mb-12 max-w-2xl mx-auto">
-                {t.hero.description}
-              </p>
-              
-              {/* Search Bar */}
-              <div className="relative max-w-2xl mx-auto mb-8">
-                <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t.hero.searchPlaceholder}
-                  className="w-full px-12 py-4 bg-zinc-900/50 border border-zinc-800 rounded-xl text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-700 transition-colors"
-                />
+        <Header />
+      
+        {/* Hero Section */}
+        <section className="relative min-h-[80vh] flex items-center py-24 sm:py-32 overflow-hidden">
+          {/* Geometric background elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/3 right-1/4 w-px h-32 bg-gradient-to-b from-transparent via-zinc-700 to-transparent" />
+            <div className="absolute bottom-1/3 left-1/4 w-24 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
+            <div className="absolute inset-0 bg-grid opacity-[0.02]" />
+            <div 
+              ref={geometricParallax.elementRef}
+              style={geometricParallax.style}
+              className="absolute top-1/4 left-1/6 w-2 h-2 bg-zinc-800 rounded-full animate-subtle-float"
+            />
+            <div className="absolute bottom-1/4 right-1/6 w-1 h-1 bg-zinc-700 rounded-full animate-subtle-float" style={{ animationDelay: '2s' }} />
+          </div>
+          
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div className="flex flex-col items-center justify-center text-center">
+              {/* Label */}
+              <div className="mb-8">
+                <span className="text-xs tracking-[0.3em] text-zinc-500 font-mono uppercase">
+                  {t.label}
+                </span>
               </div>
               
-              {/* Popular Searches */}
-              <div className="flex items-center justify-center gap-3 flex-wrap">
-                {t.hero.popularSearches.map((search: string, idx: number) => (
-                  <button
+              {/* Title */}
+              <div 
+                ref={titleReveal.elementRef}
+                style={titleReveal.style}
+                className="mb-8 max-w-5xl"
+              >
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extralight tracking-tight leading-[0.95]">
+                  <span className="block text-white hover:tracking-wide transition-all duration-700">
+                    {t.title[1]}
+                  </span>
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 to-zinc-600 mt-2">
+                    {t.title[2]}
+                  </span>
+                </h1>
+              </div>
+
+              {/* Subtitle */}
+              <div 
+                ref={subtitleReveal.elementRef}
+                style={subtitleReveal.style}
+                className="max-w-3xl"
+              >
+                <p className="text-lg md:text-xl text-zinc-400 font-light leading-relaxed">
+                  {t.subtitle}
+                </p>
+              </div>
+              
+              {/* CTA Line */}
+              <div className="mt-16 flex items-center space-x-8">
+                <div className="w-24 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent"></div>
+                <div className="w-2 h-2 bg-zinc-700 rounded-full animate-pulse"></div>
+                <div className="w-24 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <section className="py-16 border-y border-zinc-900/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-12">
+              {t.stats.map((stat, idx) => (
+                <div 
+                  key={idx} 
+                  className="group relative"
+                  style={{
+                    opacity: statsVisible[idx] ? 1 : 0,
+                    transform: statsVisible[idx] ? 'translateY(0)' : 'translateY(20px)',
+                    transition: `all 600ms cubic-bezier(0.16, 1, 0.3, 1) ${idx * 100}ms`
+                  }}
+                >
+                  <div className="text-center">
+                    <div className="mb-3">
+                      <span className="text-4xl font-extralight text-white group-hover:text-zinc-200 transition-colors">
+                        {stat.value}
+                      </span>
+                      <span className="text-xl font-extralight text-zinc-600 ml-1">
+                        {stat.unit}
+                      </span>
+                    </div>
+                    <span className="text-[10px] tracking-[0.3em] text-zinc-600 font-mono uppercase">
+                      {stat.label}
+                    </span>
+                    <div className="mt-4 mx-auto w-8 h-px bg-zinc-800 group-hover:w-12 group-hover:bg-zinc-600 transition-all duration-300" />
+                  </div>
+                  {/* Subtle corner accent on hover */}
+                  <div className="absolute -top-2 -right-2 w-4 h-4 border-t border-r border-zinc-800/0 group-hover:border-zinc-700 transition-all duration-500" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Support Channels Component */}
+        <SupportChannelsAdvanced />
+
+        {/* Knowledge Base */}
+        <section className="relative py-24 lg:py-32 bg-gradient-to-b from-zinc-950 via-zinc-900/50 to-zinc-950">
+          {/* Geometric accents */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/2 left-1/3 w-12 h-px bg-zinc-800 transform rotate-45" />
+            <div className="absolute bottom-1/3 right-1/4 w-8 h-px bg-zinc-800 transform -rotate-45" />
+          </div>
+
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="max-w-6xl mx-auto">
+              {/* Section Header */}
+              <div className="mb-16">
+                <div className="mb-8">
+                  <span className="text-xs tracking-[0.3em] text-zinc-500 font-mono">
+                    {t.knowledge.label}
+                  </span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extralight tracking-tight leading-[1.1]">
+                  <span className="block text-white">{t.knowledge.title[1]}</span>
+                  <span className="block text-gradient-subtle">{t.knowledge.title[2]}</span>
+                </h2>
+              </div>
+
+              {/* Resources Grid */}
+              <div ref={resourcesRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {t.knowledge.categories.map((cat, idx) => (
+                  <div
                     key={idx}
-                    onClick={() => setSearchQuery(search)}
-                    className="text-sm text-zinc-500 hover:text-white transition-colors border border-zinc-800 hover:border-zinc-700 px-3 py-1 rounded-full"
+                    className="group relative"
+                    style={{
+                      opacity: resourcesVisible[idx] ? 1 : 0,
+                      transform: resourcesVisible[idx] ? 'translateY(0)' : 'translateY(30px)',
+                      transition: `all 600ms cubic-bezier(0.16, 1, 0.3, 1) ${idx * 100}ms`
+                    }}
+                    onMouseEnter={() => setHoveredResource(idx)}
+                    onMouseLeave={() => setHoveredResource(null)}
                   >
-                    {search}
-                  </button>
+                    <div className="card-minimal p-8 h-full">
+                      {/* Metric */}
+                      <div className="mb-4">
+                        <span className="text-[10px] text-zinc-500 tracking-[0.3em] font-mono">
+                          {cat.metric}
+                        </span>
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="space-y-4">
+                        <h3 className="text-xl font-light text-white group-hover:text-zinc-200 transition-colors">
+                          {cat.name}
+                        </h3>
+                        <div className="flex items-baseline space-x-2">
+                          <span className="text-3xl font-extralight text-zinc-400">
+                            {cat.count}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {/* Decorative line */}
+                      <div className="mt-6 w-8 h-px bg-zinc-700 group-hover:w-12 group-hover:bg-zinc-500 transition-all duration-300" />
+                      
+                      {/* Hover arrow */}
+                      <div className={`absolute top-8 right-8 transition-all duration-300 ${
+                        hoveredResource === idx ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
+                      }`}>
+                        <ArrowUpRightIcon className="w-4 h-4 text-zinc-500" />
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
-          </AnimatedSection>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Stats Section */}
-      <section className="py-16 border-y border-zinc-900">
-        <div className="container mx-auto px-4">
-          <AnimatedSection>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {t.stats.map((stat: any, idx: number) => (
-                <div key={idx} className="text-center">
-                  <p className="text-3xl font-bold text-white mb-2">{stat.value}</p>
-                  <p className="text-zinc-500 text-sm">{stat.label}</p>
+        {/* FAQ Section */}
+        <section className="relative py-24 lg:py-32">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              {/* Section Header */}
+              <div className="mb-16">
+                <div className="mb-8">
+                  <span className="text-xs tracking-[0.3em] text-zinc-500 font-mono">
+                    {t.faq.label}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extralight tracking-tight leading-[1.1]">
+                  <span className="block text-white">{t.faq.title[1]}</span>
+                  <span className="block text-gradient-subtle">{t.faq.title[2]}</span>
+                </h2>
+              </div>
 
-      {/* Support Channels */}
-      <section className="py-20 lg:py-32">
-        <div className="container mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-white mb-4">
-                Support Channels
-              </h2>
-              <p className="text-zinc-500 max-w-2xl mx-auto">
-                Choose the channel that works best for you
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {channels.filter((ch: any) => ch.enabled).map((channel: any) => {
-                const Icon = iconMap[channel.icon as keyof typeof iconMap];
-                const status = statusDefinitions[channel.status as keyof typeof statusDefinitions];
-                const StatusIcon = statusIcons[status.icon as keyof typeof statusIcons];
-                
-                return (
-                  <div
-                    key={channel.id}
-                    className="group relative bg-zinc-950 border border-zinc-900 rounded-2xl p-6 hover:border-zinc-800 transition-all duration-300"
+              {/* FAQ Items */}
+              <div ref={faqRef} className="space-y-px">
+                {t.faq.items.map((item, idx) => (
+                  <div 
+                    key={idx}
+                    style={{
+                      opacity: faqVisible[idx] ? 1 : 0,
+                      transform: faqVisible[idx] ? 'translateY(0)' : 'translateY(20px)',
+                      transition: `all 600ms cubic-bezier(0.16, 1, 0.3, 1) ${idx * 80}ms`
+                    }}
                   >
-                    {/* Status Badge */}
-                    <div className={`absolute top-4 right-4 flex items-center gap-1 px-2 py-1 rounded-full border ${statusColors[status.color as keyof typeof statusColors]}`}>
-                      <StatusIcon className="w-3 h-3" />
-                      <span className="text-xs font-medium">{status.label}</span>
+                    <button
+                      onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
+                      className="w-full py-6 text-left flex items-start justify-between group hover:pl-2 transition-all duration-300"
+                    >
+                      <span className="text-zinc-300 font-light pr-4 group-hover:text-white transition-colors">
+                        {item.q}
+                      </span>
+                      <ChevronDownIcon
+                        className={`w-4 h-4 text-zinc-600 flex-shrink-0 mt-1 transition-transform duration-300 ${
+                          expandedFaq === idx ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                    
+                    <div className={`overflow-hidden transition-all duration-500 ${
+                      expandedFaq === idx ? 'max-h-48' : 'max-h-0'
+                    }`}>
+                      <p className="pb-6 pl-2 pr-12 text-zinc-500 font-light text-sm leading-relaxed">
+                        {item.a}
+                      </p>
                     </div>
                     
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity" />
-                    
-                    <Icon className="w-12 h-12 text-cyan-500 mb-4" />
-                    
-                    <h3 className="text-xl font-semibold text-white mb-2">
-                      {channel.name}
-                    </h3>
-                    
-                    <p className="text-zinc-500 text-sm mb-4">
-                      {channel.id === 'tickets' && 'Track your request with detailed history'}
-                      {channel.id === 'livechat' && 'Instant help from our AI & experts'}
-                      {channel.id === 'email' && 'For non-urgent detailed requests'}
-                      {channel.id === 'phone' && 'Direct line for urgent issues'}
-                    </p>
-                    
-                    <ul className="space-y-2 mb-4">
-                      {getChannelFeatures(channel).map((feature: string, idx: number) => (
-                        <li key={idx} className="text-zinc-400 text-sm flex items-start">
-                          <CheckCircleIcon className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    
-                    <div className="space-y-2 mb-4">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-zinc-600">{t.channelLabels.responseTime}:</span>
-                        <span className="text-zinc-400">
-                          {channel.responseTime.average} {channel.responseTime.unit}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-zinc-600">{t.channelLabels.availability}:</span>
-                        <span className="text-zinc-400">{getAvailabilityText(channel)}</span>
-                      </div>
-                    </div>
-                    
-                    {channel.status === 'available' || channel.status === 'beta' ? (
-                      <Link
-                        href={channel.url}
-                        className="block w-full py-2 bg-white/5 hover:bg-white/10 text-white text-center rounded-lg transition-colors"
-                      >
-                        {t.channelLabels.getSupport}
-                      </Link>
-                    ) : channel.status === 'limited' ? (
-                      <div className="w-full py-2 bg-zinc-900/50 text-zinc-500 text-center rounded-lg text-sm">
-                        {t.channelLabels.requiresPlan} {channel.minPlan}
-                      </div>
-                    ) : (
-                      <div className="w-full py-2 bg-zinc-900/50 text-zinc-600 text-center rounded-lg text-sm">
-                        {t.channelLabels.notAvailable}
-                      </div>
-                    )}
-                    
-                    {/* AI Badge for AI-powered channels */}
-                    {(channel.features?.aiAssistant || channel.id === 'ai_assistant') && (
-                      <div className="mt-3 flex items-center justify-center gap-1 text-xs text-purple-500">
-                        <SparklesIcon className="w-3 h-3" />
-                        <span>Powered by Gemini AI</span>
-                      </div>
-                    )}
+                    {/* Separator line */}
+                    <div className="h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
-          </AnimatedSection>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 lg:py-32 bg-zinc-950/50">
-        <div className="container mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-white mb-4">
-                {t.faq.title}
-              </h2>
-            </div>
-
-            <div className="max-w-3xl mx-auto space-y-4">
-              {t.faq.items.map((item: any, idx: number) => (
-                <div
-                  key={idx}
-                  className="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden"
-                >
-                  <button
-                    onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
-                    className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-zinc-900/80 transition-colors"
-                  >
-                    <span className="text-white font-medium">{item.question}</span>
-                    <ChevronDownIcon
-                      className={`w-5 h-5 text-zinc-500 transition-transform ${
-                        expandedFaq === idx ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  {expandedFaq === idx && (
-                    <div className="px-6 pb-4 text-zinc-400">
-                      {item.answer}
+        {/* Emergency Support - Premium Card Design */}
+        <section className="relative py-32 lg:py-40">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div 
+              ref={emergencyReveal.elementRef}
+              style={emergencyReveal.style}
+              className="max-w-4xl mx-auto"
+            >
+              {/* Premium Emergency Card */}
+              <div className="relative group">
+                {/* Background glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-red-900/10 via-zinc-900/20 to-red-900/10 blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-1000" />
+                
+                {/* Main card */}
+                <div className="relative bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 backdrop-blur-xl border border-red-900/30 rounded-2xl overflow-hidden">
+                  {/* Corner accent */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-red-900/10 to-transparent" />
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-red-900/10 to-transparent" />
+                  
+                  {/* Grid pattern overlay */}
+                  <div className="absolute inset-0 bg-grid opacity-[0.01]" />
+                  
+                  {/* Content */}
+                  <div className="relative p-12 lg:p-16">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                      {/* Left side - Info */}
+                      <div className="text-left">
+                        <div className="mb-6">
+                          <span className="text-[10px] tracking-[0.4em] text-red-800/70 font-mono uppercase">
+                            {language === 'fr' ? 'ASSISTANCE CRITIQUE' : 'CRITICAL ASSISTANCE'}
+                          </span>
+                        </div>
+                        
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extralight tracking-tight text-white mb-6 leading-[1.1]">
+                          {language === 'fr' ? 'Ligne urgence' : 'Emergency'}
+                          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-700 to-red-900 mt-2">
+                            {language === 'fr' ? 'entreprise' : 'hotline'}
+                          </span>
+                        </h2>
+                        
+                        <p className="text-zinc-400 font-light text-lg mb-8 leading-relaxed">
+                          {language === 'fr' 
+                            ? 'Accès direct à nos ingénieurs seniors pour incidents critiques affectant votre production.'
+                            : 'Direct access to senior engineers for critical incidents affecting your production environment.'
+                          }
+                        </p>
+                        
+                        {/* Features list */}
+                        <div className="space-y-3 mb-8">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-1 h-1 bg-red-700/50 rounded-full" />
+                            <span className="text-sm text-zinc-500">
+                              {language === 'fr' ? 'Réponse immédiate garantie' : 'Guaranteed immediate response'}
+                            </span>
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <div className="w-1 h-1 bg-red-700/50 rounded-full" />
+                            <span className="text-sm text-zinc-500">
+                              {language === 'fr' ? 'Escalade prioritaire niveau 1' : 'Priority level 1 escalation'}
+                            </span>
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <div className="w-1 h-1 bg-red-700/50 rounded-full" />
+                            <span className="text-sm text-zinc-500">
+                              {language === 'fr' ? 'Équipe dédiée 24/7/365' : 'Dedicated team 24/7/365'}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        {/* Availability badge */}
+                        <div className="inline-flex items-center space-x-2 px-4 py-2 bg-zinc-800/50 border border-zinc-700/50 rounded-full">
+                          <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
+                          <span className="text-xs text-zinc-400 font-mono uppercase tracking-wider">
+                            {t.emergency.note}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {/* Right side - Phone */}
+                      <div className="text-center lg:text-right">
+                        <div className="inline-block">
+                          <a 
+                            href={`tel:${t.emergency.phone.replace(/\s/g, '')}`}
+                            className="group/phone block p-8 bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 border border-red-900/30 rounded-xl hover:border-red-800/50 transition-all duration-500 hover:scale-[1.02]"
+                          >
+                            <div className="mb-4">
+                              <span className="text-xs text-zinc-500 uppercase tracking-wider">
+                                {language === 'fr' ? 'Appel direct' : 'Direct call'}
+                              </span>
+                            </div>
+                            <div className="text-4xl lg:text-5xl font-extralight text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800 group-hover/phone:from-red-500 group-hover/phone:to-red-700 transition-all duration-300">
+                              {t.emergency.phone}
+                            </div>
+                            <div className="mt-6 mx-auto w-16 h-px bg-gradient-to-r from-transparent via-red-800/50 to-transparent group-hover/phone:w-24 transition-all duration-300" />
+                          </a>
+                          
+                          {/* Operating hours */}
+                          <div className="mt-6 text-center">
+                            <p className="text-xs text-zinc-600">
+                              {language === 'fr' ? 'Disponible 24h/24, 7j/7' : 'Available 24/7'}
+                            </p>
+                            <p className="text-xs text-zinc-600 mt-1">
+                              {language === 'fr' ? 'Temps de réponse < 30s' : 'Response time < 30s'}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
-              ))}
+              </div>
             </div>
-          </AnimatedSection>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Knowledge Base */}
-      <section className="py-20 lg:py-32">
-        <div className="container mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-white mb-4">
-                {t.resources.title}
-              </h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {t.resources.categories.map((category: any, idx: number) => (
-                <Link
-                  key={idx}
-                  href={`/docs/${category.title.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="group bg-zinc-950 border border-zinc-900 rounded-2xl p-6 hover:border-zinc-800 transition-all duration-300"
-                >
-                  <div className="text-3xl mb-4">{category.icon}</div>
-                  <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-cyan-500 transition-colors">
-                    {category.title}
-                  </h3>
-                  <p className="text-zinc-600 text-sm">
-                    {category.count}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Emergency Support */}
-      <section className="py-20 lg:py-32 bg-gradient-to-r from-red-500/10 to-orange-500/10">
-        <div className="container mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center">
-              <ExclamationTriangleIcon className="w-16 h-16 text-red-500 mx-auto mb-6" />
-              <h2 className="text-3xl font-bold text-white mb-4">
-                {t.emergency.title}
-              </h2>
-              <p className="text-zinc-400 mb-6">
-                {t.emergency.description}
-              </p>
-              <p className="text-4xl font-bold text-red-500 mb-4">
-                {t.emergency.phone}
-              </p>
-              <p className="text-zinc-500 text-sm">
-                {t.emergency.note}
-              </p>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
-  );
-}
-
-// Animation wrapper component
-function AnimatedSection({ children }: { children: React.ReactNode }) {
-  const [ref, inView] = useInView({ rootMargin: '-50px', threshold: 0.1 });
-
-  return (
-    <div
-      ref={ref}
-      className={`transform transition-all duration-1000 ${
-        inView ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-      }`}
-    >
-      {children}
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 }
