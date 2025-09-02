@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import GeminiService from '@/services/gemini.service';
+import GeminiService from '../../../../services/gemini.service';
 
 // Initialize Gemini service
 const geminiService = new GeminiService({

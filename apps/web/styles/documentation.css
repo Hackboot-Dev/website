@@ -1,0 +1,266 @@
+/* /workspaces/website/apps/web/styles/documentation.css */
+/* Description: Documentation-specific styles for markdown content */
+/* Last modified: 2025-08-28 */
+
+/* Documentation content styles */
+.doc-content {
+  @apply text-zinc-300;
+}
+
+/* Headings */
+.doc-content h1,
+.doc-content h2,
+.doc-content h3,
+.doc-content h4,
+.doc-content h5,
+.doc-content h6 {
+  @apply font-light text-white mb-4 mt-8;
+  scroll-margin-top: 5rem;
+}
+
+.doc-content h1 {
+  @apply text-4xl border-b border-zinc-800 pb-4 mb-8;
+}
+
+.doc-content h2 {
+  @apply text-3xl;
+}
+
+.doc-content h3 {
+  @apply text-2xl;
+}
+
+.doc-content h4 {
+  @apply text-xl;
+}
+
+/* Paragraphs */
+.doc-content p {
+  @apply mb-6 leading-relaxed;
+}
+
+/* Lists */
+.doc-content ul,
+.doc-content ol {
+  @apply mb-6 ml-6 space-y-2;
+}
+
+.doc-content ul {
+  @apply list-disc;
+}
+
+.doc-content ol {
+  @apply list-decimal;
+}
+
+.doc-content li {
+  @apply text-zinc-300;
+}
+
+/* Links */
+.doc-link {
+  @apply text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors;
+}
+
+.doc-link-external {
+  @apply text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors;
+}
+
+.doc-link-external::after {
+  content: '↗';
+  @apply ml-1 text-xs;
+}
+
+/* Blockquotes */
+.doc-blockquote {
+  @apply border-l-4 border-cyan-500/30 pl-6 py-2 my-6 bg-zinc-900/30 rounded-r-lg;
+}
+
+.doc-blockquote p {
+  @apply mb-0 text-zinc-400 italic;
+}
+
+/* Tables */
+.doc-table {
+  @apply w-full mb-8 overflow-hidden rounded-lg border border-zinc-800;
+}
+
+.doc-table thead {
+  @apply bg-zinc-900/50;
+}
+
+.doc-table th {
+  @apply px-4 py-3 text-left text-sm font-medium text-zinc-300 border-b border-zinc-800;
+}
+
+.doc-table td {
+  @apply px-4 py-3 text-sm text-zinc-400 border-b border-zinc-900;
+}
+
+.doc-table tbody tr:hover {
+  @apply bg-zinc-900/30;
+}
+
+/* Code blocks */
+.code-block {
+  @apply mb-6 rounded-xl overflow-hidden bg-zinc-900/50 border border-zinc-800;
+}
+
+.code-header {
+  @apply flex items-center justify-between px-4 py-2 bg-zinc-900/70 border-b border-zinc-800;
+}
+
+.code-language {
+  @apply text-xs text-cyan-500 font-mono uppercase;
+}
+
+.code-copy {
+  @apply p-1 hover:bg-zinc-800 rounded transition-colors text-zinc-400 hover:text-cyan-400;
+}
+
+.code-block pre {
+  @apply p-4 overflow-x-auto;
+  max-height: 500px;
+}
+
+.code-block code {
+  @apply text-sm font-mono;
+  tab-size: 2;
+}
+
+/* Inline code */
+.doc-content code:not(.code-block code) {
+  @apply px-1.5 py-0.5 bg-zinc-900/50 text-cyan-400 rounded text-sm font-mono;
+}
+
+/* Horizontal rules */
+.doc-content hr {
+  @apply my-12 border-zinc-800;
+}
+
+/* Images */
+.doc-content img {
+  @apply rounded-lg my-8 max-w-full;
+}
+
+/* Syntax highlighting theme */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  @apply text-zinc-600;
+}
+
+.token.punctuation {
+  @apply text-zinc-400;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  @apply text-red-400;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  @apply text-green-400;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  @apply text-cyan-400;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  @apply text-purple-400;
+}
+
+.token.function,
+.token.class-name {
+  @apply text-yellow-400;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  @apply text-orange-400;
+}
+
+/* Table of contents */
+.toc-item {
+  @apply block py-2 px-4 text-sm text-zinc-500 hover:text-cyan-400 transition-colors;
+}
+
+.toc-item.active {
+  @apply text-cyan-400 bg-cyan-500/5 border-l-2 border-cyan-500;
+}
+
+/* Search results */
+.search-result {
+  @apply p-4 bg-zinc-900/50 rounded-lg hover:bg-zinc-800/50 transition-colors;
+}
+
+.search-result-title {
+  @apply text-white font-medium mb-2;
+}
+
+.search-result-context {
+  @apply text-sm text-zinc-500;
+}
+
+.search-result-highlight {
+  @apply bg-yellow-500/20 text-yellow-400 px-1 rounded;
+}
+
+/* Animations */
+@keyframes doc-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.doc-fade-in {
+  animation: doc-fade-in 0.5s ease-out;
+}
+
+/* Print styles */
+@media print {
+  .doc-content {
+    @apply text-black;
+  }
+  
+  .doc-content h1,
+  .doc-content h2,
+  .doc-content h3,
+  .doc-content h4,
+  .doc-content h5,
+  .doc-content h6 {
+    @apply text-black;
+  }
+  
+  .code-block {
+    @apply border border-gray-300;
+  }
+  
+  .code-header {
+    display: none;
+  }
+}

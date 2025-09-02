@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { LanguageContext } from '@/contexts/LanguageContext';
+import { LanguageContext } from '../../../contexts/LanguageContext';
 import { 
   TicketIcon,
   ClockIcon,
@@ -10,17 +10,17 @@ import {
   ExclamationTriangleIcon,
   ChevronRightIcon,
   PlusIcon,
-  SearchIcon,
-  FilterIcon,
+  MagnifyingGlassIcon,
+  FunnelIcon,
   CalendarIcon,
   UserIcon,
   TagIcon,
   PaperClipIcon,
-  MessageSquareIcon,
-  RefreshIcon,
-  ArchiveIcon,
+  ChatBubbleBottomCenterTextIcon,
+  ArrowPathIcon,
+  ArchiveBoxIcon,
   StarIcon
-} from '@/components/ui/Icons';
+} from '@heroicons/react/24/outline';
 
 const translations = {
   en: {

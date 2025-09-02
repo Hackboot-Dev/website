@@ -1,0 +1,116 @@
+{
+  "categories": [
+    {
+      "id": "general",
+      "name": {
+        "en": "Getting Started",
+        "fr": "Démarrage"
+      },
+      "description": {
+        "en": "General documentation and guides",
+        "fr": "Documentation générale et guides"
+      },
+      "icon": "BookOpenIcon",
+      "order": 1,
+      "color": "cyan"
+    },
+    {
+      "id": "vps",
+      "name": {
+        "en": "VPS Servers",
+        "fr": "Serveurs VPS"
+      },
+      "description": {
+        "en": "Virtual Private Server documentation",
+        "fr": "Documentation des serveurs privés virtuels"
+      },
+      "icon": "ServerIcon",
+      "order": 2,
+      "color": "blue"
+    },
+    {
+      "id": "gpu",
+      "name": {
+        "en": "GPU Computing",
+        "fr": "Calcul GPU"
+      },
+      "description": {
+        "en": "GPU instances and AI/ML workloads",
+        "fr": "Instances GPU et charges de travail IA/ML"
+      },
+      "icon": "CpuChipIcon",
+      "order": 3,
+      "color": "purple"
+    },
+    {
+      "id": "web-hosting",
+      "name": {
+        "en": "Web Hosting",
+        "fr": "Hébergement Web"
+      },
+      "description": {
+        "en": "Managed web hosting solutions",
+        "fr": "Solutions d'hébergement web managées"
+      },
+      "icon": "GlobeAltIcon",
+      "order": 4,
+      "color": "green"
+    },
+    {
+      "id": "paas",
+      "name": {
+        "en": "Platform as a Service",
+        "fr": "Plateforme en tant que Service"
+      },
+      "description": {
+        "en": "Deploy applications without managing infrastructure",
+        "fr": "Déployez des applications sans gérer l'infrastructure"
+      },
+      "icon": "CloudIcon",
+      "order": 5,
+      "color": "indigo"
+    },
+    {
+      "id": "load-balancer",
+      "name": {
+        "en": "Load Balancer",
+        "fr": "Répartiteur de charge"
+      },
+      "description": {
+        "en": "Traffic distribution and high availability",
+        "fr": "Distribution du trafic et haute disponibilité"
+      },
+      "icon": "ArrowsRightLeftIcon",
+      "order": 6,
+      "color": "orange"
+    },
+    {
+      "id": "storage",
+      "name": {
+        "en": "Object Storage",
+        "fr": "Stockage Objet"
+      },
+      "description": {
+        "en": "S3-compatible object storage",
+        "fr": "Stockage objet compatible S3"
+      },
+      "icon": "CircleStackIcon",
+      "order": 7,
+      "color": "teal"
+    },
+    {
+      "id": "cdn",
+      "name": {
+        "en": "CDN",
+        "fr": "CDN"
+      },
+      "description": {
+        "en": "Content Delivery Network documentation",
+        "fr": "Documentation du réseau de diffusion de contenu"
+      },
+      "icon": "GlobeEuropeAfricaIcon",
+      "order": 8,
+      "color": "rose"
+    }
+  ]
+}

@@ -2,22 +2,22 @@
 
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { LanguageContext } from '@/contexts/LanguageContext';
+import { LanguageContext } from '../../../contexts/LanguageContext';
 import { 
-  ChatIcon,
-  SendIcon,
+  ChatBubbleLeftRightIcon,
+  PaperAirplaneIcon,
   UserIcon,
   SparklesIcon,
   PaperClipIcon,
-  MicIcon,
-  EmojiIcon,
-  MoreVerticalIcon,
-  MinimizeIcon,
-  MaximizeIcon,
-  XIcon,
+  MicrophoneIcon,
+  FaceSmileIcon,
+  EllipsisVerticalIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  XMarkIcon,
   CheckCircleIcon,
   ClockIcon
-} from '@/components/ui/Icons';
+} from '@heroicons/react/24/outline';
 
 const translations = {
   en: {

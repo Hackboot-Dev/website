@@ -1,0 +1,102 @@
+{
+  "categories": [
+    {
+      "id": "storage",
+      "order": 1,
+      "icon": "CircleStackIcon",
+      "color": "cyan",
+      "name": {
+        "en": "Storage Solutions",
+        "fr": "Solutions de Stockage"
+      },
+      "description": {
+        "en": "Object storage, block storage, and backup solutions documentation",
+        "fr": "Documentation sur le stockage objet, stockage bloc et solutions de sauvegarde"
+      }
+    },
+    {
+      "id": "cdn",
+      "order": 2,
+      "icon": "GlobeAltIcon",
+      "color": "purple",
+      "name": {
+        "en": "CDN",
+        "fr": "CDN"
+      },
+      "description": {
+        "en": "Content Delivery Network documentation and configuration guides",
+        "fr": "Documentation et guides de configuration du réseau de diffusion de contenu"
+      }
+    },
+    {
+      "id": "vps",
+      "order": 3,
+      "icon": "ServerIcon",
+      "color": "blue",
+      "name": {
+        "en": "Virtual Private Servers",
+        "fr": "Serveurs Privés Virtuels"
+      },
+      "description": {
+        "en": "VPS deployment, management, and optimization documentation",
+        "fr": "Documentation sur le déploiement, la gestion et l'optimisation des VPS"
+      }
+    },
+    {
+      "id": "gpu",
+      "order": 4,
+      "icon": "CpuChipIcon",
+      "color": "green",
+      "name": {
+        "en": "GPU Computing",
+        "fr": "Calcul GPU"
+      },
+      "description": {
+        "en": "GPU instances for AI, ML, and high-performance computing",
+        "fr": "Instances GPU pour l'IA, le ML et le calcul haute performance"
+      }
+    },
+    {
+      "id": "paas",
+      "order": 5,
+      "icon": "CloudIcon",
+      "color": "indigo",
+      "name": {
+        "en": "Platform as a Service",
+        "fr": "Plateforme en tant que Service"
+      },
+      "description": {
+        "en": "Managed platforms for application deployment and scaling",
+        "fr": "Plateformes gérées pour le déploiement et la mise à l'échelle d'applications"
+      }
+    },
+    {
+      "id": "webhosting",
+      "order": 6,
+      "icon": "GlobeEuropeAfricaIcon",
+      "color": "amber",
+      "name": {
+        "en": "Web Hosting",
+        "fr": "Hébergement Web"
+      },
+      "description": {
+        "en": "Shared hosting, WordPress hosting, and domain management",
+        "fr": "Hébergement mutualisé, hébergement WordPress et gestion de domaines"
+      }
+    },
+    {
+      "id": "loadbalancer",
+      "order": 7,
+      "icon": "ArrowsRightLeftIcon",
+      "color": "rose",
+      "name": {
+        "en": "Load Balancers",
+        "fr": "Répartiteurs de Charge"
+      },
+      "description": {
+        "en": "Traffic distribution and high availability solutions",
+        "fr": "Solutions de distribution du trafic et de haute disponibilité"
+      }
+    }
+  ]
+}

@@ -1,294 +1,235 @@
-// Gemini AI Integration Service
-// This service handles communication with Google's Gemini API for AI chat support
-// Using free tier credits with minimal consumption
+// /workspaces/website/apps/web/services/gemini.service.ts
+// Description: Service for Google Gemini AI API integration
+// Last modified: 2025-08-31
+// DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
-interface GeminiConfig {
+export interface GeminiConfig {
   apiKey?: string;
   model?: string;
   maxTokens?: number;
   temperature?: number;
 }
 
-interface ChatMessage {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
+export interface GeminiResponse {
+  candidates?: Array<{
+    content?: {
+      parts?: Array<{
+        text?: string;
+      }>;
+    };
+  }>;
+  error?: {
+    message: string;
+    code: number;
+  };
 }
 
-interface GeminiResponse {
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
+
+export interface SendMessageResponse {
   success: boolean;
   message?: string;
   error?: string;
 }
 
 class GeminiService {
-  private apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta';
-  private model = 'gemini-pro';
-  private maxTokens = 2048;
-  private temperature = 0.7;
-  private apiKey: string | null = null;
-  private conversationHistory: ChatMessage[] = [];
-  private dailyRequestCount = 0;
-  private dailyRequestLimit = 1500; // Free tier limit
+  private apiKey: string;
+  private apiUrl: string;
+  private model: string;
+  private maxTokens: number;
+  private temperature: number;
+  private history: ChatMessage[] = [];
+  private requestCount = 0;
+  private maxRequests = 100;
 
-  constructor(config?: GeminiConfig) {
-    if (config?.apiKey) {
-      this.apiKey = config.apiKey;
-    }
-    if (config?.model) {
-      this.model = config.model;
-    }
-    if (config?.maxTokens) {
-      this.maxTokens = config.maxTokens;
-    }
-    if (config?.temperature) {
-      this.temperature = config.temperature;
-    }
-
-    // Initialize with system context
-    this.conversationHistory.push({
-      role: 'system',
-      content: `You are a helpful AI assistant for VMCloud, a cloud infrastructure provider. 
-        You can help with:
-        - Technical support for VPS, GPU servers, web hosting
-        - Billing and account questions
-        - Product information and recommendations
-        - Troubleshooting common issues
-        - API and integration guidance
-        
-        Be concise, professional, and helpful. If you cannot solve an issue, suggest escalating to human support.`
-    });
+  constructor(config: GeminiConfig = {}) {
+    this.apiKey = config.apiKey || process.env.GEMINI_API_KEY || '';
+    this.model = config.model || 'gemini-pro';
+    this.maxTokens = config.maxTokens || 2048;
+    this.temperature = config.temperature || 0.7;
+    this.apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent`;
   }
 
-  // Initialize the service with API key from environment or config
-  async initialize(): Promise<boolean> {
-    try {
-      // In production, get API key from environment variable
-      this.apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || this.apiKey;
-      
-      if (!this.apiKey) {
-        console.warn('Gemini API key not configured. Using mock mode.');
-        return false;
-      }
-
-      // Test the connection
-      const testResponse = await this.testConnection();
-      return testResponse.success;
-    } catch (error) {
-      console.error('Failed to initialize Gemini service:', error);
-      return false;
-    }
-  }
-
-  // Test API connection
-  private async testConnection(): Promise<GeminiResponse> {
+  async initialize(): Promise<void> {
+    // Initialization logic if needed
     if (!this.apiKey) {
-      return { success: false, error: 'API key not configured' };
-    }
-
-    try {
-      const response = await fetch(`${this.apiEndpoint}/models/${this.model}`, {
-        headers: {
-          'x-goog-api-key': this.apiKey
-        }
-      });
-
-      if (response.ok) {
-        return { success: true, message: 'Connection successful' };
-      } else {
-        return { success: false, error: `Connection failed: ${response.statusText}` };
-      }
-    } catch (error) {
-      return { success: false, error: `Connection error: ${error}` };
+      console.warn('GEMINI_API_KEY is not configured');
     }
   }
 
-  // Send a message to Gemini and get response
-  async sendMessage(message: string, language: 'en' | 'fr' = 'en'): Promise<GeminiResponse> {
-    // Check daily limit
-    if (this.dailyRequestCount >= this.dailyRequestLimit) {
+  isConfigured(): boolean {
+    return !!this.apiKey;
+  }
+
+  detectEscalation(message: string): boolean {
+    const escalationKeywords = [
+      'human', 'agent', 'representative', 'talk to someone',
+      'humain', 'agent', 'représentant', 'parler à quelqu\'un',
+      'real person', 'personne réelle', 'help', 'aide'
+    ];
+
+    const lowerMessage = message.toLowerCase();
+    return escalationKeywords.some(keyword => lowerMessage.includes(keyword));
+  }
+
+  generateTicketSummary(): string {
+    const recentMessages = this.history.slice(-5);
+    return recentMessages.map(msg => `${msg.role}: ${msg.content}`).join('\n');
+  }
+
+  async sendMessage(message: string, language: string = 'en'): Promise<SendMessageResponse> {
+    if (!this.apiKey) {
       return {
         success: false,
-        error: language === 'fr' 
-          ? 'Limite quotidienne atteinte. Veuillez utiliser le support par ticket.'
-          : 'Daily limit reached. Please use ticket support.'
+        error: 'GEMINI_API_KEY is not configured'
       };
-    }
-
-    // If no API key, return mock response
-    if (!this.apiKey) {
-      return this.getMockResponse(message, language);
     }
 
     try {
       // Add user message to history
-      this.conversationHistory.push({ role: 'user', content: message });
+      this.history.push({
+        role: 'user',
+        content: message,
+        timestamp: new Date()
+      });
 
-      // Prepare the request
-      const requestBody = {
-        contents: [{
-          parts: [{
-            text: this.buildPrompt(message, language)
-          }]
-        }],
-        generationConfig: {
-          temperature: this.temperature,
-          maxOutputTokens: this.maxTokens,
-          topP: 0.8,
-          topK: 10
-        }
-      };
+      // Prepare context with language preference
+      const systemContext = language === 'fr' 
+        ? "Tu es un assistant IA serviable qui répond en français. Tu aides avec les questions techniques et le support client."
+        : "You are a helpful AI assistant. You help with technical questions and customer support.";
 
-      // Make API call
-      const response = await fetch(
-        `${this.apiEndpoint}/models/${this.model}:generateContent?key=${this.apiKey}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
+      // Build conversation context
+      const conversationContext = this.history.slice(-10).map(msg => 
+        `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`
+      ).join('\n');
+
+      const fullPrompt = `${systemContext}\n\nConversation:\n${conversationContext}`;
+
+      const response = await fetch(`${this.apiUrl}?key=${this.apiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: fullPrompt
+            }]
+          }],
+          generationConfig: {
+            temperature: this.temperature,
+            topK: 1,
+            topP: 1,
+            maxOutputTokens: this.maxTokens,
           },
-          body: JSON.stringify(requestBody)
-        }
-      );
+          safetySettings: [
+            {
+              category: "HARM_CATEGORY_HARASSMENT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              category: "HARM_CATEGORY_HATE_SPEECH",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            },
+            {
+              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE"
+            }
+          ]
+        })
+      });
 
-      if (!response.ok) {
-        throw new Error(`API error: ${response.statusText}`);
+      const data: GeminiResponse = await response.json();
+
+      if (data.error) {
+        return {
+          success: false,
+          error: data.error.message
+        };
       }
 
-      const data = await response.json();
-      const aiResponse = data.candidates[0]?.content?.parts[0]?.text || 'No response generated';
-
-      // Add AI response to history
-      this.conversationHistory.push({ role: 'assistant', content: aiResponse });
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
       
-      // Increment request count
-      this.dailyRequestCount++;
+      if (!text) {
+        return {
+          success: false,
+          error: 'No response generated from Gemini'
+        };
+      }
+
+      // Add assistant response to history
+      this.history.push({
+        role: 'assistant',
+        content: text,
+        timestamp: new Date()
+      });
+
+      this.requestCount++;
 
       return {
         success: true,
-        message: aiResponse
+        message: text
       };
     } catch (error) {
       console.error('Gemini API error:', error);
       return {
         success: false,
-        error: language === 'fr'
-          ? 'Erreur de connexion. Veuillez réessayer.'
-          : 'Connection error. Please try again.'
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
       };
     }
   }
 
-  // Build context-aware prompt
-  private buildPrompt(message: string, language: 'en' | 'fr'): string {
-    const languageInstruction = language === 'fr' 
-      ? 'Réponds en français.'
-      : 'Respond in English.';
-
-    const context = this.conversationHistory.slice(-5) // Last 5 messages for context
-      .map(msg => `${msg.role}: ${msg.content}`)
-      .join('\n');
-
-    return `${languageInstruction}
-
-Previous context:
-${context}
-
-User message: ${message}
-
-Provide a helpful, concise response. If the issue requires human intervention, suggest escalating to human support.`;
-  }
-
-  // Mock responses for testing without API key
-  private getMockResponse(message: string, language: 'en' | 'fr'): GeminiResponse {
-    const lowerMessage = message.toLowerCase();
-    
-    // Simulated smart responses based on keywords
-    if (lowerMessage.includes('vps') || lowerMessage.includes('server')) {
-      return {
-        success: true,
-        message: language === 'fr'
-          ? 'Je peux vous aider avec votre VPS. Nos serveurs VPS offrent des performances élevées avec SSD NVMe, IPv4/IPv6, et un uptime de 99.9%. Quel aspect spécifique vous intéresse ?'
-          : 'I can help you with VPS. Our VPS servers offer high performance with NVMe SSD, IPv4/IPv6, and 99.9% uptime. What specific aspect interests you?'
-      };
-    }
-
-    if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('prix')) {
-      return {
-        success: true,
-        message: language === 'fr'
-          ? 'Nos plans VPS commencent à 4.99€/mois pour 2 vCPU, 2GB RAM et 20GB SSD. Consultez notre page Produits pour voir tous les plans disponibles et leurs tarifs détaillés.'
-          : 'Our VPS plans start at €4.99/month for 2 vCPU, 2GB RAM, and 20GB SSD. Check our Products page to see all available plans and detailed pricing.'
-      };
-    }
-
-    if (lowerMessage.includes('support') || lowerMessage.includes('help') || lowerMessage.includes('aide')) {
-      return {
-        success: true,
-        message: language === 'fr'
-          ? 'Notre équipe de support est disponible 24/7 via tickets, chat en direct (8h-22h UTC), et email. Les clients Business et Enterprise ont également accès au support téléphonique prioritaire.'
-          : 'Our support team is available 24/7 via tickets, live chat (8am-10pm UTC), and email. Business and Enterprise customers also have access to priority phone support.'
-      };
-    }
-
-    // Default response
-    return {
-      success: true,
-      message: language === 'fr'
-        ? 'Je comprends votre question. Pour vous fournir la meilleure assistance, pourriez-vous me donner plus de détails sur votre besoin spécifique ?'
-        : 'I understand your question. To provide the best assistance, could you give me more details about your specific need?'
-    };
-  }
-
-  // Clear conversation history
-  clearHistory(): void {
-    this.conversationHistory = this.conversationHistory.slice(0, 1); // Keep system message
-  }
-
-  // Get conversation history
   getHistory(): ChatMessage[] {
-    return this.conversationHistory;
+    return this.history;
   }
 
-  // Check if service is properly configured
-  isConfigured(): boolean {
-    return this.apiKey !== null;
+  clearHistory(): void {
+    this.history = [];
   }
 
-  // Get remaining daily requests
   getRemainingRequests(): number {
-    return Math.max(0, this.dailyRequestLimit - this.dailyRequestCount);
+    return Math.max(0, this.maxRequests - this.requestCount);
   }
 
-  // Reset daily counter (should be called daily via cron job)
-  resetDailyCounter(): void {
-    this.dailyRequestCount = 0;
-  }
+  async streamContent(prompt: string): Promise<ReadableStream> {
+    if (!this.apiKey) {
+      throw new Error('GEMINI_API_KEY is not configured');
+    }
 
-  // Detect if escalation to human is needed
-  detectEscalation(message: string): boolean {
-    const escalationKeywords = [
-      'human', 'agent', 'person', 'talk to', 'speak to',
-      'humain', 'agent', 'personne', 'parler à'
-    ];
-    
-    const lowerMessage = message.toLowerCase();
-    return escalationKeywords.some(keyword => lowerMessage.includes(keyword));
-  }
+    const response = await fetch(`${this.apiUrl}?key=${this.apiKey}&alt=sse`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: prompt
+          }]
+        }],
+        generationConfig: {
+          temperature: this.temperature,
+          topK: 1,
+          topP: 1,
+          maxOutputTokens: this.maxTokens,
+        }
+      })
+    });
 
-  // Generate ticket from conversation
-  generateTicketSummary(): string {
-    const messages = this.conversationHistory.slice(1); // Exclude system message
-    const summary = messages
-      .filter(msg => msg.role === 'user')
-      .map(msg => msg.content)
-      .join('\n');
-    
-    return summary || 'No conversation history';
+    if (!response.ok) {
+      throw new Error(`Gemini API error: ${response.statusText}`);
+    }
+
+    return response.body!;
   }
 }
 
-// Export singleton instance
-export const geminiService = new GeminiService();
-
-// Export class for testing
 export default GeminiService;
