@@ -198,6 +198,29 @@ Toujours en français :
 "Code complet ci-dessous, vous pouvez le copier directement"
 "Ceci est un extrait, ne pas copier tel quel"
 
+## 📚 RÈGLES SPÉCIFIQUES – DOCUMENTATION & PAGES LÉGALES
+
+### 1) Accès à la documentation (environnement)
+- En production, toute la documentation est INDISPONIBLE et les liens doivent disparaître de l’UI.
+- Le middleware bloque toute route `/docs` et `/api/docs` (retour 403). Ne jamais contourner cette règle.
+- En développement, la documentation est accessible normalement.
+
+### 2) Traductions (i18n)
+- Toujours prendre en charge FR/EN pour l’UI, le footer, les badges, les labels…
+- Si une clé manque en EN/FR, ajouter la clé dans les fichiers de traduction et fournir un fallback propre.
+
+### 3) Produits (données)
+- Les noms des produits proviennent de `base.json`. Si un nom est manquant, fallback sur l’`id` en UPPERCASE.
+- Les catégories et badges doivent être localisés (ex. VPS, GPU, Web, Stockage) via les fonctions de traduction.
+
+### 4) Pages légales – Qualité rédactionnelle
+- Le contenu doit être RICHE et CONTRACTUEL (paragraphes complets, pas seulement des listes).
+- Structure minimale pour les CGU/CGV: Définitions, Objet, Commande, Tarifs/Facturation, SLA, Support, Données & Sauvegardes, Sécurité, RGPD (DPA), AUP, Propriété intellectuelle, API, Services spécifiques, Suspension/Résiliation, Garanties/Exclusions, Responsabilité, Force majeure, Conformité, Sous-traitance, Confidentialité, Modifications, Droit applicable, Annexes.
+- Écrire d’abord en FR; EN en miroir si demandé. Les fichiers sont des `.md` sous `public/data/legal/...` et rendus via un composant markdown avec `.doc-content`.
+
+### 5) Journalisation des changements docs/légal
+- À chaque ajout de contenu légal ou de doc, résumer dans `/docs/JOURNAL.md` ce qui a été ajouté/modifié et pourquoi (scope, sections, i18n, règles d’accès prod/dev).
+
 Structure des réponses :
 
 Résumé de ce qui va être/a été fait

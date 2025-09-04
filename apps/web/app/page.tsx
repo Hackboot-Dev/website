@@ -1,3 +1,5 @@
+'use client';
+import { useLanguage } from '../contexts/LanguageContext';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import HeroSection from '../components/sections/HeroSection';
@@ -7,6 +9,9 @@ import CTASection from '../components/sections/CTASection';
 import SophisticatedBackground from '../components/animations/SophisticatedBackground';
 
 export default function HomePage() {
+  const { language } = useLanguage();
+  
+
   return (
     <>
       <SophisticatedBackground />

@@ -82,7 +82,10 @@
 
 /* Tables */
 .doc-table {
-  @apply w-full mb-8 overflow-hidden rounded-lg border border-zinc-800;
+  @apply w-full max-w-full mb-8 rounded-lg border border-zinc-800;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .doc-table thead {
@@ -90,16 +93,34 @@
 }
 
 .doc-table th {
-  @apply px-4 py-3 text-left text-sm font-medium text-zinc-300 border-b border-zinc-800;
+  @apply px-4 py-3 text-left text-sm font-medium text-zinc-300 border-b border-zinc-800 align-top;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .doc-table td {
-  @apply px-4 py-3 text-sm text-zinc-400 border-b border-zinc-900;
+  @apply px-4 py-3 text-sm text-zinc-400 border-b border-zinc-900 align-top;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .doc-table tbody tr:hover {
   @apply bg-zinc-900/30;
 }
+
+/* Fallback for any table without explicit class from remark */
+.doc-content table:not(.doc-table) {
+  @apply w-full max-w-full mb-8 rounded-lg border border-zinc-800;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.doc-content table:not(.doc-table) thead { @apply bg-zinc-900/50; }
+.doc-content table:not(.doc-table) th { @apply px-4 py-3 text-left text-sm font-medium text-zinc-300 border-b border-zinc-800 align-top; white-space: normal; word-break: break-word; overflow-wrap: anywhere; }
+.doc-content table:not(.doc-table) td { @apply px-4 py-3 text-sm text-zinc-400 border-b border-zinc-900 align-top; white-space: normal; word-break: break-word; overflow-wrap: anywhere; }
+.doc-content table:not(.doc-table) tbody tr:hover { @apply bg-zinc-900/30; }
 
 /* Code blocks */
 .code-block {
@@ -142,6 +163,21 @@
 .doc-content img {
   @apply rounded-lg my-8 max-w-full;
 }
+
+/* Inline code and strong emphasis */
+.doc-content code { @apply px-1.5 py-0.5 bg-zinc-900/50 text-cyan-400 rounded text-sm font-mono; }
+.doc-content strong { @apply text-white font-medium; }
+
+/* Code inside table cells should wrap to avoid overflow */
+.doc-table td code,
+.doc-content table:not(.doc-table) td code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Tighten spacing for consecutive elements */
+.doc-content h2 + p,
+.doc-content h3 + p { @apply mt-2; }
 
 /* Syntax highlighting theme */
 .token.comment,

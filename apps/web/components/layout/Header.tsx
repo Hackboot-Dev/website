@@ -51,9 +51,6 @@ export default function Header() {
             <Link href="/pricing" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
               <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.pricing')}</span>
             </Link>
-            <Link href="/docs" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
-              <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.documentation')}</span>
-            </Link>
             <Link href="/support" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
               <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.support')}</span>
             </Link>
@@ -95,9 +92,6 @@ export default function Header() {
               </Link>
               <Link href="/pricing" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
                 {t('nav.pricing')}
-              </Link>
-              <Link href="/docs" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
-                {t('nav.documentation')}
               </Link>
               <Link href="/support" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
                 {t('nav.support')}

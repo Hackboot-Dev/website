@@ -1,38 +1,45 @@
 'use client';
-// /workspaces/website/apps/web/components/layout/Footer.tsx
-// Description: Footer avec design Awwwards minimal
-// Last modified: 2025-08-16
-// Related docs: /docs/JOURNAL.md
-
-// DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
-
 import Link from 'next/link';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function Footer() {
+  const { language } = useLanguage();
+  const isProd = process.env.NODE_ENV === 'production' || process.env.NEXT_PUBLIC_APP_ENV === 'production';
+  const docsEnabled = !isProd;
+
+  const isFr = (language || 'fr') === 'fr';
+  const labels = {
+    products: isFr ? 'Produits' : 'Products',
+    company: isFr ? 'Entreprise' : 'Company',
+    support: isFr ? 'Support' : 'Support',
+    legal: isFr ? 'Légal' : 'Legal',
+  };
+
   const footerLinks = {
     products: [
-      { name: 'VPS', href: '/products#vps' },
-      { name: 'GPU Cloud', href: '/products#gpu' },
-      { name: 'Hébergement Web', href: '/products#webhosting' },
-      { name: 'Tarifs', href: '/pricing' }
+      { name: isFr ? 'VPS' : 'VPS', href: '/products#vps' },
+      { name: isFr ? 'GPU Cloud' : 'GPU Cloud', href: '/products#gpu' },
+      { name: isFr ? 'Hébergement Web' : 'Web Hosting', href: '/products#webhosting' },
+      { name: isFr ? 'Tarifs' : 'Pricing', href: '/pricing' }
     ],
     company: [
-      { name: 'À propos', href: '/about' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Carrières', href: '/careers' },
-      { name: 'Contact', href: '/contact' }
+      { name: isFr ? 'À propos' : 'About', href: '/about' },
+      { name: isFr ? 'Blog' : 'Blog', href: '/blog' },
+      { name: isFr ? 'Carrières' : 'Careers', href: '/careers' },
+      { name: isFr ? 'Contact' : 'Contact', href: '/contact' }
     ],
     support: [
-      { name: 'Documentation', href: '/docs' },
-      { name: 'Status', href: '/status' },
-      { name: 'Support', href: '/support' },
-      { name: 'API', href: '/api' }
+      ...(docsEnabled ? [{ name: isFr ? 'Documentation' : 'Documentation', href: '/docs' }] : []),
+      { name: isFr ? 'Statut' : 'Status', href: '/status' },
+      { name: isFr ? 'Support' : 'Support', href: '/support' },
+      { name: isFr ? 'API' : 'API', href: '/api' }
     ],
     legal: [
-      { name: 'Conditions', href: '/terms' },
-      { name: 'Confidentialité', href: '/privacy' },
-      { name: 'Cookies', href: '/cookies' },
-      { name: 'RGPD', href: '/gdpr' }
+      { name: isFr ? 'Conditions' : 'Terms', href: '/legal/terms' },
+      { name: isFr ? 'SLA' : 'SLA', href: '/legal/sla' },
+      { name: isFr ? 'Usage Acceptable' : 'Acceptable Use', href: '/legal/aup' },
+      { name: isFr ? 'RGPD/DPA' : 'GDPR/DPA', href: '/legal/dpa' },
+      { name: isFr ? 'Changements' : 'Changes', href: '/legal/changes' }
     ]
   };
 
@@ -53,7 +60,7 @@ export default function Footer() {
 
           {/* Products */}
           <div>
-            <h3 className="text-white text-sm font-medium tracking-wide mb-4">Produits</h3>
+            <h3 className="text-white text-sm font-medium tracking-wide mb-4">{labels.products}</h3>
             <ul className="space-y-3">
               {footerLinks.products.map((link) => (
                 <li key={link.name}>
@@ -70,7 +77,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-white text-sm font-medium tracking-wide mb-4">Entreprise</h3>
+            <h3 className="text-white text-sm font-medium tracking-wide mb-4">{labels.company}</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
@@ -87,7 +94,7 @@ export default function Footer() {
 
           {/* Support */}
           <div>
-            <h3 className="text-white text-sm font-medium tracking-wide mb-4">Support</h3>
+            <h3 className="text-white text-sm font-medium tracking-wide mb-4">{labels.support}</h3>
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
@@ -104,7 +111,7 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="text-white text-sm font-medium tracking-wide mb-4">Légal</h3>
+            <h3 className="text-white text-sm font-medium tracking-wide mb-4">{labels.legal}</h3>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
@@ -123,12 +130,12 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-zinc-800/50 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-zinc-500 text-sm">
-            © 2025 VMCloud. Tous droits réservés.
+            {isFr ? '© 2025 VMCloud. Tous droits réservés.' : '© 2025 VMCloud. All rights reserved.'}
           </p>
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-              <span className="text-zinc-500 text-xs tracking-wider">Tous les systèmes opérationnels</span>
+              <span className="text-zinc-500 text-xs tracking-wider">{isFr ? 'Tous les systèmes opérationnels' : 'All systems operational'}</span>
             </div>
           </div>
         </div>

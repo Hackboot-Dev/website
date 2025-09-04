@@ -46,22 +46,24 @@ export default function HeroSection() {
                 className="space-y-4 mb-12"
                 style={titleReveal.style}
               >
-                <div className="overflow-hidden">
-                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-white leading-[0.9] hover:tracking-wide transition-all duration-500">
-                    {t('hero.title.1')}
-                  </h1>
-                </div>
-                <div className="overflow-hidden">
-                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 leading-[0.9] hover:from-zinc-100 hover:to-zinc-300 transition-all duration-500">
-                    {t('hero.title.2')}
-                  </h1>
-                </div>
-                <div className="flex items-center space-x-4 sm:space-x-6 overflow-hidden">
-                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-white leading-[0.9] hover:tracking-wide transition-all duration-500">
-                    {t('hero.title.3')}
-                  </h1>
-                  <div className="hidden md:block w-16 h-px bg-zinc-700 hover:w-24 hover:bg-zinc-500 transition-all duration-500"></div>
-                </div>
+                <h1 aria-label={`${t('hero.title.1')} ${t('hero.title.2')} ${t('hero.title.3')}`}>
+                  <div className="overflow-hidden">
+                    <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-white leading-[0.9] hover:tracking-wide transition-all duration-500">
+                      {t('hero.title.1')}
+                    </span>
+                  </div>
+                  <div className="overflow-hidden">
+                    <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 leading-[0.9] hover:from-zinc-100 hover:to-zinc-300 transition-all duration-500">
+                      {t('hero.title.2')}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-4 sm:space-x-6 overflow-hidden">
+                    <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight text-white leading-[0.9] hover:tracking-wide transition-all duration-500">
+                      {t('hero.title.3')}
+                    </span>
+                    <div className="hidden md:block w-16 h-px bg-zinc-700 hover:w-24 hover:bg-zinc-500 transition-all duration-500"></div>
+                  </div>
+                </h1>
               </div>
 
               {/* Subtitle avec animation */}

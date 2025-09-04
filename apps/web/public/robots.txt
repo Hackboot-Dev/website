@@ -1,0 +1,30 @@
+# VMCloud by Hackboot - Premium Cloud Infrastructure
+# Allow all search engines to crawl our content
+
+User-agent: *
+Allow: /
+
+# High-priority pages for VMCloud/Hackboot SEO
+Allow: /products
+Allow: /pricing  
+Allow: /legal/terms
+Allow: /legal/sla
+Allow: /legal/aup
+Allow: /legal/dpa
+Allow: /support
+Allow: /docs
+
+# Block admin and private areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /dashboard/
+
+# Crawl delay (be nice to crawlers)
+Crawl-delay: 1
+
+# Sitemaps for search engines
+Sitemap: https://vmcl.fr/sitemap.xml
+
+# VMCloud brand variations for better discovery
+# VMCloud, Hackboot, VM Cloud, virtual machines, VPS hosting

@@ -73,6 +73,11 @@ export function useStaggerReveal(itemsCount: number, staggerDelay: number = 100)
   const containerRef = useRef<HTMLElement>(null);
   const [isPageReady, setIsPageReady] = useState(false);
 
+  // Keep internal state in sync with itemsCount changes
+  useEffect(() => {
+    setVisibleItems(new Array(itemsCount).fill(false));
+  }, [itemsCount]);
+
   useEffect(() => {
     // Wait for page to be ready
     const checkPageReady = () => {

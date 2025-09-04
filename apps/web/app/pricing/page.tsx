@@ -202,11 +202,11 @@ export default function PricingPage() {
 
                   {/* Best for */}
                   <div className="pt-6 border-t border-zinc-800 mt-auto">
-                    <p className="text-xs text-zinc-500 mb-2">Idéal pour :</p>
+                    <p className="text-xs text-zinc-500 mb-2">{t('models.bestForLabel')}</p>
                     <p className="text-sm text-zinc-300">{model.bestFor}</p>
                     {model.example && (
                       <p className="text-xs text-zinc-500 mt-3">
-                        Ex: {model.example}
+                        {t('models.exampleLabel')} {model.example}
                       </p>
                     )}
                   </div>

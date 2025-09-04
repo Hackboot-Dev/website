@@ -1,6 +1,6 @@
 // /workspaces/website/apps/web/app/api/docs/list/route.ts
 // Description: API endpoint to list and parse markdown documentation files
-// Last modified: 2025-08-28
+// Last modified: 2025-09-02
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -15,14 +15,18 @@ interface DocFile {
   category: string;
   readTime: number;
   lastModified: string;
+  order?: number;
+  tags?: string[];
 }
 
+// Keep base path consistent with other endpoints (read/count)
 const DOCS_DIR = path.join(process.cwd(), 'data', 'docs');
 
-function extractMetadata(content: string, filename: string): Omit<DocFile, 'id' | 'filename' | 'lastModified'> {
-  let category = 'General';
+function extractMetadata(content: string, filename: string, category: string): Omit<DocFile, 'id' | 'filename' | 'lastModified'> {
   let title = filename.replace('.md', '').replace(/-/g, ' ');
   let description = '';
+  let order = 999;
+  let tags: string[] = [];
   let processedContent = content;
   let frontmatter = '';
   
@@ -39,12 +43,20 @@ function extractMetadata(content: string, filename: string): Omit<DocFile, 'id' 
       const [key, ...valueParts] = line.split(':');
       if (key && valueParts.length > 0) {
         const value = valueParts.join(':').trim();
-        if (key.trim().toLowerCase() === 'category') {
-          category = value.replace(/["']/g, ''); // Remove quotes if present
-        } else if (key.trim().toLowerCase() === 'title') {
+        if (key.trim().toLowerCase() === 'title') {
           title = value.replace(/["']/g, '');
         } else if (key.trim().toLowerCase() === 'description') {
           description = value.replace(/["']/g, '');
+        } else if (key.trim().toLowerCase() === 'order') {
+          order = parseInt(value, 10) || 999;
+        } else if (key.trim().toLowerCase() === 'tags') {
+          // Parse tags array
+          const tagsMatch = value.match(/\[(.*)\]/);
+          if (tagsMatch) {
+            tags = tagsMatch[1]
+              .split(',')
+              .map(tag => tag.trim().replace(/^["']|["']$/g, ''));
+          }
         }
       }
     }
@@ -89,44 +101,64 @@ function extractMetadata(content: string, filename: string): Omit<DocFile, 'id' 
     title,
     description,
     category,
-    readTime
+    readTime,
+    order,
+    tags
   };
 }
 
 export async function GET(request: NextRequest) {
   try {
+    // Block in production
+    if (process.env.NODE_ENV === 'production' || process.env.APP_ENV === 'production') {
+      return NextResponse.json({ error: 'Documentation interdite en production' }, { status: 403 });
+    }
     const searchParams = request.nextUrl.searchParams;
-    const language = searchParams.get('lang') || 'fr';
+    const language = searchParams.get('lang') || 'en';
     const category = searchParams.get('category');
     
-    const langDir = path.join(DOCS_DIR, language);
-    
-    // Check if language directory exists
-    try {
-      await fs.access(langDir);
-    } catch {
-      return NextResponse.json({ docs: [], language });
+    if (!category) {
+      return NextResponse.json(
+        { error: 'Category parameter is required' },
+        { status: 400 }
+      );
     }
     
-    // Read all markdown files in the language directory
-    const files = await fs.readdir(langDir);
+    // Path to documentation files for the specific category
+    const categoryDir = path.join(DOCS_DIR, language, category);
+    
+    // Check if category directory exists, fallback to English if not
+    let actualDir = categoryDir;
+    let actualLang = language;
+    
+    try {
+      await fs.access(categoryDir);
+    } catch {
+      // Try English fallback
+      const fallbackDir = path.join(DOCS_DIR, 'en', category);
+      try {
+        await fs.access(fallbackDir);
+        actualDir = fallbackDir;
+        actualLang = 'en';
+      } catch {
+        return NextResponse.json({ documents: [], language: actualLang });
+      }
+    }
+    
+    // Read all markdown files in the category directory
+    const files = await fs.readdir(actualDir);
     const mdFiles = files.filter(file => file.endsWith('.md'));
     
-    const docs: DocFile[] = [];
+    const documents: DocFile[] = [];
     
     for (const file of mdFiles) {
-      const filePath = path.join(langDir, file);
+      const filePath = path.join(actualDir, file);
       const content = await fs.readFile(filePath, 'utf-8');
       const stats = await fs.stat(filePath);
       
-      const metadata = extractMetadata(content, file);
+      const metadata = extractMetadata(content, file, category);
       
-      // Filter by category if specified
-      if (category && metadata.category !== category) {
-        continue;
-      }
-      
-      docs.push({
+      documents.push({
         id: file.replace('.md', ''),
         filename: file,
         ...metadata,
@@ -134,14 +166,19 @@ export async function GET(request: NextRequest) {
       });
     }
     
-    // Sort by last modified date (most recent first)
-    docs.sort((a, b) => new Date(b.lastModified).getTime() - new Date(a.lastModified).getTime());
+    // Sort by order, then by title
+    documents.sort((a, b) => {
+      if (a.order !== b.order) {
+        return (a.order || 999) - (b.order || 999);
+      }
+      return a.title.localeCompare(b.title);
+    });
     
     return NextResponse.json({
-      docs,
-      language,
-      total: docs.length,
-      categories: [...new Set(docs.map(d => d.category))]
+      documents,
+      language: actualLang,
+      total: documents.length,
+      category
     });
     
   } catch (error) {

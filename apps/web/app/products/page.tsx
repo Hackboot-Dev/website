@@ -151,13 +151,13 @@ export default function ProductsPage() {
 
   function getCategoryTheme(category: string) {
     const themes = {
-      vps: { name: 'VPS', type: 'vps' as const },
-      gpu: { name: 'GPU', type: 'gpu' as const },
-      webhosting: { name: 'Web', type: 'webhosting' as const },
-      paas: { name: 'PaaS', type: 'paas' as const },
-      loadbalancer: { name: 'LB', type: 'loadbalancer' as const },
-      storage: { name: 'Storage', type: 'storage' as const },
-      cdn: { name: 'CDN', type: 'cdn' as const }
+      vps: { name: tt('products.badges.vps', 'VPS', 'VPS'), type: 'vps' as const },
+      gpu: { name: tt('products.badges.gpu', 'GPU', 'GPU'), type: 'gpu' as const },
+      webhosting: { name: tt('products.badges.webhosting', 'Web', 'Web'), type: 'webhosting' as const },
+      paas: { name: tt('products.badges.paas', 'PaaS', 'PaaS'), type: 'paas' as const },
+      loadbalancer: { name: tt('products.badges.loadbalancer', 'LB', 'LB'), type: 'loadbalancer' as const },
+      storage: { name: tt('products.badges.storage', 'Stockage', 'Storage'), type: 'storage' as const },
+      cdn: { name: tt('products.badges.cdn', 'CDN', 'CDN'), type: 'cdn' as const }
     };
     return (themes as any)[category] || { name: category, type: 'vps' as const };
   }
@@ -472,7 +472,7 @@ export default function ProductsPage() {
                   {/* Product Name & Usage - hauteur responsive */}
                   <div className="mb-4 sm:mb-6 h-16 sm:h-20">
                     <h3 className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2 leading-tight tracking-wide line-clamp-1">
-                      {product.name}
+                      {product.name || String(product.id || '').toUpperCase()}
                     </h3>
                     <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed line-clamp-2">
                       {product.usage}

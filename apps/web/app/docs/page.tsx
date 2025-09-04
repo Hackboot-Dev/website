@@ -48,6 +48,19 @@ const iconMap: { [key: string]: React.ComponentType<any> } = {
 };
 
 export default function DocumentationPage() {
+  const IS_PROD = process.env.NODE_ENV === 'production' || process.env.NEXT_PUBLIC_APP_ENV === 'production' || process.env.APP_ENV === 'production';
+  if (IS_PROD) {
+    return (
+      <div className="min-h-screen bg-zinc-950">
+        <Header />
+        <div className="container mx-auto px-4 py-32 text-center">
+          <h1 className="text-3xl text-white mb-2">403 – Accès interdit</h1>
+          <p className="text-zinc-500">Documentation indisponible en production.</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
   const { language } = useLanguage();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -57,7 +70,9 @@ export default function DocumentationPage() {
   const titleReveal = useRevealAnimation({ delay: 100 });
   const subtitleReveal = useRevealAnimation({ delay: 300 });
   const { containerRef: statsRef, visibleItems: statsVisible } = useStaggerReveal(4, 100);
-  const { containerRef: categoriesRef, visibleItems: categoriesVisible } = useStaggerReveal(12, 50);
+  // Use actual categories length and also wait for loading=false
+  const itemsForStagger = loading ? 0 : categories.length;
+  const { containerRef: categoriesRef, visibleItems: categoriesVisible } = useStaggerReveal(itemsForStagger, 50);
   const geometricParallax = useParallax(0.3);
 
   // Fetch categories and count documents
@@ -102,38 +117,38 @@ export default function DocumentationPage() {
   const getColorClasses = (color: string) => {
     const colors: { [key: string]: { bg: string; hover: string; icon: string } } = {
       cyan: {
-        bg: 'from-cyan-500/5 to-transparent',
-        hover: 'group-hover:from-cyan-500/10 group-hover:to-cyan-500/5',
+        bg: 'from-cyan-500/10 to-transparent',
+        hover: 'group-hover:from-cyan-500/20 group-hover:to-cyan-500/10',
         icon: 'group-hover:text-cyan-400'
       },
       purple: {
-        bg: 'from-purple-500/5 to-transparent',
-        hover: 'group-hover:from-purple-500/10 group-hover:to-purple-500/5',
+        bg: 'from-purple-500/10 to-transparent',
+        hover: 'group-hover:from-purple-500/20 group-hover:to-purple-500/10',
         icon: 'group-hover:text-purple-400'
       },
       blue: {
-        bg: 'from-blue-500/5 to-transparent',
-        hover: 'group-hover:from-blue-500/10 group-hover:to-blue-500/5',
+        bg: 'from-blue-500/10 to-transparent',
+        hover: 'group-hover:from-blue-500/20 group-hover:to-blue-500/10',
         icon: 'group-hover:text-blue-400'
       },
       green: {
-        bg: 'from-green-500/5 to-transparent',
-        hover: 'group-hover:from-green-500/10 group-hover:to-green-500/5',
+        bg: 'from-green-500/10 to-transparent',
+        hover: 'group-hover:from-green-500/20 group-hover:to-green-500/10',
         icon: 'group-hover:text-green-400'
       },
       indigo: {
-        bg: 'from-indigo-500/5 to-transparent',
-        hover: 'group-hover:from-indigo-500/10 group-hover:to-indigo-500/5',
+        bg: 'from-indigo-500/10 to-transparent',
+        hover: 'group-hover:from-indigo-500/20 group-hover:to-indigo-500/10',
         icon: 'group-hover:text-indigo-400'
       },
       amber: {
-        bg: 'from-amber-500/5 to-transparent',
-        hover: 'group-hover:from-amber-500/10 group-hover:to-amber-500/5',
+        bg: 'from-amber-500/10 to-transparent',
+        hover: 'group-hover:from-amber-500/20 group-hover:to-amber-500/10',
         icon: 'group-hover:text-amber-400'
       },
       rose: {
-        bg: 'from-rose-500/5 to-transparent',
-        hover: 'group-hover:from-rose-500/10 group-hover:to-rose-500/5',
+        bg: 'from-rose-500/10 to-transparent',
+        hover: 'group-hover:from-rose-500/20 group-hover:to-rose-500/10',
         icon: 'group-hover:text-rose-400'
       }
     };
@@ -347,7 +362,7 @@ export default function DocumentationPage() {
                         onMouseLeave={() => setHoveredCard(null)}
                       >
                         <Link href={`/docs/${category.id}`}>
-                          <div className="relative h-full p-6 bg-zinc-900/20 backdrop-blur-sm border border-zinc-800/50 rounded-xl hover:bg-zinc-900/40 hover:border-zinc-700/50 transition-all duration-300">
+                          <div className="relative h-full p-6 bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl hover:bg-zinc-900/70 hover:border-zinc-700 transition-all duration-300">
                             {/* Gradient overlay */}
                             <div className={`absolute inset-0 bg-gradient-to-br ${colorClasses.bg} ${colorClasses.hover} rounded-xl pointer-events-none transition-all duration-300`} />
                             

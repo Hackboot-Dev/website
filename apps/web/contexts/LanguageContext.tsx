@@ -7,6 +7,8 @@
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import enStatic from '../locales/en.json';
+import frStatic from '../locales/fr.json';
 import { 
   Language, 
   Translations, 
@@ -31,10 +33,11 @@ export const LanguageContext = createContext<LanguageContextType | undefined>(un
 
 interface LanguageProviderProps {
   children: ReactNode;
+  initialLanguage?: Language;
 }
 
-export function LanguageProvider({ children }: LanguageProviderProps) {
-  const [language, setLanguage] = useState<Language>('en');
+export function LanguageProvider({ children, initialLanguage }: LanguageProviderProps) {
+  const [language, setLanguage] = useState<Language>(initialLanguage ?? 'en');
   const [translations, setTranslations] = useState<Translations>({});
   const [loading, setLoading] = useState(true);
   const [isChangingLanguage, setIsChangingLanguage] = useState(false);
@@ -71,23 +74,25 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   // Initialisation : récupère la langue sauvegardée ou détecte celle du navigateur
   useEffect(() => {
     const initializeLanguage = async () => {
-      let initialLanguage: Language = 'en';
+      let initialLang: Language = initialLanguage ?? 'en';
       
       // 1. Vérifier localStorage
       const savedLanguage = localStorage.getItem('vmcloud-language');
-      if (savedLanguage && supportedLanguages.includes(savedLanguage as Language)) {
-        initialLanguage = savedLanguage as Language;
-      } else {
-        // 2. Détecter la langue du navigateur
-        initialLanguage = getDefaultLanguage();
+      if (!initialLanguage) {
+        if (savedLanguage && supportedLanguages.includes(savedLanguage as Language)) {
+          initialLang = savedLanguage as Language;
+        } else {
+          // 2. Détecter la langue du navigateur
+          initialLang = getDefaultLanguage();
+        }
       }
-      
-      setLanguage(initialLanguage);
-      await loadLanguageTranslations(initialLanguage, true);
+
+      setLanguage(initialLang);
+      await loadLanguageTranslations(initialLang, true);
     };
     
     initializeLanguage();
-  }, []);
+  }, [initialLanguage]);
 
   // Changement de langue (chargement à la demande)
   const handleSetLanguage = async (lang: Language) => {
@@ -111,16 +116,41 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   // Fonction de traduction avec support des clés imbriquées et fallback
   const t = (key: string): string => {
-    // Pendant le loading initial, retourner string vide pour éviter les clés
-    if (loading) return '';
+    // Pendant le loading initial, utiliser un fallback SSR sûr pour le SEO
+    // On choisit la langue courante si connue, sinon l'anglais
+    if (loading) {
+      const fallbackDict: any = language === 'fr' ? (frStatic as any) : (enStatic as any);
+      const keys = key.split('.');
+      let result: any = fallbackDict;
+      for (const k of keys) {
+        if (result && typeof result === 'object' && k in result) {
+          result = result[k];
+        } else {
+          return '';
+        }
+      }
+      return typeof result === 'string' ? result : '';
+    }
     
     // Pendant le changement de langue, TOUJOURS utiliser les traductions précédentes
     const currentTranslations = isChangingLanguage && Object.keys(previousTranslations).length > 0 
       ? previousTranslations 
       : translations;
     
-    // Si aucune traduction disponible, retourner string vide au lieu de la clé
-    if (!currentTranslations || Object.keys(currentTranslations).length === 0) return '';
+    // Si aucune traduction chargée, fallback SSR pour éviter le contenu vide
+    if (!currentTranslations || Object.keys(currentTranslations).length === 0) {
+      const fallbackDict: any = language === 'fr' ? (frStatic as any) : (enStatic as any);
+      const keys = key.split('.');
+      let result: any = fallbackDict;
+      for (const k of keys) {
+        if (result && typeof result === 'object' && k in result) {
+          result = result[k];
+        } else {
+          return '';
+        }
+      }
+      return typeof result === 'string' ? result : '';
+    }
     
     // Support des clés imbriquées comme "hero.title.1"
     const keys = key.split('.');

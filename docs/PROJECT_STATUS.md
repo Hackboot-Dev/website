@@ -2,8 +2,8 @@
 
 ## Vue d'ensemble
 - **Nom**: VMCloud Platform
-- **Phase actuelle**: Phase 2 - Core Features (en cours)
-- **Dernière mise à jour**: 2025-08-27 17:30
+- **Phase actuelle**: Phase 2 - Core Features + Legal & SEO Complete
+- **Dernière mise à jour**: 2025-09-03 12:30
 
 ## ✅ Complété
 ### Foundation (Phase 1)
@@ -83,6 +83,31 @@
 - [x] **NOUVEAU**: Limite quotidienne gratuite (1500 requêtes)
 - [x] **NOUVEAU**: Génération automatique de tickets
 
+### Système Juridique Complet
+- [x] **NOUVEAU**: Séparation des documents légaux monolithiques
+- [x] **NOUVEAU**: 5 documents légaux distincts (Terms, AUP, SLA, DPA, Changes)
+- [x] **NOUVEAU**: Pages Next.js dédiées pour chaque document légal
+- [x] **NOUVEAU**: Support bilingue complet (FR/EN) avec fallback intelligent
+- [x] **NOUVEAU**: Integration informations société VMCloud OÜ (31644377)
+- [x] **NOUVEAU**: Adresse complète : Paju 1a, 50603 Tartu, Estonie
+- [x] **NOUVEAU**: Footer mis à jour avec accès aux 5 documents
+- [x] **NOUVEAU**: Versioning des documents (v2.1, daté 3 septembre 2025)
+- [x] **NOUVEAU**: Traductions professionnelles avec cohérence terminologique
+
+### Optimisation SEO Avancée
+- [x] **NOUVEAU**: SEO dynamique complet selon langue utilisateur
+- [x] **NOUVEAU**: Meta titles optimisés "VMCloud by Hackboot" pour branding
+- [x] **NOUVEAU**: Descriptions riches avec mots-clés stratégiques (AMD EPYC, Tesla GPU)
+- [x] **NOUVEAU**: Hreflang tags complets (fr-FR, en-US, x-default)
+- [x] **NOUVEAU**: JSON-LD Schema.org structured data complet
+- [x] **NOUVEAU**: Organisation structured data avec alternateName Hackboot
+- [x] **NOUVEAU**: Structured offers pour VPS/GPU avec prix
+- [x] **NOUVEAU**: AggregateRating, ContactPoint, PostalAddress
+- [x] **NOUVEAU**: Open Graph et Twitter Cards dynamiques
+- [x] **NOUVEAU**: Canonical URLs pour éviter duplicate content
+- [x] **NOUVEAU**: robots.txt optimisé avec sitemaps multilingues
+- [x] **NOUVEAU**: Hero redesigné avec branding "VMCloud by Hackboot Infrastructure"
+
 ## 🚧 En cours
 - [ ] Configuration de la clé API Gemini
 - [ ] Tests de l'intégration Gemini réelle
@@ -111,14 +136,19 @@
 - Nombre d'endpoints : 0 (API pas encore développée)
 - Tables en base : 12 (définies dans Prisma)
 - Composants UI : 25+ (Header, Footer, Sections, Products, Animations, Badge, Button, Icons, Pages Premium)
-- Pages fonctionnelles : 11 (Accueil, Produits, 7 pages produits spécifiques, Infrastructure, Support)
+- Pages fonctionnelles : 16 (Accueil, Produits, 7 pages produits, Infrastructure, Support, 5 pages légales)
 - **Langues supportées** : 2 (EN, FR) avec architecture séparée et fallback
 - **Produits configurés** : 36 dans 7 catégories
 - **Fichiers de données** : 15 (1 base + 14 traductions)
 - **Descriptions enrichies** : 100% des produits avec cas d'usage détaillés
-- **Documentation** : 7 fichiers docs mis à jour selon CLAUDE.md
+- **Documentation** : 8 fichiers docs mis à jour selon CLAUDE.md
 - **Utils créés** : productDataLoader.ts, productTranslations.ts
 - **Icônes ajoutées** : 10 nouvelles icônes pour la page support
+- **Documents légaux** : 5 (Terms, AUP, SLA, DPA, Changes) en FR/EN (10 fichiers total)
+- **Pages légales** : 5 pages Next.js avec routing dynamique
+- **SEO targets** : VMCloud, Hackboot, + 50 mots-clés connexes
+- **Schema.org objects** : Organization, Offers, AggregateRating, ContactPoint
+- **Hreflang coverage** : fr-FR, en-US, x-default pour indexation multilingue
 
 ## 🎯 Prochaine étape
 - ✅ ~~Adapter le code frontend pour utiliser la nouvelle structure data séparée~~ **FAIT**

@@ -11,9 +11,13 @@ const DOCS_DIR = path.join(process.cwd(), 'data', 'docs');
 
 export async function GET(request: NextRequest) {
   try {
+    if (process.env.NODE_ENV === 'production' || process.env.APP_ENV === 'production') {
+      return NextResponse.json({ error: 'Documentation interdite en production' }, { status: 403 });
+    }
     const searchParams = request.nextUrl.searchParams;
     const docId = searchParams.get('id');
     const language = searchParams.get('lang') || 'fr';
+    const category = searchParams.get('category');
 
     if (!docId) {
       return NextResponse.json(
@@ -24,7 +28,11 @@ export async function GET(request: NextRequest) {
 
     // Ensure the docId is safe (no path traversal)
     const safeDocId = path.basename(docId);
-    const filePath = path.join(DOCS_DIR, language, `${safeDocId}.md`);
+
+    // If category is provided, look inside that subfolder first
+    const filePath = category
+      ? path.join(DOCS_DIR, language, path.basename(category), `${safeDocId}.md`)
+      : path.join(DOCS_DIR, language, `${safeDocId}.md`);
 
     try {
       const content = await fs.readFile(filePath, 'utf-8');
@@ -54,9 +62,12 @@ export async function GET(request: NextRequest) {
         language
       });
     } catch (error) {
-      // Try fallback language if file doesn't exist
+      // Try fallback: if category specified, try same category in fallback language,
+      // else try to find the file in any category for the given language
       const fallbackLang = language === 'fr' ? 'en' : 'fr';
-      const fallbackPath = path.join(DOCS_DIR, fallbackLang, `${safeDocId}.md`);
+      const fallbackPath = category
+        ? path.join(DOCS_DIR, fallbackLang, path.basename(category), `${safeDocId}.md`)
+        : path.join(DOCS_DIR, fallbackLang, `${safeDocId}.md`);
       
       try {
         const content = await fs.readFile(fallbackPath, 'utf-8');
@@ -76,6 +87,31 @@ export async function GET(request: NextRequest) {
           fallback: true
         });
       } catch {
+        // As a last resort, search across categories for the language
+        try {
+          const langDir = path.join(DOCS_DIR, language);
+          const categories = await fs.readdir(langDir);
+          for (const cat of categories) {
+            const possible = path.join(langDir, cat, `${safeDocId}.md`);
+            try {
+              const content = await fs.readFile(possible, 'utf-8');
+              let title = safeDocId.replace(/-/g, ' ');
+              const titleMatch = content.match(/^#\s+(.+)$/m);
+              if (titleMatch) {
+                title = titleMatch[1];
+              }
+              return NextResponse.json({
+                id: safeDocId,
+                title,
+                content,
+                language,
+              });
+            } catch {
+              // ignore
+            }
+          }
+        } catch {}
+
         return NextResponse.json(
           { error: 'Document not found' },
           { status: 404 }

@@ -9,6 +9,9 @@ import path from 'path';
 
 export async function GET(request: NextRequest) {
   try {
+    if (process.env.NODE_ENV === 'production' || process.env.APP_ENV === 'production') {
+      return NextResponse.json({ error: 'Documentation interdite en production' }, { status: 403 });
+    }
     const searchParams = request.nextUrl.searchParams;
     const category = searchParams.get('category');
     const lang = searchParams.get('lang') || 'en';

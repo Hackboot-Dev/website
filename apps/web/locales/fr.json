@@ -289,13 +289,13 @@
     }
   },
   "hero": {
-    "label": "INFRASTRUCTURE 2025",
+    "label": "INFRASTRUCTURE CLOUD PREMIUM",
     "title": {
-      "1": "Cloud",
-      "2": "Computing",
-      "3": "Redéfini"
+      "1": "VMCloud",
+      "2": "by Hackboot",
+      "3": "Infrastructure"
     },
-    "subtitle": "Infrastructure as code avec sécurité enterprise. Déployez, adaptez, surveillez—sans effort.",
+    "subtitle": "Cloud européen premium : VPS AMD EPYC, GPU Computing Tesla/RTX, hébergement web. Déployez en 60s, support 24/7, SLA 99.9%.",
     "cta": {
       "primary": "Commencer",
       "secondary": "Voir les tarifs"

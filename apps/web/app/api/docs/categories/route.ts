@@ -8,6 +8,9 @@ import { getCategories, getDocsByCategory } from '../../../../lib/docs';
 
 export async function GET() {
   try {
+    if (process.env.NODE_ENV === 'production' || process.env.APP_ENV === 'production') {
+      return NextResponse.json({ success: false, error: 'Documentation interdite en production' }, { status: 403 });
+    }
     const categories = getCategories();
     
     // Add doc count for each category

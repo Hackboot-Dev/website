@@ -24,6 +24,47 @@ Chaque fonctionnalité complexe du projet a sa documentation détaillée.
 - `/apps/web/data/support/channels-config.json`
 - `/apps/web/app/support/page.tsx`
 
+### Legal System
+**Fichier** : [features/LEGAL_SYSTEM.md](./features/LEGAL_SYSTEM.md)
+
+**Description** : Documentation complète du système juridique modulaire VMCloud avec gestion multilingue des documents légaux.
+
+**Contenu** :
+- Architecture séparation documents légaux (Terms, AUP, SLA, DPA, Changes)
+- Pages Next.js dynamiques avec support FR/EN
+- Fallback intelligent vers français
+- Intégration informations société VMCloud OÜ
+- Guide configuration nouveaux documents
+- Testing et validation légale
+- Future enhancements (versioning, notifications, UX)
+
+**Fichiers concernés** :
+- `/apps/web/public/data/legal/*/[fr|en].md` - Documents légaux
+- `/apps/web/app/legal/*/page.tsx` - Pages de rendu
+- `/apps/web/components/layout/Footer.tsx` - Liens d'accès
+
+---
+
+### SEO Optimization System
+**Fichier** : [features/SEO_OPTIMIZATION.md](./features/SEO_OPTIMIZATION.md)
+
+**Description** : Système complet d'optimisation SEO pour dominer Google sur "VMCloud" et "Hackboot" avec metadata dynamique et structured data.
+
+**Contenu** :
+- Metadata dynamique par langue (titles, descriptions, keywords)
+- Schema.org structured data complet (Organization, Offers, Ratings)
+- Hreflang et canonical URLs pour multilingue
+- Open Graph et Twitter Cards dynamiques
+- robots.txt optimisé avec sitemaps
+- Monitoring et analytics SEO
+- Testing et validation techniques
+- Future enhancements (automation, AI-powered SEO)
+
+**Fichiers concernés** :
+- `/apps/web/app/page.tsx` - SEO dynamique principal
+- `/apps/web/locales/[fr|en].json` - Traductions optimisées
+- `/apps/web/public/robots.txt` - Configuration robots
+
 ---
 
 ## Comment ajouter une nouvelle documentation
