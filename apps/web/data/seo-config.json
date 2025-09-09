@@ -1,0 +1,154 @@
+{
+  "fr": {
+    "home": {
+      "title": "VMCloud - Hébergement Cloud VPS, GPU, Web | Infrastructure Premium France",
+      "description": "VMCloud - Leader français de l'hébergement cloud haute performance. VPS SSD NVMe, serveurs GPU pour IA/ML, hébergement web optimisé. Support 24/7, datacenters en France, 99.99% uptime. Essai gratuit 30 jours.",
+      "keywords": "hébergement cloud france, vps ssd nvme, serveur gpu france, cloud gpu ai ml, hébergement web premium, serveur virtuel privé, infrastructure cloud française, datacenter france, vps haute performance, gpu tesla a100, hébergement wordpress optimisé, cloud computing france, serveur dédié virtuel, iaas france, paas france, hébergement professionnel, vps linux windows, cloud storage france, cdn france, load balancer",
+      "og": {
+        "title": "VMCloud - Infrastructure Cloud Premium Made in France | VPS, GPU, Web Hosting",
+        "description": "Infrastructure cloud de nouvelle génération. VPS ultra-rapides, GPU pour IA, hébergement web managé. Support expert 24/7. Essai gratuit 30 jours.",
+        "image": "/images/og/home-fr.jpg",
+        "type": "website",
+        "site_name": "VMCloud France"
+      },
+      "twitter": {
+        "card": "summary_large_image",
+        "title": "VMCloud - Cloud Premium France | VPS à partir de 4.99€",
+        "description": "Infrastructure cloud haute performance. VPS NVMe, GPU Tesla, Web hosting. Datacenters français, support 24/7 🚀",
+        "image": "/images/twitter/home-fr.jpg"
+      },
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "VMCloud",
+        "url": "https://vmcl.fr",
+        "logo": "https://vmcl.fr/logo.png",
+        "description": "Leader français de l'hébergement cloud haute performance",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "FR",
+          "addressRegion": "Île-de-France",
+          "addressLocality": "Paris"
+        },
+        "sameAs": [
+          "https://twitter.com/vmcloud",
+          "https://linkedin.com/company/vmcloud",
+          "https://github.com/vmcloud"
+        ],
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "EUR",
+          "lowPrice": "4.99",
+          "highPrice": "999.99",
+          "offerCount": "50+",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "VPS Starter",
+              "price": "4.99",
+              "priceCurrency": "EUR",
+              "priceValidUntil": "2025-12-31",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        }
+      },
+      "canonical": "https://vmcl.fr",
+      "alternates": [
+        { "lang": "en", "url": "https://vmcl.fr/en" },
+        { "lang": "fr", "url": "https://vmcl.fr/fr" }
+      ]
+    },
+    "products": {
+      "title": "Tous nos Produits Cloud - VPS, GPU, Web, Storage | VMCloud France",
+      "description": "Découvrez notre gamme complète de solutions cloud. VPS haute performance dès 4.99€, serveurs GPU pour IA/ML, hébergement web managé, stockage object S3, CDN global. Infrastructure 100% française.",
+      "keywords": "produits cloud france, catalogue vps, serveurs gpu ia, hébergement web professionnel, solutions cloud entreprise, infrastructure iaas, plateforme paas, stockage s3 compatible, cdn global, load balancing, vps ssd nvme, gpu tesla rtx a100, hébergement wordpress woocommerce, serveur virtuel linux windows, cloud native france"
+    },
+    "pricing": {
+      "title": "Tarifs Cloud Transparents - Sans Engagement | VMCloud",
+      "description": "Tarification simple et transparente. VPS dès 4.99€/mois, GPU dès 0.90€/h, Web hosting dès 2.99€. Sans frais cachés, sans engagement. Facturation à l'heure, au mois ou à l'année. -20% sur engagement annuel.",
+      "keywords": "tarifs cloud france, prix vps pas cher, tarif gpu cloud, prix hébergement web, facturation cloud flexible, prix serveur virtuel, coût infrastructure cloud, tarifs compétitifs, sans engagement, facturation horaire, remise annuelle, essai gratuit, devis personnalisé"
+    },
+    "infrastructure": {
+      "title": "Infrastructure Cloud Premium - Datacenters France | VMCloud",
+      "description": "Infrastructure cloud de pointe. Datacenters Tier III+ en France, réseau 100Gbps, stockage 100% NVMe, processeurs AMD EPYC dernière génération. Redondance N+1, 99.99% SLA garanti.",
+      "keywords": "datacenter france, infrastructure cloud premium, tier 3 plus, réseau 100gbps, stockage nvme, amd epyc, redondance n+1, sla 99.99, haute disponibilité, sécurité iso 27001, conformité rgpd, green datacenter, infrastructure souveraine"
+    }
+  },
+  "en": {
+    "home": {
+      "title": "VMCloud - Premium Cloud Hosting VPS, GPU, Web | Enterprise Infrastructure",
+      "description": "VMCloud - Leading cloud infrastructure provider. High-performance VPS with NVMe SSD, GPU servers for AI/ML, optimized web hosting. 24/7 expert support, European datacenters, 99.99% uptime. 30-day free trial.",
+      "keywords": "cloud hosting europe, vps nvme ssd, gpu server hosting, cloud gpu ai ml, premium web hosting, virtual private server, cloud infrastructure provider, european datacenter, high performance vps, tesla a100 gpu, optimized wordpress hosting, cloud computing europe, virtual dedicated server, iaas provider, paas platform, enterprise hosting, linux windows vps, cloud storage europe, cdn global, load balancer",
+      "og": {
+        "title": "VMCloud - Next-Gen Cloud Infrastructure | VPS, GPU, Web Hosting",
+        "description": "Enterprise-grade cloud infrastructure. Ultra-fast VPS, GPU for AI, managed web hosting. 24/7 expert support. 30-day free trial.",
+        "image": "/images/og/home-en.jpg",
+        "type": "website",
+        "site_name": "VMCloud"
+      },
+      "twitter": {
+        "card": "summary_large_image",
+        "title": "VMCloud - Premium Cloud Hosting | VPS from €4.99",
+        "description": "High-performance cloud infrastructure. NVMe VPS, Tesla GPU, Web hosting. European datacenters, 24/7 support 🚀",
+        "image": "/images/twitter/home-en.jpg"
+      },
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "VMCloud",
+        "url": "https://vmcl.fr/en",
+        "logo": "https://vmcl.fr/logo.png",
+        "description": "Leading European cloud infrastructure provider",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "FR",
+          "addressRegion": "Île-de-France",
+          "addressLocality": "Paris"
+        },
+        "sameAs": [
+          "https://twitter.com/vmcloud",
+          "https://linkedin.com/company/vmcloud",
+          "https://github.com/vmcloud"
+        ],
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "EUR",
+          "lowPrice": "4.99",
+          "highPrice": "999.99",
+          "offerCount": "50+",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "VPS Starter",
+              "price": "4.99",
+              "priceCurrency": "EUR",
+              "priceValidUntil": "2025-12-31",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        }
+      },
+      "canonical": "https://vmcl.fr/en",
+      "alternates": [
+        { "lang": "en", "url": "https://vmcl.fr/en" },
+        { "lang": "fr", "url": "https://vmcl.fr/fr" }
+      ]
+    },
+    "products": {
+      "title": "All Cloud Products - VPS, GPU, Web, Storage | VMCloud",
+      "description": "Explore our complete range of cloud solutions. High-performance VPS from €4.99, GPU servers for AI/ML, managed web hosting, S3-compatible object storage, global CDN. European infrastructure.",
+      "keywords": "cloud products europe, vps catalog, gpu servers ai, professional web hosting, enterprise cloud solutions, iaas infrastructure, paas platform, s3 compatible storage, global cdn, load balancing, nvme ssd vps, tesla rtx a100 gpu, wordpress woocommerce hosting, linux windows virtual server, cloud native europe"
+    },
+    "pricing": {
+      "title": "Transparent Cloud Pricing - No Lock-in | VMCloud",
+      "description": "Simple and transparent pricing. VPS from €4.99/month, GPU from €0.90/hour, Web hosting from €2.99. No hidden fees, no commitment. Hourly, monthly or annual billing. 20% off annual plans.",
+      "keywords": "cloud pricing europe, cheap vps prices, gpu cloud pricing, web hosting cost, flexible cloud billing, virtual server pricing, cloud infrastructure cost, competitive rates, no commitment, hourly billing, annual discount, free trial, custom quote"
+    },
+    "infrastructure": {
+      "title": "Premium Cloud Infrastructure - European Datacenters | VMCloud",
+      "description": "State-of-the-art cloud infrastructure. Tier III+ datacenters in Europe, 100Gbps network, 100% NVMe storage, latest AMD EPYC processors. N+1 redundancy, 99.99% guaranteed SLA.",
+      "keywords": "european datacenter, premium cloud infrastructure, tier 3 plus, 100gbps network, nvme storage, amd epyc, n+1 redundancy, 99.99 sla, high availability, iso 27001 security, gdpr compliance, green datacenter, sovereign infrastructure"
+    }
+  }
+}

@@ -1,30 +1,64 @@
-# VMCloud by Hackboot - Premium Cloud Infrastructure
-# Allow all search engines to crawl our content
+# VMCloud - Premium Cloud Infrastructure
+# Robots.txt optimized for SEO
+# Last updated: 2025-01-01
 
+# Default rule for all search engines
 User-agent: *
 Allow: /
-
-# High-priority pages for VMCloud/Hackboot SEO
-Allow: /products
-Allow: /pricing  
-Allow: /legal/terms
-Allow: /legal/sla
-Allow: /legal/aup
-Allow: /legal/dpa
+Allow: /fr/
+Allow: /en/
+Allow: /products/
+Allow: /pricing
+Allow: /infrastructure
 Allow: /support
-Allow: /docs
-
-# Block admin and private areas
+Allow: /legal/
 Disallow: /api/
-Disallow: /admin/
 Disallow: /_next/
+Disallow: /admin/
 Disallow: /dashboard/
-
-# Crawl delay (be nice to crawlers)
+Disallow: /private/
+Disallow: *.json$
+Disallow: /*?*utm_
+Disallow: /*?*ref=
 Crawl-delay: 1
 
-# Sitemaps for search engines
-Sitemap: https://vmcl.fr/sitemap.xml
+# Googlebot specific (no crawl delay)
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Crawl-delay: 0
 
-# VMCloud brand variations for better discovery
-# VMCloud, Hackboot, VM Cloud, virtual machines, VPS hosting
+# Googlebot for images
+User-agent: Googlebot-Image
+Allow: /
+Allow: *.jpg$
+Allow: *.jpeg$
+Allow: *.png$
+Allow: *.webp$
+Allow: *.svg$
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Crawl-delay: 1
+
+# Block unwanted bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+# Sitemaps - Multiple for i18n
+Sitemap: https://vmcl.fr/sitemap.xml
+Sitemap: https://vmcl.fr/sitemap-fr.xml
+Sitemap: https://vmcl.fr/sitemap-en.xml
+
+# Canonical host
+Host: https://vmcl.fr

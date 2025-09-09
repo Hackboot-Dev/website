@@ -1,1 +1,34 @@
-{}
+{
+  "lb-starter": {
+    "usage": "Small applications",
+    "description": "Entry load balancer to distribute traffic from your small web applications with high availability.",
+    "use_cases": ["Simple HA websites", "Light APIs", "Basic web applications", "Simple redundancy", "Automatic failover"],
+    "features": ["Up to 5 backends", "10K requests/second", "Free Let's Encrypt SSL", "Automatic health checks", "Round-robin algorithm", "Basic DDoS protection", "Simple web interface"],
+    "target_audience": "Developers, small businesses, simple projects",
+    "highlight": "Simple and economical"
+  },
+  "lb-business": {
+    "usage": "Medium applications",
+    "description": "Advanced load balancer with TCP/UDP support and enterprise features for critical applications.",
+    "use_cases": ["E-commerce applications", "Production APIs", "Critical web services", "Multi-tier applications", "HA databases"],
+    "features": ["Up to 20 backends", "50K requests/second", "Wildcard SSL included", "Advanced health checks", "Multiple algorithms", "TCP/UDP support", "Real-time monitoring"],
+    "target_audience": "SMEs, critical applications, e-commerce",
+    "highlight": "TCP/UDP included"
+  },
+  "lb-enterprise": {
+    "usage": "Critical applications",
+    "description": "Enterprise load balancer with WebSocket, custom scripts and premium DDoS protection.",
+    "use_cases": ["Mission-critical applications", "High availability platforms", "Financial services", "Real-time applications", "Complex infrastructure"],
+    "features": ["Up to 100 backends", "200K requests/second", "EV/Custom SSL included", "Full WebSocket support", "Custom health check scripts", "Multi-AZ deployment", "Premium DDoS protection"],
+    "target_audience": "Large enterprises, critical services",
+    "highlight": "WebSocket and multi-AZ"
+  },
+  "lb-global": {
+    "usage": "Global scale",
+    "description": "Global load balancer with AI and gRPC/HTTP3 support for worldwide-scale applications.",
+    "use_cases": ["Global applications", "CDN and edge computing", "Complex microservices", "High-performance APIs", "Multinational services"],
+    "features": ["Unlimited backends", "1M+ requests/second", "SSL with HSM", "gRPC/HTTP3 support", "AI health checks", "Multi-region deployment", "Enterprise DDoS protection"],
+    "target_audience": "Multinationals, global applications",
+    "highlight": "AI and worldwide scale"
+  }
+}

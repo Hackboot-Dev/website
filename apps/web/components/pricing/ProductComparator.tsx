@@ -71,7 +71,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
 
       {/* Category Selection - More visual */}
       <div className="mb-8 sm:mb-12 px-4">
-        <p className="text-center text-zinc-400 mb-4 sm:mb-6 text-sm sm:text-base">Choisissez d'abord une catégorie de produit</p>
+        <p className="text-center text-zinc-400 mb-4 sm:mb-6 text-sm sm:text-base">{t.selectCategory || 'First choose a product category'}</p>
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {categories.map(cat => (
             <button
@@ -103,7 +103,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
             {/* Product 1 Selection */}
             <div className="bg-gradient-to-br from-zinc-900 to-zinc-950 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-zinc-800">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-white">Premier produit</h3>
+                <h3 className="text-lg font-medium text-white">{t.firstProduct || 'First product'}</h3>
                 <Badge variant="primary">1</Badge>
               </div>
               <select
@@ -112,7 +112,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
                 style={{ WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none' }}
                 className="custom-select w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl focus:outline-none focus:border-cyan-500 transition-colors text-white"
               >
-                <option value="">Sélectionner un produit</option>
+                <option value="">{t.selectProduct || 'Select a product'}</option>
                 {categoryProducts.map(product => (
                   <option key={product.id} value={product.id}>
                     {product.name} - {product.vcpu || product.cpu} / {product.ram} / {product.storage}
@@ -124,7 +124,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
             {/* Product 2 Selection */}
             <div className="bg-gradient-to-br from-zinc-900 to-zinc-950 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-zinc-800">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-white">Second produit</h3>
+                <h3 className="text-lg font-medium text-white">{t.secondProduct || 'Second product'}</h3>
                 <Badge variant="secondary">2</Badge>
               </div>
               <select
@@ -133,7 +133,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
                 style={{ WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none' }}
                 className="custom-select w-full px-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl focus:outline-none focus:border-purple-500 transition-colors text-white"
               >
-                <option value="">Sélectionner un produit</option>
+                <option value="">{t.selectProduct || 'Select a product'}</option>
                 {categoryProducts.filter(p => p.id !== product1Id).map(product => (
                   <option key={product.id} value={product.id}>
                     {product.name} - {product.vcpu || product.cpu} / {product.ram} / {product.storage}
@@ -150,13 +150,13 @@ export default function ProductComparator({ translations, locale }: ProductCompa
         <div className="space-y-6 sm:space-y-8 px-4">
           {/* Comparison Table */}
           <div className="bg-gradient-to-br from-zinc-900 to-zinc-950 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-zinc-800">
-            <h3 className="text-xl sm:text-2xl font-light text-white mb-4 sm:mb-8 text-center">{t.comparison || 'Comparaison détaillée'}</h3>
+            <h3 className="text-xl sm:text-2xl font-light text-white mb-4 sm:mb-8 text-center">{t.comparison || 'Detailed comparison'}</h3>
 
             <div className="overflow-x-auto max-w-full">
               <table className="w-full table-auto">
                 <thead>
                   <tr className="border-b border-white/10">
-                    <th className="text-left py-2 sm:py-4 text-xs sm:text-sm">{t.specs || 'Caractéristiques'}</th>
+                    <th className="text-left py-2 sm:py-4 text-xs sm:text-sm">{t.specs || 'Specifications'}</th>
                     <th className="text-center py-2 sm:py-4 text-xs sm:text-sm">
                       <div className="flex items-center justify-center gap-2">
                         {getCategoryIcon(product1.category, { size: 'sm' })}
@@ -206,22 +206,22 @@ export default function ProductComparator({ translations, locale }: ProductCompa
 
                   {/* Pricing */}
                   <tr className="border-b border-white/5">
-                    <td className="py-4 text-gray-400">{t.pricing || 'Tarification'}</td>
+                    <td className="py-4 text-gray-400">{t.pricing || 'Pricing'}</td>
                     <td className="text-center py-4">
                       <div className="space-y-1">
                         {product1.hourly && (
                           <div className="text-sm">
-                            <span className="text-cyan-400">€{product1.hourly}/h</span>
+                            <span className="text-cyan-400">€{product1.hourly}{t.perHour || '/h'}</span>
                           </div>
                         )}
                         {product1.monthly && (
                           <div className="text-sm">
-                            <span className="text-green-400">€{product1.monthly}/mois</span>
+                            <span className="text-green-400">€{product1.monthly}{t.perMonth || '/month'}</span>
                           </div>
                         )}
                         {product1.annual && (
                           <div className="text-sm">
-                            <span className="text-purple-400">€{product1.annual}/an</span>
+                            <span className="text-purple-400">€{product1.annual}{t.perYearShort || '/year'}</span>
                           </div>
                         )}
                       </div>
@@ -230,17 +230,17 @@ export default function ProductComparator({ translations, locale }: ProductCompa
                       <div className="space-y-1">
                         {product2.hourly && (
                           <div className="text-sm">
-                            <span className="text-cyan-400">€{product2.hourly}/h</span>
+                            <span className="text-cyan-400">€{product2.hourly}{t.perHour || '/h'}</span>
                           </div>
                         )}
                         {product2.monthly && (
                           <div className="text-sm">
-                            <span className="text-green-400">€{product2.monthly}/mois</span>
+                            <span className="text-green-400">€{product2.monthly}{t.perMonth || '/month'}</span>
                           </div>
                         )}
                         {product2.annual && (
                           <div className="text-sm">
-                            <span className="text-purple-400">€{product2.annual}/an</span>
+                            <span className="text-purple-400">€{product2.annual}{t.perYearShort || '/year'}</span>
                           </div>
                         )}
                       </div>
@@ -254,7 +254,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
           {/* Break-even Analysis */}
           {product1.hourly && product1.monthly && (
             <div className="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/10">
-              <h3 className="text-lg sm:text-xl font-bold mb-4">{t.breakeven || 'Analyse du seuil de rentabilité'}</h3>
+              <h3 className="text-lg sm:text-xl font-bold mb-4">{t.breakeven || 'Break-even analysis'}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <p className="text-gray-400 mb-2">{product1.name}</p>
@@ -262,7 +262,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
                     {Math.round(calculateBreakEven(product1.hourly, product1.monthly))} {t.hours || 'heures'}
                   </p>
                   <p className="text-sm text-gray-400 mt-2">
-                    {t.breakevenHours || 'pour égaler le tarif mensuel'}
+                    {t.breakevenHours || 'to equal monthly rate'}
                   </p>
                 </div>
                 {product2.hourly && product2.monthly && (
@@ -272,7 +272,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
                       {Math.round(calculateBreakEven(product2.hourly, product2.monthly))} {t.hours}
                     </p>
                     <p className="text-sm text-gray-400 mt-2">
-                      {t.breakevenHours || 'pour égaler le tarif mensuel'}
+                      {t.breakevenHours || 'to equal monthly rate'}
                     </p>
                   </div>
                 )}
@@ -282,7 +282,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
 
           {/* Recommendation */}
           <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/10">
-            <h3 className="text-lg sm:text-xl font-bold mb-4">{t.recommendation || 'Recommandations'}</h3>
+            <h3 className="text-lg sm:text-xl font-bold mb-4">{t.recommendation || 'Recommendations'}</h3>
             <div className="space-y-4">
               {product1.hourly && product1.monthly && (
                 <div>
@@ -290,10 +290,10 @@ export default function ProductComparator({ translations, locale }: ProductCompa
                     <span className="font-semibold">{product1.name}:</span>
                   </p>
                   <ul className="mt-2 space-y-2 text-sm text-gray-400">
-                    <li>• {t.recommendHourly || 'Tarif horaire recommandé si utilisation <'} {Math.round(calculateBreakEven(product1.hourly, product1.monthly))} {t.hoursPerMonth || 'heures/mois'}</li>
-                    <li>• {t.recommendMonthly || 'Tarif mensuel recommandé si utilisation >'} {Math.round(calculateBreakEven(product1.hourly, product1.monthly))} {t.hoursPerMonth || 'heures/mois'}</li>
+                    <li>• {t.recommendHourly || 'Hourly rate recommended if usage <'} {Math.round(calculateBreakEven(product1.hourly, product1.monthly))} {t.hoursPerMonth || 'hours/month'}</li>
+                    <li>• {t.recommendMonthly || 'Monthly rate recommended if usage >'} {Math.round(calculateBreakEven(product1.hourly, product1.monthly))} {t.hoursPerMonth || 'hours/month'}</li>
                     {product1.annual && (
-                      <li>• {t.savingsWithAnnual || 'Économies avec le tarif annuel'}: €{calculateAnnualSavings(product1.monthly, product1.annual)} {t.perYear || 'par an'}</li>
+                      <li>• {t.savingsWithAnnual || 'Savings with annual rate'}: €{calculateAnnualSavings(product1.monthly, product1.annual)} {t.perYear || 'per year'}</li>
                     )}
                   </ul>
                 </div>
@@ -304,10 +304,10 @@ export default function ProductComparator({ translations, locale }: ProductCompa
                     <span className="font-semibold">{product2.name}:</span>
                   </p>
                   <ul className="mt-2 space-y-2 text-sm text-gray-400">
-                    <li>• {t.recommendHourly || 'Tarif horaire recommandé si utilisation <'} {Math.round(calculateBreakEven(product2.hourly, product2.monthly))} {t.hoursPerMonth || 'heures/mois'}</li>
-                    <li>• {t.recommendMonthly || 'Tarif mensuel recommandé si utilisation >'} {Math.round(calculateBreakEven(product2.hourly, product2.monthly))} {t.hoursPerMonth || 'heures/mois'}</li>
+                    <li>• {t.recommendHourly || 'Hourly rate recommended if usage <'} {Math.round(calculateBreakEven(product2.hourly, product2.monthly))} {t.hoursPerMonth || 'hours/month'}</li>
+                    <li>• {t.recommendMonthly || 'Monthly rate recommended if usage >'} {Math.round(calculateBreakEven(product2.hourly, product2.monthly))} {t.hoursPerMonth || 'hours/month'}</li>
                     {product2.annual && (
-                      <li>• {t.savingsWithAnnual || 'Économies avec le tarif annuel'}: €{calculateAnnualSavings(product2.monthly, product2.annual)} {t.perYear || 'par an'}</li>
+                      <li>• {t.savingsWithAnnual || 'Savings with annual rate'}: €{calculateAnnualSavings(product2.monthly, product2.annual)} {t.perYear || 'per year'}</li>
                     )}
                   </ul>
                 </div>
@@ -321,7 +321,7 @@ export default function ProductComparator({ translations, locale }: ProductCompa
               onClick={handleReset}
               className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-colors"
             >
-              {t.reset || 'Réinitialiser'}
+              {t.resetComparison || 'New comparison'}
             </button>
           </div>
         </div>

@@ -1,0 +1,204 @@
+{
+  "pricing": {
+    "hero": {
+      "badge": "Transparent pricing",
+      "title": "Simple and predictable pricing",
+      "subtitle": "No surprises or hidden fees",
+      "description": "Choose the billing model that fits your usage. Pay only for what you use or opt for a plan with substantial savings."
+    },
+    "models": {
+      "title": "Three billing models",
+      "subtitle": "Tailored to all needs and budgets",
+      "hourly": {
+        "name": "Hourly Billing",
+        "tagline": "Flexible pay-as-you-go",
+        "description": "Perfect for testing, development, and variable workloads. Pay only for the hours used.",
+        "features": [
+          "No minimum commitment",
+          "Start and stop at will",
+          "Billing to the minute",
+          "Perfect for traffic spikes"
+        ],
+        "bestFor": "Startups, testing, development",
+        "example": "€0.008/h for a starter VPS"
+      },
+      "monthly": {
+        "name": "Monthly Subscription",
+        "tagline": "Best value for money",
+        "description": "For regular use with automatic savings. No long-term commitment.",
+        "savings": "Save up to 30%",
+        "features": [
+          "Predictable fixed monthly rate",
+          "30% savings vs hourly",
+          "Cancel anytime",
+          "Guaranteed resources 24/7"
+        ],
+        "bestFor": "Production, websites, applications",
+        "example": "€4.99/month for a starter VPS"
+      },
+      "annual": {
+        "name": "Annual Commitment",
+        "tagline": "Maximize your savings",
+        "description": "The most economical option for long-term projects. Two months free each year.",
+        "savings": "Save up to 40%",
+        "features": [
+          "2 months free (17% discount)",
+          "Guaranteed price for 12 months",
+          "Priority support included",
+          "Free migration"
+        ],
+        "bestFor": "Enterprises, established projects",
+        "example": "€49.90/year for a starter VPS"
+      },
+      "bestForLabel": "Best for",
+      "exampleLabel": "Example:"
+    },
+    "calculator": {
+      "badge": "Interactive calculator",
+      "title": "Estimate your savings",
+      "subtitle": "Select a product and adjust your usage to see potential savings with our different billing models",
+      "productCategory": "Product category",
+      "specificProduct": "Specific product",
+      "selectProduct": "Select a product",
+      "estimatedUsage": "Estimated usage",
+      "hoursMonth": "hours/month",
+      "hourlyBilling": "Hourly Billing",
+      "monthlySubscription": "Monthly Subscription",
+      "annualCommitment": "Annual Commitment",
+      "forUsage": "for ",
+      "hoursUsage": "h of usage",
+      "perHour": "/hour",
+      "perMonthUnlimited": "per month, unlimited usage",
+      "perYearBonus": "per year (2 months free)",
+      "savingsOf": "Save ",
+      "noProductSelected": "Select a product to see potential savings",
+      "viewAllProducts": "View all products",
+      "specs": {
+        "cpu": "Processor",
+        "ram": "Memory",
+        "storage": "Storage",
+        "network": "Network"
+      }
+    },
+    "comparator": {
+      "badge": "Comparison tool",
+      "title": "Compare our offers",
+      "subtitle": "Analyze two products from the same category side by side to make the best choice for your needs",
+      "selectCategory": "First choose a product category",
+      "firstProduct": "First product",
+      "secondProduct": "Second product",
+      "selectProduct": "Select a product",
+      "comparison": "Detailed comparison",
+      "specs": "Specifications",
+      "pricing": "Pricing",
+      "breakeven": "Break-even analysis",
+      "hours": "hours",
+      "breakevenHours": "to equal monthly rate",
+      "recommendation": "Recommendations",
+      "recommendHourly": "Hourly rate recommended if usage <",
+      "recommendMonthly": "Monthly rate recommended if usage >",
+      "hoursPerMonth": "hours/month",
+      "savingsWithAnnual": "Savings with annual rate",
+      "perYear": "per year",
+      "perHour": "/h",
+      "perMonth": "/month",
+      "perYearShort": "/year",
+      "resetComparison": "New comparison",
+      "features": {
+        "cpu": "Processor",
+        "ram": "Memory RAM",
+        "storage": "Storage",
+        "bandwidth": "Bandwidth"
+      }
+    },
+    "billing": {
+      "title": "Billing details",
+      "sections": {
+        "payment": {
+          "title": "Payment methods",
+          "methods": [
+            "Credit card (Visa, Mastercard)",
+            "PayPal & Stripe",
+            "SEPA transfer",
+            "Cryptocurrencies (Bitcoin, Ethereum)"
+          ]
+        },
+        "billing": {
+          "title": "Billing cycle",
+          "details": [
+            "Monthly billing on the 1st of each month",
+            "Pro-rata for services added mid-month",
+            "Invoices available in customer area",
+            "Email notifications before renewal"
+          ]
+        },
+        "guarantees": {
+          "title": "Our guarantees",
+          "items": [
+            "30-day money-back guarantee",
+            "No hidden fees",
+            "Transparent and fixed prices",
+            "Free cancellation"
+          ]
+        }
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "question": "Can I change my billing model at any time?",
+          "answer": "Yes, you can switch between models from your customer area. The change takes effect at the next billing cycle."
+        },
+        {
+          "question": "Are there any setup fees?",
+          "answer": "No, there are no setup fees. You only pay for the resources you use."
+        },
+        {
+          "question": "How does the 30-day guarantee work?",
+          "answer": "If you're not satisfied within the first 30 days, we'll refund you in full, no questions asked."
+        },
+        {
+          "question": "Do prices include VAT?",
+          "answer": "Displayed prices are excluding tax. Applicable VAT will be added at checkout based on your country of residence."
+        },
+        {
+          "question": "Can I get an invoice with VAT?",
+          "answer": "Yes, all our invoices include VAT and comply with European regulations. They are available as PDFs in your customer area."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "subtitle": "Join thousands of companies that trust us",
+      "buttons": {
+        "viewProducts": "View products",
+        "contact": "Contact us"
+      }
+    },
+    "categories": {
+      "vps": "VPS",
+      "gpu": "GPU Cloud",
+      "webhosting": "Web Hosting",
+      "storage": "Storage",
+      "networking": "Networking"
+    },
+    "features": {
+      "cpu": "CPU",
+      "ram": "RAM",
+      "storage": "Storage",
+      "bandwidth": "Bandwidth",
+      "gpu": "GPU",
+      "support": "Support",
+      "sla": "SLA",
+      "backup": "Backup"
+    },
+    "badges": {
+      "popular": "Most Popular",
+      "new": "New",
+      "sale": "Sale",
+      "enterprise": "Enterprise",
+      "recommended": "Recommended"
+    }
+  }
+}

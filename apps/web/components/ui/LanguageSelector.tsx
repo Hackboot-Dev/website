@@ -1,15 +1,18 @@
 'use client';
 // /workspaces/website/apps/web/components/ui/LanguageSelector.tsx
-// Description: Sélecteur de langue minimaliste
-// Last modified: 2025-08-16
+// Description: Sélecteur de langue minimaliste avec redirection URL
+// Last modified: 2025-09-05
 // Related docs: /docs/JOURNAL.md
 
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
 import { useLanguage } from '../../contexts/LanguageContext';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function LanguageSelector() {
   const { language, setLanguage, supportedLanguages, languageInfo, loading, isChangingLanguage } = useLanguage();
+  const pathname = usePathname();
+  const router = useRouter();
   
   if (loading) {
     return (
@@ -43,7 +46,16 @@ export default function LanguageSelector() {
         {supportedLanguages.map((langCode) => (
           <button
             key={langCode}
-            onClick={() => setLanguage(langCode)}
+            onClick={() => {
+              // Build new path with the new locale
+              const segments = pathname.split('/');
+              segments[1] = langCode; // Replace locale segment
+              const newPath = segments.join('/');
+              
+              // Update localStorage and redirect
+              localStorage.setItem('vmcloud-language', langCode);
+              router.push(newPath);
+            }}
             className={`w-full px-4 py-2 text-left text-sm flex items-center space-x-2 transition-colors duration-200 ${
               language === langCode
                 ? 'text-white bg-zinc-700/50'

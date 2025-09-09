@@ -1,0 +1,204 @@
+{
+  "pricing": {
+    "hero": {
+      "badge": "Tarification transparente",
+      "title": "Des tarifs simples et prévisibles",
+      "subtitle": "Sans surprises ni frais cachés",
+      "description": "Choisissez le modèle de facturation qui correspond à votre usage. Payez uniquement ce que vous consommez ou optez pour un forfait avec des économies substantielles."
+    },
+    "models": {
+      "title": "Trois modèles de facturation",
+      "subtitle": "Adaptés à tous les besoins et tous les budgets",
+      "hourly": {
+        "name": "Facturation Horaire",
+        "tagline": "Pay-as-you-go flexible",
+        "description": "Idéal pour les tests, développements et charges variables. Payez uniquement les heures utilisées.",
+        "features": [
+          "Aucun engagement minimum",
+          "Démarrage et arrêt à volonté",
+          "Facturation à la minute près",
+          "Parfait pour les pics de charge"
+        ],
+        "bestFor": "Startups, tests, développement",
+        "example": "€0.008/h pour un VPS starter"
+      },
+      "monthly": {
+        "name": "Abonnement Mensuel",
+        "tagline": "Le meilleur rapport qualité-prix",
+        "description": "Pour une utilisation régulière avec des économies automatiques. Sans engagement longue durée.",
+        "savings": "Économisez jusqu'à 30%",
+        "features": [
+          "Tarif fixe mensuel prévisible",
+          "30% d'économie vs horaire",
+          "Résiliation à tout moment",
+          "Ressources garanties 24/7"
+        ],
+        "bestFor": "Production, sites web, applications",
+        "example": "€4.99/mois pour un VPS starter"
+      },
+      "annual": {
+        "name": "Engagement Annuel",
+        "tagline": "Maximisez vos économies",
+        "description": "L'option la plus économique pour les projets long terme. Deux mois offerts chaque année.",
+        "savings": "Économisez jusqu'à 40%",
+        "features": [
+          "2 mois gratuits (17% de remise)",
+          "Prix garanti pendant 12 mois",
+          "Support prioritaire inclus",
+          "Migration gratuite"
+        ],
+        "bestFor": "Entreprises, projets établis",
+        "example": "€49.90/an pour un VPS starter"
+      },
+      "bestForLabel": "Idéal pour",
+      "exampleLabel": "Exemple :"
+    },
+    "calculator": {
+      "badge": "Calculateur interactif",
+      "title": "Estimez vos économies",
+      "subtitle": "Sélectionnez un produit et ajustez votre utilisation pour voir les économies potentielles avec nos différents modes de facturation",
+      "productCategory": "Catégorie de produit",
+      "specificProduct": "Produit spécifique",
+      "selectProduct": "Sélectionner un produit",
+      "estimatedUsage": "Utilisation estimée",
+      "hoursMonth": "heures/mois",
+      "hourlyBilling": "Facturation Horaire",
+      "monthlySubscription": "Abonnement Mensuel",
+      "annualCommitment": "Engagement Annuel",
+      "forUsage": "pour ",
+      "hoursUsage": "h d'utilisation",
+      "perHour": "/heure",
+      "perMonthUnlimited": "par mois, usage illimité",
+      "perYearBonus": "par an (2 mois offerts)",
+      "savingsOf": "Économie de ",
+      "noProductSelected": "Sélectionnez un produit pour voir les économies potentielles",
+      "viewAllProducts": "Voir tous les produits",
+      "specs": {
+        "cpu": "Processeur",
+        "ram": "Mémoire",
+        "storage": "Stockage",
+        "network": "Réseau"
+      }
+    },
+    "comparator": {
+      "badge": "Outil de comparaison",
+      "title": "Comparez nos offres",
+      "subtitle": "Analysez côte à côte deux produits de la même catégorie pour faire le meilleur choix selon vos besoins",
+      "selectCategory": "Choisissez d'abord une catégorie de produit",
+      "firstProduct": "Premier produit",
+      "secondProduct": "Second produit",
+      "selectProduct": "Sélectionner un produit",
+      "comparison": "Comparaison détaillée",
+      "specs": "Caractéristiques",
+      "pricing": "Tarification",
+      "breakeven": "Analyse du seuil de rentabilité",
+      "hours": "heures",
+      "breakevenHours": "pour égaler le tarif mensuel",
+      "recommendation": "Recommandations",
+      "recommendHourly": "Tarif horaire recommandé si utilisation <",
+      "recommendMonthly": "Tarif mensuel recommandé si utilisation >",
+      "hoursPerMonth": "heures/mois",
+      "savingsWithAnnual": "Économies avec le tarif annuel",
+      "perYear": "par an",
+      "perHour": "/h",
+      "perMonth": "/mois",
+      "perYearShort": "/an",
+      "resetComparison": "Nouvelle comparaison",
+      "features": {
+        "cpu": "Processeur",
+        "ram": "Mémoire RAM",
+        "storage": "Stockage",
+        "bandwidth": "Bande passante"
+      }
+    },
+    "billing": {
+      "title": "Détails de facturation",
+      "sections": {
+        "payment": {
+          "title": "Moyens de paiement",
+          "methods": [
+            "Carte bancaire (Visa, Mastercard)",
+            "PayPal & Stripe",
+            "Virement SEPA",
+            "Crypto-monnaies (Bitcoin, Ethereum)"
+          ]
+        },
+        "billing": {
+          "title": "Cycle de facturation",
+          "details": [
+            "Facturation mensuelle le 1er de chaque mois",
+            "Pro-rata pour les services ajoutés en cours de mois",
+            "Factures disponibles dans l'espace client",
+            "Notifications par email avant renouvellement"
+          ]
+        },
+        "guarantees": {
+          "title": "Nos garanties",
+          "items": [
+            "30 jours satisfait ou remboursé",
+            "Aucun frais caché",
+            "Prix transparents et fixes",
+            "Annulation sans frais"
+          ]
+        }
+      }
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": [
+        {
+          "question": "Puis-je changer de modèle de facturation à tout moment ?",
+          "answer": "Oui, vous pouvez passer d'un modèle à l'autre depuis votre espace client. Le changement prend effet au prochain cycle de facturation."
+        },
+        {
+          "question": "Y a-t-il des frais de mise en service ?",
+          "answer": "Non, aucun frais de mise en service n'est facturé. Vous payez uniquement les ressources que vous utilisez."
+        },
+        {
+          "question": "Comment fonctionne la garantie 30 jours ?",
+          "answer": "Si vous n'êtes pas satisfait dans les 30 premiers jours, nous vous remboursons intégralement, sans poser de questions."
+        },
+        {
+          "question": "Les prix incluent-ils la TVA ?",
+          "answer": "Les prix affichés sont hors taxes. La TVA applicable sera ajoutée lors du paiement selon votre pays de résidence."
+        },
+        {
+          "question": "Puis-je avoir une facture avec TVA ?",
+          "answer": "Oui, toutes nos factures incluent la TVA et sont conformes aux réglementations européennes. Elles sont disponibles en PDF dans votre espace client."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Prêt à démarrer ?",
+      "subtitle": "Rejoignez des milliers d'entreprises qui nous font confiance",
+      "buttons": {
+        "viewProducts": "Voir les produits",
+        "contact": "Contactez-nous"
+      }
+    },
+    "categories": {
+      "vps": "VPS",
+      "gpu": "Cloud GPU",
+      "webhosting": "Hébergement Web",
+      "storage": "Stockage",
+      "networking": "Réseau"
+    },
+    "features": {
+      "cpu": "CPU",
+      "ram": "RAM",
+      "storage": "Stockage",
+      "bandwidth": "Bande Passante",
+      "gpu": "GPU",
+      "support": "Support",
+      "sla": "SLA",
+      "backup": "Sauvegarde"
+    },
+    "badges": {
+      "popular": "Plus Populaire",
+      "new": "Nouveau",
+      "sale": "Promo",
+      "enterprise": "Entreprise",
+      "recommended": "Recommandé"
+    }
+  }
+}

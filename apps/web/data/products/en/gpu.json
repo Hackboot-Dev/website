@@ -1,1 +1,178 @@
-{}
+{
+  "gpu-starter": {
+    "usage": "AI/ML Dev",
+    "description": "Entry-level GPU perfect for getting started in Artificial Intelligence and Machine Learning.",
+    "use_cases": [
+      "Machine Learning training",
+      "Light AI inference",
+      "Model development",
+      "Computer vision",
+      "Video transcoding"
+    ],
+    "features": [
+      "Tesla T4 optimized for AI",
+      "16 GB GDDR6 VRAM",
+      "65 TFLOPS compute power",
+      "CUDA and cuDNN pre-installed",
+      "PyTorch and TensorFlow ready",
+      "Jupyter Lab included",
+      "Docker GPU support"
+    ],
+    "target_audience": "Students, AI developers, startups",
+    "highlight": "Ideal to start with AI"
+  },
+  "gpu-pro": {
+    "usage": "ML Training",
+    "description": "High-performance RTX 4090 GPU for advanced Machine Learning model training.",
+    "use_cases": [
+      "Deep learning training",
+      "Language models (LLM)",
+      "3D ray-tracing rendering",
+      "AI image diffusion",
+      "Academic research"
+    ],
+    "features": [
+      "Latest-gen RTX 4090",
+      "24 GB GDDR6X VRAM",
+      "82 TFLOPS with Tensor Cores",
+      "DLSS 3.0 support",
+      "Real-time ray-tracing",
+      "NVENC/NVDEC integrated",
+      "Complete ML stack"
+    ],
+    "target_audience": "Data scientists, researchers, 3D studios",
+    "highlight": "Gaming-grade RTX 4090"
+  },
+  "gpu-business": {
+    "usage": "AI Production",
+    "description": "Dual-GPU configuration for production AI applications requiring high performance.",
+    "use_cases": [
+      "Production AI applications",
+      "ML batch processing",
+      "Inference servers",
+      "Distributed rendering",
+      "Real-time analytics"
+    ],
+    "features": [
+      "2x RTX 4090 in parallel",
+      "48 GB total VRAM",
+      "164 combined TFLOPS",
+      "Automatic load balancing",
+      "Multi-GPU scaling",
+      "Advanced GPU monitoring",
+      "Dedicated REST API"
+    ],
+    "target_audience": "AI companies, production services",
+    "highlight": "High-performance dual-GPU"
+  },
+  "gpu-enterprise": {
+    "usage": "Intensive workloads",
+    "description": "Datacenter A100 GPU for the most demanding enterprise parallel computing workloads.",
+    "use_cases": [
+      "Scientific HPC",
+      "Large language models",
+      "Numerical simulation",
+      "Financial computing",
+      "Medical research"
+    ],
+    "features": [
+      "Datacenter A100 40GB",
+      "Ampere architecture",
+      "312 TFLOPS Tensor",
+      "Multi-Instance GPU (MIG)",
+      "High-speed NVLink",
+      "Mixed precision support",
+      "HPC optimized"
+    ],
+    "target_audience": "Laboratories, finance, pharma",
+    "highlight": "Datacenter-grade A100"
+  },
+  "gpu-quantum": {
+    "usage": "Multi-GPU Training",
+    "description": "Dual-A100 configuration for distributed training of very large-scale AI models.",
+    "use_cases": [
+      "Giant model training",
+      "Massive parallel processing",
+      "Advanced AI research",
+      "Distributed deep learning",
+      "Simulated quantum computing"
+    ],
+    "features": [
+      "2x interconnected A100 40GB",
+      "80 GB combined VRAM",
+      "624 TFLOPS Tensor",
+      "Ultra-fast NVLink 3.0",
+      "Multi-node ready",
+      "Horovod pre-configured",
+      "Distributed training support"
+    ],
+    "target_audience": "Advanced research, enterprise AI",
+    "highlight": "Synchronized multi-GPU"
+  },
+  "gpu-titan": {
+    "usage": "Enterprise AI",
+    "description": "A100 80GB for the most sophisticated enterprise Artificial Intelligence applications.",
+    "use_cases": [
+      "Critical enterprise AI",
+      "Large datasets",
+      "Massive transformer models",
+      "Advanced computer vision",
+      "Enterprise NLP"
+    ],
+    "features": [
+      "A100 80GB HBM2e",
+      "Extreme memory bandwidth",
+      "80GB+ model support",
+      "Sparsity optimization",
+      "TensorRT integration",
+      "24/7 enterprise support",
+      "Compliance ready"
+    ],
+    "target_audience": "Large enterprises, financial sector",
+    "highlight": "80GB VRAM for large models"
+  },
+  "gpu-cluster": {
+    "usage": "Distributed Computing",
+    "description": "4-GPU cluster with NVSwitch for high-performance distributed computing.",
+    "use_cases": [
+      "Supercomputing",
+      "Complex simulations",
+      "Massive parallel training",
+      "Scientific computing",
+      "Foundation models"
+    ],
+    "features": [
+      "4x A100 40GB cluster",
+      "160 GB total VRAM",
+      "1248 combined TFLOPS",
+      "NVSwitch fabric",
+      "All-to-all communication",
+      "Optimized NCCL",
+      "Cluster management included"
+    ],
+    "target_audience": "Research centers, universities",
+    "highlight": "Professional 4-GPU cluster"
+  },
+  "gpu-supercompute": {
+    "usage": "Research HPC",
+    "description": "8-GPU supercomputer for the most advanced HPC research and scientific simulations.",
+    "use_cases": [
+      "Fundamental research",
+      "Climate simulations",
+      "Particle physics",
+      "Bioinformatics",
+      "Molecular modeling"
+    ],
+    "features": [
+      "8x interconnected A100 80GB",
+      "640 GB total VRAM",
+      "2496 TFLOPS Tensor",
+      "InfiniBand integration",
+      "MPI optimization",
+      "HPC scheduler included",
+      "Dedicated engineer support"
+    ],
+    "target_audience": "Academic research, government",
+    "highlight": "8-GPU supercomputer"
+  }
+}

@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import LocalizedLink from '../ui/LocalizedLink';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function Footer() {
@@ -50,9 +50,9 @@ export default function Footer() {
           
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="text-white font-light text-xl tracking-wide hover:tracking-widest transition-all duration-300">
+            <LocalizedLink href="/" className="text-white font-light text-xl tracking-wide hover:tracking-widest transition-all duration-300">
               VMCloud
-            </Link>
+            </LocalizedLink>
             <p className="text-zinc-400 text-sm mt-4 font-light max-w-xs">
               Infrastructure cloud haute performance pour développeurs et entreprises.
             </p>
@@ -64,12 +64,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.products.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <LocalizedLink 
                     href={link.href}
                     className="text-zinc-400 text-sm hover:text-white transition-colors duration-300 hover:tracking-wide"
                   >
                     {link.name}
-                  </Link>
+                  </LocalizedLink>
                 </li>
               ))}
             </ul>
@@ -81,12 +81,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <LocalizedLink 
                     href={link.href}
                     className="text-zinc-400 text-sm hover:text-white transition-colors duration-300 hover:tracking-wide"
                   >
                     {link.name}
-                  </Link>
+                  </LocalizedLink>
                 </li>
               ))}
             </ul>
@@ -98,12 +98,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <LocalizedLink 
                     href={link.href}
                     className="text-zinc-400 text-sm hover:text-white transition-colors duration-300 hover:tracking-wide"
                   >
                     {link.name}
-                  </Link>
+                  </LocalizedLink>
                 </li>
               ))}
             </ul>
@@ -115,12 +115,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <LocalizedLink 
                     href={link.href}
                     className="text-zinc-400 text-sm hover:text-white transition-colors duration-300 hover:tracking-wide"
                   >
                     {link.name}
-                  </Link>
+                  </LocalizedLink>
                 </li>
               ))}
             </ul>

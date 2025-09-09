@@ -1,1 +1,90 @@
-{}
+{
+  "cdn-starter": {
+    "usage": "Sites basiques",
+    "description": "CDN européen pour accélérer vos sites web avec cache intelligent et SSL partagé inclus.",
+    "use_cases": [
+      "Sites web statiques",
+      "Blogs WordPress",
+      "Petits e-commerce",
+      "Sites vitrines",
+      "Applications légères"
+    ],
+    "features": [
+      "10 PoPs en Europe",
+      "1 TB trafic inclus",
+      "SSL partagé gratuit",
+      "Cache intelligent",
+      "Purge en 5 minutes",
+      "Analytics de base",
+      "Support standard"
+    ],
+    "target_audience": "Particuliers, petites entreprises, blogs",
+    "highlight": "CDN européen économique"
+  },
+  "cdn-pro": {
+    "usage": "Sites professionnels",
+    "description": "CDN Europe/USA avec SSL custom, WAF et optimisation d'images automatique pour sites professionnels.",
+    "use_cases": [
+      "Sites e-commerce",
+      "Applications web",
+      "Portails média",
+      "Sites corporate",
+      "APIs publiques"
+    ],
+    "features": [
+      "25 PoPs Europe/USA",
+      "10 TB trafic inclus",
+      "SSL custom inclus",
+      "WAF protection basic",
+      "Optimisation images auto",
+      "Purge en 30 secondes",
+      "Analytics avancées"
+    ],
+    "target_audience": "PME, e-commerce, sites pro",
+    "highlight": "Optimisation images incluse"
+  },
+  "cdn-business": {
+    "usage": "Applications business",
+    "description": "CDN mondial avec WAF avancé, purge instantanée et analytics temps réel pour applications critiques.",
+    "use_cases": [
+      "Applications SaaS",
+      "Plateformes globales",
+      "Streaming vidéo",
+      "APIs critiques",
+      "Sites haute performance"
+    ],
+    "features": [
+      "50 PoPs mondiaux",
+      "100 TB trafic inclus",
+      "SSL Wildcard inclus",
+      "WAF avancé",
+      "Purge instantanée",
+      "Analytics temps réel",
+      "Support prioritaire"
+    ],
+    "target_audience": "Entreprises, SaaS, applications globales",
+    "highlight": "Coverage mondiale"
+  },
+  "cdn-global": {
+    "usage": "Applications globales",
+    "description": "CDN premium avec IA, 150+ PoPs et optimisation powered par intelligence artificielle.",
+    "use_cases": [
+      "Multinationales",
+      "Streaming 4K/8K",
+      "Applications mondiales",
+      "Gaming global",
+      "Média & entertainment"
+    ],
+    "features": [
+      "150+ PoPs mondiaux",
+      "1 PB trafic inclus",
+      "SSL multi-domaine",
+      "WAF avec rules custom",
+      "Optimisation IA",
+      "Analytics big data",
+      "Account manager dédié"
+    ],
+    "target_audience": "Multinationales, applications globales",
+    "highlight": "IA et 150+ PoPs"
+  }
+}

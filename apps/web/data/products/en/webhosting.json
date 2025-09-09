@@ -1,1 +1,90 @@
-{}
+{
+  "web-starter": {
+    "usage": "Showcase sites",
+    "description": "Perfect web hosting for showcase sites and personal blogs with all essential features.",
+    "use_cases": [
+      "Company showcase sites",
+      "Personal blogs",
+      "Creative portfolios",
+      "Informational sites",
+      "Landing pages"
+    ],
+    "features": [
+      "1 website included",
+      "50 GB fast NVMe storage",
+      "Free Let's Encrypt SSL",
+      "10 professional email accounts",
+      "5 MySQL databases",
+      "WordPress 1-click",
+      "30-day free trial"
+    ],
+    "target_audience": "Individuals, micro-businesses, freelancers",
+    "highlight": "30-day free trial"
+  },
+  "web-business": {
+    "usage": "SME & E-commerce",
+    "description": "Complete solution for SMEs and e-commerce stores with optimized performance and advanced features.",
+    "use_cases": [
+      "E-commerce sites",
+      "Company portals",
+      "Web applications",
+      "Multi-language sites",
+      "Advanced CMS"
+    ],
+    "features": [
+      "Up to 10 websites",
+      "200 GB NVMe storage",
+      "100 professional email accounts",
+      "25 databases",
+      "Varnish cache included",
+      "CloudFlare CDN basic",
+      "Priority chat support"
+    ],
+    "target_audience": "SMEs, e-merchants, web agencies",
+    "highlight": "E-commerce optimized"
+  },
+  "web-pro": {
+    "usage": "Web agencies",
+    "description": "Professional platform for web agencies managing multiple client projects with integrated DevOps tools.",
+    "use_cases": [
+      "Web agencies",
+      "Freelance developers",
+      "Multiple client projects",
+      "High-performance sites",
+      "Staging environments"
+    ],
+    "features": [
+      "Up to 50 websites",
+      "500 GB NVMe storage",
+      "Wildcard SSL included",
+      "500 email accounts",
+      "Git deployment",
+      "Staging environments",
+      "Complete API"
+    ],
+    "target_audience": "Web agencies, professional developers",
+    "highlight": "Professional multi-site"
+  },
+  "web-enterprise": {
+    "usage": "Large enterprises",
+    "description": "Unlimited enterprise solution with enhanced SLA and dedicated support for large organizations.",
+    "use_cases": [
+      "Large enterprises",
+      "Multinational corporations",
+      "Public institutions",
+      "Critical platforms",
+      "Business applications"
+    ],
+    "features": [
+      "Unlimited sites",
+      "2 TB NVMe storage",
+      "Premium EV SSL included",
+      "Unlimited email",
+      "Enterprise WAF",
+      "Dedicated 24/7 support",
+      "99.95% SLA"
+    ],
+    "target_audience": "Large enterprises, institutions",
+    "highlight": "Dedicated 24/7 support"
+  }
+}

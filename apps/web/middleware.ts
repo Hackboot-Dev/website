@@ -1,9 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Block documentation in production at the edge level
+// Supported locales
+const locales = ['fr', 'en'];
+const defaultLocale = 'fr';
+
 export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  const isDocsPath = pathname.startsWith('/docs') || pathname.startsWith('/api/docs');
+  const { pathname, search } = req.nextUrl;
+  // Extract locale from path
+  const pathnameHasLocale = locales.some(
+    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
+
+  // Handle i18n routing
+  if (!pathnameHasLocale && !pathname.startsWith('/api/') && !pathname.startsWith('/_next/') && !pathname.match(/\.(\w+)$/)) {
+    // Redirect to default locale if no locale prefix (308 = permanent redirect)
+    const locale = req.cookies.get('vmcloud-locale')?.value || defaultLocale;
+    const newUrl = new URL(`/${locale}${pathname}${search}`, req.url);
+    return NextResponse.redirect(newUrl, { status: 308 });
+  }
+
+  // Extract actual path without locale for docs check
+  const actualPath = pathnameHasLocale
+    ? pathname.replace(/^\/[^/]+/, '')
+    : pathname;
+  
+  const isDocsPath = actualPath.startsWith('/docs') || actualPath.startsWith('/api/docs');
   const isProd = process.env.NODE_ENV === 'production' || process.env.APP_ENV === 'production';
 
   if (isProd && isDocsPath) {
@@ -46,9 +67,20 @@ export function middleware(req: NextRequest) {
     return new NextResponse(html, { status: 403, headers: { 'content-type': 'text/html; charset=utf-8' } });
   }
 
-  return NextResponse.next();
+  // Pass locale to the app via headers
+  const requestHeaders = new Headers(req.headers);
+  const locale = pathname.split('/')[1];
+  if (locales.includes(locale)) {
+    requestHeaders.set('x-locale', locale);
+  }
+  
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    }
+  });
 }
 
 export const config = {
-  matcher: ['/docs/:path*', '/api/docs/:path*'],
+  matcher: ['/((?!_next|api/(?!docs)|.*\\.).*)'],
 };

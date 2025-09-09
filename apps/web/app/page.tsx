@@ -1,28 +1,21 @@
-'use client';
-import { useLanguage } from '../contexts/LanguageContext';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
-import HeroSection from '../components/sections/HeroSection';
-import FeaturesSection from '../components/sections/FeaturesSection';
-import PricingSection from '../components/sections/PricingSection';
-import CTASection from '../components/sections/CTASection';
-import SophisticatedBackground from '../components/animations/SophisticatedBackground';
+// /workspaces/website/apps/web/app/page.tsx
+// Description: Root redirect to default locale
+// Last modified: 2025-09-05
+// Related docs: /docs/JOURNAL.md
 
-export default function HomePage() {
-  const { language } = useLanguage();
+// DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
+
+import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
+
+export default function RootPage() {
+  // Get preferred language from cookie or header
+  const headersList = headers();
+  const acceptLanguage = headersList.get('accept-language') || '';
   
-
-  return (
-    <>
-      <SophisticatedBackground />
-      <Header />
-      <main>
-        <HeroSection />
-        <FeaturesSection />
-        <PricingSection />
-        <CTASection />
-      </main>
-      <Footer />
-    </>
-  );
+  // Simple language detection
+  const preferredLocale = acceptLanguage.toLowerCase().includes('fr') ? 'fr' : 'en';
+  
+  // Redirect to locale-specific page
+  redirect(`/${preferredLocale}`);
 }

@@ -1,12 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
-import { LanguageProvider } from '../contexts/LanguageContext';
-import LanguageLoader from '../components/ui/LanguageLoader';
-import PageReadiness from '../components/ui/PageReadiness';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://vmcl.fr'),
@@ -103,43 +96,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body className={`${inter.className} bg-zinc-950 text-white`}>
-        <Script id="ld-org" type="application/ld+json" strategy="beforeInteractive">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'VMCloud',
-            alternateName: ['Hackboot', 'VMCloud by Hackboot'],
-            url: 'https://vmcl.fr',
-            logo: 'https://vmcl.fr/icon.svg',
-            sameAs: [
-              'https://linkedin.com/company/vmcloud',
-              'https://twitter.com/vmcloud',
-              'https://github.com/vmcloud',
-            ],
-          })}
-        </Script>
-        <Script id="ld-website" type="application/ld+json" strategy="beforeInteractive">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebSite',
-            name: 'VMCloud',
-            url: 'https://vmcl.fr',
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: 'https://vmcl.fr/search?q={search_term_string}',
-              'query-input': 'required name=search_term_string',
-            },
-          })}
-        </Script>
-        <PageReadiness />
-        <LanguageProvider>
-          {children}
-          <LanguageLoader />
-        </LanguageProvider>
-      </body>
-    </html>
-  );
+  // This layout is minimal as the [locale] layout handles everything
+  return children;
 }

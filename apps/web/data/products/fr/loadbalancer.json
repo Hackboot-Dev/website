@@ -1,1 +1,90 @@
-{}
+{
+  "lb-starter": {
+    "usage": "Petites applications",
+    "description": "Load balancer d'entrée pour distribuer le trafic de vos petites applications web avec haute disponibilité.",
+    "use_cases": [
+      "Sites web simple HA",
+      "APIs légères",
+      "Applications web basiques",
+      "Redondance simple",
+      "Failover automatique"
+    ],
+    "features": [
+      "Jusqu'à 5 backends",
+      "10K requêtes/seconde",
+      "SSL Let's Encrypt gratuit",
+      "Health checks automatiques",
+      "Algorithme round-robin",
+      "Protection DDoS basic",
+      "Interface web simple"
+    ],
+    "target_audience": "Développeurs, petites entreprises, projets simples",
+    "highlight": "Simple et économique"
+  },
+  "lb-business": {
+    "usage": "Applications moyennes",
+    "description": "Load balancer avancé avec support TCP/UDP et fonctionnalités enterprise pour applications critiques.",
+    "use_cases": [
+      "Applications e-commerce",
+      "APIs de production",
+      "Services web critiques",
+      "Applications multi-tier",
+      "Bases de données HA"
+    ],
+    "features": [
+      "Jusqu'à 20 backends",
+      "50K requêtes/seconde",
+      "SSL Wildcard inclus",
+      "Health checks avancés",
+      "Multiple algorithmes",
+      "Support TCP/UDP",
+      "Monitoring en temps réel"
+    ],
+    "target_audience": "PME, applications critiques, e-commerce",
+    "highlight": "TCP/UDP inclus"
+  },
+  "lb-enterprise": {
+    "usage": "Applications critiques",
+    "description": "Load balancer enterprise avec WebSocket, scripts personnalisés et protection DDoS premium.",
+    "use_cases": [
+      "Applications mission-critiques",
+      "Plateformes haute disponibilité",
+      "Services financiers",
+      "Applications temps réel",
+      "Infrastructure complexe"
+    ],
+    "features": [
+      "Jusqu'à 100 backends",
+      "200K requêtes/seconde",
+      "SSL EV/Custom inclus",
+      "WebSocket support complet",
+      "Scripts health check custom",
+      "Multi-AZ deployment",
+      "Protection DDoS premium"
+    ],
+    "target_audience": "Grandes entreprises, services critiques",
+    "highlight": "WebSocket et multi-AZ"
+  },
+  "lb-global": {
+    "usage": "Global scale",
+    "description": "Load balancer global avec IA et support gRPC/HTTP3 pour applications à échelle mondiale.",
+    "use_cases": [
+      "Applications globales",
+      "CDN et edge computing",
+      "Microservices complexes",
+      "APIs haute performance",
+      "Services multinationales"
+    ],
+    "features": [
+      "Backends illimités",
+      "1M+ requêtes/seconde",
+      "SSL avec HSM",
+      "Support gRPC/HTTP3",
+      "Health checks IA",
+      "Déploiement multi-région",
+      "Protection DDoS enterprise"
+    ],
+    "target_audience": "Multinationales, applications globales",
+    "highlight": "IA et échelle mondiale"
+  }
+}

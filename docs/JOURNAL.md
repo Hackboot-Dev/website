@@ -746,3 +746,39 @@ RÉSULTAT: Site optimisé pour dominer "VMCloud" et "Hackboot" sur Google FR/EN
 PROCHAINE ÉTAPE: Documentation du travail légal et SEO selon CLAUDE.md
 
 ---
+
+[2025-09-05 - 14:20]
+SESSION: Implémentation du système de routing i18n avec préfixes d'URL
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/middleware.ts [modifié] - Ajout gestion des locales dans le middleware
+- /apps/web/app/[locale]/layout.tsx [créé] - Layout dynamique par locale
+- /apps/web/app/[locale]/page.tsx [déplacé] - Pages déplacées dans structure locale
+- /apps/web/app/page.tsx [créé] - Redirection racine vers locale par défaut
+- /apps/web/components/ui/LanguageSelector.tsx [modifié] - Redirection URL au lieu de switch JS
+- /apps/web/hooks/useLocalizedPath.ts [créé] - Hook pour chemins localisés
+- /apps/web/components/ui/LocalizedLink.tsx [créé] - Composant Link avec préfixe locale
+- /apps/web/components/layout/Footer.tsx [modifié] - Utilisation LocalizedLink
+- /apps/web/vercel.json [créé] - Configuration Vercel pour réécritures
+DÉTAILS:
+- Routing i18n "soft" sans changement majeur de structure
+- URLs avec préfixes /fr et /en pour SEO optimal
+- Middleware détecte et redirige vers locale appropriée
+- Balises hreflang générées dynamiquement dans layout
+- Meta tags et OpenGraph adaptés par langue
+- LanguageSelector redirige vers nouvelle URL au lieu de switch JS
+- LocalizedLink gère automatiquement les préfixes de locale
+- Structure de dossiers [locale] pour pages multilingues
+ARCHITECTURE:
+- Middleware: Détection locale, redirection, headers x-locale
+- Layout [locale]: Metadata dynamique, langue depuis params
+- LanguageProvider: Initialisation depuis URL via props
+- LocalizedLink: Abstraction des liens avec préfixe automatique
+RÉSULTAT: 
+- URLs SEO-friendly par langue (/fr/products, /en/pricing)
+- Indexation Google optimale avec hreflang
+- Migration transparente sans casser l'existant
+- Performance maintenue avec chargement à la demande
+PROCHAINE ÉTAPE: Tester en production et monitoring SEO
+
+---
