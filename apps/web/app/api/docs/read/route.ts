@@ -110,7 +110,9 @@ export async function GET(request: NextRequest) {
               // ignore
             }
           }
-        } catch {}
+        } catch (e) {
+          // Ignore parse errors
+        }
 
         return NextResponse.json(
           { error: 'Document not found' },
