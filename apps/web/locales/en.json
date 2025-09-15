@@ -8,6 +8,281 @@
     "signIn": "Sign In",
     "getStarted": "Get Started"
   },
+  "about": {
+    "label": "2023 - 2026 • Continuous Innovation",
+    "hero": {
+      "title1": "From Hackboot",
+      "title2": "To VMCloud",
+      "title3": "The Evolution",
+      "subtitle": "Since 2023, we've evolved from game key sales to software development, then to cloud gaming. By late 2025, with €2.5M raised, VMCloud structures this expertise to conquer the European market from Estonia."
+    },
+    "stats": {
+      "founded": "Founded Hackboot",
+      "funding": "Investments",
+      "datacenters": "Datacenters",
+      "sla": "SLA Guaranteed"
+    },
+    "timeline": {
+      "title": "From Hackboot to VMCloud",
+      "subtitle": "The evolution from a gaming vision to complete cloud infrastructure"
+    },
+    "partners": {
+      "title": "Ecosystem & Partners",
+      "subtitle": "Industry leaders trust us",
+      "ovh": {
+        "name": "OVHCloud",
+        "role": "Principal Investor",
+        "description": "European cloud leader, OVHCloud invests €1.5M and brings global technical expertise."
+      },
+      "seb": {
+        "name": "SEB Pank",
+        "role": "Banking Partner",
+        "description": "Major Baltic banking institution, invests €800K and facilitates our European expansion."
+      },
+      "amd": {
+        "name": "AMD",
+        "role": "Technology Partner",
+        "description": "Direct access to latest EPYC processors."
+      },
+      "nvidia": {
+        "name": "NVIDIA",
+        "role": "GPU Partner",
+        "description": "Priority access to Tesla and RTX GPUs."
+      },
+      "equinix": {
+        "name": "Equinix",
+        "role": "Network Infrastructure",
+        "description": "Global connectivity through Equinix datacenters."
+      },
+      "cloudflare": {
+        "name": "Cloudflare",
+        "role": "Security Partner",
+        "description": "DDoS protection and global CDN."
+      }
+    },
+    "legal": {
+      "title": "Legal Framework & Compliance",
+      "subtitle": "Operating from Estonia with full compliance",
+      "estonia": {
+        "title": "Estonian Jurisdiction",
+        "content": "In Estonia, the development and use of game modifications (cheats) are entirely legal. This jurisdiction allows us to innovate freely while respecting European regulations."
+      },
+      "expansion": {
+        "title": "European Expansion",
+        "content": "Our Estonian structure provides an ideal framework for European expansion. We adapt our services to each market while maintaining operational excellence."
+      },
+      "bullets": {
+        "euLicense": "European operating license",
+        "euPassport": "European services passport",
+        "multiJurisdiction": "Multi-jurisdictional infrastructure",
+        "support247": "24/7 multilingual support"
+      },
+      "note": "Note:",
+      "note.content": "VMCloud operates in full transparency with Estonian and European authorities. Our gaming activity, including cheat development, is declared and compliant with local legislation."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "content": "Create the best European cloud infrastructure by and for enthusiasts. We believe that by combining technical excellence and authentic passion, we can offer uncompromising solutions. Business and passion are not incompatible: we want to succeed financially while staying true to our values."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "content": "Unleash the potential of every project by providing limitless infrastructure. Give our customers and teams all the tools they need to achieve their ambitions. Be transparent, open and always listening. Enable everyone to build what they want, how they want."
+    },
+    "culture": {
+      "title": "Our Culture",
+      "subtitle": "A unique corporate philosophy, inspired by tech world best practices",
+      "talent": {
+        "title": "Talent & Feeling",
+        "content": "We recruit on talent AND feeling. Technical skills are essential, but shared vision and human chemistry are equally important. If you don't feel the passion, it won't work."
+      },
+      "freedom": {
+        "title": "Total Freedom",
+        "content": "Work how you want, where you want, when you want. No micro-management, no corporate bullshit. We believe in autonomy and responsibility. Results speak for themselves."
+      },
+      "passion": {
+        "title": "Passion First",
+        "content": "Yes, we're a business and we want to succeed financially. But we're first and foremost enthusiasts who want to build the best possible solutions. Excellence is non-negotiable."
+      },
+      "philosophy": {
+        "title": "Our Philosophy",
+        "content": "We believe in a flat organization where everyone can take initiative, inspired by innovative tech company models. No rigid hierarchy, no corporate politics. Just talented people working together on exciting projects."
+      },
+      "badges": {
+        "remoteFirst": "Remote First",
+        "noUselessMeetings": "No Useless Meetings",
+        "fullAutonomy": "Full Autonomy",
+        "personalProjects": "Personal Projects",
+        "totalTransparency": "Total Transparency"
+      }
+    },
+    "team": {
+      "title": "The Core Team",
+      "subtitle": "The talents building VMCloud's future",
+      "members": {
+        "gaylor": {
+          "name": "Gaylor Loche",
+          "role": "CEO & Founder",
+          "bio": "Founder of DVP Holding, entrepreneur and AI consultant. Strategic vision and business expertise."
+        },
+        "julien": {
+          "name": "Julien Larmanaud",
+          "role": "COO & Lead Developer",
+          "bio": "Ex-AWS senior engineer. Expert in GPU computing and high-performance cloud infrastructure."
+        },
+        "gengis": {
+          "name": "Gengis Lahoui",
+          "role": "Technical Director",
+          "bio": "Ex-O2Switch ML/GenAI engineer. Expert in development and architecture of complex systems."
+        }
+      },
+      "expertise": {
+        "strategy": "Strategy",
+        "aiConsulting": "AI Consulting",
+        "businessDev": "Business Dev",
+        "investment": "Investment",
+        "gpuComputing": "GPU Computing",
+        "cloudInfra": "Cloud Infrastructure",
+        "performance": "Performance",
+        "research": "Research",
+        "machineLearning": "Machine Learning",
+        "genai": "GenAI",
+        "development": "Development",
+        "architecture": "Architecture"
+      }
+    },
+    "cta": {
+      "title": "Ready to build the future?",
+      "subtitle": "Join the cloud revolution with VMCloud",
+      "discoverSolutions": "Discover our solutions",
+      "talkToExpert": "Talk to an expert"
+    },
+    "buttons": {
+      "exploreSolutions": "Explore our solutions",
+      "ourStory": "Our story"
+    },
+    "timeline": {
+      "items": {
+        "hackbootCreation": {
+          "title": "Creation of Hackboot",
+          "description": "Started with competitive game key sales. Building first customer base and understanding the gaming market."
+        },
+        "softwareDev": {
+          "title": "Software Development",
+          "description": "Pivot to custom software development. Creating tools and applications for the gaming community."
+        },
+        "cloudGaming": {
+          "title": "Cloud Gaming & Cheats",
+          "description": "Launch of cloud gaming and legal cheat development in Estonia. Deep technical expertise in GPU optimization."
+        },
+        "vmcloudBirth": {
+          "title": "Birth of VMCloud",
+          "description": "€2.5M raised with OVHCloud and SEB Pank. Company structuring and transformation into VMCloud for the European market."
+        },
+        "rapidExpansion": {
+          "title": "Rapid Expansion",
+          "description": "Acquiring thousands of customers, European expansion from Estonia. Enterprise infrastructure deployed in 3 major datacenters."
+        },
+        "innovation": {
+          "title": "Innovation & Growth",
+          "description": "Consolidating achievements, adding innovative new services. New datacenters planned for Madrid and Milan. AI solutions development."
+        }
+      }
+    },
+    "stats": {
+      "founded": "Founded Hackboot",
+      "funding": "Investments",
+      "datacenters": "Datacenters",
+      "sla": "SLA Guaranteed",
+      "descriptions": {
+        "keySales": "Key sales & software",
+        "investors": "OVH, SEB Pank & more",
+        "locations": "Paris, Amsterdam, Frankfurt",
+        "availability": "Maximum availability"
+      }
+    },
+    "partners": {
+      "ovh": {
+        "name": "OVHCloud",
+        "role": "Main Investor",
+        "description": "European cloud leader, OVHCloud invests €1.5M and brings global technical expertise."
+      },
+      "seb": {
+        "name": "SEB Pank",
+        "role": "Banking Partner",
+        "description": "Major Baltic banking institution, invests €800K and facilitates our European expansion."
+      },
+      "tech": {
+        "amd": {
+          "name": "AMD",
+          "description": "EPYC Processors"
+        },
+        "nvidia": {
+          "name": "NVIDIA",
+          "description": "Tesla & RTX GPUs"
+        },
+        "equinix": {
+          "name": "Equinix",
+          "description": "Network infrastructure"
+        },
+        "cloudflare": {
+          "name": "Cloudflare",
+          "description": "Security & CDN"
+        }
+      }
+    },
+    "legal": {
+      "bullets": {
+        "legalActivity": "100% legal activity in Estonia",
+        "gdprCompliance": "Full GDPR compliance",
+        "euLicense": "European operating license",
+        "euPassport": "European services passport",
+        "multiJurisdiction": "Multi-jurisdictional infrastructure",
+        "support247": "24/7 multilingual support"
+      }
+    },
+    "culture": {
+      "badges": {
+        "remoteFirst": "Remote First",
+        "noUselessMeetings": "No useless meetings",
+        "fullAutonomy": "Full autonomy",
+        "personalProjects": "Personal projects encouraged",
+        "totalTransparency": "Total transparency"
+      }
+    },
+    "team": {
+      "members": {
+        "gaylor": {
+          "name": "Gaylor Loche",
+          "role": "CEO & Founder",
+          "bio": "Founder of DVP Holding (training, credit, watches, investment). Independent AI consultant. Visionary of the Hackboot to VMCloud transformation."
+        },
+        "julien": {
+          "name": "Julien Larmanaud",
+          "role": "COO & Lead Developer",
+          "bio": "Ex-senior engineer at AWS. Researcher specialized in GPU architecture and high-performance computing. Distributed systems expert."
+        },
+        "gengis": {
+          "name": "Gengis Lahoui",
+          "role": "Technical Director",
+          "bio": "Ex ML/GenAI Engineer at O2Switch. Entrepreneur and AI expert. Lead developer of VMCloud infrastructure."
+        }
+      },
+      "expertise": {
+        "strategy": "Strategy",
+        "aiConsulting": "AI Consulting",
+        "businessDev": "Business Development",
+        "investment": "Investment",
+        "gpuComputing": "GPU Computing",
+        "cloudInfra": "Cloud Infrastructure",
+        "performance": "Performance",
+        "research": "Research",
+        "machineLearning": "Machine Learning",
+        "genai": "GenAI",
+        "development": "Development",
+        "architecture": "Architecture"
+      }
+    }
+  },
   "products": {
     "title": "Our Products",
     "subtitle": "Choose the perfect solution for your needs",
@@ -30,7 +305,12 @@
       "paas": { "name": "PaaS" },
       "loadbalancer": { "name": "Load Balancer" },
       "storage": { "name": "Storage" },
-      "cdn": { "name": "CDN" }
+      "cdn": { "name": "CDN" },
+      "gaming": {
+        "name": "Cloud Gaming",
+        "description": "Premium gaming cheats and modifications",
+        "subtitle": "From €130/month - Undetected cheats for top games"
+      }
     },
     "viewAll": "View all products",
     "pricing": {
@@ -86,7 +366,6 @@
       },
       "annualNote": "Monthly equivalent on annual commitment",
       "switchNote": "Switch between modes",
-      "trial": "Free trial",
       "choose": "Order now",
       "technicalSpecs": "Technical specifications",
       "similarProducts": "Similar products",
@@ -171,7 +450,10 @@
     "included": "Included",
     "year": "year",
     "month": "month",
-    "hour": "hour"
+    "hour": "hour",
+    "year2023End": "Late 2023",
+    "year2025Mid": "Mid-2025",
+    "year2025End": "Late 2025"
   },
   "products": {
     "categories": {
@@ -182,7 +464,12 @@
       "paas": "Platform as a Service",
       "loadbalancer": "Load Balancer",
       "storage": "Storage",
-      "cdn": "CDN"
+      "cdn": "CDN",
+      "gaming": "Cloud Gaming"
+    },
+    "gaming": {
+      "filterByGame": "Filter by game",
+      "allGames": "All games"
     },
     "labels": {
       "idealFor": "Ideal for",
@@ -216,7 +503,14 @@
       "latency": "Latency",
       "size": "Size",
       "domains": "Domains",
-      "waf": "WAF"
+      "waf": "WAF",
+      "processor": "Processor",
+      "fps": "Max FPS",
+      "resolution": "Resolution",
+      "game": "Game",
+      "features": "Features",
+      "protection": "Protection",
+      "updates": "Updates"
     },
     "vps": {
       "viewAll": "View all VPS"
@@ -258,7 +552,6 @@
     },
     "cta": {
       "configure": "Configure & Order",
-      "trial": "Free trial",
       "ready": "Ready to get started with",
       "description": "Setup in under 2 minutes, instant deployment."
     },
@@ -357,10 +650,10 @@
     },
     "recommended": "RECOMMENDED",
     "cta": {
-      "trial": "Start Free Trial",
+      "getStarted": "Get Started",
       "contact": "Contact Sales"
     },
-    "note": "All plans include 14-day free trial. No credit card required."
+    "note": "Pay-as-you-go billing. No minimum commitment."
   },
   "cta": {
     "label": "READY TO BUILD",
@@ -369,7 +662,7 @@
       "2": "Scale smarter."
     },
     "subtitle": "Join developers who choose performance over complexity. Deploy in minutes, not hours.",
-    "primary": "Start Free Trial",
+    "primary": "Configure Now",
     "secondary": "View Plans",
     "metrics": {
       "deployTime": "DEPLOYMENT TIME",
@@ -380,6 +673,267 @@
       "config": "Zero configuration required",
       "scaling": "Auto-scaling infrastructure",
       "monitoring": "24/7 monitoring included"
+    }
+  },
+  "about": {
+    "title": "About",
+    "label": "VMCloud Infrastructure",
+    "hero": {
+      "title1": "Infrastructure",
+      "title2": "Next Generation",
+      "subtitle": "Launched in September 2025, VMCloud revolutionizes cloud hosting with an innovative approach to high-performance infrastructure."
+    },
+    "stats": {
+      "months": "Months in operation",
+      "funding": "Raised",
+      "datacenters": "Datacenters",
+      "support": "Support"
+    },
+    "story": {
+      "title": "Our Story",
+      "p1": "VMCloud was founded in September 2025 with a clear vision: democratize access to enterprise-grade cloud infrastructure. Our team, composed of experts from Europe's leading tech companies, identified a crucial market need: performant, transparent, and accessible cloud solutions.",
+      "p2": "From our launch, we attracted major investors' attention. OVHCloud, the European cloud leader, immediately recognized our potential and became our strategic partner and principal investor. This collaboration allows us to benefit from their expertise while maintaining our agility and innovation capacity.",
+      "p3": "SEB Pank, one of the leading Baltic banks, also supports us as an investor and financial partner, enabling us to offer innovative and secure payment solutions to our European clients."
+    },
+    "partners": {
+      "title": "Partners & Investors",
+      "subtitle": "Backed by industry leaders",
+      "ovh": {
+        "role": "Principal Investor & Strategic Partner",
+        "desc": "European cloud computing leader, OVHCloud brings us their technical expertise and global infrastructure network."
+      },
+      "seb": {
+        "role": "Financial Partner",
+        "desc": "Major banking institution in the Baltic countries, SEB Pank facilitates our financial operations and European expansion."
+      },
+      "amd": {
+        "role": "Technology Partner",
+        "desc": "Privileged access to the latest EPYC processors and direct technical support to optimize our performance."
+      },
+      "nvidia": {
+        "role": "GPU Partner",
+        "desc": "Partner program for priority access to Tesla and RTX GPUs for our AI and gaming solutions."
+      },
+      "equinix": {
+        "role": "Network Infrastructure",
+        "desc": "Presence in Equinix datacenters for optimal global connectivity."
+      },
+      "cloudflare": {
+        "role": "Security & CDN",
+        "desc": "Enterprise DDoS protection and global CDN network for our clients."
+      }
+    },
+    "vision": {
+      "title": "Our Vision",
+      "content": "Become the European leader in next-generation cloud infrastructure by combining exceptional performance, total transparency, and constant innovation. We want every developer and company to access world-class infrastructure without complexity or hidden costs."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "content": "Provide ultra-performant, simple, and transparent cloud infrastructure. We eliminate technical complexity so our clients can focus on their core business, with the guarantee of maximum performance and reliability."
+    },
+    "values": {
+      "title": "Our Values",
+      "innovation": {
+        "title": "Innovation",
+        "description": "Cutting-edge technologies and constant innovation to stay ahead"
+      },
+      "security": {
+        "title": "Security",
+        "description": "Maximum protection with end-to-end encryption and full compliance"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Expert team available 24/7 to assist you"
+      },
+      "performance": {
+        "title": "Performance",
+        "description": "High-performance infrastructure with latest AMD EPYC processors"
+      }
+    },
+    "timeline": {
+      "title": "Our Story",
+      "2020": {
+        "title": "Foundation",
+        "description": "VMCloud was created with a clear vision: democratize high-performance cloud"
+      },
+      "2021": {
+        "title": "Expansion",
+        "description": "Opened 3 datacenters in Europe and launched our GPU range"
+      },
+      "2022": {
+        "title": "Innovation",
+        "description": "Introduced Gaming Cloud and advanced PaaS solutions"
+      },
+      "2023": {
+        "title": "Growth",
+        "description": "10,000 clients trust us, expansion to Asia"
+      },
+      "2024": {
+        "title": "Excellence",
+        "description": "ISO 27001 certification and launch of our global CDN"
+      },
+      "2025": {
+        "title": "Future",
+        "description": "AI, Edge Computing and new innovations ahead"
+      }
+    },
+    "team": {
+      "title": "Founding Team"
+    },
+    "legal": {
+      "title": "Legal Information",
+      "company": "VMCloud OÜ",
+      "registration": "Registration number: 31644377",
+      "address": "Paju 1a, 50603 Tartu, Estonia",
+      "vat": "VAT: EE102625419"
+    },
+    "cta": {
+      "title": "Ready to join the adventure?",
+      "subtitle": "Discover how VMCloud can transform your infrastructure",
+      "products": "Discover our products",
+      "contact": "Contact us"
+    }
+  },
+  "configurator": {
+    "deposit": {
+      "title": "Refundable deposit",
+      "description": "€900 deposit for pay-as-you-go billing. At the end of the month, you only pay for your actual usage and the rest is refunded.",
+      "firstMonth": "Applied only during the first month of registration."
+    },
+    "payDeposit": "Pay deposit of",
+    "loading": "Loading...",
+    "back": "Back to products",
+    "title": "Configure",
+    "subtitle": "Choose your billing plan and proceed to payment",
+    "billing": {
+      "title": "Choose your billing type",
+      "hourly": "Hourly billing",
+      "monthly": "Monthly billing",
+      "yearly": "Annual billing",
+      "deposit": "Deposit equal to monthly price",
+      "save": "Save 15%"
+    },
+    "continue": "Continue to payment",
+    "payment": {
+      "title": "Payment information",
+      "secure": "Secure payment compliant with PCI DSS 2025 standards",
+      "email": "Email",
+      "cardNumber": "Card number",
+      "cardName": "Name on card",
+      "expiry": "Expiry date",
+      "deposit": "Deposit (monthly equivalent)",
+      "amount": "Amount to pay",
+      "hourlyNote": "Actual billing will be based on your usage",
+      "legal": "By proceeding with payment, you accept our terms of service and privacy policy. In accordance with 2025 European regulations, your payment data is encrypted and secured according to PCI DSS v4.0 standards. No banking data is stored on our servers."
+    },
+    "processing": "Processing...",
+    "pay": "Pay",
+    "error": {
+      "temporary": "Service temporarily unavailable. Our team has been notified."
+    }
+  },
+  "careers": {
+    "label": "Join VMCloud",
+    "hero": {
+      "title1": "Build the Future",
+      "title2": "of Cloud Infrastructure",
+      "subtitle": "Join our passionate team building next-generation cloud solutions. Remote-first, no bullshit, just pure tech excellence.",
+      "cta": {
+        "positions": "View Open Positions",
+        "culture": "Discover Our Culture"
+      }
+    },
+    "stats": {
+      "team": "Team Members",
+      "remote": "Remote",
+      "nationalities": "Nationalities",
+      "opportunities": "Opportunities"
+    },
+    "why": {
+      "title": "Why VMCloud?",
+      "subtitle": "We're not just another cloud company. We're building something special."
+    },
+    "benefits": {
+      "remote": {
+        "title": "Remote First",
+        "description": "Work from anywhere in the world"
+      },
+      "salary": {
+        "title": "Competitive Salary",
+        "description": "Top market salaries + equity"
+      },
+      "flexibility": {
+        "title": "Total Flexibility",
+        "description": "Choose your hours, your tools"
+      },
+      "growth": {
+        "title": "Fast Growth",
+        "description": "Evolve quickly with real responsibilities"
+      },
+      "fun": {
+        "title": "Gaming Culture",
+        "description": "Team gaming sessions, latest hardware"
+      },
+      "passion": {
+        "title": "Passion Projects",
+        "description": "20% time for personal projects"
+      }
+    },
+    "positions": {
+      "title": "Open Positions",
+      "subtitle": "Ready to join the adventure? Check out our current openings.",
+      "location": {
+        "remote": "Remote (EU)"
+      },
+      "type": {
+        "fulltime": "Full-time"
+      },
+      "apply": "Apply Now",
+      "senior_devops": {
+        "title": "Senior DevOps Engineer",
+        "team": "Infrastructure",
+        "description": "Build and maintain our cloud infrastructure at scale. Work with cutting-edge technologies and shape our technical architecture."
+      },
+      "backend_engineer": {
+        "title": "Backend Engineer",
+        "team": "Engineering",
+        "description": "Develop robust APIs and services that power our cloud platform. Focus on performance, scalability, and reliability."
+      },
+      "gpu_specialist": {
+        "title": "GPU Infrastructure Specialist",
+        "team": "GPU Team",
+        "description": "Optimize GPU workloads for gaming and AI. Work on cutting-edge cloud gaming and machine learning infrastructure."
+      },
+      "security_engineer": {
+        "title": "Security Engineer",
+        "team": "Security",
+        "description": "Secure our infrastructure and protect customer data. Implement security best practices and ensure compliance."
+      }
+    },
+    "spontaneous": {
+      "text": "Don't see a perfect match? We're always looking for exceptional talents.",
+      "cta": "Send Spontaneous Application"
+    },
+    "culture": {
+      "title": "Our Culture",
+      "innovation": {
+        "title": "Innovation Without Limits",
+        "content": "We encourage crazy ideas. The best innovations come from thinking differently. If you have an idea, we'll give you the resources to test it."
+      },
+      "remote": {
+        "title": "Remote by Design",
+        "content": "We've been remote since day one. No return to office, no hybrid bullshit. Work from your couch, a beach, or a mountain. We don't care as long as you deliver."
+      },
+      "passion": {
+        "title": "Passion First",
+        "content": "We're not here just for a paycheck. We're building something we believe in. If you're not passionate about what we do, this isn't the place for you."
+      }
+    },
+    "cta": {
+      "title": "Ready to Join?",
+      "subtitle": "Take the next step in your career with VMCloud",
+      "contact": "Contact Us",
+      "about": "Learn More About Us"
     }
   }
 }

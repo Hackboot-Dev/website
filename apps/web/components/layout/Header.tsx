@@ -54,6 +54,9 @@ export default function Header() {
             <LocalizedLink href="/support" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
               <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.support')}</span>
             </LocalizedLink>
+            <LocalizedLink href="/about" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
+              <span className="group-hover:tracking-wide transition-all duration-300">{t('about.title')}</span>
+            </LocalizedLink>
           </nav>
 
           {/* CTA avec animations sophistiquées */}
@@ -63,7 +66,7 @@ export default function Header() {
               {t('nav.signIn')}
             </LocalizedLink>
             <LocalizedLink 
-              href="/demo" 
+              href="/products" 
               className="bg-white text-zinc-950 px-6 py-2 text-sm tracking-wide hover:bg-zinc-100 transition-all duration-300 hover:scale-105 hover:tracking-wide relative overflow-hidden group"
             >
               <span className="relative z-10">{t('nav.getStarted')}</span>
@@ -96,6 +99,9 @@ export default function Header() {
               <LocalizedLink href="/support" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
                 {t('nav.support')}
               </LocalizedLink>
+              <LocalizedLink href="/about" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
+                {t('about.title')}
+              </LocalizedLink>
               <div className="pt-4 border-t border-zinc-800 mt-4">
                 <div className="mb-4">
                   <LanguageSelector />
@@ -103,7 +109,7 @@ export default function Header() {
                 <LocalizedLink href="/login" className="block text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
                   {t('nav.signIn')}
                 </LocalizedLink>
-                <LocalizedLink href="/demo" className="block bg-white text-zinc-950 px-4 py-2 mt-2 text-sm tracking-wide">
+                <LocalizedLink href="/products" className="block bg-white text-zinc-950 px-4 py-2 mt-2 text-sm tracking-wide">
                   {t('nav.getStarted')}
                 </LocalizedLink>
               </div>

@@ -153,6 +153,68 @@ Les paiements s'effectuent par les moyens acceptés (carte bancaire, virement SE
 
 **Quotas et dépassements :** Tous les quotas, limites de ressources et barèmes de dépassement (overage) sont détaillés dans les fiches produits correspondantes. Aucune tolérance n'est accordée au-delà des limites contractuelles.
 
+### 5.2.1. Système de caution pour la facturation horaire
+
+#### Principe général et montant
+
+Pour tout nouveau client optant pour la facturation horaire (facturation à l'usage), VMCloud applique un système de caution destiné à garantir le paiement de la consommation réelle tout en offrant une flexibilité maximale d'utilisation. Cette caution est fixée uniformément à **900 euros** (neuf cents euros), quel que soit le service commandé en mode de facturation horaire.
+
+Ce montant de caution est :
+- Identique pour tous les services et toutes les configurations en facturation horaire
+- Prélevé intégralement lors de la validation de la première commande
+- Conservé sur un compte bancaire ségrégué distinct des comptes opérationnels de VMCloud
+- Protégé contre toute saisie par des créanciers de VMCloud
+
+#### Mécanisme de fonctionnement et remboursement
+
+Le système de caution fonctionne selon un mécanisme transparent et automatisé. À la fin de chaque période de facturation mensuelle, VMCloud procède au calcul détaillé de la consommation réelle du client. Ce calcul s'effectue automatiquement selon les tarifs horaires en vigueur, avec une granularité à la seconde pour une facturation équitable.
+
+Le montant correspondant à la consommation réelle est prélevé sur la caution versée, et le solde restant est intégralement remboursé au client. Ce remboursement intervient automatiquement dans un délai maximum de **5 jours ouvrés** suivant la clôture de la période de facturation, sur le même moyen de paiement utilisé pour le versement initial de la caution.
+
+**Exemple pratique :** Un client verse une caution de 900€ le 1er janvier. Sa consommation réelle pour le mois de janvier s'élève à 234,56€. Le 5 février au plus tard, VMCloud rembourse automatiquement 665,44€ au client, accompagné d'un relevé détaillé de consommation justifiant le montant prélevé.
+
+#### Application et exemptions
+
+La caution est systématiquement appliquée lors de :
+- La première commande d'un nouveau client choisissant la facturation horaire
+- La première utilisation du mode de facturation horaire par un client existant
+- L'ouverture d'un nouveau compte avec ce mode de facturation
+
+Après le premier mois d'utilisation et sous réserve d'un historique de paiement satisfaisant, la caution n'est plus requise pour les mois suivants. Le client bénéficie alors d'une facturation mensuelle classique basée sur sa consommation réelle, sans avance de trésorerie.
+
+#### Réinstauration de la caution
+
+VMCloud se réserve le droit de réinstaurer l'obligation de caution dans certaines circonstances spécifiques visant à protéger ses intérêts financiers. Cette réinstauration peut intervenir après :
+
+**Incidents de paiement répétés :**
+- Deux rejets de paiement consécutifs sur une période de 3 mois
+- Trois rejets de paiement cumulés sur une période de 6 mois
+- Une contestation abusive de transaction bancaire (chargeback) non justifiée
+
+**Retards de paiement récurrents :**
+- Cumul de plus de 30 jours de retard sur une période de 3 mois
+- Un retard de paiement supérieur à 60 jours sur une seule facture
+- Un pattern récurrent de retards (plus de 4 retards sur 12 mois glissants)
+
+La réinstauration de la caution peut prendre trois formes :
+- **Permanente :** Application systématique à toutes les futures commandes du client
+- **Temporaire :** Application pendant une période probatoire de 6 mois
+- **Conditionnelle :** Application selon le montant ou le type de service commandé
+
+Le client est informé de la réinstauration de la caution par email avec un préavis minimum de 15 jours calendaires, incluant les raisons motivant cette décision et la possibilité de contester dans un délai de 7 jours.
+
+#### Garanties et transparence
+
+VMCloud garantit une transparence totale sur la gestion des cautions. Le client dispose d'un accès permanent via son espace client à :
+- Le montant de sa caution versée
+- Sa consommation en temps réel
+- L'historique complet de ses remboursements
+- Les projections de facturation pour la période en cours
+
+Les fonds de caution sont conservés sur un compte bancaire dédié, séparé des comptes opérationnels de VMCloud, garantissant leur disponibilité pour remboursement. Ces fonds ne peuvent être utilisés pour le fonctionnement de l'entreprise et sont protégés contre les créanciers en cas de difficultés financières de VMCloud.
+
+En cas de désaccord sur le calcul de la consommation ou le montant du remboursement, le client peut contester dans les 30 jours suivant la facturation. Durant l'instruction du litige, le prélèvement contesté est suspendu et une procédure contradictoire est mise en place pour résoudre le différend.
+
 ### 5.3. Évolution des prix et indexation
 
 VMCloud opère dans un environnement économique fluctuant où certains coûts échappent à son contrôle direct. L'entreprise peut donc être amenée à ajuster ses tarifs pour maintenir la viabilité de ses services et la qualité de l'infrastructure proposée. Ces évolutions tarifaires interviennent principalement pour absorber des hausses significatives de coûts opérationnels externes.

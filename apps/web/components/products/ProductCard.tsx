@@ -8,6 +8,8 @@
 
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useRouter } from 'next/navigation';
+import { useLocalizedPath } from '@/hooks/useLocalizedPath';
 
 interface Product {
   name: string;
@@ -29,6 +31,12 @@ interface Product {
   ssl?: string;
   performance?: string;
   interconnect?: string;
+  
+  // Gaming fields
+  game?: string;
+  features?: string;
+  protection?: string;
+  updates?: string;
   
   // PaaS fields
   containers?: number | string;
@@ -52,7 +60,6 @@ interface Product {
   // Storage fields
   type?: string;
   iops_per_tb?: string;
-  latency?: string;
   throughput?: string;
   min_size?: string;
   max_size?: string;
@@ -72,13 +79,16 @@ interface Product {
 }
 
 interface ProductCardProps {
-  product: Product;
+  product: Product & { id?: string };
   pricingMode: 'monthly' | 'annual' | 'hourly';
   index: number;
 }
 
 export default function ProductCard({ product, pricingMode }: ProductCardProps) {
   const { t } = useLanguage();
+  const router = useRouter();
+  const { localizedPath } = useLocalizedPath();
+  const [isHovered, setIsHovered] = useState(false);
 
   function getCategoryTheme(category: string) {
     const themes: Record<string, { color: string; icon: string; name: string; styles: string }> = {
@@ -123,6 +133,12 @@ export default function ProductCard({ product, pricingMode }: ProductCardProps) 
         icon: '🌍', 
         name: 'CDN',
         styles: 'bg-green-500/15 text-green-300 border-green-500/30'
+      },
+      gaming: { 
+        color: 'red', 
+        icon: '🎮', 
+        name: 'Gaming',
+        styles: 'bg-red-500/15 text-red-300 border-red-500/30'
       }
     };
     return themes[category] || { 
@@ -187,6 +203,13 @@ export default function ProductCard({ product, pricingMode }: ProductCardProps) 
         if (product.bandwidth) specs.push({ label: t('products.labels.bandwidth') || 'Bande passante', value: product.bandwidth });
         if (product.performance) specs.push({ label: t('products.labels.performance') || 'Performance', value: product.performance });
         if (product.interconnect) specs.push({ label: t('products.labels.interconnect') || 'Interconnect', value: product.interconnect });
+        break;
+        
+      case 'gaming':
+        if (product.game) specs.push({ label: t('products.labels.game') || 'Jeu', value: product.game });
+        if (product.gpu) specs.push({ label: t('products.labels.gpu') || 'GPU', value: product.gpu });
+        if (product.ram) specs.push({ label: t('products.labels.ram') || 'RAM', value: product.ram });
+        if (product.protection) specs.push({ label: t('products.labels.protection') || 'Protection', value: product.protection });
         break;
         
       case 'webhosting':
@@ -343,7 +366,12 @@ export default function ProductCard({ product, pricingMode }: ProductCardProps) 
 
       {/* CTA Button Sophistiqué */}
       <div className="relative">
-        <button className="w-full bg-white text-zinc-950 py-3 px-4 rounded-xl text-sm font-light tracking-wide transition-all duration-500 hover:bg-zinc-100 hover:shadow-xl hover:shadow-white/20 group-hover:transform group-hover:scale-[1.02] relative overflow-hidden">
+        <button 
+          onClick={() => {
+            const configuratorPath = localizedPath(`/configurator?product=${product.id || product.name}&category=${product.category}`);
+            router.push(configuratorPath);
+          }}
+          className="w-full bg-white text-zinc-950 py-3 px-4 rounded-xl text-sm font-light tracking-wide transition-all duration-500 hover:bg-zinc-100 hover:shadow-xl hover:shadow-white/20 group-hover:transform group-hover:scale-[1.02] relative overflow-hidden">
           <span className="relative z-10">{t('products.ui.chooseConfig') || 'Choisir cette configuration'}</span>
           
           {/* Shimmer effect */}

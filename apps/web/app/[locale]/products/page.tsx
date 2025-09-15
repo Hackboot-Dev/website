@@ -6,7 +6,7 @@
 // Last modified: 2025-08-22
 // Related docs: /docs/JOURNAL.md
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Header from '../../../components/layout/Header';
 import Footer from '../../../components/layout/Footer';
@@ -17,7 +17,8 @@ import Badge from '../../../components/ui/Badge';
 import Button from '../../../components/ui/Button';
 import { getCategoryIcon, ArrowRightIcon, CPUIcon, RAMIcon, StorageIcon, NetworkIcon } from '../../../components/ui/Icons';
 
-type Category = 'all' | 'vps' | 'gpu' | 'webhosting' | 'paas' | 'loadbalancer' | 'storage' | 'cdn';
+type Category = 'all' | 'vps' | 'gpu' | 'webhosting' | 'paas' | 'loadbalancer' | 'storage' | 'cdn' | 'gaming';
+type GameFilter = 'all' | 'clash-royale' | 'overwatch-2' | 'warzone' | 'valorant';
 type PricingMode = 'monthly' | 'annual' | 'hourly';
 
 export default function ProductsPage() {
@@ -39,12 +40,16 @@ export default function ProductsPage() {
   }
   
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
+  const [selectedGame, setSelectedGame] = useState<GameFilter>('all');
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
   const [isLoaded, setIsLoaded] = useState(false);
   const [showAllProducts, setShowAllProducts] = useState(true);
   
+  // Ref pour la section des produits
+  const productsGridRef = useRef<HTMLDivElement>(null);
+  
   const filteredProducts = getFilteredProducts();
-  const filterKey = `${selectedCategory}-${pricingMode}-${language}`;
+  const filterKey = `${selectedCategory}-${selectedGame}-${pricingMode}-${language}`;
   const { visibleItems } = useStaggerEntry(filteredProducts.length, 80, 100, filterKey);
   
   useEffect(() => {
@@ -56,7 +61,44 @@ export default function ProductsPage() {
   useEffect(() => {
     // Reset when filter changes - keep showing all products
     setShowAllProducts(true);
-  }, [selectedCategory, pricingMode]);
+    // Reset game filter when category changes
+    if (selectedCategory !== 'gaming') {
+      setSelectedGame('all');
+    }
+    
+    // Scroll to products grid only if needed (user can't see any products)
+    const scrollToProductsIfNeeded = () => {
+      if (productsGridRef.current) {
+        const gridRect = productsGridRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const currentScrollY = window.pageYOffset;
+        
+        // Check if any part of the products grid is visible in the viewport
+        const isGridVisible = gridRect.bottom > 0 && gridRect.top < viewportHeight;
+        
+        // Check if user is scrolled too far down (beyond the content)
+        const isScrolledTooFar = currentScrollY + viewportHeight > documentHeight - 100;
+        
+        // Scroll if:
+        // 1. Products grid is not visible at all, OR
+        // 2. User is scrolled too far down (especially when content gets shorter after filtering)
+        if (!isGridVisible || isScrolledTooFar) {
+          const offsetTop = window.pageYOffset + gridRect.top - 100; // 100px de marge au-dessus
+          
+          window.scrollTo({
+            top: Math.max(0, offsetTop), // Ensure we don't scroll to negative values
+            behavior: 'smooth'
+          });
+        }
+      }
+    };
+    
+    // Add a small delay to ensure the content has updated
+    const timeoutId = setTimeout(scrollToProductsIfNeeded, 100);
+    
+    return () => clearTimeout(timeoutId);
+  }, [selectedCategory, selectedGame]); // Removed pricingMode from dependencies
   
   function getFilteredProducts() {
     let products = [];
@@ -69,22 +111,46 @@ export default function ProductsPage() {
         ...(productsData.paas || []).map((p: any) => ({ ...p, category: 'paas' })),
         ...(productsData.loadbalancer || []).map((p: any) => ({ ...p, category: 'loadbalancer' })),
         ...(productsData.storage || []).map((p: any) => ({ ...p, category: 'storage' })),
-        ...(productsData.cdn || []).map((p: any) => ({ ...p, category: 'cdn' }))
+        ...(productsData.cdn || []).map((p: any) => ({ ...p, category: 'cdn' })),
+        ...(productsData.gaming || []).map((p: any) => ({ ...p, category: 'gaming' }))
       ];
     } else {
       products = ((productsData as any)[selectedCategory] || []).map((p: any) => ({ ...p, category: selectedCategory }));
     }
 
-    // Tri intelligent : d'abord par catégorie, puis par prix
+    // Filter by game if gaming category is selected and a specific game is chosen
+    if (selectedCategory === 'gaming' && selectedGame !== 'all') {
+      const gameMap: { [key: string]: string } = {
+        'clash-royale': 'Clash Royale',
+        'overwatch-2': 'Overwatch 2',
+        'warzone': 'Call of Duty: Warzone',
+        'valorant': 'Valorant'
+      };
+      const gameName = gameMap[selectedGame];
+      products = products.filter((p: any) => p.game === gameName);
+    }
+
+    // Tri intelligent : d'abord par catégorie, puis par jeu (pour gaming), puis par prix
     return products.sort((a: any, b: any) => {
       // Si on affiche toutes les catégories, trier d'abord par catégorie
       if (selectedCategory === 'all') {
-        const categoryOrder = ['vps', 'gpu', 'webhosting', 'paas', 'loadbalancer', 'storage', 'cdn'];
+        const categoryOrder = ['vps', 'gpu', 'webhosting', 'paas', 'loadbalancer', 'storage', 'cdn', 'gaming'];
         const categoryA = categoryOrder.indexOf(a.category);
         const categoryB = categoryOrder.indexOf(b.category);
         
         if (categoryA !== categoryB) {
           return categoryA - categoryB;
+        }
+      }
+      
+      // Pour les jeux gaming, trier par jeu puis par prix
+      if (a.category === 'gaming' && b.category === 'gaming') {
+        const gameOrder = ['Clash Royale', 'Overwatch 2', 'Call of Duty: Warzone', 'Valorant'];
+        const gameA = gameOrder.indexOf(a.game);
+        const gameB = gameOrder.indexOf(b.game);
+        
+        if (gameA !== gameB) {
+          return gameA - gameB;
         }
       }
       
@@ -112,13 +178,14 @@ export default function ProductsPage() {
 
   const categories = [
     { key: 'all' as Category, name: tt('products.categories.all', 'Tous les produits', 'All products'), count: getTotalProductCount() },
-    { key: 'vps' as Category, name: tt('products.categories.vps', 'VPS Cloud', 'VPS Cloud'), count: productsData.vps.length },
-    { key: 'gpu' as Category, name: tt('products.categories.gpu', 'GPU Computing', 'GPU Computing'), count: productsData.gpu.length },
-    { key: 'webhosting' as Category, name: tt('products.categories.webhosting', 'Web Hosting', 'Web Hosting'), count: productsData.webhosting.length },
-    { key: 'paas' as Category, name: tt('products.categories.paas', 'Platform as a Service', 'Platform as a Service'), count: productsData.paas.length },
-    { key: 'loadbalancer' as Category, name: tt('products.categories.loadbalancer', 'Load Balancer', 'Load Balancer'), count: productsData.loadbalancer.length },
-    { key: 'storage' as Category, name: tt('products.categories.storage', 'Stockage', 'Storage'), count: productsData.storage.length },
-    { key: 'cdn' as Category, name: tt('products.categories.cdn', 'CDN', 'CDN'), count: productsData.cdn.length }
+    { key: 'vps' as Category, name: tt('products.categories.vps', 'VPS Cloud', 'VPS Cloud'), count: productsData.vps ? productsData.vps.length : 0 },
+    { key: 'gpu' as Category, name: tt('products.categories.gpu', 'GPU Computing', 'GPU Computing'), count: productsData.gpu ? productsData.gpu.length : 0 },
+    { key: 'webhosting' as Category, name: tt('products.categories.webhosting', 'Web Hosting', 'Web Hosting'), count: productsData.webhosting ? productsData.webhosting.length : 0 },
+    { key: 'paas' as Category, name: tt('products.categories.paas', 'Platform as a Service', 'Platform as a Service'), count: productsData.paas ? productsData.paas.length : 0 },
+    { key: 'loadbalancer' as Category, name: tt('products.categories.loadbalancer', 'Load Balancer', 'Load Balancer'), count: productsData.loadbalancer ? productsData.loadbalancer.length : 0 },
+    { key: 'storage' as Category, name: tt('products.categories.storage', 'Stockage', 'Storage'), count: productsData.storage ? productsData.storage.length : 0 },
+    { key: 'cdn' as Category, name: tt('products.categories.cdn', 'CDN', 'CDN'), count: productsData.cdn ? productsData.cdn.length : 0 },
+    { key: 'gaming' as Category, name: tt('products.categories.gaming', 'Cloud Gaming', 'Cloud Gaming'), count: productsData.gaming ? productsData.gaming.length : 0 }
   ];
 
 
@@ -157,7 +224,8 @@ export default function ProductsPage() {
       paas: { name: tt('products.badges.paas', 'PaaS', 'PaaS'), type: 'paas' as const },
       loadbalancer: { name: tt('products.badges.loadbalancer', 'LB', 'LB'), type: 'loadbalancer' as const },
       storage: { name: tt('products.badges.storage', 'Stockage', 'Storage'), type: 'storage' as const },
-      cdn: { name: tt('products.badges.cdn', 'CDN', 'CDN'), type: 'cdn' as const }
+      cdn: { name: tt('products.badges.cdn', 'CDN', 'CDN'), type: 'cdn' as const },
+      gaming: { name: tt('products.badges.gaming', 'Gaming', 'Gaming'), type: 'vps' as const }
     };
     return (themes as any)[category] || { name: category, type: 'vps' as const };
   }
@@ -187,6 +255,9 @@ export default function ProductsPage() {
     } else if (product.category === 'cdn') {
       if (product.pops) specs.push({ label: tt('products.labels.pops', 'PoPs', 'PoPs'), value: String(product.pops) });
       if (product.traffic_included) specs.push({ label: tt('products.labels.trafficIncluded', 'Trafic inclus', 'Traffic included'), value: String(product.traffic_included) });
+    } else if (product.category === 'gaming') {
+      if (product.game) specs.push({ label: tt('products.labels.game', 'Jeu', 'Game'), value: String(product.game) });
+      if (product.type) specs.push({ label: tt('products.labels.type', 'Type', 'Type'), value: String(product.type) });
     }
     return specs.slice(0, 3) as { label: string; value: string }[];
   };
@@ -258,7 +329,7 @@ export default function ProductsPage() {
                   </div>
                   <div className="text-center group">
                     <div className="text-2xl font-extralight text-white mb-1 group-hover:text-zinc-300 transition-colors">
-                      8
+                      9
                     </div>
                     <div className="text-xs text-zinc-500 uppercase tracking-wide">{tt('products.ui.stats.categories','Catégories','Categories')}</div>
                   </div>
@@ -300,22 +371,49 @@ export default function ProductsPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1600px]">
           {/* Barre filtres mobile sticky - pleine largeur */}
           <div className="md:hidden sticky top-20 z-40 -mt-2 mb-4 -mx-4 sm:-mx-6">
-            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar bg-zinc-900/90 backdrop-blur-md border-t border-b border-zinc-800/60 px-4 py-3 shadow-lg">
-              {categories.map((category) => (
-                <button
-                  key={`m-${category.key}`}
-                  onClick={() => setSelectedCategory(category.key)}
-                  className={`shrink-0 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs border transition-all ${selectedCategory === category.key ? 'bg-white text-zinc-950 border-white' : 'text-zinc-400 border-zinc-800/50'}`}
-                >
-                  {category.name}
-                </button>
-              ))}
-              {/* Pricing toggle compact */}
-              <div className="ml-auto flex items-center gap-1 border border-zinc-800/50 rounded-lg p-1">
-                {['monthly','annual','hourly'].map((pm) => (
-                  <button key={`m-${pm}`} onClick={() => setPricingMode(pm as PricingMode)} className={`shrink-0 px-2 py-1 text-[10px] rounded-md ${pricingMode===pm?'bg-white text-zinc-950':'text-zinc-400'}`}>{pm==='monthly'?(t('products.ui.toggle.monthly')||'Mensuel'):pm==='annual'?(t('products.ui.toggle.annualShort')||'Annuel'):(t('products.ui.toggle.hourly')||'Horaire')}</button>
+            <div className="bg-zinc-900/90 backdrop-blur-md border-t border-b border-zinc-800/60 shadow-lg">
+              {/* Categories */}
+              <div className="flex items-center gap-3 overflow-x-auto no-scrollbar px-4 py-3">
+                {categories.map((category) => (
+                  <button
+                    key={`m-${category.key}`}
+                    onClick={() => setSelectedCategory(category.key)}
+                    className={`shrink-0 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs border transition-all ${selectedCategory === category.key ? 'bg-white text-zinc-950 border-white' : 'text-zinc-400 border-zinc-800/50'}`}
+                  >
+                    {category.name}
+                  </button>
                 ))}
+                {/* Pricing toggle compact */}
+                <div className="ml-auto flex items-center gap-1 border border-zinc-800/50 rounded-lg p-1">
+                  {['monthly','annual','hourly'].map((pm) => (
+                    <button key={`m-${pm}`} onClick={() => setPricingMode(pm as PricingMode)} className={`shrink-0 px-2 py-1 text-[10px] rounded-md ${pricingMode===pm?'bg-white text-zinc-950':'text-zinc-400'}`}>{pm==='monthly'?(t('products.ui.toggle.monthly')||'Mensuel'):pm==='annual'?(t('products.ui.toggle.annualShort')||'Annuel'):(t('products.ui.toggle.hourly')||'Horaire')}</button>
+                  ))}
+                </div>
               </div>
+              
+              {/* Game filters for mobile */}
+              {selectedCategory === 'gaming' && (
+                <div className="border-t border-zinc-800/30 px-4 py-2">
+                  <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+                    <span className="text-xs text-zinc-500 whitespace-nowrap mr-2">{tt('products.gaming.filterByGame', 'Jeu:', 'Game:')}</span>
+                    {[
+                      { key: 'all' as GameFilter, name: tt('products.gaming.allGames', 'Tous', 'All') },
+                      { key: 'clash-royale' as GameFilter, name: 'Clash Royale' },
+                      { key: 'overwatch-2' as GameFilter, name: 'Overwatch' },
+                      { key: 'warzone' as GameFilter, name: 'Warzone' },
+                      { key: 'valorant' as GameFilter, name: 'Valorant' }
+                    ].map((game) => (
+                      <button
+                        key={`m-${game.key}`}
+                        onClick={() => setSelectedGame(game.key)}
+                        className={`shrink-0 whitespace-nowrap px-2 py-1 rounded text-xs transition-all ${selectedGame === game.key ? 'bg-white/20 text-white' : 'text-zinc-400 hover:text-white'}`}
+                      >
+                        {game.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -337,6 +435,31 @@ export default function ProductsPage() {
                       </button>
                     ))}
                     
+                    {/* Game filter for gaming category */}
+                    {selectedCategory === 'gaming' && (
+                      <div className="mt-3 pt-3 border-t border-zinc-800/30">
+                        <h5 className="text-xs text-zinc-500 mb-2 uppercase tracking-wide">{tt('products.gaming.filterByGame', 'Filtrer par jeu', 'Filter by game')}</h5>
+                        <div className="space-y-1">
+                          {[
+                            { key: 'all' as GameFilter, name: tt('products.gaming.allGames', 'Tous les jeux', 'All games'), count: productsData.gaming ? productsData.gaming.length : 0 },
+                            { key: 'clash-royale' as GameFilter, name: 'Clash Royale', count: productsData.gaming ? productsData.gaming.filter((p: any) => p.game === 'Clash Royale').length : 0 },
+                            { key: 'overwatch-2' as GameFilter, name: 'Overwatch 2', count: productsData.gaming ? productsData.gaming.filter((p: any) => p.game === 'Overwatch 2').length : 0 },
+                            { key: 'warzone' as GameFilter, name: 'Call of Duty: Warzone', count: productsData.gaming ? productsData.gaming.filter((p: any) => p.game === 'Call of Duty: Warzone').length : 0 },
+                            { key: 'valorant' as GameFilter, name: 'Valorant', count: productsData.gaming ? productsData.gaming.filter((p: any) => p.game === 'Valorant').length : 0 }
+                          ].map((game) => (
+                            <button
+                              key={game.key}
+                              onClick={() => setSelectedGame(game.key)}
+                              className={`w-full flex items-center justify-between px-2 py-1.5 rounded text-xs transition-all ${selectedGame === game.key ? 'bg-white/10 text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/30'}`}
+                            >
+                              <span className="truncate pr-2">{game.name}</span>
+                              <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${selectedGame === game.key ? 'bg-white/20 text-white' : 'bg-zinc-800/50 text-zinc-500'}`}>{game.count}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Quick link to VPS dedicated page when VPS category is selected */}
                     {selectedCategory === 'vps' && (
                       <div className="mt-3 pt-3 border-t border-zinc-800/30">
@@ -379,7 +502,7 @@ export default function ProductsPage() {
                   </div>
                   <p className="mt-2 text-[11px] text-zinc-500">{pricingMode==='annual'?(t('products.ui.annualNote')||'Prix mensuel équivalent sur engagement annuel'):(t('products.ui.switchNote')||'Basculer entre les modes')}</p>
                 </div>
-                <button onClick={() => { setSelectedCategory('all'); setPricingMode('monthly'); }} className="w-full text-sm text-zinc-300 hover:text-white border border-zinc-800/40 hover:border-zinc-700/60 rounded-xl py-2">{tt('products.ui.reset', 'Réinitialiser', 'Reset')}</button>
+                <button onClick={() => { setSelectedCategory('all'); setSelectedGame('all'); setPricingMode('monthly'); }} className="w-full text-sm text-zinc-300 hover:text-white border border-zinc-800/40 hover:border-zinc-700/60 rounded-xl py-2">{tt('products.ui.reset', 'Réinitialiser', 'Reset')}</button>
               </div>
             </aside>
 
@@ -401,7 +524,7 @@ export default function ProductsPage() {
 
 
               {/* Grille produits avec spacing optimisé et centrage responsive */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-4 lg:gap-6 justify-items-center sm:justify-items-stretch">
+              <div ref={productsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 justify-items-center sm:justify-items-stretch">
                 {(showAllProducts ? filteredProducts : filteredProducts.slice(0, initialGridCount)).map((product, index) => {
                 const getPrice = () => {
                   if (product.price_per_gb_month && product.category === 'storage') {
@@ -434,7 +557,7 @@ export default function ProductsPage() {
                 return (
                 <div
                   key={cardKey}
-                  className={`card group relative overflow-hidden flex flex-col w-full max-w-sm sm:max-w-none ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                  className={`card group relative overflow-hidden flex flex-col w-full max-w-sm sm:max-w-none min-h-[320px] ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   style={{ 
                     transitionDelay: `${index * 80}ms`,
                     transition: 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
@@ -470,8 +593,8 @@ export default function ProductsPage() {
                   </div>
                   
                   {/* Product Name & Usage - hauteur responsive */}
-                  <div className="mb-4 sm:mb-6 h-16 sm:h-20">
-                    <h3 className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2 leading-tight tracking-wide line-clamp-1">
+                  <div className="mb-4 sm:mb-5 min-h-[72px]">
+                    <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-white mb-1.5 sm:mb-2 leading-snug tracking-wide break-words">
                       {product.name || String(product.id || '').toUpperCase()}
                     </h3>
                     <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed line-clamp-2">
@@ -480,9 +603,9 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Prix simplifié responsive */}
-                  <div className="mb-6 sm:mb-8">
+                  <div className="mb-5 sm:mb-6">
                     <div className="flex items-end space-x-1">
-                      <span className="text-xl sm:text-2xl font-bold text-white leading-none">
+                      <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-none">
                         {getPrice()}€
                       </span>
                       <span className="text-xs sm:text-sm text-zinc-400 font-normal pb-0.5 ml-0.5">

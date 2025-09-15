@@ -1,0 +1,329 @@
+{
+  "positions": [
+    {
+      "id": "architecte-cloud-senior",
+      "title": "Architecte Cloud Senior",
+      "team": "Architecture",
+      "category": "infrastructure",
+      "level": "senior",
+      "salaryMin": 65000,
+      "salaryMax": 85000,
+      "currency": "EUR",
+      "type": "fulltime",
+      "location": "Remote France ou Lyon",
+      "contractType": "CDI",
+      "active": true,
+      "priority": 1,
+      "skills": ["Architecture Cloud", "Kubernetes", "Terraform", "AWS/Azure", "Microservices", "Service Mesh", "Event-Driven", "DDD"],
+      "description": "Concevez l'architecture de notre plateforme cloud nouvelle génération. Guidez les équipes techniques sur les choix stratégiques et participez à la transformation de notre infrastructure pour supporter notre croissance explosive en France et en Europe.",
+      "requirements": [
+        "7+ ans d'expérience en architecture cloud",
+        "Expertise multi-cloud (AWS, Azure, GCP)",
+        "Maîtrise des patterns microservices et event-driven",
+        "Expérience en transformation digitale",
+        "Français natif, anglais courant",
+        "Capacité à vulgariser des concepts complexes",
+        "Certification cloud (AWS SA Pro ou équivalent)",
+        "Expérience avec les réglementations françaises (HDS, SecNumCloud)"
+      ],
+      "benefits": [
+        "Télétravail total depuis la France",
+        "Mutuelle Alan Gold famille incluse",
+        "Tickets restaurant Swile 12€/jour",
+        "Bonus annuel jusqu'à 25%",
+        "Budget formation 5000€/an",
+        "MacBook Pro M3 Max + setup complet",
+        "5 semaines de congés + RTT",
+        "BSPCE après validation période d'essai"
+      ],
+      "missions": [
+        "Définir la vision architecture à 3 ans",
+        "Concevoir les solutions techniques complexes",
+        "Accompagner les équipes dans l'implémentation",
+        "Évangéliser les bonnes pratiques",
+        "Participer aux décisions produit stratégiques",
+        "Auditer et optimiser l'existant",
+        "Gérer la dette technique",
+        "Animer la communauté tech interne"
+      ]
+    },
+    {
+      "id": "lead-frontend-react",
+      "title": "Lead Développeur Frontend React",
+      "team": "Produit",
+      "category": "engineering",
+      "level": "senior",
+      "salaryMin": 55000,
+      "salaryMax": 75000,
+      "currency": "EUR",
+      "type": "fulltime",
+      "location": "Remote France",
+      "contractType": "CDI",
+      "active": true,
+      "priority": 2,
+      "skills": ["React", "Next.js", "TypeScript", "TailwindCSS", "Zustand", "React Query", "Vitest", "Storybook"],
+      "description": "Prenez le lead de notre équipe frontend pour créer des interfaces exceptionnelles. Vous définirez les standards, mentorerez l'équipe et développerez des features complexes pour nos clients français et européens.",
+      "requirements": [
+        "5+ ans d'expérience React en production",
+        "Maîtrise Next.js 14+ et Server Components",
+        "Expert TypeScript et patterns avancés",
+        "Expérience en lead technique",
+        "Obsession pour la performance et l'UX",
+        "Français courant obligatoire",
+        "Portfolio de projets impressionnants",
+        "Connaissance des normes d'accessibilité RGAA"
+      ],
+      "benefits": [
+        "100% remote depuis la France",
+        "Stock options généreuses",
+        "Matériel au choix (Mac/PC)",
+        "Conférences tech illimitées",
+        "4 jours/semaine possible"
+      ]
+    },
+    {
+      "id": "ingenieur-securite-offensive",
+      "title": "Ingénieur Sécurité Offensive",
+      "team": "Sécurité",
+      "category": "security",
+      "level": "mid-senior",
+      "salaryMin": 50000,
+      "salaryMax": 70000,
+      "currency": "EUR",
+      "type": "fulltime",
+      "location": "Remote France ou Paris",
+      "contractType": "CDI",
+      "active": true,
+      "priority": 3,
+      "skills": ["Pentesting", "Burp Suite", "Metasploit", "Python", "OWASP", "Cloud Security", "Red Team", "Forensics"],
+      "description": "Rejoignez notre Red Team pour tester et renforcer la sécurité de notre infrastructure. Vous simulerez des attaques, identifierez les vulnérabilités et travaillerez étroitement avec les équipes pour sécuriser notre plateforme.",
+      "requirements": [
+        "3+ ans en sécurité offensive",
+        "Certifications OSCP, GPEN ou équivalent",
+        "Maîtrise des outils de pentest",
+        "Expérience en audit de code",
+        "Connaissance RGPD et conformité française",
+        "Français natif, anglais technique",
+        "Éthique irréprochable",
+        "Clearance sécurité (atout)"
+      ],
+      "benefits": [
+        "Prime bug bounty interne",
+        "Budget formation sécurité 3000€/an",
+        "Participation aux CTF sponsorisée",
+        "Matériel de test fourni",
+        "Pas d'astreinte"
+      ]
+    },
+    {
+      "id": "product-manager-gaming",
+      "title": "Product Manager - Gaming Cloud",
+      "team": "Produit Gaming",
+      "category": "product",
+      "level": "senior",
+      "salaryMin": 60000,
+      "salaryMax": 80000,
+      "currency": "EUR",
+      "type": "fulltime",
+      "location": "Remote France",
+      "contractType": "CDI",
+      "active": true,
+      "priority": 4,
+      "skills": ["Product Management", "Gaming Industry", "Cloud Gaming", "Data Analysis", "Agile", "User Research", "B2C"],
+      "description": "Développez notre offre cloud gaming pour le marché français. Vous définirez la roadmap produit, analyserez les besoins des gamers français et piloterez le lancement de nouvelles features.",
+      "requirements": [
+        "5+ ans en product management B2C",
+        "Passion pour le gaming (PC/Console)",
+        "Connaissance du marché gaming français",
+        "Data-driven mindset",
+        "Excellente communication française",
+        "Expérience avec des produits techniques",
+        "Track record de lancements réussis",
+        "Réseau dans l'industrie gaming (plus)"
+      ],
+      "benefits": [
+        "Crédits gaming illimités",
+        "Accès early access jeux",
+        "Setup gaming haut de gamme",
+        "Participation aux events gaming",
+        "Équipe passionnée"
+      ]
+    },
+    {
+      "id": "data-engineer-toulouse",
+      "title": "Data Engineer - Infrastructure Analytics",
+      "team": "Data",
+      "category": "data",
+      "level": "mid",
+      "salaryMin": 48000,
+      "salaryMax": 65000,
+      "currency": "EUR",
+      "type": "fulltime",
+      "location": "Remote France ou Toulouse",
+      "contractType": "CDI",
+      "active": true,
+      "priority": 5,
+      "skills": ["Python", "Spark", "Airflow", "PostgreSQL", "Kafka", "DBT", "Snowflake", "DataDog"],
+      "description": "Construisez notre plateforme data pour analyser et optimiser notre infrastructure. Vous créerez les pipelines de données, les dashboards et les modèles prédictifs pour améliorer nos performances.",
+      "requirements": [
+        "3+ ans en data engineering",
+        "Expert Python et SQL",
+        "Maîtrise Apache Spark et Airflow",
+        "Expérience avec les data warehouses modernes",
+        "Connaissance MLOps (atout)",
+        "Français courant requis",
+        "Rigueur et attention aux détails",
+        "Capacité à travailler avec des volumes massifs"
+      ],
+      "benefits": [
+        "Remote flexible",
+        "Formation certifications cloud",
+        "Participation aux conférences data",
+        "Projets ML innovants",
+        "Équipe data en croissance"
+      ]
+    },
+    {
+      "id": "responsable-partenariats-tech",
+      "title": "Responsable Partenariats Technologiques",
+      "team": "Business Development",
+      "category": "business",
+      "level": "senior",
+      "salaryMin": 55000,
+      "salaryMax": 75000,
+      "currency": "EUR",
+      "type": "fulltime",
+      "location": "Paris ou Lyon",
+      "contractType": "CDI",
+      "active": true,
+      "priority": 6,
+      "skills": ["Business Development", "Partnerships", "Négociation", "Cloud Ecosystem", "Strategic Planning", "P&L"],
+      "description": "Développez notre écosystème de partenaires technologiques en France. Négociez avec les éditeurs, ISV et intégrateurs pour créer des synergies et accélérer notre croissance sur le marché français.",
+      "requirements": [
+        "5+ ans en partnerships B2B tech",
+        "Réseau établi dans l'écosystème cloud français",
+        "Expérience avec les grands comptes",
+        "Négociateur aguerri",
+        "Vision stratégique business",
+        "Français et anglais business fluent",
+        "Mobilité France requise",
+        "MBA ou école de commerce (plus)"
+      ],
+      "benefits": [
+        "Variable non plafonné",
+        "Véhicule de fonction",
+        "Frais de représentation",
+        "Stock options substantielles",
+        "Évolution vers VP possible"
+      ]
+    },
+    {
+      "id": "directeur-ressources-humaines",
+      "title": "Directeur·trice des Ressources Humaines (DRH)",
+      "team": "People & Culture",
+      "category": "hr",
+      "level": "executive",
+      "salaryMin": 65000,
+      "salaryMax": 75000,
+      "currency": "EUR",
+      "type": "fulltime",
+      "location": "France (Hybride)",
+      "contractType": "CDI",
+      "active": true,
+      "priority": 1,
+      "skills": ["Stratégie RH", "Droit Social FR", "RGPD", "Recrutement Tech", "SIRH", "Relations Sociales", "Scale-up", "Cloud/Tech"],
+      "description": "Concevez et pilotez la stratégie People end-to-end pour notre structure en hypercroissance. Rôle individuel au démarrage avec création/structuration de la fonction RH, focus tech & cloud, conformité UE/FR.",
+      "requirements": [
+        "8-12+ ans en RH dont 5+ ans en responsabilité",
+        "Expérience scale-up tech/cloud ou IT services",
+        "Maîtrise droit social FR et pratiques UE",
+        "Expérience relations sociales & CSE",
+        "Culture tech solide (Kubernetes, Linux, réseau, SRE)",
+        "Français & Anglais courants (C1+)",
+        "Data-driven (Excel avancé, HR analytics)",
+        "Habitude modèle externalisé (cabinets, EOR)"
+      ],
+      "benefits": [
+        "Impact direct sur la stratégie People",
+        "Périmètre international UE",
+        "Autonomie complète",
+        "Package 65-75K€ + variable",
+        "BSPCE substantiels",
+        "Remote flexible",
+        "Budget formation illimité",
+        "Évolution vers CPO possible"
+      ],
+      "missions": [
+        "Stratégie & gouvernance RH : feuille de route People, politiques (télétravail, astreintes), grilles de niveaux, bandes salariales, BSPCE",
+        "Recrutement tech : plan d'effectifs, scorecards, pilotage cabinets, focus SRE/Réseau/Stockage/K8s/Sécurité",
+        "Opérations RH : SIRH, on/offboarding, paie externalisée, mutuelle, gestion temps/astreintes",
+        "Relations sociales : seuils CSE, BDESE, accords télétravail/forfait-jours, disciplinaire",
+        "Conformité RGPD : registre, base légale, transparence rémunérations (UE 2026)",
+        "Performance & coûts : FinOps RH, masse salariale, pilotage fournisseurs",
+        "Culture & engagement : eNPS, formation managériale, diversité & inclusion"
+      ],
+      "profile": [
+        "Leader RH expérimenté avec vision stratégique",
+        "Expertise juridique et conformité solide",
+        "Compréhension profonde des enjeux tech",
+        "Mindset entrepreneurial et hands-on",
+        "Excellente communication et influence",
+        "Capacité à structurer from scratch",
+        "Orientation résultats et KPIs"
+      ],
+      "process": [
+        "1. Screening CV + lettre motivation (2j)",
+        "2. Call RH avec CEO (45min)",
+        "3. Cas pratique à domicile (stratégie RH)",
+        "4. Panel avec CTO + CFO + Lead Tech (2h)",
+        "5. Références et background check",
+        "6. Offre finale et négociation"
+      ],
+      "deliverables": {
+        "30days": [
+          "Audit social & cartographie effectifs",
+          "Choix et setup SIRH (Personio/BambooHR/Lucca)",
+          "Sécurisation paie externalisée",
+          "Trame grilles & niveaux",
+          "Process recrutement & kit manager"
+        ],
+        "60days": [
+          "Bandes salariales avec fourchettes publiées",
+          "Politique télétravail/astreintes",
+          "Process on/offboarding & checklists",
+          "Runbooks CSE si seuils atteints",
+          "Matrice RACI People"
+        ],
+        "90days": [
+          "Tableau de bord RH en production",
+          "Plan de formation",
+          "Revue d'équité salariale",
+          "Trame accords/notes de service",
+          "Calendrier conformité complet"
+        ]
+      },
+      "kpis": [
+        "Time-to-hire < 30 jours",
+        "Time-to-start < 45 jours",
+        "Rétention 6/12 mois > 90%",
+        "Taux complétion onboarding 30j > 95%",
+        "Satisfaction managers > 4/5",
+        "Turn-over volontaire < 10%",
+        "Conformité : zéro écart critique"
+      ]
+    }
+  ],
+  "metadata": {
+    "market": "france",
+    "language": "fr",
+    "lastUpdated": "2025-09-13",
+    "legalEntity": "VMCloud France SAS (filiale)",
+    "hrContact": "recrutement@vmcl.fr",
+    "specificBenefits": {
+      "mutuelle": "Alan",
+      "ticketsResto": "Swile 11€/jour",
+      "transportPublic": "50% remboursé",
+      "ce": "Comité d'entreprise digital"
+    }
+  }
+}

@@ -6,6 +6,7 @@
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from '../../../../components/layout/Header';
 import Footer from '../../../../components/layout/Footer';
 import SophisticatedBackground from '../../../../components/animations/SophisticatedBackground';
@@ -17,6 +18,7 @@ import { CPUIcon, RAMIcon, StorageIcon, NetworkIcon, CheckIcon } from '../../../
 import SpecsModal from '../../../../components/ui/SpecsModal';
 import displayConfig from '../../../../data/products/display-config.json';
 import { formatNumber } from '../../../../utils/formatNumber';
+import { useLocalizedPath } from '../../../../hooks/useLocalizedPath';
 
 type PricingMode = 'hourly' | 'monthly' | 'annual';
 
@@ -41,6 +43,8 @@ const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = 
 
 export default function UniversalProductPage({ product, category }: UniversalProductPageProps) {
   const { t, language } = useLanguage();
+  const router = useRouter();
+  const { localizedPath } = useLocalizedPath();
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
   const [modalState, setModalState] = useState<ModalState>({
     isOpen: false,
@@ -219,11 +223,18 @@ export default function UniversalProductPage({ product, category }: UniversalPro
                       
                       <div className="relative">
                         <spec.icon className="w-5 h-5 text-zinc-400 mb-3" />
-                        <div className="text-2xl font-light text-white mb-1">{spec.value}</div>
-                        <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">{spec.label}</div>
+                        <div className="text-2xl font-light text-white mb-1">
+                          {category === 'gaming' && spec.key === 'features' 
+                            ? product.features?.split(', ').slice(0, 2).join(' • ') || spec.value
+                            : spec.value
+                          }
+                        </div>
+                        <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">
+                          {language === 'fr' && spec.label ? spec.label : spec.label_en || spec.label}
+                        </div>
                         <div className="text-[10px] text-zinc-600 leading-tight">
-                          {spec.tech}<br />
-                          {spec.detail}
+                          {language === 'fr' && spec.tech ? spec.tech : spec.tech_en || spec.tech}<br />
+                          {language === 'fr' && spec.detail ? spec.detail : spec.detail_en || spec.detail}
                         </div>
                       </div>
                     </div>
@@ -289,7 +300,14 @@ export default function UniversalProductPage({ product, category }: UniversalPro
 
                   {/* CTA buttons */}
                   <div className="space-y-3">
-                    <Button variant="primary" className="w-full">
+                    <Button 
+                      variant="primary" 
+                      className="w-full"
+                      onClick={() => {
+                        const configuratorPath = localizedPath(`/configurator?product=${product.id}&category=${category}`);
+                        router.push(configuratorPath);
+                      }}
+                    >
                       {language === 'fr' ? 'Configurer' : 'Configure'}
                     </Button>
                     {product.trial && (
