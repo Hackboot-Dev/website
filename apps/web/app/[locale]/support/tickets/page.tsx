@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { LanguageContext } from '../../../../contexts/LanguageContext';
-import { 
+import {
   TicketIcon,
   ClockIcon,
   CheckCircleIcon,
@@ -11,12 +11,14 @@ import {
   ChevronRightIcon,
   PlusIcon,
   MagnifyingGlassIcon,
+  MagnifyingGlassIcon as SearchIcon,
   FunnelIcon,
   CalendarIcon,
   UserIcon,
   TagIcon,
   PaperClipIcon,
   ChatBubbleBottomCenterTextIcon,
+  ChatBubbleBottomCenterTextIcon as MessageSquareIcon,
   ArrowPathIcon,
   ArchiveBoxIcon,
   StarIcon

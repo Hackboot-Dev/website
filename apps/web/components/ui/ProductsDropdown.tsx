@@ -7,8 +7,8 @@
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useState, useContext } from 'react';
+import { LanguageContext } from '../../contexts/LanguageContext';
 import productsData from '../../data/products/base.json';
 
 interface ProductCategory {
@@ -21,7 +21,8 @@ interface ProductCategory {
 }
 
 export default function ProductsDropdown() {
-  const { t } = useLanguage();
+  const context = useContext(LanguageContext);
+  const t = context ? context.t : (key: string) => key;
   const [isOpen, setIsOpen] = useState(false);
   const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 

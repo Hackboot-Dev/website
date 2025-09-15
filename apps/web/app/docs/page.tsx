@@ -7,7 +7,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useLanguage } from '../../contexts/LanguageContext';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import SophisticatedBackground from '../../components/animations/SophisticatedBackground';
@@ -61,7 +60,7 @@ export default function DocumentationPage() {
       </div>
     );
   }
-  const { language } = useLanguage();
+  const language = 'en'; // Default to English for static generation
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);

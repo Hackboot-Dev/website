@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { LanguageContext } from '../../../../contexts/LanguageContext';
-import { 
+import {
   ChatBubbleLeftRightIcon,
   PaperAirplaneIcon,
   UserIcon,
@@ -16,7 +16,8 @@ import {
   ChevronUpIcon,
   XMarkIcon,
   CheckCircleIcon,
-  ClockIcon
+  ClockIcon,
+  ChatBubbleLeftIcon as ChatIcon
 } from '@heroicons/react/24/outline';
 
 const translations = {

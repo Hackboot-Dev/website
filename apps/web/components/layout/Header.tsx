@@ -4,7 +4,8 @@ import LocalizedLink from '../ui/LocalizedLink';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useScrollProgress } from '../../hooks/useAwwardsAnimation';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useContext } from 'react';
+import { LanguageContext } from '../../contexts/LanguageContext';
 import LanguageSelector from '../ui/LanguageSelector';
 import ProductsDropdown from '../ui/ProductsDropdown';
 
@@ -12,7 +13,9 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollProgress = useScrollProgress();
-  const { t } = useLanguage();
+  // Check if LanguageContext is available
+  const context = useContext(LanguageContext);
+  const t = context ? context.t : (key: string) => key;
 
   useEffect(() => {
     const handleScroll = () => {

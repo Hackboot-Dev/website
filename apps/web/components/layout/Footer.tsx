@@ -1,9 +1,11 @@
 'use client';
 import LocalizedLink from '../ui/LocalizedLink';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useContext } from 'react';
+import { LanguageContext } from '../../contexts/LanguageContext';
 
 export default function Footer() {
-  const { language } = useLanguage();
+  const context = useContext(LanguageContext);
+  const language = context ? context.language : 'fr';
   const isProd = process.env.NODE_ENV === 'production' || process.env.NEXT_PUBLIC_APP_ENV === 'production';
   const docsEnabled = !isProd;
 
