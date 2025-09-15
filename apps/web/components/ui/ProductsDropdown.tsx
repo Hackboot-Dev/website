@@ -22,68 +22,170 @@ interface ProductCategory {
 
 export default function ProductsDropdown() {
   const context = useContext(LanguageContext);
-  const t = context ? context.t : (key: string) => key;
+  const language = context ? context.language : 'fr';
   const [isOpen, setIsOpen] = useState(false);
   const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 
+  // Product categories with translations
+  const categoriesTranslations = {
+    fr: {
+      vps: {
+        name: 'Serveurs VPS',
+        description: 'Serveurs virtuels haute performance',
+        subtitle: 'AMD EPYC, NVMe, 10Gbps'
+      },
+      gpu: {
+        name: 'GPU Cloud',
+        description: 'Puissance de calcul GPU dédiée',
+        subtitle: 'RTX 4090, A100, H100'
+      },
+      webhosting: {
+        name: 'Hébergement Web',
+        description: 'Hébergement web professionnel',
+        subtitle: 'cPanel, SSL, Emails'
+      },
+      paas: {
+        name: 'Platform as a Service',
+        description: 'Containers et applications managés',
+        subtitle: 'Docker, Kubernetes, CI/CD'
+      },
+      loadbalancer: {
+        name: 'Load Balancer',
+        description: 'Répartition de charge haute disponibilité',
+        subtitle: 'HTTP/HTTPS, TCP/UDP, SSL'
+      },
+      storage: {
+        name: 'Stockage',
+        description: 'Solutions de stockage haute performance',
+        subtitle: 'SSD, NVMe, Block Storage'
+      },
+      cdn: {
+        name: 'CDN',
+        description: 'Content Delivery Network global',
+        subtitle: 'PoPs mondiaux, Cache, WAF'
+      },
+      gaming: {
+        name: 'Gaming VPS',
+        description: 'Serveurs optimisés pour le gaming',
+        subtitle: 'DDoS Protection, Low Latency'
+      }
+    },
+    en: {
+      vps: {
+        name: 'VPS Servers',
+        description: 'High-performance virtual servers',
+        subtitle: 'AMD EPYC, NVMe, 10Gbps'
+      },
+      gpu: {
+        name: 'GPU Cloud',
+        description: 'Dedicated GPU computing power',
+        subtitle: 'RTX 4090, A100, H100'
+      },
+      webhosting: {
+        name: 'Web Hosting',
+        description: 'Professional web hosting',
+        subtitle: 'cPanel, SSL, Emails'
+      },
+      paas: {
+        name: 'Platform as a Service',
+        description: 'Managed containers and applications',
+        subtitle: 'Docker, Kubernetes, CI/CD'
+      },
+      loadbalancer: {
+        name: 'Load Balancer',
+        description: 'High availability load balancing',
+        subtitle: 'HTTP/HTTPS, TCP/UDP, SSL'
+      },
+      storage: {
+        name: 'Storage',
+        description: 'High-performance storage solutions',
+        subtitle: 'SSD, NVMe, Block Storage'
+      },
+      cdn: {
+        name: 'CDN',
+        description: 'Global Content Delivery Network',
+        subtitle: 'Global PoPs, Cache, WAF'
+      },
+      gaming: {
+        name: 'Gaming VPS',
+        description: 'Gaming-optimized servers',
+        subtitle: 'DDoS Protection, Low Latency'
+      }
+    }
+  };
+
+  const trans = categoriesTranslations[language as keyof typeof categoriesTranslations] || categoriesTranslations.fr;
+
   const categories: ProductCategory[] = [
     {
-      name: t('products.categories.vps.name'),
-      description: t('products.categories.vps.description'),
-      subtitle: t('products.categories.vps.subtitle'),
+      name: trans.vps.name,
+      description: trans.vps.description,
+      subtitle: trans.vps.subtitle,
       href: '/products#vps',
       icon: '🖥️',
       count: productsData.vps.length
     },
     {
-      name: t('products.categories.gpu.name'),
-      description: t('products.categories.gpu.description'),
-      subtitle: t('products.categories.gpu.subtitle'),
+      name: trans.gpu.name,
+      description: trans.gpu.description,
+      subtitle: trans.gpu.subtitle,
       href: '/products#gpu',
       icon: '⚡',
       count: productsData.gpu.length
     },
     {
-      name: t('products.categories.webhosting.name'),
-      description: t('products.categories.webhosting.description'),
-      subtitle: t('products.categories.webhosting.subtitle'),
+      name: trans.webhosting.name,
+      description: trans.webhosting.description,
+      subtitle: trans.webhosting.subtitle,
       href: '/products#webhosting',
       icon: '🌐',
       count: productsData.webhosting.length
     },
     {
-      name: 'Platform as a Service',
-      description: 'Containers et applications managés',
-      subtitle: 'Docker, Kubernetes, CI/CD',
+      name: trans.paas.name,
+      description: trans.paas.description,
+      subtitle: trans.paas.subtitle,
       href: '/products#paas',
       icon: '🐳',
       count: productsData.paas.length
     },
     {
-      name: 'Load Balancer',
-      description: 'Répartition de charge haute disponibilité',
-      subtitle: 'HTTP/HTTPS, TCP/UDP, SSL',
+      name: trans.loadbalancer.name,
+      description: trans.loadbalancer.description,
+      subtitle: trans.loadbalancer.subtitle,
       href: '/products#loadbalancer',
       icon: '⚖️',
       count: productsData.loadbalancer.length
     },
     {
-      name: 'Stockage',
-      description: 'Solutions de stockage haute performance',
-      subtitle: 'SSD, NVMe, Block Storage',
+      name: trans.storage.name,
+      description: trans.storage.description,
+      subtitle: trans.storage.subtitle,
       href: '/products#storage',
       icon: '💾',
       count: productsData.storage.length
     },
     {
-      name: 'CDN',
-      description: 'Content Delivery Network global',
-      subtitle: 'PoPs mondiaux, Cache, WAF',
+      name: trans.cdn.name,
+      description: trans.cdn.description,
+      subtitle: trans.cdn.subtitle,
       href: '/products#cdn',
       icon: '🌍',
       count: productsData.cdn.length
     }
   ];
+
+  // Add gaming if it exists
+  if (productsData.gaming && productsData.gaming.length > 0) {
+    categories.push({
+      name: trans.gaming.name,
+      description: trans.gaming.description,
+      subtitle: trans.gaming.subtitle,
+      href: '/products#gaming',
+      icon: '🎮',
+      count: productsData.gaming.length
+    });
+  }
 
   const handleMouseEnter = () => {
     if (closeTimeout) {

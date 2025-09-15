@@ -6,10 +6,25 @@ export const infrastructureData = {
     { key: 'gpus', value: '500+', label: 'GPU dédiés' },
   ],
   capacity: {
-    compute: '48,000 vCPUs',
-    ram: '192 TB RAM',
-    storage: '12 PB NVMe',
-    network: '2.4 Tbps',
+    compute: {
+      totalCores: 48000,
+      totalRam: '192 TB',
+      nodes: 127
+    },
+    storage: {
+      nvme: '5 PB',
+      ssd: '7 PB'
+    },
+    network: {
+      backbone: '2.4 Tbps',
+      peering: '100+ IX'
+    },
+    gpu: [
+      { model: 'RTX 4090', available: 45, memory: '24GB' },
+      { model: 'A100 80GB', available: 12, memory: '80GB' },
+      { model: 'H100 80GB', available: 8, memory: '80GB' },
+      { model: 'L40S', available: 24, memory: '48GB' }
+    ],
     utilization: {
       compute: 68,
       storage: 61,

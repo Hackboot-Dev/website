@@ -4,7 +4,7 @@
 // Last modified: 2025-12-18
 // Related docs: /docs/JOURNAL.md
 
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { LanguageContext } from '../../contexts/LanguageContext';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -19,6 +19,8 @@ export default function LanguageSelector() {
   const context = useContext(LanguageContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const [detectedCountry, setDetectedCountry] = useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -40,6 +42,29 @@ export default function LanguageSelector() {
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
+
+  // Detect user's country
+  useEffect(() => {
+    const detectCountry = async () => {
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        if (data.country_name) {
+          setDetectedCountry(data.country_name);
+        }
+      } catch (error) {
+        console.error('Could not detect country:', error);
+      }
+    };
+    detectCountry();
+  }, []);
+
+  // Center modal when it opens
+  useEffect(() => {
+    if (showInfoModal && modalRef.current) {
+      modalRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [showInfoModal]);
 
   const handleLanguageChange = (langCode: string) => {
     // Build new path with the new locale
@@ -70,7 +95,7 @@ export default function LanguageSelector() {
           'Les options de support et horaires'
         ],
         important: 'Important :',
-        notice: 'Si vous êtes en France, sélectionnez "Français" pour voir les informations pertinentes pour votre région. Les données affichées dans d\'autres langues correspondent aux réglementations et offres de leurs pays respectifs.',
+        notice: 'Les données affichées correspondent aux réglementations et offres du pays sélectionné. La société décline toute responsabilité en cas de sélection incorrecte de la région.',
         conclusion: 'Choisissez la langue correspondant à votre pays de résidence pour obtenir les informations les plus pertinentes.'
       },
       close: 'Fermer'
@@ -91,7 +116,7 @@ export default function LanguageSelector() {
           'Support options and schedules'
         ],
         important: 'Important:',
-        notice: 'If you are in the United States, select "English" to see relevant information for your region. Data displayed in other languages corresponds to regulations and offers from their respective countries.',
+        notice: 'The data displayed corresponds to the regulations and offers of the selected country. The company disclaims any responsibility in case of incorrect region selection.',
         conclusion: 'Choose the language corresponding to your country of residence for the most relevant information.'
       },
       close: 'Close'
@@ -121,7 +146,7 @@ export default function LanguageSelector() {
           onClick={() => setShowDropdown(!showDropdown)}
           className={`
             flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2
-            bg-zinc-900/50 hover:bg-zinc-800/70
+            bg-zinc-900 hover:bg-zinc-800
             border border-zinc-700/50 hover:border-zinc-600
             rounded-lg transition-all duration-300
             ${isChangingLanguage ? 'opacity-60' : ''}
@@ -138,7 +163,7 @@ export default function LanguageSelector() {
 
         {/* Dropdown */}
         {showDropdown && (
-          <div className="absolute top-full right-0 mt-2 w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-zinc-900/95 backdrop-blur-xl border border-zinc-700/50 rounded-xl shadow-2xl overflow-hidden z-50">
+          <div className="absolute top-full right-0 mt-2 w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-zinc-900 border border-zinc-700/50 rounded-xl shadow-2xl overflow-hidden z-50">
             {/* Notice */}
             <div className="px-4 py-3 bg-blue-500/10 border-b border-zinc-700/50">
               <div className="flex items-start gap-2">
@@ -195,7 +220,7 @@ export default function LanguageSelector() {
 
       {/* Information Modal */}
       {showInfoModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
@@ -203,7 +228,7 @@ export default function LanguageSelector() {
           />
 
           {/* Modal */}
-          <div className="relative bg-zinc-900 border border-zinc-700 rounded-xl md:rounded-2xl max-w-2xl w-full max-h-[90vh] md:max-h-[80vh] overflow-y-auto shadow-2xl">
+          <div ref={modalRef} className="relative bg-zinc-900 border border-zinc-700 rounded-xl md:rounded-2xl max-w-2xl w-full my-8 shadow-2xl">
             {/* Header */}
             <div className="sticky top-0 bg-zinc-900 border-b border-zinc-800 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
               <div className="flex items-center gap-2 md:gap-3">
@@ -223,7 +248,7 @@ export default function LanguageSelector() {
             </div>
 
             {/* Content */}
-            <div className="px-4 md:px-6 py-4 md:py-6 space-y-4 md:space-y-6">
+            <div className="px-4 md:px-6 py-4 md:py-6 space-y-4 md:space-y-6 max-h-[60vh] overflow-y-auto">
               <p className="text-zinc-300 leading-relaxed">
                 {t.modalContent.intro}
               </p>
@@ -241,6 +266,14 @@ export default function LanguageSelector() {
                   ))}
                 </ul>
               </div>
+
+              {detectedCountry && (
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                  <p className="text-blue-200 text-sm">
+                    {language === 'fr' ? `Vous avez été détecté comme étant en : ${detectedCountry}` : `You have been detected as being in: ${detectedCountry}`}
+                  </p>
+                </div>
+              )}
 
               <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
                 <div className="flex items-start gap-2">
