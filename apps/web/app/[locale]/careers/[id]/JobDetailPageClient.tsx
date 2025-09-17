@@ -694,8 +694,8 @@ export default function JobDetailPageClient({ job, locale }: JobDetailPageClient
                         </h2>
                         <p className="text-zinc-400 mb-6">
                           {isEn
-                            ? 'Please try again later or contact us directly at careers@vmcl.fr'
-                            : 'Veuillez réessayer plus tard ou nous contacter directement à careers@vmcl.fr'}
+                            ? 'Please try again later or contact us directly at contact@vmcloud.fr'
+                            : 'Veuillez réessayer plus tard ou nous contacter directement à contact@vmcloud.fr'}
                         </p>
                         <button
                           onClick={() => setSubmitStatus('idle')}

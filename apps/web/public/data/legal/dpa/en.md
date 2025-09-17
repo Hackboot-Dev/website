@@ -465,7 +465,7 @@ If a DPA clause were declared null or inapplicable, other provisions retain thei
 ### 14.6. DPO contact
 
 **VMCloud Data Protection Officer (DPO):**
-- Email: privacy@vmcloud.com
+- Email: contact@vmcloud.fr
 - Postal address: Paju 1a, 50603 Tartu, Tartu Maakond, Estonia
 
 The DPO may be contacted by data subjects and supervisory authorities for any questions relating to personal data protection.
@@ -474,7 +474,7 @@ The DPO may be contacted by data subjects and supervisory authorities for any qu
 
 ## Annex: Personal data breach notification template
 
-**From:** security@vmcloud.com  
+**From:** contact@vmcloud.fr  
 **To:** [Client]  
 **Subject:** [URGENT] Personal data breach notification - Ref. [INC-XXXX]
 
@@ -500,7 +500,7 @@ The DPO may be contacted by data subjects and supervisory authorities for any qu
 
 **5. Contact:**
 - Incident manager: [Name and contact details]
-- VMCloud DPO: privacy@vmcloud.com
+- VMCloud DPO: contact@vmcloud.fr
 
 This notification does not engage VMCloud's liability and does not constitute an admission of fault. It aims solely to allow the Client to evaluate their obligations to notify authorities and data subjects.
 

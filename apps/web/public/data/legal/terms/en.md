@@ -1,11 +1,14 @@
 # Terms and Conditions of Use and Sale – VMCloud
 
-> **Version 2.0 – Effective Date: 09/02/2025**  
-> **Contracting Entity:** VMCloud OÜ, Estonian company, subsidiary of DVP holding  
-> **Director:** Loche Gaylor  
-> **Registered Office:** Paju 1a, 50603 Tartu, Tartu Maakond, Estonia  
-> **Registration Number:** 31644377  
-> **VAT Number:** [To be completed]  
+> **Version 2.0 – Effective Date: 09/02/2025**
+>
+> **Contracting Entity:** VMCloud OÜ, Estonian company, subsidiary of VMCloud Group OÜ, subsidiary of DVP Holding
+>
+> **Director:** Gaylor Loche
+>
+> **Registered Office:** Paju 1a, 50603 Tartu, Tartu Maakond, Estonia
+>
+> **Registration Number:** 31644377
 >
 > This document constitutes the contract binding VMCloud OÜ ("we", "our", "VMCloud", "the Operator") and any legal or natural person using our services ("you", "Client", "User"). It defines the legal and commercial conditions applicable to all cloud infrastructure Services (VPS, GPU, Object/Block Storage, CDN, PaaS, Load Balancer, Web Hosting, network, API and associated services).
 
@@ -106,7 +109,7 @@ The Client implements proportionate security measures:
 - Network segmentation and logging policies
 - Monitoring of access and suspicious activities
 
-Any suspected compromise must be immediately notified to security@vmcloud.com. VMCloud may adopt conservative measures to preserve overall security.
+Any suspected compromise must be immediately notified to contact@vmcloud.fr. VMCloud may adopt conservative measures to preserve overall security.
 
 ## 4. Order and commissioning
 
@@ -346,7 +349,7 @@ Precise thresholds and methods are defined per service in product sheets.
 
 **Standard Support (included):**
 - Tickets via web console: 24/7
-- Email: support@vmcloud.com
+- Email: contact@vmcloud.fr
 - Chat: According to displayed hours
 - Documentation: Public knowledge base
 
@@ -447,7 +450,7 @@ Continuous monitoring relies on advanced intrusion detection systems analyzing r
 
 ### 12.3. Responsible disclosure
 
-VMCloud encourages responsible vulnerability reporting via security@vmcloud.com. A coordinated disclosure program may be established with correction deadlines according to criticality.
+VMCloud encourages responsible vulnerability reporting via contact@vmcloud.fr. A coordinated disclosure program may be established with correction deadlines according to criticality.
 
 ## 13. Personal data protection (GDPR)
 
@@ -518,7 +521,7 @@ Cryptocurrency mining is strictly forbidden on all VMCloud infrastructure. This 
 
 VMCloud implements active and continuous monitoring of acceptable use policy compliance, relying on advanced technological approach combined with rigorous human processes. Our detection and reporting system relies on three complementary pillars ensuring comprehensive coverage of potential violations.
 
-**Detection and reporting:** Our automated detection systems analyze real-time traffic patterns, software signatures, and suspicious behaviors through machine learning algorithms and regularly updated signature databases. These systems automatically detect cheating activities, DDoS attacks, malware hosting, or unauthorized network scans. In parallel, we scrupulously process all third-party reports, whether from game publishers, other service providers, or computer security organizations via our abuse@vmcloud.com address. These abuse reports undergo thorough investigation by our security team verifying accusation validity and collecting necessary technical evidence. Finally, our proactive monitoring involves targeted surveillance of suspicious uses identified by our technical teams, with in-depth investigations that may include log analysis, configuration examination, and event correlation.
+**Detection and reporting:** Our automated detection systems analyze real-time traffic patterns, software signatures, and suspicious behaviors through machine learning algorithms and regularly updated signature databases. These systems automatically detect cheating activities, DDoS attacks, malware hosting, or unauthorized network scans. In parallel, we scrupulously process all third-party reports, whether from game publishers, other service providers, or computer security organizations via our contact@vmcloud.fr address. These abuse reports undergo thorough investigation by our security team verifying accusation validity and collecting necessary technical evidence. Finally, our proactive monitoring involves targeted surveillance of suspicious uses identified by our technical teams, with in-depth investigations that may include log analysis, configuration examination, and event correlation.
 
 **Measure graduation:** VMCloud applies proportionate approach in violation treatment, with four escalation levels adapted to infraction severity and recurrence. Notification always constitutes first step when severity permits: we contact the client to inform them of detected violation, explain associated risks and expected corrective measures, while specifying deadline granted to regularize situation. This notification often accompanies technical advice and resources to help client understand and resolve problem. If violation persists or worsens, we proceed to targeted limitation of resources or functionalities: bandwidth reduction, simultaneous connection limitation, certain network functionality disabling, or geographic zone access restriction. This measure aims to contain impact while preserving client's legitimate activities. Partial suspension occurs when limitation proves insufficient: we isolate services from public network while maintaining client access to their data via management console, thus allowing them to correct situation or export their information. Finally, total suspension results in immediate and complete service shutdown, reserved for most serious violations or recurrences.
 
@@ -530,9 +533,9 @@ VMCloud maintains strict but constructive approach concerning its infrastructure
 
 **Unauthorized penetration testing:** All penetration testing, vulnerability scans, or unauthorized exploitation attempts are strictly forbidden on VMCloud infrastructure and third-party services accessible from our systems. These activities constitute serious violation of our AUP and are liable to immediate sanctions, including suspension without notice and reporting to competent authorities.
 
-**Responsible disclosure program:** VMCloud encourages responsible reporting of security vulnerabilities by researchers and security community. Discovered vulnerabilities must be reported exclusively via security@vmcloud.com with detailed description, non-destructive proof of concept, and researcher's commitment to respect our coordinated disclosure policy.
+**Responsible disclosure program:** VMCloud encourages responsible reporting of security vulnerabilities by researchers and security community. Discovered vulnerabilities must be reported exclusively via contact@vmcloud.fr with detailed description, non-destructive proof of concept, and researcher's commitment to respect our coordinated disclosure policy.
 
-**Authorized testing:** Security testing on our infrastructure requires explicit prior authorization obtained via security@vmcloud.com. Request must include researcher's complete identity, precise technical scope of envisioned tests, detailed methodology, desired time window, accepted limitations, and formal commitment to responsible disclosure. VMCloud reserves right to accept or refuse any request according to its internal criteria.
+**Authorized testing:** Security testing on our infrastructure requires explicit prior authorization obtained via contact@vmcloud.fr. Request must include researcher's complete identity, precise technical scope of envisioned tests, detailed methodology, desired time window, accepted limitations, and formal commitment to responsible disclosure. VMCloud reserves right to accept or refuse any request according to its internal criteria.
 
 **Correction deadlines:** VMCloud commits to processing reported vulnerabilities according to their criticality: critical vulnerabilities (data exposure, RCE) within 48 hours, important vulnerabilities (privilege elevation, security bypass) within 7 days, medium vulnerabilities (information disclosure, DoS) within 30 days, and minor vulnerabilities (configuration, best practices) within 90 days. These deadlines constitute quality objectives and not contractual obligations.
 
@@ -542,7 +545,7 @@ VMCloud maintains strict but constructive approach concerning its infrastructure
 
 VMCloud maintains balanced approach concerning adult content, based on transparency, mandatory prior notification, and zero tolerance for any illegal content. This policy aims to protect VMCloud from any legal risk while respecting legitimate use freedom of our clients.
 
-**Mandatory prior notification:** Any client wishing to use our services to store or distribute adult content must imperatively inform us before use. This notification applies to object storage when main content consists of pornographic or adult images or videos, as well as hosting websites or services offering adult content. Notification must be made via support@vmcloud.com specifying content nature, intended use, and implemented access protection measures. This transparency allows us to adapt our security measures and comply with applicable regulations.
+**Mandatory prior notification:** Any client wishing to use our services to store or distribute adult content must imperatively inform us before use. This notification applies to object storage when main content consists of pornographic or adult images or videos, as well as hosting websites or services offering adult content. Notification must be made via contact@vmcloud.fr specifying content nature, intended use, and implemented access protection measures. This transparency allows us to adapt our security measures and comply with applicable regulations.
 
 **Legal adult content:** VMCloud does not forbid legal adult content, provided it scrupulously respects laws in force and is subject to mandatory prior notification. The client remains solely responsible for ensuring their content's lawfulness and implementing appropriate access control measures, notably age verification and regulatory warnings.
 
@@ -725,7 +728,7 @@ Emergency situations derogate from this graduation: in case of critical security
 
 The Client may terminate their Services at any time:
 - Via management console
-- By email to support@vmcloud.com
+- By email to contact@vmcloud.fr
 - Via API for automated terminations
 
 **Effects:** Immediate loss of access, application of reversibility procedure (article 10.4)
@@ -911,7 +914,7 @@ VMCloud strives to maintain recognized industry certifications and may provide o
 
 VMCloud accepts client audits within strictly defined framework protecting its infrastructure security, other client confidentiality, and industrial secrets, while respecting legitimate compliance needs of Enterprise clients.
 
-**Mandatory prerequisites:** Any audit request must be submitted with minimum 30 calendar days notice to legal@vmcloud.com, accompanied by precise definition of desired scope, targeted compliance objectives, auditor identity and qualifications, and business justification requiring this audit. VMCloud reserves right to accept or refuse any audit request according to its internal security and operational feasibility criteria.
+**Mandatory prerequisites:** Any audit request must be submitted with minimum 30 calendar days notice to contact@vmcloud.fr, accompanied by precise definition of desired scope, targeted compliance objectives, auditor identity and qualifications, and business justification requiring this audit. VMCloud reserves right to accept or refuse any audit request according to its internal security and operational feasibility criteria.
 
 **Authorized scope:** Audits are limited exclusively to documentary examination of VMCloud's processes, policies and organizational controls. This includes security policy documentation, access management procedures, data protection measures, backup and continuity processes, and compliance policies specifically applicable to requesting client's data.
 
@@ -1080,7 +1083,7 @@ In case of translation of these conditions, French version prevails in case of i
 
 **Official addresses:**
 - VMCloud: Paju 1a, 50603 Tartu, Tartu Maakond, Estonia  
-- Email: legal@vmcloud.com
+- Email: contact@vmcloud.fr
 - Client: Address provided in Account
 
 **Notification modes:** Email, registered mail, in-app notification, API webhook
@@ -1124,13 +1127,13 @@ Survive contract expiration or termination:
 
 ### Contacts
 
-**Technical Support:** support@vmcloud.com  
-**Security:** security@vmcloud.com  
-**Legal:** legal@vmcloud.com  
-**GDPR/DPO:** privacy@vmcloud.com  
+**Technical Support:** contact@vmcloud.fr  
+**Security:** contact@vmcloud.fr  
+**Legal:** contact@vmcloud.fr  
+**GDPR/DPO:** contact@vmcloud.fr  
 
-**Abuse & Reports:** abuse@vmcloud.com  
-**Commercial:** sales@vmcloud.com
+**Abuse & Reports:** contact@vmcloud.fr  
+**Commercial:** contact@vmcloud.fr
 
 ---
 

@@ -73,7 +73,7 @@ Les réclamations SLA doivent être formulées dans un délai de **15 jours cale
 ### 3.2. Canal de réclamation
 
 Les réclamations SLA doivent être adressées exclusivement via :
-- **Adresse dédiée :** sla@vmcloud.com
+- **Adresse dédiée :** contact@vmcloud.fr
 - **Console client :** Section "Réclamations SLA" 
 - **Support prioritaire :** Pour les clients Business et Enterprise
 
@@ -184,7 +184,7 @@ VMCloud ne peut être tenue responsable des interruptions de service consécutiv
 
 ## 8. Contact SLA
 
-**Réclamations SLA :** sla@vmcloud.com  
+**Réclamations SLA :** contact@vmcloud.fr  
 **Support Business/Enterprise :** Ligne dédiée via console client  
 **Urgences critiques :** +372 555 0911 (Business/Enterprise uniquement)  
 

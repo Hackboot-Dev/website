@@ -9,7 +9,7 @@
       "cta": {
         "products": "Voir les Produits",
         "pricing": "Tarification",
-        "status": "Status Page"
+        "support": "Support 24/7"
       }
     },
     
@@ -27,6 +27,7 @@
         "title": "Compute",
         "totalVcpus": "Total vCPUs",
         "totalRam": "RAM Total",
+        "nodes": "Nodes",
         "utilization": "Utilisation"
       },
       "storage": {

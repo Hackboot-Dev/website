@@ -515,7 +515,7 @@ export default function CareersPageClient() {
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <motion.a
-                  href="mailto:careers@vmcl.fr"
+                  href="mailto:contact@vmcloud.fr"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="inline-flex items-center justify-center px-10 py-4 bg-white text-zinc-950 hover:bg-zinc-100 transition-all duration-300"

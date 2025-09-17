@@ -1,5 +1,53 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-01-26 - 17:16]
+SESSION: Ajout de la page Careers dans le header et nettoyage du footer
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/locales/fr.json [modifié]
+- /apps/web/locales/en.json [modifié]
+- /apps/web/components/layout/Header.tsx [modifié]
+- /apps/web/components/layout/Footer.tsx [modifié]
+DÉTAILS: Ajout du lien "Careers" dans le header avec les traductions FR ("Recrutement") et EN ("Careers"). Suppression des liens "Contact" et "Blog" du footer comme demandé.
+ERREURS: Aucune
+PROCHAINE ÉTAPE: N/A
+---
+
+[2025-01-26 - 17:18]
+SESSION: Suppression supplémentaire de liens dans le footer
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/components/layout/Footer.tsx [modifié]
+DÉTAILS: Suppression des liens "API", "Documentation" et "Status" de la section Support du footer. Seul le lien "Support" est conservé.
+ERREURS: Aucune
+PROCHAINE ÉTAPE: N/A
+---
+
+[2025-01-26 - 17:20]
+SESSION: Vérification des images de l'équipe dans la page About
+STATUT: ✅ Réussi
+FICHIERS:
+- /public/images/team/gaylor.jpg [vérifié]
+- /public/images/team/julien.png [vérifié]
+- /public/images/team/gengis.png [vérifié]
+- /apps/web/app/[locale]/about/AboutPageClient.tsx [vérifié]
+DÉTAILS: Les images de l'équipe sont déjà correctement placées dans /public/images/team/ et configurées dans la page About. Gaylor (gaylor.jpg), Julien (julien.png) et Gengis (gengis.png) sont tous présents avec les bonnes dimensions et références.
+ERREURS: Aucune
+PROCHAINE ÉTAPE: N/A
+---
+
+[2025-01-26 - 17:22]
+SESSION: Correction des erreurs 404 pour les images de l'équipe
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/public/images/team/gaylor.jpg [créé]
+- /apps/web/public/images/team/julien.png [créé]
+- /apps/web/public/images/team/gengis.png [créé]
+DÉTAILS: Les images étaient dans /public/images/team/ au lieu de /apps/web/public/images/team/. Copie des trois images vers le bon emplacement pour qu'elles soient servies correctement par Next.js.
+ERREURS: Aucune
+PROCHAINE ÉTAPE: N/A
+---
+
 [2025-09-14 - 14:30]
 SESSION: Système de recrutement complet avec pages détail et candidatures spontanées
 STATUT: ✅ Réussi
@@ -1185,4 +1233,57 @@ DÉTAILS:
 - Documentation détaillée du mécanisme de remboursement et réinstauration
 ERREURS: Aucune
 PROCHAINE ÉTAPE: Vérifier affichage sur la page /legal/terms et tester le configurateur
+
+---
+
+[2025-01-16 - 15:00]
+SESSION: Amélioration de la page infrastructure avec animations et corrections de traduction
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/app/[locale]/infrastructure/page.tsx [modifié] - Ajout animations CSS
+- /apps/web/app/[locale]/infrastructure/infrastructure.css [créé] - Fichier CSS des animations
+- /apps/web/locales/fr/infrastructure.json [modifié] - Ajout traductions manquantes
+DÉTAILS:
+- Suppression du lien vers la page de statut (remplacé par Support 24/7)
+- Ajout d'animations CSS professionnelles (fade-in, slide, scale, bounce)
+- Correction de tous les textes hardcodés pour utiliser le système i18n
+- Classes d'animation: animate-fade-in-up, animate-scale-in, animate-grid, hover-lift
+- Effets stagger pour les listes et grilles avec délais progressifs
+- Animation pulse sur l'icône CTA et gradient animé sur les titres
+ANIMATIONS AJOUTÉES:
+- Hero section: fade-in-up avec délais échelonnés
+- Stats grid: animation scale-in avec délais par carte
+- Capacity sections: hover-lift avec effet glow
+- Security/Stack/Roadmap: animations fade-in synchronisées avec scroll
+- CTA buttons: scale on hover + fade-in-up avec délais
+TRADUCTIONS CORRIGÉES:
+- hero.cta.support remplace status
+- capacity.compute.nodes ajouté
+- capacity.gpu features complétées
+- stack monitoring/orchestration détaillé
+- roadmap Q4 2025 et Q1 2026 ajouté
+PROCHAINE ÉTAPE: Tester les animations sur différentes résolutions et navigateurs
+
+---
+
+[2025-01-16 - 15:30]
+SESSION: Amélioration du sélecteur de facturation mobile sur la page produits
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/app/[locale]/products/page.tsx [modifié] - Repositionnement et amélioration du sélecteur mobile
+DÉTAILS:
+- Problème: Le sélecteur de facturation était placé à droite, nécessitant un scroll horizontal sur mobile
+- Solution: Déplacé le sélecteur en haut de la barre de filtres mobile
+- Ajout d'un design amélioré avec gradient et animations
+- Ajout d'icônes pour chaque mode (📅 Mois, 🌟 Année, ⏱ Heure)
+- Indicateur visuel actif avec gradient cyan-purple et point blanc
+- Texte d'aide contextuel selon le mode sélectionné
+- Compteurs de produits ajoutés aux boutons de catégories
+AMÉLIORATIONS UX:
+- Sélecteur toujours visible sans scroll horizontal
+- Design plus moderne avec effets visuels
+- Feedback visuel clair sur l'option sélectionnée
+- Informations contextuelles (économies, usage, engagement)
+- Meilleure hiérarchie visuelle avec séparation claire
+PROCHAINE ÉTAPE: Tester sur différents appareils mobiles et vérifier l'accessibilité
 ---

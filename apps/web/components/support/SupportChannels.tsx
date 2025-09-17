@@ -12,6 +12,7 @@ import {
   TicketIcon,
   EnvelopeIcon,
   PhoneIcon,
+  CommandLineIcon,
   CheckCircleIcon,
   ClockIcon,
   XCircleIcon,
@@ -24,7 +25,8 @@ const iconMap = {
   ticket: TicketIcon,
   chat: ChatBubbleLeftRightIcon,
   email: EnvelopeIcon,
-  phone: PhoneIcon
+  phone: PhoneIcon,
+  api: CommandLineIcon
 };
 
 interface ChannelAvailability {

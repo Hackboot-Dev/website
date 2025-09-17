@@ -73,7 +73,7 @@ SLA claims must be submitted within **15 calendar days** following the incident,
 ### 3.2. Claim channel
 
 SLA claims must be addressed exclusively via:
-- **Dedicated address:** sla@vmcloud.com
+- **Dedicated address:** contact@vmcloud.fr
 - **Customer console:** "SLA Claims" section
 - **Priority support:** For Business and Enterprise customers
 
@@ -184,7 +184,7 @@ VMCloud cannot be held responsible for service interruptions resulting from DDoS
 
 ## 8. SLA contact
 
-**SLA Claims:** sla@vmcloud.com  
+**SLA Claims:** contact@vmcloud.fr  
 **Business/Enterprise Support:** Dedicated line via customer console  
 **Critical Emergencies:** +372 555 0911 (Business/Enterprise only)  
 

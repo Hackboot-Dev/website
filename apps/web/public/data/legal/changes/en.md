@@ -129,7 +129,7 @@ This policy aims to provide Clients with:
 **Principle:** Clients may report motivated objections concerning minor changes with unexpected impact.
 
 **Procedure:**
-- Report via support@vmcloud.com within 15 days
+- Report via contact@vmcloud.fr within 15 days
 - Technical team evaluation of actual impact
 - Alternative solution proposal if impact confirmed
 - Rollback possibility if technically feasible
@@ -168,7 +168,7 @@ This policy aims to provide Clients with:
 **Feedback channels:**
 - Dedicated form for change comments
 - Q&A sessions with technical teams
-- Dedicated contact point: changes@vmcloud.com
+- Dedicated contact point: contact@vmcloud.fr
 - Community forum for client exchanges
 
 ### 4.3. Progressive deployment
@@ -437,11 +437,11 @@ VMCloud may decide on definitive service discontinuation for economic, technical
 
 ## Contacts and support
 
-**Questions about changes:** changes@vmcloud.com  
-**Migration assistance:** migration-support@vmcloud.com  
-**Motivated objection:** opposition@vmcloud.com  
-**General technical support:** support@vmcloud.com  
-**Management escalation:** management@vmcloud.com
+**Questions about changes:** contact@vmcloud.fr  
+**Migration assistance:** contact@vmcloud.fr  
+**Motivated objection:** contact@vmcloud.fr  
+**General technical support:** contact@vmcloud.fr  
+**Management escalation:** contact@vmcloud.fr
 
 ---
 

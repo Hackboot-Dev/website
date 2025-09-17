@@ -54,7 +54,7 @@ VMCloud met en œuvre une surveillance active et continue du respect de sa polit
 
 ### 3.1. Détection et signalement
 
-Nos systèmes de détection automatisés analysent en temps réel les patterns de trafic, les signatures de logiciels, et les comportements suspects grâce à des algorithmes d'apprentissage automatique et des bases de données de signatures régulièrement mises à jour. Ces systèmes détectent automatiquement les activités de triche, les attaques DDoS, l'hébergement de malwares, ou les scans réseau non autorisés. En parallèle, nous traitons scrupuleusement tous les signalements de tiers, qu'ils proviennent d'éditeurs de jeux, d'autres fournisseurs de services, ou d'organisations de sécurité informatique via notre adresse abuse@vmcloud.com. Ces abuse reports font l'objet d'une investigation approfondie par notre équipe de sécurité qui vérifie la validité des accusations et collecte les preuves techniques nécessaires. Enfin, notre monitoring proactif implique une surveillance ciblée des usages suspects identifiés par nos équipes techniques, avec des investigations approfondies qui peuvent inclure l'analyse de logs, l'examen de configurations, et la corrélation d'événements.
+Nos systèmes de détection automatisés analysent en temps réel les patterns de trafic, les signatures de logiciels, et les comportements suspects grâce à des algorithmes d'apprentissage automatique et des bases de données de signatures régulièrement mises à jour. Ces systèmes détectent automatiquement les activités de triche, les attaques DDoS, l'hébergement de malwares, ou les scans réseau non autorisés. En parallèle, nous traitons scrupuleusement tous les signalements de tiers, qu'ils proviennent d'éditeurs de jeux, d'autres fournisseurs de services, ou d'organisations de sécurité informatique via notre adresse contact@vmcloud.fr. Ces abuse reports font l'objet d'une investigation approfondie par notre équipe de sécurité qui vérifie la validité des accusations et collecte les preuves techniques nécessaires. Enfin, notre monitoring proactif implique une surveillance ciblée des usages suspects identifiés par nos équipes techniques, avec des investigations approfondies qui peuvent inclure l'analyse de logs, l'examen de configurations, et la corrélation d'événements.
 
 ### 3.2. Gradation des mesures
 
@@ -74,11 +74,11 @@ Tous tests d'intrusion, scans de vulnérabilités, ou tentatives d'exploitation 
 
 ### 4.2. Programme de divulgation responsable
 
-VMCloud encourage le signalement responsable de vulnérabilités de sécurité par les chercheurs et la communauté sécuritaire. Les vulnérabilités découvertes doivent être signalées exclusivement via security@vmcloud.com avec une description détaillée, des preuves de concept non destructives, et l'engagement du chercheur à respecter notre politique de divulgation coordonnée.
+VMCloud encourage le signalement responsable de vulnérabilités de sécurité par les chercheurs et la communauté sécuritaire. Les vulnérabilités découvertes doivent être signalées exclusivement via contact@vmcloud.fr avec une description détaillée, des preuves de concept non destructives, et l'engagement du chercheur à respecter notre politique de divulgation coordonnée.
 
 ### 4.3. Tests autorisés
 
-Les tests de sécurité sur notre infrastructure nécessitent une autorisation préalable explicite obtenue via security@vmcloud.com. La demande doit inclure l'identité complète du chercheur, le périmètre technique précis des tests envisagés, la méthodologie détaillée, la fenêtre temporelle souhaitée, les limitations acceptées, et l'engagement formel de divulgation responsable. VMCloud se réserve le droit d'accepter ou refuser toute demande selon ses critères internes.
+Les tests de sécurité sur notre infrastructure nécessitent une autorisation préalable explicite obtenue via contact@vmcloud.fr. La demande doit inclure l'identité complète du chercheur, le périmètre technique précis des tests envisagés, la méthodologie détaillée, la fenêtre temporelle souhaitée, les limitations acceptées, et l'engagement formel de divulgation responsable. VMCloud se réserve le droit d'accepter ou refuser toute demande selon ses critères internes.
 
 ### 4.4. Délais de correction
 
@@ -94,7 +94,7 @@ VMCloud maintient une approche équilibrée concernant le contenu à caractère 
 
 ### 5.1. Obligation de notification préalable
 
-Tout client souhaitant utiliser nos services pour stocker ou diffuser du contenu à caractère adulte doit impérativement nous en informer avant l'utilisation. Cette notification s'applique au stockage d'objets lorsque le contenu principal consiste en images ou vidéos à caractère pornographique ou adulte, ainsi qu'à l'hébergement de sites web ou services proposant du contenu adulte. La notification doit être effectuée via support@vmcloud.com en précisant la nature du contenu, l'usage prévu, et les mesures de protection d'accès mises en place. Cette transparence nous permet d'adapter nos mesures de sécurité et de nous conformer aux réglementations applicables.
+Tout client souhaitant utiliser nos services pour stocker ou diffuser du contenu à caractère adulte doit impérativement nous en informer avant l'utilisation. Cette notification s'applique au stockage d'objets lorsque le contenu principal consiste en images ou vidéos à caractère pornographique ou adulte, ainsi qu'à l'hébergement de sites web ou services proposant du contenu adulte. La notification doit être effectuée via contact@vmcloud.fr en précisant la nature du contenu, l'usage prévu, et les mesures de protection d'accès mises en place. Cette transparence nous permet d'adapter nos mesures de sécurité et de nous conformer aux réglementations applicables.
 
 ### 5.2. Contenu adulte légal
 
@@ -126,9 +126,9 @@ VMCloud conserve les preuves de violation pendant 12 mois minimum à des fins l�
 
 ## 8. Contact et signalement
 
-**Signalements d'abus :** abuse@vmcloud.com  
-**Tests de sécurité autorisés :** security@vmcloud.com  
-**Contenu adulte (notification) :** support@vmcloud.com  
+**Signalements d'abus :** contact@vmcloud.fr  
+**Tests de sécurité autorisés :** contact@vmcloud.fr  
+**Contenu adulte (notification) :** contact@vmcloud.fr  
 
 ---
 

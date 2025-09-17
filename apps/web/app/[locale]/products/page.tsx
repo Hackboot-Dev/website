@@ -15,7 +15,7 @@ import { useStaggerEntry } from '../../../hooks/useEntryAnimation';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import Badge from '../../../components/ui/Badge';
 import Button from '../../../components/ui/Button';
-import { getCategoryIcon, ArrowRightIcon, CPUIcon, RAMIcon, StorageIcon, NetworkIcon } from '../../../components/ui/Icons';
+import { getCategoryIcon, ArrowRightIcon, CPUIcon, RAMIcon, StorageIcon, NetworkIcon, ChevronDownIcon, CheckIcon } from '../../../components/ui/Icons';
 
 type Category = 'all' | 'vps' | 'gpu' | 'webhosting' | 'paas' | 'loadbalancer' | 'storage' | 'cdn' | 'gaming';
 type GameFilter = 'all' | 'clash-royale' | 'overwatch-2' | 'warzone' | 'valorant';
@@ -44,9 +44,11 @@ export default function ProductsPage() {
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
   const [isLoaded, setIsLoaded] = useState(false);
   const [showAllProducts, setShowAllProducts] = useState(true);
+  const [isPricingSelectorOpen, setIsPricingSelectorOpen] = useState(false);
   
   // Ref pour la section des produits
   const productsGridRef = useRef<HTMLDivElement>(null);
+  const pricingSelectorRef = useRef<HTMLDivElement>(null);
   
   const filteredProducts = getFilteredProducts();
   const filterKey = `${selectedCategory}-${selectedGame}-${pricingMode}-${language}`;
@@ -59,13 +61,39 @@ export default function ProductsPage() {
   }, []);
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (pricingSelectorRef.current && !pricingSelectorRef.current.contains(event.target as Node)) {
+        setIsPricingSelectorOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsPricingSelectorOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsPricingSelectorOpen(false);
+  }, [pricingMode]);
+
+  useEffect(() => {
     // Reset when filter changes - keep showing all products
     setShowAllProducts(true);
     // Reset game filter when category changes
     if (selectedCategory !== 'gaming') {
       setSelectedGame('all');
     }
-    
+
     // Scroll to products grid only if needed (user can't see any products)
     const scrollToProductsIfNeeded = () => {
       if (productsGridRef.current) {
@@ -99,7 +127,7 @@ export default function ProductsPage() {
     
     return () => clearTimeout(timeoutId);
   }, [selectedCategory, selectedGame]); // Removed pricingMode from dependencies
-  
+
   function getFilteredProducts() {
     let products = [];
     
@@ -187,6 +215,29 @@ export default function ProductsPage() {
     { key: 'cdn' as Category, name: tt('products.categories.cdn', 'CDN', 'CDN'), count: productsData.cdn ? productsData.cdn.length : 0 },
     { key: 'gaming' as Category, name: tt('products.categories.gaming', 'Cloud Gaming', 'Cloud Gaming'), count: productsData.gaming ? productsData.gaming.length : 0 }
   ];
+
+  const pricingOptions: Array<{ key: PricingMode; title: string; short: string; description: string }> = [
+    {
+      key: 'monthly',
+      title: language === 'en' ? 'Monthly billing' : 'Facturation mensuelle',
+      short: language === 'en' ? 'Monthly' : 'Mensuelle',
+      description: tt('products.ui.billing.monthly', "Mensuel : prix fixe, garanties", 'Monthly: fixed price, guarantees')
+    },
+    {
+      key: 'annual',
+      title: language === 'en' ? 'Yearly billing' : 'Facturation annuelle',
+      short: language === 'en' ? 'Yearly' : 'Annuelle',
+      description: tt('products.ui.billing.annual', "Annuel : jusqu'à 50% d'économies", 'Annual: up to 50% savings')
+    },
+    {
+      key: 'hourly',
+      title: language === 'en' ? 'Hourly billing' : 'Facturation horaire',
+      short: language === 'en' ? 'Hourly' : 'Horaire',
+      description: tt('products.ui.billing.hourly', "Horaire : payez à l'usage réel", 'Hourly: pay for actual usage')
+    }
+  ];
+
+  const activePricingOption = pricingOptions.find((option) => option.key === pricingMode) || pricingOptions[0];
 
 
 
@@ -320,24 +371,28 @@ export default function ProductsPage() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-lg">
-                  <div className="text-center group">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 max-w-xl w-full">
+                  <div className="text-center sm:text-left group">
                     <div className="text-2xl font-extralight text-white mb-1 group-hover:text-zinc-300 transition-colors">
                       {getTotalProductCount()}
                     </div>
                     <div className="text-xs text-zinc-500 uppercase tracking-wide">{tt('products.ui.stats.configurations','Configurations','Configurations')}</div>
                   </div>
-                  <div className="text-center group">
+                  <div className="text-center sm:text-left group">
                     <div className="text-2xl font-extralight text-white mb-1 group-hover:text-zinc-300 transition-colors">
                       9
                     </div>
                     <div className="text-xs text-zinc-500 uppercase tracking-wide">{tt('products.ui.stats.categories','Catégories','Categories')}</div>
                   </div>
-                  <div className="text-center group">
-                    <div className="text-2xl font-extralight text-white mb-1 group-hover:text-zinc-300 transition-colors">
-                      3
+                  <div className="relative text-center sm:text-right group">
+                    <div className="text-xs text-zinc-500 uppercase tracking-wide flex items-center justify-center sm:justify-end gap-2">
+                      <span>{tt('products.ui.billing.mode', 'Facturation', 'Billing')}</span>
+                      <span className="hidden sm:inline-flex h-1 w-1 rounded-full bg-zinc-700"></span>
+                      <span className="text-zinc-300 font-medium tracking-normal">{activePricingOption.short}</span>
                     </div>
-                    <div className="text-xs text-zinc-500 uppercase tracking-wide">{tt('products.ui.stats.modes','Modes Prix','Pricing Modes')}</div>
+                    <p className="mt-2 text-[11px] leading-relaxed text-zinc-500 max-w-[240px] mx-auto sm:ml-auto sm:mr-0">
+                      {activePricingOption.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -378,17 +433,15 @@ export default function ProductsPage() {
                   <button
                     key={`m-${category.key}`}
                     onClick={() => setSelectedCategory(category.key)}
-                    className={`shrink-0 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs border transition-all ${selectedCategory === category.key ? 'bg-white text-zinc-950 border-white' : 'text-zinc-400 border-zinc-800/50'}`}
+                    className={`shrink-0 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs border transition-all ${
+                      selectedCategory === category.key
+                        ? 'bg-white text-zinc-950 border-white'
+                        : 'text-zinc-400 border-zinc-800/50 hover:border-zinc-600 hover:text-zinc-300'
+                    }`}
                   >
                     {category.name}
                   </button>
                 ))}
-                {/* Pricing toggle compact */}
-                <div className="ml-auto flex items-center gap-1 border border-zinc-800/50 rounded-lg p-1">
-                  {['monthly','annual','hourly'].map((pm) => (
-                    <button key={`m-${pm}`} onClick={() => setPricingMode(pm as PricingMode)} className={`shrink-0 px-2 py-1 text-[10px] rounded-md ${pricingMode===pm?'bg-white text-zinc-950':'text-zinc-400'}`}>{pm==='monthly'?(t('products.ui.toggle.monthly')||'Mensuel'):pm==='annual'?(t('products.ui.toggle.annualShort')||'Annuel'):(t('products.ui.toggle.hourly')||'Horaire')}</button>
-                  ))}
-                </div>
               </div>
               
               {/* Game filters for mobile */}
@@ -508,18 +561,56 @@ export default function ProductsPage() {
 
             {/* Content */}
             <div className="col-span-12 md:col-span-8 lg:col-span-9">
-              <div className={`flex items-end justify-between mb-6 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+              <div className={`relative z-20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
                 <div>
                   <h4 className="text-xl text-white font-extralight tracking-tight">{t('products.ui.configurationsTitle') || 'Configurations'}</h4>
                   <p className="text-zinc-500 text-xs">{filteredProducts.length} {tt('products.ui.configuration', 'configuration', 'configuration')}{filteredProducts.length > 1 ? 's' : ''} {tt('products.ui.available', 'disponible', 'available')}{filteredProducts.length > 1 ? 's' : ''}</p>
                 </div>
-                <div className="hidden md:block text-xs text-zinc-500">{t('products.ui.modeLabel') || 'Mode'}: <span className="text-zinc-300">{
-                  pricingMode === 'hourly' 
-                    ? (t('products.ui.toggle.hourly') || 'Horaire') 
-                    : pricingMode === 'annual' 
-                      ? (t('products.ui.toggle.annualShort') || 'Annuel') 
-                      : (t('products.ui.toggle.monthly') || 'Mensuel')
-                }</span></div>
+                <div
+                  ref={pricingSelectorRef}
+                  className="relative flex flex-col items-start sm:items-end gap-1"
+                >
+                  <span className="text-[11px] uppercase tracking-wide text-zinc-500">{t('products.ui.pricingModeTitle', 'Mode de prix', 'Pricing mode')}</span>
+                  <button
+                    type="button"
+                    onClick={() => setIsPricingSelectorOpen((prev) => !prev)}
+                    className="inline-flex items-center gap-2 rounded-lg border border-zinc-800/70 bg-zinc-900/60 px-3 py-1.5 text-sm text-zinc-100 hover:border-zinc-700/70 hover:text-white transition-colors"
+                    aria-haspopup="true"
+                    aria-expanded={isPricingSelectorOpen}
+                  >
+                    <span className="font-medium tracking-wide">{activePricingOption.short}</span>
+                    <ChevronDownIcon className={`w-4 h-4 transition-transform duration-200 ${isPricingSelectorOpen ? 'rotate-180' : ''}`} size="sm" />
+                  </button>
+                  {isPricingSelectorOpen && (
+                    <div
+                      className="absolute top-full mt-2 sm:right-0 right-1/2 sm:translate-x-0 translate-x-1/2 rounded-2xl border border-zinc-800/70 bg-zinc-950/95 shadow-2xl ring-1 ring-black/40 p-2 z-50 origin-top"
+                      style={{ width: 'min(260px, calc(100vw - 3rem))' }}
+                    >
+                      {pricingOptions.map((option) => (
+                        <button
+                          key={`config-${option.key}`}
+                          type="button"
+                          onClick={() => setPricingMode(option.key)}
+                          className={`w-full px-3 py-2 rounded-xl text-left transition-colors ${
+                            pricingMode === option.key
+                              ? 'bg-white/10 text-white border border-white/10'
+                              : 'text-zinc-300 hover:text-white hover:bg-zinc-900/60'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-4">
+                            <div>
+                              <span className="block text-sm font-medium tracking-wide">{option.title}</span>
+                              <span className="block text-[11px] text-zinc-500 leading-relaxed">{option.description}</span>
+                            </div>
+                            {pricingMode === option.key && (
+                              <CheckIcon className="w-4 h-4 text-cyan-400" size="sm" />
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
 

@@ -31,19 +31,10 @@
         { "en": "Screen sharing (on request)", "fr": "Partage d'écran (sur demande)" }
       ],
       "responseTime": { "value": "1-5", "unit": { "en": "minutes", "fr": "minutes" } },
-      "availability": {
-        "type": "schedule",
-        "hours": {
-          "monday": { "start": "08:00", "end": "18:00" },
-          "tuesday": { "start": "08:00", "end": "18:00" },
-          "wednesday": { "start": "08:00", "end": "18:00" },
-          "thursday": { "start": "08:00", "end": "18:00" },
-          "friday": { "start": "08:00", "end": "18:00" }
-        }
-      },
+      "availability": { "type": "never" },
       "minPlan": "business",
       "url": "/support/chat",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "email",
@@ -60,7 +51,25 @@
       "responseTime": { "value": "4-8", "unit": { "en": "hours", "fr": "heures" } },
       "availability": { "type": "always" },
       "minPlan": "starter",
-      "url": "mailto:support@vmcl.fr",
+      "url": "mailto:contact@vmcloud.fr",
+      "enabled": true
+    },
+    {
+      "id": "api",
+      "icon": "api",
+      "name": "Support API",
+      "description": {
+        "en": "Programmatic ticket integration",
+        "fr": "Intégration programmatique de tickets"
+      },
+      "features": [
+        { "en": "REST & GraphQL endpoints", "fr": "Endpoints REST & GraphQL" },
+        { "en": "Webhooks notifications", "fr": "Notifications webhooks" }
+      ],
+      "responseTime": { "value": "Instant", "unit": { "en": "API", "fr": "API" } },
+      "availability": { "type": "always" },
+      "minPlan": "starter",
+      "url": "/docs/api",
       "enabled": true
     },
     {
@@ -76,26 +85,10 @@
         { "en": "Priority routing", "fr": "Routage prioritaire" }
       ],
       "responseTime": { "value": "<1", "unit": { "en": "minute", "fr": "minute" } },
-      "availability": {
-        "type": "plan_based",
-        "plans": {
-          "enterprise": { "type": "always" },
-          "business": {
-            "type": "schedule",
-            "hours": {
-              "monday": { "start": "07:00", "end": "19:00" },
-              "tuesday": { "start": "07:00", "end": "19:00" },
-              "wednesday": { "start": "07:00", "end": "19:00" },
-              "thursday": { "start": "07:00", "end": "19:00" },
-              "friday": { "start": "07:00", "end": "19:00" }
-            }
-          }
-        }
-      },
+      "availability": { "type": "never" },
       "minPlan": "business",
       "url": "tel:+33102030405",
-      "enabled": true
+      "enabled": false
     }
   ]
 }
-

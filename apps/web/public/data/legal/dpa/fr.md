@@ -465,7 +465,7 @@ Si une clause du DPA était déclarée nulle ou inapplicable, les autres disposi
 ### 14.6. Contact DPO
 
 **Délégué à la Protection des Données (DPO) VMCloud :**
-- Email : privacy@vmcloud.com
+- Email : contact@vmcloud.fr
 - Adresse postale : VMCloud OÜ, Paju 1a, 50603 Tartu, Tartu Maakond, Estonie
 - Registre du commerce : 31644377
 
@@ -475,7 +475,7 @@ Le DPO peut être contacté par les personnes concernées et les autorités de c
 
 ## Annexe : Modèle de notification de violation de données
 
-**De :** security@vmcloud.com  
+**De :** contact@vmcloud.fr  
 **À :** [Client]  
 **Objet :** [URGENT] Notification de violation de données personnelles - Réf. [INC-XXXX]
 
@@ -501,7 +501,7 @@ Le DPO peut être contacté par les personnes concernées et les autorités de c
 
 **5. Contact :**
 - Responsable de l'incident : [Nom et coordonnées]
-- DPO VMCloud : privacy@vmcloud.com
+- DPO VMCloud : contact@vmcloud.fr
 
 Cette notification n'engage pas la responsabilité de VMCloud et ne constitue pas une reconnaissance de faute. Elle vise uniquement à permettre au Client d'évaluer ses obligations de notification aux autorités et aux personnes concernées.
 

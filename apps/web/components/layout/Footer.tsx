@@ -26,15 +26,10 @@ export default function Footer() {
     ],
     company: [
       { name: isFr ? 'À propos' : 'About', href: '/about' },
-      { name: isFr ? 'Blog' : 'Blog', href: '/blog' },
-      { name: isFr ? 'Carrières' : 'Careers', href: '/careers' },
-      { name: isFr ? 'Contact' : 'Contact', href: '/contact' }
+      { name: isFr ? 'Carrières' : 'Careers', href: '/careers' }
     ],
     support: [
-      ...(docsEnabled ? [{ name: isFr ? 'Documentation' : 'Documentation', href: '/docs' }] : []),
-      { name: isFr ? 'Statut' : 'Status', href: '/status' },
-      { name: isFr ? 'Support' : 'Support', href: '/support' },
-      { name: isFr ? 'API' : 'API', href: '/api' }
+      { name: isFr ? 'Support' : 'Support', href: '/support' }
     ],
     legal: [
       { name: isFr ? 'Conditions' : 'Terms', href: '/legal/terms' },

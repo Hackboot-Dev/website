@@ -23,6 +23,7 @@ interface ProductCategory {
 export default function ProductsDropdown() {
   const context = useContext(LanguageContext);
   const language = context ? context.language : 'fr';
+  const t = context ? context.t : (key: string) => key;
   const [isOpen, setIsOpen] = useState(false);
   const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 

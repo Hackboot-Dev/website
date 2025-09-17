@@ -167,7 +167,7 @@ export default function PricingSection() {
                   {/* CTA */}
                   <div className="mt-auto">
                     <Link
-                      href={plan.price === 'Custom' ? '/contact' : '/demo'}
+                      href={plan.price === 'Custom' ? '/support' : '/demo'}
                       className={`w-full py-3 text-sm tracking-wide transition-all duration-300 inline-flex items-center justify-center group ${
                         plan.recommended
                           ? 'bg-white text-zinc-950 hover:bg-zinc-100'

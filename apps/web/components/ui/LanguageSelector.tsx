@@ -163,7 +163,10 @@ export default function LanguageSelector() {
 
         {/* Dropdown */}
         {showDropdown && (
-          <div className="absolute top-full right-0 mt-2 w-64 md:w-72 max-w-[calc(100vw-2rem)] bg-zinc-900 border border-zinc-700/50 rounded-xl shadow-2xl overflow-hidden z-50">
+          <div
+            className="absolute top-full mt-2 right-1/2 md:right-0 translate-x-1/2 md:translate-x-0 bg-zinc-900 border border-zinc-700/50 rounded-xl shadow-2xl overflow-hidden z-50"
+            style={{ width: 'min(280px, calc(100vw - 2.5rem))' }}
+          >
             {/* Notice */}
             <div className="px-4 py-3 bg-blue-500/10 border-b border-zinc-700/50">
               <div className="flex items-start gap-2">

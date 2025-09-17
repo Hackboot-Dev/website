@@ -54,7 +54,7 @@ VMCloud implements active and continuous monitoring of compliance with its accep
 
 ### 3.1. Detection and Reporting
 
-Our automated detection systems analyze in real-time traffic patterns, software signatures, and suspicious behaviors through machine learning algorithms and regularly updated signature databases. These systems automatically detect cheating activities, DDoS attacks, malware hosting, or unauthorized network scans. In parallel, we scrupulously process all third-party reports, whether they come from game publishers, other service providers, or cybersecurity organizations via our abuse@vmcloud.com address. These abuse reports are subject to thorough investigation by our security team which verifies the validity of accusations and collects necessary technical evidence. Finally, our proactive monitoring involves targeted surveillance of suspicious uses identified by our technical teams, with in-depth investigations that may include log analysis, configuration examination, and event correlation.
+Our automated detection systems analyze in real-time traffic patterns, software signatures, and suspicious behaviors through machine learning algorithms and regularly updated signature databases. These systems automatically detect cheating activities, DDoS attacks, malware hosting, or unauthorized network scans. In parallel, we scrupulously process all third-party reports, whether they come from game publishers, other service providers, or cybersecurity organizations via our contact@vmcloud.fr address. These abuse reports are subject to thorough investigation by our security team which verifies the validity of accusations and collects necessary technical evidence. Finally, our proactive monitoring involves targeted surveillance of suspicious uses identified by our technical teams, with in-depth investigations that may include log analysis, configuration examination, and event correlation.
 
 ### 3.2. Escalation of Measures
 
@@ -74,11 +74,11 @@ All penetration testing, vulnerability scanning, or exploitation attempts not pr
 
 ### 4.2. Responsible Disclosure Program
 
-VMCloud encourages responsible reporting of security vulnerabilities by researchers and the security community. Discovered vulnerabilities must be reported exclusively via security@vmcloud.com with a detailed description, non-destructive proof of concept, and the researcher's commitment to respect our coordinated disclosure policy.
+VMCloud encourages responsible reporting of security vulnerabilities by researchers and the security community. Discovered vulnerabilities must be reported exclusively via contact@vmcloud.fr with a detailed description, non-destructive proof of concept, and the researcher's commitment to respect our coordinated disclosure policy.
 
 ### 4.3. Authorized Testing
 
-Security testing on our infrastructure requires explicit prior authorization obtained via security@vmcloud.com. The request must include the complete identity of the researcher, the precise technical scope of envisioned tests, detailed methodology, desired time window, accepted limitations, and formal commitment to responsible disclosure. VMCloud reserves the right to accept or refuse any request according to its internal criteria.
+Security testing on our infrastructure requires explicit prior authorization obtained via contact@vmcloud.fr. The request must include the complete identity of the researcher, the precise technical scope of envisioned tests, detailed methodology, desired time window, accepted limitations, and formal commitment to responsible disclosure. VMCloud reserves the right to accept or refuse any request according to its internal criteria.
 
 ### 4.4. Correction Timeframes
 
@@ -94,7 +94,7 @@ VMCloud maintains a balanced approach regarding adult content, based on transpar
 
 ### 5.1. Mandatory Prior Notification
 
-Any client wishing to use our services to store or distribute adult content must imperatively inform us before use. This notification applies to object storage when the main content consists of pornographic or adult images or videos, as well as hosting websites or services offering adult content. Notification must be made via support@vmcloud.com specifying the nature of the content, intended use, and access protection measures implemented. This transparency allows us to adapt our security measures and comply with applicable regulations.
+Any client wishing to use our services to store or distribute adult content must imperatively inform us before use. This notification applies to object storage when the main content consists of pornographic or adult images or videos, as well as hosting websites or services offering adult content. Notification must be made via contact@vmcloud.fr specifying the nature of the content, intended use, and access protection measures implemented. This transparency allows us to adapt our security measures and comply with applicable regulations.
 
 ### 5.2. Legal Adult Content
 
@@ -126,9 +126,9 @@ VMCloud retains evidence of violations for a minimum of 12 months for legal and 
 
 ## 8. Contact and Reporting
 
-**Abuse Reports:** abuse@vmcloud.com  
-**Authorized Security Testing:** security@vmcloud.com  
-**Adult Content (notification):** support@vmcloud.com  
+**Abuse Reports:** contact@vmcloud.fr  
+**Authorized Security Testing:** contact@vmcloud.fr  
+**Adult Content (notification):** contact@vmcloud.fr  
 
 ---
 

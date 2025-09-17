@@ -528,7 +528,7 @@ export default function PricingPage() {
                 {t('cta.buttons.viewProducts')}
               </Button>
             </Link>
-            <Link href="/contact">
+            <Link href="/support">
               <Button variant="secondary" size="lg">
                 {t('cta.buttons.contact')}
               </Button>

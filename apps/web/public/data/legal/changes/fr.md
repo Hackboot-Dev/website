@@ -129,7 +129,7 @@ Cette politique vise à offrir aux Clients :
 **Principe :** Les Clients peuvent signaler des objections motivées concernant des changements mineurs ayant un impact non anticipé.
 
 **Procédure :**
-- Signalement via support@vmcloud.com dans les 15 jours
+- Signalement via contact@vmcloud.fr dans les 15 jours
 - Évaluation par l'équipe technique de l'impact réel
 - Proposition de solution alternative si impact confirmé
 - Possibilité de rollback si techniquement faisable
@@ -168,7 +168,7 @@ Cette politique vise à offrir aux Clients :
 **Canaux de feedback :**
 - Formulaire dédié aux commentaires sur les changements
 - Sessions de questions-réponses avec les équipes techniques
-- Point de contact dédié : changes@vmcloud.com
+- Point de contact dédié : contact@vmcloud.fr
 - Forum communautaire pour échanges entre clients
 
 ### 4.3. Déploiement progressif
@@ -437,11 +437,11 @@ VMCloud peut décider de l'arrêt définitif de certains services pour des raiso
 
 ## Contacts et support
 
-**Questions sur les changements :** changes@vmcloud.com  
-**Assistance migration :** migration-support@vmcloud.com  
-**Opposition motivée :** opposition@vmcloud.com  
-**Support technique général :** support@vmcloud.com  
-**Escalade management :** management@vmcloud.com
+**Questions sur les changements :** contact@vmcloud.fr  
+**Assistance migration :** contact@vmcloud.fr  
+**Opposition motivée :** contact@vmcloud.fr  
+**Support technique général :** contact@vmcloud.fr  
+**Escalade management :** contact@vmcloud.fr
 
 ---
 

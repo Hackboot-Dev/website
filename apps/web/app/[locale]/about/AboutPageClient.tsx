@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { useEntryAnimation, useStaggerEntry } from '../../../hooks/useEntryAnimation';
 import { useParallax } from '../../../hooks/useAwwardsAnimation';
@@ -8,8 +9,8 @@ import Footer from '../../../components/layout/Footer';
 import SophisticatedBackground from '../../../components/animations/SophisticatedBackground';
 import {
   Building2, Users, TrendingUp, Award, Globe, Shield, Zap, Clock,
-  Cpu, Server, Database, Cloud, ArrowRight, Sparkles, Target,
-  Rocket, Code, GitBranch, Activity
+  ArrowRight, Sparkles, Target,
+  Rocket
 } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -17,6 +18,19 @@ import { motion } from 'framer-motion';
 export default function AboutPageClient() {
   const { t, language } = useLanguage();
   const isEn = language === 'en';
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateViewport = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth < 768);
+      }
+    };
+
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+    return () => window.removeEventListener('resize', updateViewport);
+  }, []);
 
   // Animations
   const titleReveal = useEntryAnimation({ delay: 100 });
@@ -29,9 +43,9 @@ export default function AboutPageClient() {
   return (
     <>
       <Header />
-      <SophisticatedBackground />
+      {!isMobile && <SophisticatedBackground />}
 
-      <main className="relative min-h-screen bg-zinc-950">
+      <main className="relative min-h-screen bg-zinc-950 overflow-x-hidden">
         {/* Hero Section Améliorée */}
         <section className="relative min-h-screen flex items-center overflow-hidden">
           {/* Background patterns */}
@@ -44,20 +58,20 @@ export default function AboutPageClient() {
           {/* Floating elements */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
+              className="hidden md:block absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-zinc-800/20 to-transparent rounded-full blur-3xl"
               animate={{
                 y: [0, -20, 0],
                 rotate: [0, 5, 0]
               }}
               transition={{ duration: 10, repeat: Infinity }}
-              className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-zinc-800/20 to-transparent rounded-full blur-3xl"
             />
             <motion.div
+              className="hidden md:block absolute bottom-1/4 left-1/4 w-96 h-96 bg-gradient-to-tr from-zinc-800/20 to-transparent rounded-full blur-3xl"
               animate={{
                 y: [0, 20, 0],
                 rotate: [0, -5, 0]
               }}
               transition={{ duration: 12, repeat: Infinity }}
-              className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-gradient-to-tr from-zinc-800/20 to-transparent rounded-full blur-3xl"
             />
           </div>
 
@@ -77,7 +91,7 @@ export default function AboutPageClient() {
             />
           </div>
 
-          <div className="container mx-auto px-8 relative z-10">
+          <div className="container mx-auto px-6 sm:px-8 relative z-10">
             <div className="max-w-6xl">
               {/* Label amélioré */}
               <motion.div
@@ -100,17 +114,17 @@ export default function AboutPageClient() {
               >
                 <h1 className="relative">
                   <motion.span
-                    initial={{ opacity: 0, x: -50 }}
+                    initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3, duration: 0.8 }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
                     className="block text-5xl lg:text-6xl xl:text-7xl font-extralight tracking-tight text-white leading-[0.9]"
                   >
                     {t('about.hero.title1') || (isEn ? 'From Hackboot' : 'De Hackboot')}
                   </motion.span>
                   <motion.span
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5, duration: 0.8 }}
+                    transition={{ delay: 0.45, duration: 0.6 }}
                     className="block text-5xl lg:text-6xl xl:text-7xl font-extralight tracking-tight leading-[0.9] mt-2"
                   >
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-300 to-zinc-500">
@@ -118,9 +132,9 @@ export default function AboutPageClient() {
                     </span>
                   </motion.span>
                   <motion.span
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.8 }}
+                    transition={{ delay: 0.6, duration: 0.6 }}
                     className="block text-5xl lg:text-6xl xl:text-7xl font-extralight tracking-tight text-white leading-[0.9] mt-2"
                   >
                     {t('about.hero.title3') || 'L\'Évolution'}
@@ -188,8 +202,8 @@ export default function AboutPageClient() {
         {/* Stats Section Améliorée */}
         <section className="py-32 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-zinc-900/20 to-transparent"></div>
-          <div className="container mx-auto px-8 relative z-10">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <div className="container mx-auto px-6 sm:px-8 relative z-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
               {[
                 {
                   number: '2023',
@@ -223,9 +237,9 @@ export default function AboutPageClient() {
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   className="group relative"
                 >
-                  <div className="text-center p-8 bg-zinc-900/30 backdrop-blur-sm border border-zinc-800/50 hover:border-zinc-700/50 transition-all duration-500 hover:bg-zinc-900/50">
-                    <stat.icon className="w-10 h-10 mx-auto mb-6 text-zinc-600 group-hover:text-zinc-500 transition-colors" />
-                    <div className="text-5xl font-extralight text-white mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-center p-6 sm:p-8 bg-zinc-900/30 backdrop-blur-sm border border-zinc-800/50 hover:border-zinc-700/50 transition-all duration-500 hover:bg-zinc-900/50">
+                    <stat.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-4 sm:mb-6 text-zinc-600 group-hover:text-zinc-500 transition-colors" />
+                    <div className="text-3xl sm:text-4xl lg:text-5xl font-extralight text-white mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
                       {stat.number}
                     </div>
                     <div className="text-sm text-zinc-400 tracking-wider mb-2 uppercase">{stat.label}</div>
@@ -259,7 +273,7 @@ export default function AboutPageClient() {
 
             <div className="max-w-5xl mx-auto relative">
               {/* Timeline line */}
-              <div className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-700 to-transparent"></div>
+              <div className="absolute left-6 lg:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-700 to-transparent"></div>
 
               {/* Timeline items */}
               {[
@@ -317,7 +331,7 @@ export default function AboutPageClient() {
                   }`}
                 >
                   {/* Content */}
-                  <div className={`w-full lg:w-5/12 ${index % 2 === 0 ? 'lg:text-right lg:pr-12' : 'lg:pl-12'} pl-20 lg:pl-0`}>
+                  <div className={`w-full lg:w-5/12 ${index % 2 === 0 ? 'lg:text-right lg:pr-12' : 'lg:pl-12'} pl-16 lg:pl-0`}>
                     <div className={`${item.highlight ? 'bg-zinc-900/50 border border-zinc-700 p-6' : 'p-6'} hover:bg-zinc-900/30 transition-all duration-300`}>
                       <div className={`text-sm text-zinc-500 mb-2 ${index % 2 === 0 ? 'lg:text-right' : ''}`}>
                         {item.year}
@@ -332,7 +346,7 @@ export default function AboutPageClient() {
                   </div>
 
                   {/* Icon */}
-                  <div className="absolute left-0 lg:left-1/2 transform lg:-translate-x-1/2 w-16 h-16 bg-zinc-900 border-2 border-zinc-700 rounded-full flex items-center justify-center z-10">
+                  <div className="absolute left-0 lg:left-1/2 transform lg:-translate-x-1/2 w-14 h-14 sm:w-16 sm:h-16 bg-zinc-900 border-2 border-zinc-700 rounded-full flex items-center justify-center z-10">
                     <item.icon className={`w-6 h-6 ${item.highlight ? 'text-white' : 'text-zinc-500'}`} />
                   </div>
                 </motion.div>
@@ -660,7 +674,7 @@ export default function AboutPageClient() {
 
         {/* Team Section avec hover effects */}
         <section className="py-32 border-t border-zinc-800/50">
-          <div className="container mx-auto px-8">
+          <div className="container mx-auto px-6 sm:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -681,6 +695,7 @@ export default function AboutPageClient() {
                   name: t('about.team.members.gaylor.name') || 'Gaylor Loche',
                   role: t('about.team.members.gaylor.role') || (isEn ? 'CEO & Founder' : 'CEO & Fondateur'),
                   bio: t('about.team.members.gaylor.bio') || (isEn ? 'Founder of DVP Holding, entrepreneur and AI consultant. Strategic vision and business expertise.' : 'Fondateur de DVP Holding, entrepreneur et consultant IA. Vision stratégique et expertise business.'),
+                  image: '/images/team/gaylor.jpg',
                   expertise: [
                     t('about.team.expertise.strategy') || (isEn ? 'Strategy' : 'Stratégie'),
                     t('about.team.expertise.aiConsulting') || (isEn ? 'AI Consulting' : 'Consulting IA'),
@@ -692,6 +707,7 @@ export default function AboutPageClient() {
                   name: t('about.team.members.julien.name') || 'Julien Larmanaud',
                   role: t('about.team.members.julien.role') || 'COO & Lead Developer',
                   bio: t('about.team.members.julien.bio') || (isEn ? 'Ex-AWS senior engineer. Expert in GPU computing and high-performance cloud infrastructure.' : 'Ex-AWS senior engineer. Expert GPU computing et infrastructure cloud haute performance.'),
+                  image: '/images/team/julien.png',
                   expertise: [
                     t('about.team.expertise.gpuComputing') || (isEn ? 'GPU Computing' : 'GPU Computing'),
                     t('about.team.expertise.cloudInfra') || (isEn ? 'Cloud Infrastructure' : 'Infrastructure Cloud'),
@@ -703,6 +719,7 @@ export default function AboutPageClient() {
                   name: t('about.team.members.gengis.name') || 'Gengis Lahoui',
                   role: t('about.team.members.gengis.role') || (isEn ? 'Technical Director' : 'Directeur Technique'),
                   bio: t('about.team.members.gengis.bio') || (isEn ? 'Ex-O2Switch ML/GenAI engineer. Expert in development and architecture of complex systems.' : 'Ex-O2Switch ML/GenAI engineer. Expert en développement et architecture de systèmes complexes.'),
+                  image: '/images/team/gengis.png',
                   expertise: [
                     t('about.team.expertise.machineLearning') || (isEn ? 'Machine Learning' : 'Machine Learning'),
                     t('about.team.expertise.genai') || (isEn ? 'GenAI' : 'GenAI'),
@@ -720,7 +737,9 @@ export default function AboutPageClient() {
                   className="group relative"
                 >
                   <div className="text-center p-8 bg-zinc-900/30 border border-zinc-800/50 hover:border-zinc-700/50 hover:bg-zinc-900/50 transition-all duration-500 h-full flex flex-col">
-                    <div className="w-32 h-32 bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-full mx-auto mb-6 group-hover:from-zinc-700 group-hover:to-zinc-800 transition-all duration-500"></div>
+                    <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden bg-zinc-800/40">
+                      <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                    </div>
                     <h4 className="text-xl font-light text-white mb-2">{member.name}</h4>
                     <div className="text-sm text-zinc-500 mb-4">{member.role}</div>
                     <p className="text-sm text-zinc-400 leading-relaxed mb-6 flex-grow">{member.bio}</p>
@@ -741,7 +760,7 @@ export default function AboutPageClient() {
         {/* Final CTA */}
         <section className="py-32 relative">
           <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/50 to-transparent"></div>
-          <div className="container mx-auto px-8 text-center relative z-10">
+          <div className="container mx-auto px-6 sm:px-8 text-center relative z-10">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -766,7 +785,7 @@ export default function AboutPageClient() {
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link
-                    href="/contact"
+                    href="/support"
                     className="inline-flex items-center justify-center px-10 py-4 border border-zinc-700 text-white hover:border-zinc-500 hover:bg-zinc-900/50 transition-all duration-300"
                   >
                     <span className="text-sm tracking-wide">{t('about.cta.talkToExpert') || (isEn ? 'Talk to an Expert' : 'Parler à un Expert')}</span>

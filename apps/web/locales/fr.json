@@ -5,25 +5,26 @@
     "pricing": "Tarifs",
     "documentation": "Documentation",
     "support": "Support",
+    "careers": "Recrutement",
     "signIn": "Connexion",
     "getStarted": "Commencer"
   },
   "about": {
     "label": "2023 - 2026 • L'Innovation Continue",
     "hero": {
-      "title1": "De Hackboot",
+      "title1": "VMCloud",
       "title2": "À VMCloud",
       "title3": "L'Évolution",
       "subtitle": "Depuis 2023, nous avons évolué de la vente de clés de jeux au développement logiciel, puis au cloud gaming. Fin 2025, avec 2.5M€ levés, VMCloud structure cette expertise pour conquérir le marché européen depuis l'Estonie."
     },
     "stats": {
-      "founded": "Création Hackboot",
+      "founded": "Création VMCloud",
       "funding": "Investissements",
       "datacenters": "Datacenters",
       "sla": "SLA Garanti"
     },
     "timeline": {
-      "title": "De Hackboot à VMCloud",
+      "title": "Notre Histoire",
       "subtitle": "L'évolution d'une vision gaming vers une infrastructure cloud complète"
     },
     "partners": {
@@ -89,7 +90,7 @@
     "timeline": {
       "items": {
         "hackbootCreation": {
-          "title": "Création de Hackboot",
+          "title": "Les Débuts",
           "description": "Début avec la vente de clés de jeux à prix compétitifs. Construction d'une première base client et compréhension du marché gaming."
         },
         "softwareDev": {
@@ -115,7 +116,7 @@
       }
     },
     "stats": {
-      "founded": "Création Hackboot",
+      "founded": "Création VMCloud",
       "funding": "Investissements",
       "datacenters": "Datacenters",
       "sla": "SLA Garanti",
@@ -180,7 +181,7 @@
         "gaylor": {
           "name": "Gaylor Loche",
           "role": "CEO & Fondateur",
-          "bio": "Fondateur de DVP Holding (formations, crédit, horlogerie, investissement). Consultant indépendant en IA. Visionnaire de la transformation de Hackboot en VMCloud."
+          "bio": "Fondateur de DVP Holding (formations, crédit, horlogerie, investissement). Consultant indépendant en IA. Visionnaire de VMCloud."
         },
         "julien": {
           "name": "Julien Larmanaud",
@@ -510,7 +511,7 @@
     "label": "INFRASTRUCTURE CLOUD PREMIUM",
     "title": {
       "1": "VMCloud",
-      "2": "by Hackboot",
+      "2": "by VMCloud",
       "3": "Infrastructure"
     },
     "subtitle": "Cloud européen premium : VPS AMD EPYC, GPU Computing Tesla/RTX, hébergement web. Déployez en 60s, support 24/7, SLA 99.9%.",

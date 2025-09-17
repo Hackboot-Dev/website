@@ -60,6 +60,9 @@ export default function Header() {
             <LocalizedLink href="/about" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
               <span className="group-hover:tracking-wide transition-all duration-300">{t('about.title')}</span>
             </LocalizedLink>
+            <LocalizedLink href="/careers" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
+              <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.careers')}</span>
+            </LocalizedLink>
           </nav>
 
           {/* CTA avec animations sophistiquées */}
@@ -90,29 +93,64 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden py-6 border-t border-zinc-800">
             <nav className="flex flex-col space-y-4">
-              <LocalizedLink href="/infrastructure" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
+              <LocalizedLink
+                href="/infrastructure"
+                className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 {t('nav.infrastructure')}
               </LocalizedLink>
-              <LocalizedLink href="/products" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
+              <LocalizedLink
+                href="/products"
+                className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 {t('nav.products')}
               </LocalizedLink>
-              <LocalizedLink href="/pricing" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
+              <LocalizedLink
+                href="/pricing"
+                className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 {t('nav.pricing')}
               </LocalizedLink>
-              <LocalizedLink href="/support" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
+              <LocalizedLink
+                href="/support"
+                className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 {t('nav.support')}
               </LocalizedLink>
-              <LocalizedLink href="/about" className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
+              <LocalizedLink
+                href="/about"
+                className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 {t('about.title')}
+              </LocalizedLink>
+              <LocalizedLink
+                href="/careers"
+                className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t('nav.careers')}
               </LocalizedLink>
               <div className="pt-4 border-t border-zinc-800 mt-4">
                 <div className="mb-4">
                   <LanguageSelector />
                 </div>
-                <LocalizedLink href="/login" className="block text-zinc-300 hover:text-white py-2 text-sm tracking-wide">
+                <LocalizedLink
+                  href="/login"
+                  className="block text-zinc-300 hover:text-white py-2 text-sm tracking-wide"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   {t('nav.signIn')}
                 </LocalizedLink>
-                <LocalizedLink href="/products" className="block bg-white text-zinc-950 px-4 py-2 mt-2 text-sm tracking-wide">
+                <LocalizedLink
+                  href="/products"
+                  className="block bg-white text-zinc-950 px-4 py-2 mt-2 text-sm tracking-wide rounded-lg shadow-sm hover:bg-zinc-100 transition"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   {t('nav.getStarted')}
                 </LocalizedLink>
               </div>

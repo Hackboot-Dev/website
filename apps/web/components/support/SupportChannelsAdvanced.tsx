@@ -26,27 +26,27 @@ const channelsData = {
         description: 'Detailed technical inquiries',
         response: '< 2 hours',
         priority: 'Standard',
-        address: 'support@infrastructure.io',
+        address: 'contact@vmcloud.fr',
         availability: '24/7',
         features: ['Ticket tracking', 'File attachments', 'Thread history']
       },
       {
         id: 'chat',
         name: 'Live Chat',
-        description: 'Real-time assistance',
-        response: '< 2 minutes',
-        priority: 'High',
-        availability: '24/7',
+        description: 'Real-time assistance (currently offline)',
+        response: 'Unavailable',
+        priority: 'Temporarily offline',
+        availability: 'Offline',
         features: ['Instant response', 'Screen sharing', 'AI assistant']
       },
       {
         id: 'phone',
         name: 'Phone',
         description: 'Critical issues & emergencies',
-        response: 'Immediate',
-        priority: 'Critical',
+        response: 'Unavailable',
+        priority: 'Temporarily offline',
         phone: '+372 555 0100',
-        availability: 'Business hours',
+        availability: 'Offline',
         features: ['Direct expert', 'Priority queue', 'Call recording']
       },
       {
@@ -78,27 +78,27 @@ const channelsData = {
         description: 'Demandes techniques détaillées',
         response: '< 2 heures',
         priority: 'Standard',
-        address: 'support@infrastructure.io',
+        address: 'contact@vmcloud.fr',
         availability: '24/7',
         features: ['Suivi tickets', 'Pièces jointes', 'Historique']
       },
       {
         id: 'chat',
         name: 'Chat Live',
-        description: 'Assistance en temps réel',
-        response: '< 2 minutes',
-        priority: 'Élevée',
-        availability: '24/7',
+        description: 'Assistance en temps réel (actuellement indisponible)',
+        response: 'Indisponible',
+        priority: 'Hors service',
+        availability: 'Hors ligne',
         features: ['Réponse instantanée', 'Partage écran', 'Assistant IA']
       },
       {
         id: 'phone',
         name: 'Téléphone',
         description: 'Urgences et incidents critiques',
-        response: 'Immédiat',
-        priority: 'Critique',
+        response: 'Indisponible',
+        priority: 'Hors service',
         phone: '+372 555 0100',
-        availability: 'Heures bureau',
+        availability: 'Hors ligne',
         features: ['Expert direct', 'File prioritaire', 'Enregistrement']
       },
       {
