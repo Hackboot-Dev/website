@@ -1,64 +1,443 @@
-# VMCloud - Premium Cloud Infrastructure
-# Robots.txt optimized for SEO
-# Last updated: 2025-01-01
+# VMCloud - Premium Cloud Infrastructure Europe
+# Robots.txt super optimized for maximum SEO crawling
+# Last updated: 2025-01-17
+# Contact: seo@vmcl.fr
 
-# Default rule for all search engines
+# Default rule for all search engines - ENCOURAGE CRAWLING
 User-agent: *
 Allow: /
 Allow: /fr/
 Allow: /en/
 Allow: /products/
-Allow: /pricing
-Allow: /infrastructure
-Allow: /support
+Allow: /products?*
+Allow: /about/
+Allow: /careers/
+Allow: /support/
+Allow: /infrastructure/
+Allow: /partners/
 Allow: /legal/
-Disallow: /api/
-Disallow: /_next/
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /private/
-Disallow: *.json$
-Disallow: /*?*utm_
-Disallow: /*?*ref=
-Crawl-delay: 1
+Allow: /static/
+Allow: /images/
+Allow: /_next/static/
+Allow: *.css$
+Allow: *.js$
+Allow: *.ico$
+Allow: *.png$
+Allow: *.jpg$
+Allow: *.jpeg$
+Allow: *.webp$
+Allow: *.svg$
+Allow: *.woff$
+Allow: *.woff2$
+Allow: *.ttf$
+Allow: *.eot$
 
-# Googlebot specific (no crawl delay)
+# Disallow sensitive areas only
+Disallow: /api/private/
+Disallow: /admin/
+Disallow: /dashboard/private/
+Disallow: /auth/
+Disallow: /login/
+Disallow: /signup/
+Disallow: /_next/server/
+Disallow: /tmp/
+Disallow: /temp/
+Disallow: /*.json$
+Disallow: /*?*session=
+Disallow: /*?*token=
+Disallow: /*?*auth=
+Disallow: /*?*password=
+Disallow: /*?*login=
+Disallow: /*utm_source=email
+Disallow: /*utm_source=private
+
+# ALLOW tracking parameters for SEO analytics
+Allow: /*?*utm_source=
+Allow: /*?*utm_medium=
+Allow: /*?*utm_campaign=
+Allow: /*?*utm_content=
+Allow: /*?*utm_term=
+Allow: /*?*gclid=
+Allow: /*?*fbclid=
+Allow: /*?*ref=
+Allow: /*?*source=
+Allow: /*?*category=
+
+Crawl-delay: 0.5
+
+# Googlebot - MAXIMUM PRIORITY
 User-agent: Googlebot
 Allow: /
-Disallow: /api/
-Disallow: /_next/
+Allow: /fr/
+Allow: /en/
+Allow: /products/
+Allow: /products?*
+Allow: /about/
+Allow: /careers/
+Allow: /support/
+Allow: /infrastructure/
+Allow: /partners/
+Allow: /legal/
+Allow: /_next/static/
+Allow: /static/
+Allow: /images/
+Disallow: /api/private/
+Disallow: /admin/
+Disallow: /auth/
 Crawl-delay: 0
 
-# Googlebot for images
+# Googlebot for images - AGGRESSIVE CRAWLING
 User-agent: Googlebot-Image
 Allow: /
+Allow: /images/
+Allow: /static/
+Allow: /_next/static/
 Allow: *.jpg$
 Allow: *.jpeg$
 Allow: *.png$
 Allow: *.webp$
 Allow: *.svg$
+Allow: *.gif$
+Allow: *.ico$
+Allow: *.avif$
+Request-rate: 10/1m
+Crawl-delay: 0
 
-# Bingbot
+# Bingbot - ENCOURAGE
 User-agent: Bingbot
 Allow: /
-Disallow: /api/
-Disallow: /_next/
+Allow: /fr/
+Allow: /en/
+Allow: /products/
+Allow: /products?*
+Allow: /about/
+Allow: /careers/
+Allow: /support/
+Allow: /infrastructure/
+Allow: /partners/
+Allow: /legal/
+Disallow: /api/private/
+Disallow: /admin/
+Disallow: /auth/
+Crawl-delay: 0.2
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+Disallow: /api/private/
+Disallow: /admin/
+Disallow: /auth/
 Crawl-delay: 1
 
-# Block unwanted bots
-User-agent: AhrefsBot
-Disallow: /
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /api/private/
+Disallow: /admin/
+Crawl-delay: 1
 
+# Baidu
+User-agent: Baiduspider
+Allow: /
+Disallow: /api/private/
+Disallow: /admin/
+Crawl-delay: 2
+
+# Facebook (for Open Graph)
+User-agent: facebookexternalhit/1.1
+Allow: /
+Allow: /images/og/
+Allow: /images/twitter/
+Crawl-delay: 0
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+Allow: /images/og/
+Allow: /images/twitter/
+Crawl-delay: 0
+
+# LinkedIn
+User-agent: LinkedInBot
+Allow: /
+Allow: /images/og/
+Crawl-delay: 1
+
+# WhatsApp
+User-agent: WhatsApp
+Allow: /
+Allow: /images/og/
+Crawl-delay: 0
+
+# Telegram
+User-agent: TelegramBot
+Allow: /
+Allow: /images/og/
+Crawl-delay: 0
+
+# ALLOW SEO analysis tools (but limit them)
 User-agent: SemrushBot
-Crawl-delay: 10
+Allow: /
+Disallow: /admin/
+Disallow: /api/private/
+Crawl-delay: 5
+
+User-agent: AhrefsBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/private/
+Crawl-delay: 5
 
 User-agent: MJ12bot
+Allow: /
+Disallow: /admin/
+Disallow: /api/private/
+Crawl-delay: 10
+
+User-agent: DotBot
+Allow: /
+Crawl-delay: 10
+
+# Block aggressive/spam bots
+User-agent: 008
 Disallow: /
 
-# Sitemaps - Multiple for i18n
+User-agent: SiteCheck-sitecrawl
+Disallow: /
+
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: WebBandit
+Disallow: /
+
+User-agent: EmailWolf
+Disallow: /
+
+User-agent: ExtractorPro
+Disallow: /
+
+User-agent: ChinaClaw
+Disallow: /
+
+User-agent: Custo
+Disallow: /
+
+User-agent: DISCo
+Disallow: /
+
+User-agent: Download Demon
+Disallow: /
+
+User-agent: eCatch
+Disallow: /
+
+User-agent: EirGrabber
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: Express WebPictures
+Disallow: /
+
+User-agent: ExtractorPro
+Disallow: /
+
+User-agent: EyeNetIE
+Disallow: /
+
+User-agent: FlashGet
+Disallow: /
+
+User-agent: GetRight
+Disallow: /
+
+User-agent: GetWeb!
+Disallow: /
+
+User-agent: Go!Zilla
+Disallow: /
+
+User-agent: Go-Ahead-Got-It
+Disallow: /
+
+User-agent: GrabNet
+Disallow: /
+
+User-agent: Grafula
+Disallow: /
+
+User-agent: HMView
+Disallow: /
+
+User-agent: Image Stripper
+Disallow: /
+
+User-agent: Image Sucker
+Disallow: /
+
+User-agent: Indy Library
+Disallow: /
+
+User-agent: InterGET
+Disallow: /
+
+User-agent: Internet Ninja
+Disallow: /
+
+User-agent: JetCar
+Disallow: /
+
+User-agent: JOC Web Spider
+Disallow: /
+
+User-agent: larbin
+Disallow: /
+
+User-agent: LeechFTP
+Disallow: /
+
+User-agent: Mass Downloader
+Disallow: /
+
+User-agent: MIDown tool
+Disallow: /
+
+User-agent: Mister PiX
+Disallow: /
+
+User-agent: Navroad
+Disallow: /
+
+User-agent: NearSite
+Disallow: /
+
+User-agent: NetAnts
+Disallow: /
+
+User-agent: NetSpider
+Disallow: /
+
+User-agent: Net Vampire
+Disallow: /
+
+User-agent: NetZIP
+Disallow: /
+
+User-agent: Octopus
+Disallow: /
+
+User-agent: Offline Explorer
+Disallow: /
+
+User-agent: Offline Navigator
+Disallow: /
+
+User-agent: PageGrabber
+Disallow: /
+
+User-agent: Papa Foto
+Disallow: /
+
+User-agent: pavuk
+Disallow: /
+
+User-agent: pcBrowser
+Disallow: /
+
+User-agent: RealDownload
+Disallow: /
+
+User-agent: ReGet
+Disallow: /
+
+User-agent: SiteSnagger
+Disallow: /
+
+User-agent: SmartDownload
+Disallow: /
+
+User-agent: SuperBot
+Disallow: /
+
+User-agent: SuperHTTP
+Disallow: /
+
+User-agent: Surfbot
+Disallow: /
+
+User-agent: tAkeOut
+Disallow: /
+
+User-agent: Teleport Pro
+Disallow: /
+
+User-agent: VoidEYE
+Disallow: /
+
+User-agent: Web Image Collector
+Disallow: /
+
+User-agent: Web Sucker
+Disallow: /
+
+User-agent: WebAuto
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: WebFetch
+Disallow: /
+
+User-agent: WebGo IS
+Disallow: /
+
+User-agent: WebLeacher
+Disallow: /
+
+User-agent: WebReaper
+Disallow: /
+
+User-agent: WebSauger
+Disallow: /
+
+User-agent: Website eXtractor
+Disallow: /
+
+User-agent: Website Quester
+Disallow: /
+
+User-agent: WebStripper
+Disallow: /
+
+User-agent: WebWhacker
+Disallow: /
+
+User-agent: WebZIP
+Disallow: /
+
+User-agent: Wget
+Disallow: /
+
+User-agent: Widow
+Disallow: /
+
+User-agent: WWWOFFLE
+Disallow: /
+
+User-agent: Xaldon WebSpider
+Disallow: /
+
+User-agent: Zeus
+Disallow: /
+
+# Sitemaps - MULTIPLE for maximum indexing
 Sitemap: https://vmcl.fr/sitemap.xml
-Sitemap: https://vmcl.fr/sitemap-fr.xml
-Sitemap: https://vmcl.fr/sitemap-en.xml
 
 # Canonical host
 Host: https://vmcl.fr

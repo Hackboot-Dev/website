@@ -8,6 +8,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import Header from '../../../components/layout/Header';
 import Footer from '../../../components/layout/Footer';
 import { getEnrichedProductData } from '../../../utils/productDataLoader';
@@ -23,6 +24,8 @@ type PricingMode = 'monthly' | 'annual' | 'hourly';
 
 export default function ProductsPage() {
   const { t, language } = useLanguage();
+  const searchParams = useSearchParams();
+
   const tt = (key: string, fr: string, en: string) => {
     const v = t(key);
     if (v && v.trim() !== '') return v;
@@ -30,16 +33,22 @@ export default function ProductsPage() {
     if (language === 'en') return en;
     return t('common.langUnavailable') || 'Language unavailable';
   };
-  
+
   // Load products data based on current language (default to 'fr' if not set)
   const productsData = getEnrichedProductData(language || 'fr');
-  
+
   // Debug: Check if data is loaded
   if (!productsData || Object.keys(productsData).length === 0) {
     console.error('No products data loaded! Language:', language);
   }
-  
-  const [selectedCategory, setSelectedCategory] = useState<Category>('all');
+
+  // Get category from URL params or default to 'all'
+  const categoryFromUrl = searchParams.get('category') as Category | null;
+  const initialCategory = categoryFromUrl && ['vps', 'gpu', 'webhosting', 'paas', 'loadbalancer', 'storage', 'cdn', 'gaming'].includes(categoryFromUrl)
+    ? categoryFromUrl
+    : 'all';
+
+  const [selectedCategory, setSelectedCategory] = useState<Category>(initialCategory);
   const [selectedGame, setSelectedGame] = useState<GameFilter>('all');
   const [pricingMode, setPricingMode] = useState<PricingMode>('monthly');
   const [isLoaded, setIsLoaded] = useState(false);
@@ -59,6 +68,14 @@ export default function ProductsPage() {
     const timer = setTimeout(() => setIsLoaded(true), 200);
     return () => clearTimeout(timer);
   }, []);
+
+  // Update category when URL params change
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get('category') as Category | null;
+    if (categoryFromUrl && ['vps', 'gpu', 'webhosting', 'paas', 'loadbalancer', 'storage', 'cdn', 'gaming'].includes(categoryFromUrl)) {
+      setSelectedCategory(categoryFromUrl);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -384,15 +401,11 @@ export default function ProductsPage() {
                     </div>
                     <div className="text-xs text-zinc-500 uppercase tracking-wide">{tt('products.ui.stats.categories','Catégories','Categories')}</div>
                   </div>
-                  <div className="relative text-center sm:text-right group">
-                    <div className="text-xs text-zinc-500 uppercase tracking-wide flex items-center justify-center sm:justify-end gap-2">
-                      <span>{tt('products.ui.billing.mode', 'Facturation', 'Billing')}</span>
-                      <span className="hidden sm:inline-flex h-1 w-1 rounded-full bg-zinc-700"></span>
-                      <span className="text-zinc-300 font-medium tracking-normal">{activePricingOption.short}</span>
+                  <div className="text-center sm:text-left group">
+                    <div className="text-2xl font-extralight text-white mb-1 group-hover:text-zinc-300 transition-colors">
+                      3
                     </div>
-                    <p className="mt-2 text-[11px] leading-relaxed text-zinc-500 max-w-[240px] mx-auto sm:ml-auto sm:mr-0">
-                      {activePricingOption.description}
-                    </p>
+                    <div className="text-xs text-zinc-500 uppercase tracking-wide">{tt('products.ui.stats.billing','Modes de facturation','Billing modes')}</div>
                   </div>
                 </div>
               </div>
@@ -526,35 +539,6 @@ export default function ProductsPage() {
                     )}
                   </div>
                 </div>
-                <div className="bg-zinc-900/60 backdrop-blur-sm border border-zinc-800/50 rounded-2xl p-4">
-                  <h4 className="text-sm text-white mb-3">{tt('products.ui.pricingModeTitle', 'Mode de prix', 'Pricing mode')}</h4>
-                  <div className="relative flex flex-col xl:flex-row xl:items-center bg-zinc-900/20 rounded-xl p-1.5 border border-zinc-800/30 overflow-hidden gap-1.5 xl:gap-0">
-                    <div 
-                      className="absolute bg-white rounded-lg transition-all duration-300 ease-out shadow-xl hidden xl:block" 
-                      style={{ width: '33.333%', height: 'calc(100% - 12px)', top: '6px', left: `calc(${['monthly', 'annual', 'hourly'].indexOf(pricingMode) * 33.333}% + 6px)` }}
-                    />
-                    {[
-                      (t('products.ui.toggle.monthly')||'Mensuel'),
-                      (t('products.ui.toggle.annualShort')||'Annuel'),
-                      (t('products.ui.toggle.hourly')||'Horaire')
-                    ].map((mode, index) => {
-                      const isActive = pricingMode === ['monthly', 'annual', 'hourly'][index];
-                      return (
-                        <button
-                          key={`d-${mode}`}
-                          onClick={() => setPricingMode(['monthly', 'annual', 'hourly'][index] as PricingMode)}
-                          className={`relative z-10 px-3 py-3 text-[12px] md:text-xs font-light rounded-lg transition-all xl:basis-1/3 min-w-0 ${isActive ? 
-                            'text-zinc-950 xl:text-zinc-950 bg-white xl:bg-transparent' : 
-                            'text-zinc-400 hover:text-white bg-transparent'
-                          }`}
-                        >
-                          <span className="block w-full truncate">{mode}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <p className="mt-2 text-[11px] text-zinc-500">{pricingMode==='annual'?(t('products.ui.annualNote')||'Prix mensuel équivalent sur engagement annuel'):(t('products.ui.switchNote')||'Basculer entre les modes')}</p>
-                </div>
                 <button onClick={() => { setSelectedCategory('all'); setSelectedGame('all'); setPricingMode('monthly'); }} className="w-full text-sm text-zinc-300 hover:text-white border border-zinc-800/40 hover:border-zinc-700/60 rounded-xl py-2">{tt('products.ui.reset', 'Réinitialiser', 'Reset')}</button>
               </div>
             </aside>
@@ -570,7 +554,6 @@ export default function ProductsPage() {
                   ref={pricingSelectorRef}
                   className="relative flex flex-col items-start sm:items-end gap-1"
                 >
-                  <span className="text-[11px] uppercase tracking-wide text-zinc-500">{t('products.ui.pricingModeTitle', 'Mode de prix', 'Pricing mode')}</span>
                   <button
                     type="button"
                     onClick={() => setIsPricingSelectorOpen((prev) => !prev)}
@@ -583,7 +566,7 @@ export default function ProductsPage() {
                   </button>
                   {isPricingSelectorOpen && (
                     <div
-                      className="absolute top-full mt-2 sm:right-0 right-1/2 sm:translate-x-0 translate-x-1/2 rounded-2xl border border-zinc-800/70 bg-zinc-950/95 shadow-2xl ring-1 ring-black/40 p-2 z-50 origin-top"
+                      className="absolute top-full mt-2 sm:right-0 right-1/2 sm:translate-x-0 translate-x-1/2 rounded-2xl border border-zinc-800/70 bg-zinc-950 shadow-2xl ring-1 ring-black/40 p-2 z-50 origin-top"
                       style={{ width: 'min(260px, calc(100vw - 3rem))' }}
                     >
                       {pricingOptions.map((option) => (

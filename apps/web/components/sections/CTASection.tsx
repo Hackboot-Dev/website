@@ -10,7 +10,7 @@ export default function CTASection() {
   const ctaReveal = useRevealAnimation({ delay: 500 });
 
   return (
-    <section className="relative py-16 sm:py-24 lg:py-32 bg-gradient-to-br from-zinc-950 via-zinc-800 to-zinc-900 overflow-hidden">
+    <section className="relative py-16 sm:py-24 lg:py-32 bg-zinc-950 overflow-hidden">
       {/* Geometric background elements - CTA specific - responsive */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="hidden sm:block absolute top-1/4 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-zinc-400 to-transparent"></div>
@@ -94,21 +94,21 @@ export default function CTASection() {
             <div className="col-span-12 lg:col-span-5">
               <div className="space-y-12">
                 
-                {/* Performance stats */}
+                {/* Key points */}
                 <div className="space-y-6">
                   <div className="flex justify-between items-end border-b border-zinc-800 pb-3 hover:border-zinc-600 transition-colors duration-300">
-                    <span className="text-xs text-zinc-500 tracking-wider">{t('cta.metrics.deployTime')}</span>
-                    <span className="text-xl font-light text-white">~2min</span>
+                    <span className="text-xs text-zinc-500 tracking-wider">{t('cta.metrics.infrastructure') || 'Infrastructure'}</span>
+                    <span className="text-xl font-light text-white">{t('cta.metrics.enterprise') || 'Enterprise'}</span>
                   </div>
-                  
+
                   <div className="flex justify-between items-end border-b border-zinc-800 pb-3 hover:border-zinc-600 transition-colors duration-300">
-                    <span className="text-xs text-zinc-500 tracking-wider">{t('cta.metrics.satisfaction')}</span>
-                    <span className="text-xl font-light text-white">98%</span>
+                    <span className="text-xs text-zinc-500 tracking-wider">{t('cta.metrics.support') || 'Support'}</span>
+                    <span className="text-xl font-light text-white">24/7</span>
                   </div>
-                  
+
                   <div className="flex justify-between items-end border-b border-zinc-800 pb-3 hover:border-zinc-600 transition-colors duration-300">
-                    <span className="text-xs text-zinc-500 tracking-wider">{t('cta.metrics.projects')}</span>
-                    <span className="text-xl font-light text-white">1M+</span>
+                    <span className="text-xs text-zinc-500 tracking-wider">{t('cta.metrics.location') || 'Datacenters'}</span>
+                    <span className="text-xl font-light text-white">{t('cta.metrics.europe') || 'Europe'}</span>
                   </div>
                 </div>
 

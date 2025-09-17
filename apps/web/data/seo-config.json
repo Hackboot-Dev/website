@@ -1,154 +1,246 @@
 {
   "fr": {
     "home": {
-      "title": "VMCloud - Hébergement Cloud VPS, GPU, Web | Infrastructure Premium France",
-      "description": "VMCloud - Leader français de l'hébergement cloud haute performance. VPS SSD NVMe, serveurs GPU pour IA/ML, hébergement web optimisé. Support 24/7, datacenters en France, 99.99% uptime. Essai gratuit 30 jours.",
-      "keywords": "hébergement cloud france, vps ssd nvme, serveur gpu france, cloud gpu ai ml, hébergement web premium, serveur virtuel privé, infrastructure cloud française, datacenter france, vps haute performance, gpu tesla a100, hébergement wordpress optimisé, cloud computing france, serveur dédié virtuel, iaas france, paas france, hébergement professionnel, vps linux windows, cloud storage france, cdn france, load balancer",
+      "title": "VMCloud - Hébergement Cloud VPS GPU Web | Infrastructure Premium France 2025",
+      "description": "VMCloud #1 hébergement cloud France ⚡ VPS SSD NVMe ultra-rapide dès 4.99€ • Serveurs GPU Tesla A100/RTX 4090 pour IA/ML • Web hosting managé WordPress/PrestaShop • Datacenters Paris/Lyon • Support expert 24/7 • 99.99% uptime garanti • Essai 30 jours gratuit",
+      "keywords": "hébergement cloud france, vps ssd nvme, serveur gpu france, cloud gpu ai ml, hébergement web premium, serveur virtuel privé, infrastructure cloud française, datacenter france, vps haute performance, gpu tesla a100, hébergement wordpress optimisé, cloud computing france, serveur dédié virtuel, iaas france, paas france, hébergement professionnel, vps linux windows, cloud storage france, cdn france, load balancer, vps pas cher, serveur cloud, hébergement mutualisé, hébergement dédié, cloud privé, cloud public, cloud hybride, serveur minecraft, serveur game, hébergement prestashop, hébergement magento, hébergement drupal, hébergement joomla, serveur mail, backup cloud, disaster recovery, haute disponibilité, scalabilité, kubernetes hosting, docker hosting, conteneur cloud, microservices, serverless, edge computing, gpu rtx 4090, gpu rtx 3090, machine learning cloud, deep learning, intelligence artificielle, tensorflow hosting, pytorch hosting, jupyter notebook, data science cloud, big data, apache spark, hadoop cluster, elasticsearch hosting, mongodb hosting, postgresql hosting, mysql hosting, redis hosting, hébergement nodejs, hébergement python, hébergement php, hébergement ruby, hébergement java, hébergement .net, gitlab hosting, jenkins hosting, ci/cd pipeline, devops cloud, monitoring cloud, logs management, siem cloud, waf protection, ddos protection, firewall cloud, vpn cloud, réseau privé virtuel, interconnexion datacenter, peering, transit ip, bgp, ipv6, certificat ssl, let's encrypt, hébergement e-commerce, hébergement entreprise, hébergement pme, hébergement startup, migration cloud, consulting cloud, managed services, infogérance, hébergement souverain, rgpd compliant, iso 27001, soc 2, pci dss, hipaa, tier 3, tier 4, green it, éco responsable, neutralité carbone, énergie renouvelable, refroidissement liquide, pue optimisé, openstack, vmware, proxmox, xen, kvm, virtualization, bare metal, serveur physique, colocation, housing, rack dédié, cage privée, meet me room, cross connect, 10gbps, 40gbps, 100gbps, dark fiber, wavelength, mpls, sd-wan, sase, zero trust, cloud français souverain, alternative aws, alternative azure, alternative google cloud, alternative ovh, alternative scaleway, alternative digitalocean, alternative linode, alternative vultr, alternative hetzner, hébergement symfony, hébergement laravel, hébergement angular, hébergement react, hébergement vue.js, api hosting, rest api, graphql, websocket, real-time, streaming, vod hosting, live streaming, transcoding, hébergement blockchain, noeud ethereum, noeud bitcoin, web3 hosting, nft storage, ipfs hosting, hébergement metaverse, réalité virtuelle, réalité augmentée, hébergement iot, edge devices, 5g edge, smart city, industrie 4.0, hébergement médical, hébergement bancaire, hébergement gouvernement, hébergement éducation, hébergement recherche, hpc cloud, calcul haute performance, simulation, modélisation, rendering farm, hébergement créatif, hébergement agence, hébergement média, hébergement streaming, hébergement podcast, hébergement radio, hébergement tv",
       "og": {
-        "title": "VMCloud - Infrastructure Cloud Premium Made in France | VPS, GPU, Web Hosting",
-        "description": "Infrastructure cloud de nouvelle génération. VPS ultra-rapides, GPU pour IA, hébergement web managé. Support expert 24/7. Essai gratuit 30 jours.",
+        "title": "VMCloud - Infrastructure Cloud Premium France 🚀 VPS GPU Web | Leader 2025",
+        "description": "Infrastructure cloud nouvelle génération. VPS NVMe ultra-rapides dès 4.99€/mois, GPU Tesla/RTX pour IA, hébergement web managé expert. Datacenters français, support 24/7. Essai gratuit 30 jours. Alternative française AWS/Azure.",
         "image": "/images/og/home-fr.jpg",
         "type": "website",
-        "site_name": "VMCloud France"
+        "site_name": "VMCloud France",
+        "locale": "fr_FR"
       },
       "twitter": {
         "card": "summary_large_image",
-        "title": "VMCloud - Cloud Premium France | VPS à partir de 4.99€",
-        "description": "Infrastructure cloud haute performance. VPS NVMe, GPU Tesla, Web hosting. Datacenters français, support 24/7 🚀",
-        "image": "/images/twitter/home-fr.jpg"
-      },
-      "jsonLd": {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "VMCloud",
-        "url": "https://vmcl.fr",
-        "logo": "https://vmcl.fr/logo.png",
-        "description": "Leader français de l'hébergement cloud haute performance",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "FR",
-          "addressRegion": "Île-de-France",
-          "addressLocality": "Paris"
-        },
-        "sameAs": [
-          "https://twitter.com/vmcloud",
-          "https://linkedin.com/company/vmcloud",
-          "https://github.com/vmcloud"
-        ],
-        "offers": {
-          "@type": "AggregateOffer",
-          "priceCurrency": "EUR",
-          "lowPrice": "4.99",
-          "highPrice": "999.99",
-          "offerCount": "50+",
-          "offers": [
-            {
-              "@type": "Offer",
-              "name": "VPS Starter",
-              "price": "4.99",
-              "priceCurrency": "EUR",
-              "priceValidUntil": "2025-12-31",
-              "availability": "https://schema.org/InStock"
-            }
-          ]
-        }
+        "title": "VMCloud - Cloud Premium France 🇫🇷 VPS 4.99€ GPU IA Web",
+        "description": "Infrastructure cloud haute performance. VPS NVMe ⚡ GPU Tesla A100 🤖 Web hosting managé 🌐 Datacenters français 🔒 Support expert 24/7 📞 Essai 30j gratuit ✅",
+        "image": "/images/twitter/home-fr.jpg",
+        "creator": "@vmcloud_fr",
+        "site": "@vmcloud_fr"
       },
       "canonical": "https://vmcl.fr",
       "alternates": [
         { "lang": "en", "url": "https://vmcl.fr/en" },
-        { "lang": "fr", "url": "https://vmcl.fr/fr" }
-      ]
+        { "lang": "fr", "url": "https://vmcl.fr/fr" },
+        { "lang": "x-default", "url": "https://vmcl.fr" }
+      ],
+      "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      "googlebot": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     },
     "products": {
-      "title": "Tous nos Produits Cloud - VPS, GPU, Web, Storage | VMCloud France",
-      "description": "Découvrez notre gamme complète de solutions cloud. VPS haute performance dès 4.99€, serveurs GPU pour IA/ML, hébergement web managé, stockage object S3, CDN global. Infrastructure 100% française.",
-      "keywords": "produits cloud france, catalogue vps, serveurs gpu ia, hébergement web professionnel, solutions cloud entreprise, infrastructure iaas, plateforme paas, stockage s3 compatible, cdn global, load balancing, vps ssd nvme, gpu tesla rtx a100, hébergement wordpress woocommerce, serveur virtuel linux windows, cloud native france"
+      "title": "Produits Cloud VMCloud - VPS GPU Web Storage CDN | Catalogue Complet 2025",
+      "description": "Catalogue complet solutions cloud professionnelles ⚡ VPS Linux/Windows dès 4.99€ • GPU Tesla A100 RTX 4090 • Web hosting WordPress/PrestaShop • Storage S3 • CDN global • Load Balancer • PaaS • Gaming • 100% infrastructure française",
+      "keywords": "produits cloud france, catalogue vps, serveurs gpu ia, hébergement web professionnel, solutions cloud entreprise, infrastructure iaas, plateforme paas, stockage s3 compatible, cdn global, load balancing, vps ssd nvme, gpu tesla rtx a100, hébergement wordpress woocommerce, serveur virtuel linux windows, cloud native france, vps debian, vps ubuntu, vps centos, vps rocky linux, vps almalinux, vps fedora, vps windows server 2022, vps windows server 2019, vps cpanel, vps plesk, vps directadmin, vps cyberpanel, vps docker, vps kubernetes, gpu cloud computing, gpu deep learning, gpu machine learning, gpu rendering, gpu transcoding, gpu mining interdit, tesla t4, tesla v100, tesla a100, tesla h100, rtx 3080, rtx 3090, rtx 4080, rtx 4090, rtx 4090 ti, cuda cores, tensor cores, vram, gpu memory, multi gpu, gpu cluster, web hosting cpanel, web hosting plesk, web hosting directadmin, wordpress hosting managé, woocommerce hosting, prestashop hosting, magento hosting, drupal hosting, joomla hosting, laravel hosting, symfony hosting, nodejs hosting, python hosting, ruby hosting, go hosting, rust hosting, java hosting, php hosting, asp.net hosting, staging environment, git deployment, auto backup, ssl gratuit, email hosting, webmail, imap, smtp, pop3, dkim, spf, dmarc, antispam, antivirus, object storage s3, block storage, file storage, snapshot, backup storage, archive storage, cold storage, hot storage, storage gateway, storage replication, storage encryption, cdn streaming, cdn static, cdn dynamic, edge locations, cache control, purge instant, http3, quic, brotli compression, image optimization, video optimization, websocket cdn, ddos protection cdn, waf cdn, bot protection, rate limiting, geo blocking, ip whitelisting, load balancer layer 4, load balancer layer 7, health check, session persistence, ssl termination, http2, grpc, websocket support, auto scaling, horizontal scaling, vertical scaling, paas docker, paas kubernetes, paas openshift, paas cloud foundry, paas heroku like, buildpack, git push deploy, ci/cd integration, blue green deployment, canary deployment, rolling update, gaming cloud, game server hosting, minecraft server, cs:go server, rust server, ark server, valheim server, palworld server, gmod server, tf2 server, factorio server, terraria server, 7 days to die, satisfactory server, game panel, pterodactyl panel, tcadmin, mod support, plugin support, ftp access, rcon, query port, anti ddos gaming, low ping, tick rate, dedicated ip gaming",
+      "og": {
+        "title": "Catalogue Produits Cloud VMCloud 2025 | VPS GPU Web CDN Storage France",
+        "description": "Explorez nos 50+ solutions cloud. VPS haute performance, GPU pour IA/ML, hébergement web expert, stockage object S3, CDN mondial. Infrastructure 100% française, support 24/7.",
+        "image": "/images/og/products-fr.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/products"
     },
-    "pricing": {
-      "title": "Tarifs Cloud Transparents - Sans Engagement | VMCloud",
-      "description": "Tarification simple et transparente. VPS dès 4.99€/mois, GPU dès 0.90€/h, Web hosting dès 2.99€. Sans frais cachés, sans engagement. Facturation à l'heure, au mois ou à l'année. -20% sur engagement annuel.",
-      "keywords": "tarifs cloud france, prix vps pas cher, tarif gpu cloud, prix hébergement web, facturation cloud flexible, prix serveur virtuel, coût infrastructure cloud, tarifs compétitifs, sans engagement, facturation horaire, remise annuelle, essai gratuit, devis personnalisé"
+    "about": {
+      "title": "À Propos VMCloud - Leader Cloud France | Histoire Mission Équipe 2025",
+      "description": "Découvrez VMCloud, leader français du cloud depuis 2020 🚀 4 ans d'expertise • 10000+ clients • 3 datacenters France • Équipe 50+ experts • Innovation IA/ML • Engagement écologique • Souveraineté numérique française",
+      "keywords": "vmcloud histoire, entreprise cloud france, équipe vmcloud, mission vmcloud, valeurs vmcloud, culture entreprise, innovation cloud, r&d cloud, expertise cloud, leader cloud français, fournisseur cloud, hébergeur français, souveraineté numérique, cloud souverain, alternative américaine, indépendance numérique, données france, rgpd, conformité, certifications, iso 27001, soc 2, pci dss, hébergeur de confiance, secnumcloud, visa sécurité anssi, qualification anssi, entreprise française, tech française, startup cloud, scale up, croissance, investissement, levée de fonds, partenaires, écosystème, communauté, open source, contribution, développement durable, green it, neutralité carbone, énergie verte, responsabilité sociale, rse, engagement environnemental, économie circulaire, datacenter écologique, refroidissement naturel, pue, efficacité énergétique, équipe technique, ingénieurs cloud, devops, sre, architectes cloud, support client, customer success, satisfaction client, nps, témoignages, cas clients, success stories, références, grands comptes, pme, startups, transformation digitale, accompagnement, conseil, formation, certification, blog technique, documentation, tutoriels, webinaires, événements, conférences, meetups, sponsoring, mécénat, emplois, carrières, recrutement, stage, alternance, télétravail, remote first, diversité, inclusion, égalité, bien-être, qualité de vie au travail, avantages, bureau paris, bureau lyon, bureau marseille, expansion, international, europe, roadmap, vision, futur, innovation lab, recherche, brevets, publications, partenariats universitaires, incubateur, accélérateur, mentorat, advisory board, gouvernance, transparence, éthique",
+      "og": {
+        "title": "À Propos de VMCloud - L'Histoire du Leader Cloud Français",
+        "description": "4 ans d'innovation cloud en France. 10000+ clients nous font confiance. Découvrez notre mission, nos valeurs et notre équipe de 50+ experts passionnés.",
+        "image": "/images/og/about-fr.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/about"
+    },
+    "careers": {
+      "title": "Carrières VMCloud - Recrutement Tech Cloud France | Remote First 2025",
+      "description": "Rejoignez VMCloud, entreprise cloud en hypercroissance 🚀 30+ postes ouverts • Remote first • Salaires attractifs • Stock options • Formation continue • Équipe internationale • Technologies cutting-edge • Impact direct",
+      "keywords": "carrières vmcloud, emploi cloud france, recrutement tech, job cloud, offres emploi, remote first, télétravail, work from home, digital nomad, flexible, horaires flexibles, équilibre vie pro perso, développeur cloud, devops engineer, sre, cloud architect, backend developer, frontend developer, fullstack developer, data engineer, data scientist, ml engineer, ai engineer, security engineer, network engineer, system administrator, kubernetes expert, docker expert, golang developer, python developer, javascript developer, typescript developer, rust developer, java developer, c++ developer, product manager, product owner, scrum master, agile coach, ux designer, ui designer, technical writer, developer advocate, sales engineer, account manager, customer success, support engineer, finance, comptabilité, ressources humaines, marketing, growth hacker, seo specialist, content manager, community manager, business developer, stage informatique, alternance informatique, junior developer, senior developer, lead developer, tech lead, engineering manager, cto, vp engineering, salaire compétitif, stock options, bspce, mutuelle, tickets restaurant, rtt, congés payés, formation, certification, conférence, budget matériel, macbook pro, équipement, bureau standing, team building, séminaire, afterwork, diversité, inclusion, égalité salariale, parentalité, congé parental, environnement bienveillant, culture tech, innovation, startup mindset, scale up, croissance rapide, opportunités évolution, mobilité interne, promotion, augmentation, prime, bonus, participation, intéressement, épargne salariale, pee, perco, retraite, prévoyance, téléconsultation, sport, salle de sport, yoga, méditation, bien-être, happiness manager, onboarding, parrainage, cooptation, bootcamp, école 42, epitech, epita, supinfo, université, grande école, autodidacte, reconversion, passion tech, projet open source, contribution, github, gitlab, stackoverflow, hackathon, meetup, conference speaker, tech talk, blog technique, veille technologique",
+      "og": {
+        "title": "Carrières VMCloud - Construisez le Cloud de Demain | Remote First",
+        "description": "30+ opportunités dans une scale-up cloud en forte croissance. Remote first, salaires attractifs, stock options, technologies de pointe. Rejoignez une équipe passionnée!",
+        "image": "/images/og/careers-fr.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/careers"
+    },
+    "support": {
+      "title": "Support VMCloud - Centre d'Aide FAQ Status | Assistance 24/7 France",
+      "description": "Support technique expert VMCloud disponible 24/7 ⚡ FAQ complète • Statut services temps réel • Chat live • Tickets prioritaires • Base connaissances • Tutoriels vidéo • Documentation API • Temps réponse <15min",
+      "keywords": "support vmcloud, aide vmcloud, assistance technique, support client, service client, help desk, centre aide, faq, questions fréquentes, documentation, tutoriels, guides, how to, base connaissances, knowledge base, tickets support, chat live, chat en ligne, assistance téléphonique, support téléphone, email support, support 24/7, support 24h/24, urgence, incident, panne, problème technique, dépannage, résolution, diagnostic, maintenance, status page, statut services, monitoring, uptime, disponibilité, incidents, maintenance planifiée, api status, network status, degradation performance, interruption service, temps réponse, sla, engagement service, priority support, support premium, support entreprise, support dédié, account manager, customer success manager, technical account manager, onboarding, migration, configuration, optimisation, best practices, recommandations, audit, consulting, formation, webinaire, workshop, certification, troubleshooting, debug, logs, monitoring, alerting, escalation, root cause analysis, post mortem, amélioration continue, feedback, satisfaction client, nps, enquête satisfaction, communauté, forum, discord, slack, telegram, twitter support, réseaux sociaux, blog support, changelog, release notes, roadmap, feature request, bug report, documentation api, référence api, sdk, libraries, exemples code, postman collection, swagger, openapi, graphql, rest api, webhooks, rate limiting, authentification, oauth, jwt, api keys, sécurité api, versioning, dépréciation, migration guide, breaking changes, compatibilité, intégration, plugins, modules, extensions, marketplace, partenaires, écosystème, développeurs, contributeurs, open source support, github issues, pull request, contribution guidelines, code of conduct",
+      "og": {
+        "title": "Support VMCloud 24/7 - Assistance Technique Expert France",
+        "description": "Support technique disponible 24/7. Temps de réponse <15min. Chat live, FAQ complète, statut en temps réel, base de connaissances. Votre succès est notre priorité.",
+        "image": "/images/og/support-fr.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/support"
     },
     "infrastructure": {
-      "title": "Infrastructure Cloud Premium - Datacenters France | VMCloud",
-      "description": "Infrastructure cloud de pointe. Datacenters Tier III+ en France, réseau 100Gbps, stockage 100% NVMe, processeurs AMD EPYC dernière génération. Redondance N+1, 99.99% SLA garanti.",
-      "keywords": "datacenter france, infrastructure cloud premium, tier 3 plus, réseau 100gbps, stockage nvme, amd epyc, redondance n+1, sla 99.99, haute disponibilité, sécurité iso 27001, conformité rgpd, green datacenter, infrastructure souveraine"
+      "title": "Infrastructure VMCloud - Datacenters France Tier 3+ | Réseau 100Gbps 2025",
+      "description": "Infrastructure cloud premium 🔥 3 datacenters Tier III+ France (Paris Lyon Marseille) • Réseau 100Gbps redondant • Stockage 100% NVMe • AMD EPYC dernière gen • Uptime 99.99% • Certifié ISO 27001 • Green IT",
+      "keywords": "infrastructure cloud, datacenter france, datacenter paris, datacenter lyon, datacenter marseille, tier 3 plus, tier iii+, tier 4, haute disponibilité, redondance n+1, redondance 2n, uptime 99.99%, sla garanti, réseau 100gbps, backbone, peering, ix france, ix paris, equinix, interxion, ovh, transit ip, bgp, anycast, multicast, ipv4, ipv6, vlan, vxlan, sdn, software defined network, nfv, spine leaf, mpls, vpls, dark fiber, wavelength, cross connect, meet me room, cage privée, rack 42u, pdu, alimentation redondante, groupe électrogène, onduleur, ups, batterie, refroidissement, free cooling, adiabatique, pue, dce, efficacité énergétique, green it, énergie renouvelable, neutralité carbone, iso 14001, stockage nvme, all flash, ssd entreprise, samsung pm1733, intel optane, pure storage, netapp, dell emc, hpe nimble, san, nas, object storage, ceph, minio, erasure coding, réplication, snapshot, backup, disaster recovery, rpo, rto, serveurs amd epyc, epyc 7003, milan, genoa, zen 3, zen 4, intel xeon, cascade lake, ice lake, sapphire rapids, gpu nvidia, tesla, quadro, rtx, datacenter gpu, cuda, tensor, ampere, hopper, dpus, bluefield, smartnic, fpga, asic, tpu, calcul quantique, edge computing, fog computing, micro datacenter, conteneurs, kubernetes, openshift, rancher, docker, podman, vmware vsphere, esxi, vcenter, vsan, nsx, openstack, proxmox, xcp-ng, citrix, nutanix, hyper-v, kvm, qemu, libvirt, bare metal, serveur dédié, colocation, housing, infogérance, managed services, monitoring 24/7, supervision, nagios, zabbix, prometheus, grafana, elk stack, splunk, siem, soc, noc, iso 27001, iso 27017, iso 27018, soc 1, soc 2, soc 3, pci dss, hipaa, hébergement santé, hds, rgpd, conformité, audit, pentest, bug bounty, sécurité physique, biométrie, badge, vidéosurveillance, détection intrusion, mantrap, cage faraday",
+      "og": {
+        "title": "Infrastructure Cloud Premium VMCloud - Datacenters Tier III+ France",
+        "description": "Infrastructure entreprise de pointe. 3 datacenters Tier III+ en France, réseau 100Gbps, stockage NVMe, processeurs dernière génération. Certifié ISO 27001, 99.99% uptime garanti.",
+        "image": "/images/og/infrastructure-fr.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/infrastructure"
+    },
+    "partners": {
+      "title": "Partenaires VMCloud - OVHcloud SEB AWS Microsoft | Écosystème Tech 2025",
+      "description": "Partenariats stratégiques VMCloud 🤝 OVHcloud infrastructure • SEB Banque financement • AWS hybrid cloud • Microsoft Azure • Nvidia GPU • AMD processeurs • Écosystème 50+ partenaires technologiques",
+      "keywords": "partenaires vmcloud, ovhcloud, seb banque, aws, microsoft azure, nvidia, amd, intel, google cloud, oracle cloud, ibm cloud, alibaba cloud, partenariat stratégique, alliance, écosystème, intégration, interopérabilité, multi cloud, hybrid cloud, cloud broker, marketplace, channel partners, revendeurs, intégrateurs, msps, managed service providers, vars, value added resellers, distributeurs, grossistes, programme partenaire, certification partenaire, formation partenaire, support partenaire, co marketing, co selling, lead sharing, revenus récurrents, commissions, marges, incentives, spiffs, mdf, market development funds, partner portal, partner program, silver partner, gold partner, platinum partner, strategic partner, technology partner, isv, independent software vendor, saas, paas, iaas, fintech partners, payment providers, stripe, paypal, adyen, mollie, carte bancaire, virement, prélèvement sepa, crypto paiement, bitcoin, ethereum, stablecoin, defi, web3, blockchain partners, ethereum, polygon, binance smart chain, solana, avalanche, chainlink, oracle blockchain, ipfs, filecoin, arweave, securité partners, cloudflare, akamai, fortinet, palo alto, checkpoint, f5, barracuda, trend micro, kaspersky, eset, backup partners, veeam, acronis, veritas, commvault, rubrik, cohesity, druva, monitoring partners, datadog, new relic, dynatrace, appdynamics, splunk, elastic, grafana labs, automation partners, ansible, terraform, puppet, chef, jenkins, gitlab, github, bitbucket, atlassian, communication partners, slack, microsoft teams, zoom, discord, twillio, sendgrid, mailgun, formation partners, udemy, coursera, pluralsight, linux academy, cloud guru, oreilly, certification partners, comptia, cisco, vmware, microsoft, aws, google, red hat, linux foundation, cncf, consulting partners, accenture, capgemini, atos, sopra steria, deloitte, pwc, ey, kpmg",
+      "og": {
+        "title": "Partenaires Stratégiques VMCloud - Écosystème Cloud Leader France",
+        "description": "Découvrez nos partenariats avec OVHcloud, SEB Banque et 50+ leaders technologiques. Ensemble, nous construisons l'infrastructure cloud de demain.",
+        "image": "/images/og/partners-fr.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/partners"
+    },
+    "legal": {
+      "title": "Mentions Légales VMCloud - CGU CGV RGPD | Documentation Juridique 2025",
+      "description": "Documentation légale complète VMCloud ⚖️ CGU CGV détaillées • Politique confidentialité RGPD • DPA • Cookies • SLA 99.99% • AUP • Propriété intellectuelle • Conformité européenne • Transparence totale",
+      "keywords": "mentions légales vmcloud, cgu, cgv, conditions générales utilisation, conditions générales vente, rgpd, gdpr, politique confidentialité, privacy policy, protection données, données personnelles, dpa, data processing agreement, sous traitance, cookies, traceurs, consentement, opt in, opt out, cnil, anssi, droit accès, droit rectification, droit effacement, droit opposition, droit portabilité, dpo, data protection officer, délégué protection données, sla, service level agreement, engagement service, compensation, crédits, aup, acceptable use policy, politique utilisation acceptable, propriété intellectuelle, copyright, marques, brevets, licences, open source, gpl, mit, apache, bsd, creative commons, contrat, commande, facturation, paiement, tva, taxes, résiliation, préavis, suspension, litige, médiation, arbitrage, juridiction, loi applicable, droit français, tribunal commerce, force majeure, responsabilité, limitation responsabilité, garanties, exclusions, indemnisation, assurance, confidentialité, non divulgation, nda, secret affaires, conformité, compliance, iso, sox, bâle, mifid, kyc, aml, lutte blanchiment, embargo, sanctions, export control, hébergeur, éditeur, loi confiance économie numérique, lcen, notification contenu illicite, signalement abus, dmca, copyright infringement, contrefaçon, modération, transparence, rapport transparence, demandes gouvernementales, requêtes judiciaires, interception, surveillance, chiffrement, e2ee, zero knowledge, souveraineté, localisation données, transfert international, cloud act, schrems, adequacy decision, bce, clauses contractuelles types, codes conduite, certification, labels, trust, confiance",
+      "og": {
+        "title": "Documentation Légale VMCloud - CGU CGV RGPD Conformité",
+        "description": "Toute la documentation juridique VMCloud. CGU, CGV, RGPD, DPA, Cookies, SLA. Transparence totale et conformité européenne garantie.",
+        "image": "/images/og/legal-fr.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/legal"
     }
   },
   "en": {
     "home": {
-      "title": "VMCloud - Premium Cloud Hosting VPS, GPU, Web | Enterprise Infrastructure",
-      "description": "VMCloud - Leading cloud infrastructure provider. High-performance VPS with NVMe SSD, GPU servers for AI/ML, optimized web hosting. 24/7 expert support, European datacenters, 99.99% uptime. 30-day free trial.",
-      "keywords": "cloud hosting europe, vps nvme ssd, gpu server hosting, cloud gpu ai ml, premium web hosting, virtual private server, cloud infrastructure provider, european datacenter, high performance vps, tesla a100 gpu, optimized wordpress hosting, cloud computing europe, virtual dedicated server, iaas provider, paas platform, enterprise hosting, linux windows vps, cloud storage europe, cdn global, load balancer",
+      "title": "VMCloud - Premium Cloud Hosting VPS GPU Web | Enterprise Infrastructure 2025",
+      "description": "VMCloud #1 cloud infrastructure Europe ⚡ High-performance NVMe SSD VPS from €4.99 • Tesla A100/RTX 4090 GPU servers for AI/ML • Managed WordPress/PrestaShop hosting • Paris/Lyon datacenters • 24/7 expert support • 99.99% uptime • 30-day free trial",
+      "keywords": "cloud hosting europe, vps nvme ssd, gpu server hosting, cloud gpu ai ml, premium web hosting, virtual private server, cloud infrastructure provider, european datacenter, high performance vps, tesla a100 gpu, optimized wordpress hosting, cloud computing europe, virtual dedicated server, iaas provider, paas platform, enterprise hosting, linux windows vps, cloud storage europe, cdn global, load balancer, cheap vps, cloud server, shared hosting, dedicated hosting, private cloud, public cloud, hybrid cloud, minecraft server, game server, prestashop hosting, magento hosting, drupal hosting, joomla hosting, mail server, cloud backup, disaster recovery, high availability, scalability, kubernetes hosting, docker hosting, container cloud, microservices, serverless, edge computing, gpu rtx 4090, gpu rtx 3090, machine learning cloud, deep learning, artificial intelligence, tensorflow hosting, pytorch hosting, jupyter notebook, data science cloud, big data, apache spark, hadoop cluster, elasticsearch hosting, mongodb hosting, postgresql hosting, mysql hosting, redis hosting, nodejs hosting, python hosting, php hosting, ruby hosting, java hosting, .net hosting, gitlab hosting, jenkins hosting, ci/cd pipeline, devops cloud, cloud monitoring, logs management, siem cloud, waf protection, ddos protection, cloud firewall, cloud vpn, virtual private network, datacenter interconnect, peering, ip transit, bgp, ipv6, ssl certificate, let's encrypt, e-commerce hosting, enterprise hosting, sme hosting, startup hosting, cloud migration, cloud consulting, managed services, managed hosting, sovereign hosting, gdpr compliant, iso 27001, soc 2, pci dss, hipaa, tier 3, tier 4, green it, eco friendly, carbon neutral, renewable energy, liquid cooling, optimized pue, openstack, vmware, proxmox, xen, kvm, virtualization, bare metal, physical server, colocation, housing, dedicated rack, private cage, meet me room, cross connect, 10gbps, 40gbps, 100gbps, dark fiber, wavelength, mpls, sd-wan, sase, zero trust, sovereign cloud, aws alternative, azure alternative, google cloud alternative, ovh alternative, scaleway alternative, digitalocean alternative, linode alternative, vultr alternative, hetzner alternative, symfony hosting, laravel hosting, angular hosting, react hosting, vue.js hosting, api hosting, rest api, graphql, websocket, real-time, streaming, vod hosting, live streaming, transcoding, blockchain hosting, ethereum node, bitcoin node, web3 hosting, nft storage, ipfs hosting, metaverse hosting, virtual reality, augmented reality, iot hosting, edge devices, 5g edge, smart city, industry 4.0, medical hosting, banking hosting, government hosting, education hosting, research hosting, hpc cloud, high performance computing, simulation, modeling, render farm, creative hosting, agency hosting, media hosting, streaming hosting, podcast hosting, radio hosting, tv hosting",
       "og": {
-        "title": "VMCloud - Next-Gen Cloud Infrastructure | VPS, GPU, Web Hosting",
-        "description": "Enterprise-grade cloud infrastructure. Ultra-fast VPS, GPU for AI, managed web hosting. 24/7 expert support. 30-day free trial.",
+        "title": "VMCloud - Premium Cloud Infrastructure Europe 🚀 VPS GPU Web | Leader 2025",
+        "description": "Next-generation cloud infrastructure. Ultra-fast NVMe VPS from €4.99/month, Tesla/RTX GPU for AI, expert managed web hosting. European datacenters, 24/7 support. 30-day free trial. European alternative to AWS/Azure.",
         "image": "/images/og/home-en.jpg",
         "type": "website",
-        "site_name": "VMCloud"
+        "site_name": "VMCloud",
+        "locale": "en_US"
       },
       "twitter": {
         "card": "summary_large_image",
-        "title": "VMCloud - Premium Cloud Hosting | VPS from €4.99",
-        "description": "High-performance cloud infrastructure. NVMe VPS, Tesla GPU, Web hosting. European datacenters, 24/7 support 🚀",
-        "image": "/images/twitter/home-en.jpg"
-      },
-      "jsonLd": {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "VMCloud",
-        "url": "https://vmcl.fr/en",
-        "logo": "https://vmcl.fr/logo.png",
-        "description": "Leading European cloud infrastructure provider",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "FR",
-          "addressRegion": "Île-de-France",
-          "addressLocality": "Paris"
-        },
-        "sameAs": [
-          "https://twitter.com/vmcloud",
-          "https://linkedin.com/company/vmcloud",
-          "https://github.com/vmcloud"
-        ],
-        "offers": {
-          "@type": "AggregateOffer",
-          "priceCurrency": "EUR",
-          "lowPrice": "4.99",
-          "highPrice": "999.99",
-          "offerCount": "50+",
-          "offers": [
-            {
-              "@type": "Offer",
-              "name": "VPS Starter",
-              "price": "4.99",
-              "priceCurrency": "EUR",
-              "priceValidUntil": "2025-12-31",
-              "availability": "https://schema.org/InStock"
-            }
-          ]
-        }
+        "title": "VMCloud - Premium Cloud Europe 🇪🇺 VPS €4.99 GPU AI Web",
+        "description": "High-performance cloud infrastructure. NVMe VPS ⚡ Tesla A100 GPU 🤖 Managed web hosting 🌐 European datacenters 🔒 Expert support 24/7 📞 30-day free trial ✅",
+        "image": "/images/twitter/home-en.jpg",
+        "creator": "@vmcloud",
+        "site": "@vmcloud"
       },
       "canonical": "https://vmcl.fr/en",
       "alternates": [
         { "lang": "en", "url": "https://vmcl.fr/en" },
-        { "lang": "fr", "url": "https://vmcl.fr/fr" }
-      ]
+        { "lang": "fr", "url": "https://vmcl.fr/fr" },
+        { "lang": "x-default", "url": "https://vmcl.fr" }
+      ],
+      "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      "googlebot": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     },
     "products": {
-      "title": "All Cloud Products - VPS, GPU, Web, Storage | VMCloud",
-      "description": "Explore our complete range of cloud solutions. High-performance VPS from €4.99, GPU servers for AI/ML, managed web hosting, S3-compatible object storage, global CDN. European infrastructure.",
-      "keywords": "cloud products europe, vps catalog, gpu servers ai, professional web hosting, enterprise cloud solutions, iaas infrastructure, paas platform, s3 compatible storage, global cdn, load balancing, nvme ssd vps, tesla rtx a100 gpu, wordpress woocommerce hosting, linux windows virtual server, cloud native europe"
+      "title": "VMCloud Cloud Products - VPS GPU Web Storage CDN | Complete Catalog 2025",
+      "description": "Complete catalog of professional cloud solutions ⚡ Linux/Windows VPS from €4.99 • Tesla A100 RTX 4090 GPU • WordPress/PrestaShop hosting • S3 Storage • Global CDN • Load Balancer • PaaS • Gaming • 100% European infrastructure",
+      "keywords": "cloud products europe, vps catalog, gpu servers ai, professional web hosting, enterprise cloud solutions, iaas infrastructure, paas platform, s3 compatible storage, global cdn, load balancing, nvme ssd vps, tesla rtx a100 gpu, wordpress woocommerce hosting, linux windows virtual server, cloud native europe, debian vps, ubuntu vps, centos vps, rocky linux vps, almalinux vps, fedora vps, windows server 2022 vps, windows server 2019 vps, cpanel vps, plesk vps, directadmin vps, cyberpanel vps, docker vps, kubernetes vps, gpu cloud computing, gpu deep learning, gpu machine learning, gpu rendering, gpu transcoding, no gpu mining, tesla t4, tesla v100, tesla a100, tesla h100, rtx 3080, rtx 3090, rtx 4080, rtx 4090, rtx 4090 ti, cuda cores, tensor cores, vram, gpu memory, multi gpu, gpu cluster, cpanel web hosting, plesk web hosting, directadmin web hosting, managed wordpress hosting, woocommerce hosting, prestashop hosting, magento hosting, drupal hosting, joomla hosting, laravel hosting, symfony hosting, nodejs hosting, python hosting, ruby hosting, go hosting, rust hosting, java hosting, php hosting, asp.net hosting, staging environment, git deployment, auto backup, free ssl, email hosting, webmail, imap, smtp, pop3, dkim, spf, dmarc, antispam, antivirus, s3 object storage, block storage, file storage, snapshot, backup storage, archive storage, cold storage, hot storage, storage gateway, storage replication, storage encryption, cdn streaming, cdn static, cdn dynamic, edge locations, cache control, instant purge, http3, quic, brotli compression, image optimization, video optimization, websocket cdn, cdn ddos protection, cdn waf, bot protection, rate limiting, geo blocking, ip whitelisting, layer 4 load balancer, layer 7 load balancer, health check, session persistence, ssl termination, http2, grpc, websocket support, auto scaling, horizontal scaling, vertical scaling, docker paas, kubernetes paas, openshift paas, cloud foundry paas, heroku like paas, buildpack, git push deploy, ci/cd integration, blue green deployment, canary deployment, rolling update, gaming cloud, game server hosting, minecraft server, cs:go server, rust server, ark server, valheim server, palworld server, gmod server, tf2 server, factorio server, terraria server, 7 days to die, satisfactory server, game panel, pterodactyl panel, tcadmin, mod support, plugin support, ftp access, rcon, query port, anti ddos gaming, low ping, tick rate, dedicated gaming ip",
+      "og": {
+        "title": "VMCloud Cloud Products Catalog 2025 | VPS GPU Web CDN Storage Europe",
+        "description": "Explore our 50+ cloud solutions. High-performance VPS, GPU for AI/ML, expert web hosting, S3 object storage, global CDN. 100% European infrastructure, 24/7 support.",
+        "image": "/images/og/products-en.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/en/products"
     },
-    "pricing": {
-      "title": "Transparent Cloud Pricing - No Lock-in | VMCloud",
-      "description": "Simple and transparent pricing. VPS from €4.99/month, GPU from €0.90/hour, Web hosting from €2.99. No hidden fees, no commitment. Hourly, monthly or annual billing. 20% off annual plans.",
-      "keywords": "cloud pricing europe, cheap vps prices, gpu cloud pricing, web hosting cost, flexible cloud billing, virtual server pricing, cloud infrastructure cost, competitive rates, no commitment, hourly billing, annual discount, free trial, custom quote"
+    "about": {
+      "title": "About VMCloud - Leading Cloud Provider Europe | History Mission Team 2025",
+      "description": "Discover VMCloud, European cloud leader since 2020 🚀 4 years expertise • 10000+ customers • 3 European datacenters • 50+ expert team • AI/ML innovation • Environmental commitment • Digital sovereignty",
+      "keywords": "vmcloud history, cloud company europe, vmcloud team, vmcloud mission, vmcloud values, company culture, cloud innovation, cloud r&d, cloud expertise, european cloud leader, cloud provider, european hosting, digital sovereignty, sovereign cloud, american alternative, digital independence, data europe, gdpr, compliance, certifications, iso 27001, soc 2, pci dss, trusted hosting, secure cloud, anssi qualified, european company, tech company, cloud startup, scale up, growth, investment, funding round, partners, ecosystem, community, open source, contribution, sustainable development, green it, carbon neutral, green energy, social responsibility, csr, environmental commitment, circular economy, ecological datacenter, natural cooling, pue, energy efficiency, technical team, cloud engineers, devops, sre, cloud architects, customer support, customer success, customer satisfaction, nps, testimonials, case studies, success stories, references, enterprise accounts, smes, startups, digital transformation, support, consulting, training, certification, technical blog, documentation, tutorials, webinars, events, conferences, meetups, sponsoring, patronage, jobs, careers, recruitment, internship, apprenticeship, remote work, remote first, diversity, inclusion, equality, wellbeing, work life balance, benefits, paris office, lyon office, marseille office, expansion, international, europe, roadmap, vision, future, innovation lab, research, patents, publications, university partnerships, incubator, accelerator, mentoring, advisory board, governance, transparency, ethics",
+      "og": {
+        "title": "About VMCloud - The Story of Europe's Leading Cloud Provider",
+        "description": "4 years of cloud innovation in Europe. 10000+ customers trust us. Discover our mission, values and team of 50+ passionate experts.",
+        "image": "/images/og/about-en.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/en/about"
+    },
+    "careers": {
+      "title": "VMCloud Careers - Tech Cloud Recruitment Europe | Remote First 2025",
+      "description": "Join VMCloud, hypergrowth cloud company 🚀 30+ open positions • Remote first • Attractive salaries • Stock options • Continuous training • International team • Cutting-edge technologies • Direct impact",
+      "keywords": "vmcloud careers, cloud jobs europe, tech recruitment, cloud job, job offers, remote first, remote work, work from home, digital nomad, flexible, flexible hours, work life balance, cloud developer, devops engineer, sre, cloud architect, backend developer, frontend developer, fullstack developer, data engineer, data scientist, ml engineer, ai engineer, security engineer, network engineer, system administrator, kubernetes expert, docker expert, golang developer, python developer, javascript developer, typescript developer, rust developer, java developer, c++ developer, product manager, product owner, scrum master, agile coach, ux designer, ui designer, technical writer, developer advocate, sales engineer, account manager, customer success, support engineer, finance, accounting, human resources, marketing, growth hacker, seo specialist, content manager, community manager, business developer, computer science internship, it apprenticeship, junior developer, senior developer, lead developer, tech lead, engineering manager, cto, vp engineering, competitive salary, stock options, equity, health insurance, meal vouchers, paid time off, training, certification, conference, equipment budget, macbook pro, equipment, premium office, team building, seminar, afterwork, diversity, inclusion, equal pay, parenting, parental leave, caring environment, tech culture, innovation, startup mindset, scale up, rapid growth, career opportunities, internal mobility, promotion, raise, bonus, profit sharing, employee savings, retirement, insurance, telemedicine, sports, gym, yoga, meditation, wellbeing, happiness manager, onboarding, referral, employee referral, bootcamp, school 42, epitech, epita, supinfo, university, engineering school, self-taught, career change, tech passion, open source project, contribution, github, gitlab, stackoverflow, hackathon, meetup, conference speaker, tech talk, technical blog, technology watch",
+      "og": {
+        "title": "VMCloud Careers - Build Tomorrow's Cloud | Remote First",
+        "description": "30+ opportunities in a fast-growing cloud scale-up. Remote first, attractive salaries, stock options, cutting-edge technologies. Join a passionate team!",
+        "image": "/images/og/careers-en.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/en/careers"
+    },
+    "support": {
+      "title": "VMCloud Support - Help Center FAQ Status | 24/7 Assistance Europe",
+      "description": "VMCloud expert technical support available 24/7 ⚡ Complete FAQ • Real-time service status • Live chat • Priority tickets • Knowledge base • Video tutorials • API documentation • Response time <15min",
+      "keywords": "vmcloud support, vmcloud help, technical assistance, customer support, customer service, help desk, help center, faq, frequently asked questions, documentation, tutorials, guides, how to, knowledge base, support tickets, live chat, online chat, phone assistance, phone support, email support, 24/7 support, 24 hours support, emergency, incident, outage, technical problem, troubleshooting, resolution, diagnostic, maintenance, status page, service status, monitoring, uptime, availability, incidents, planned maintenance, api status, network status, performance degradation, service interruption, response time, sla, service commitment, priority support, premium support, enterprise support, dedicated support, account manager, customer success manager, technical account manager, onboarding, migration, configuration, optimization, best practices, recommendations, audit, consulting, training, webinar, workshop, certification, debug, logs, monitoring, alerting, escalation, root cause analysis, post mortem, continuous improvement, feedback, customer satisfaction, nps, satisfaction survey, community, forum, discord, slack, telegram, twitter support, social media, support blog, changelog, release notes, roadmap, feature request, bug report, api documentation, api reference, sdk, libraries, code examples, postman collection, swagger, openapi, graphql, rest api, webhooks, rate limiting, authentication, oauth, jwt, api keys, api security, versioning, deprecation, migration guide, breaking changes, compatibility, integration, plugins, modules, extensions, marketplace, partners, ecosystem, developers, contributors, open source support, github issues, pull request, contribution guidelines, code of conduct",
+      "og": {
+        "title": "VMCloud Support 24/7 - Expert Technical Assistance Europe",
+        "description": "Technical support available 24/7. Response time <15min. Live chat, complete FAQ, real-time status, knowledge base. Your success is our priority.",
+        "image": "/images/og/support-en.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/en/support"
     },
     "infrastructure": {
-      "title": "Premium Cloud Infrastructure - European Datacenters | VMCloud",
-      "description": "State-of-the-art cloud infrastructure. Tier III+ datacenters in Europe, 100Gbps network, 100% NVMe storage, latest AMD EPYC processors. N+1 redundancy, 99.99% guaranteed SLA.",
-      "keywords": "european datacenter, premium cloud infrastructure, tier 3 plus, 100gbps network, nvme storage, amd epyc, n+1 redundancy, 99.99 sla, high availability, iso 27001 security, gdpr compliance, green datacenter, sovereign infrastructure"
+      "title": "VMCloud Infrastructure - European Datacenters Tier 3+ | 100Gbps Network 2025",
+      "description": "Premium cloud infrastructure 🔥 3 Tier III+ datacenters Europe (Paris Lyon Marseille) • Redundant 100Gbps network • 100% NVMe storage • Latest gen AMD EPYC • 99.99% uptime • ISO 27001 certified • Green IT",
+      "keywords": "cloud infrastructure, european datacenter, paris datacenter, lyon datacenter, marseille datacenter, tier 3 plus, tier iii+, tier 4, high availability, n+1 redundancy, 2n redundancy, 99.99% uptime, guaranteed sla, 100gbps network, backbone, peering, france ix, paris ix, equinix, interxion, ovh, ip transit, bgp, anycast, multicast, ipv4, ipv6, vlan, vxlan, sdn, software defined network, nfv, spine leaf, mpls, vpls, dark fiber, wavelength, cross connect, meet me room, private cage, 42u rack, pdu, redundant power, generator, ups, battery, cooling, free cooling, adiabatic, pue, dce, energy efficiency, green it, renewable energy, carbon neutral, iso 14001, nvme storage, all flash, enterprise ssd, samsung pm1733, intel optane, pure storage, netapp, dell emc, hpe nimble, san, nas, object storage, ceph, minio, erasure coding, replication, snapshot, backup, disaster recovery, rpo, rto, amd epyc servers, epyc 7003, milan, genoa, zen 3, zen 4, intel xeon, cascade lake, ice lake, sapphire rapids, nvidia gpu, tesla, quadro, rtx, datacenter gpu, cuda, tensor, ampere, hopper, dpus, bluefield, smartnic, fpga, asic, tpu, quantum computing, edge computing, fog computing, micro datacenter, containers, kubernetes, openshift, rancher, docker, podman, vmware vsphere, esxi, vcenter, vsan, nsx, openstack, proxmox, xcp-ng, citrix, nutanix, hyper-v, kvm, qemu, libvirt, bare metal, dedicated server, colocation, housing, managed services, 24/7 monitoring, supervision, nagios, zabbix, prometheus, grafana, elk stack, splunk, siem, soc, noc, iso 27001, iso 27017, iso 27018, soc 1, soc 2, soc 3, pci dss, hipaa, health hosting, hds, gdpr, compliance, audit, pentest, bug bounty, physical security, biometrics, badge, video surveillance, intrusion detection, mantrap, faraday cage",
+      "og": {
+        "title": "VMCloud Premium Cloud Infrastructure - Tier III+ European Datacenters",
+        "description": "State-of-the-art enterprise infrastructure. 3 Tier III+ datacenters in Europe, 100Gbps network, NVMe storage, latest generation processors. ISO 27001 certified, 99.99% guaranteed uptime.",
+        "image": "/images/og/infrastructure-en.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/en/infrastructure"
+    },
+    "partners": {
+      "title": "VMCloud Partners - OVHcloud SEB AWS Microsoft | Tech Ecosystem 2025",
+      "description": "VMCloud strategic partnerships 🤝 OVHcloud infrastructure • SEB Bank financing • AWS hybrid cloud • Microsoft Azure • Nvidia GPU • AMD processors • 50+ technology partners ecosystem",
+      "keywords": "vmcloud partners, ovhcloud, seb bank, aws, microsoft azure, nvidia, amd, intel, google cloud, oracle cloud, ibm cloud, alibaba cloud, strategic partnership, alliance, ecosystem, integration, interoperability, multi cloud, hybrid cloud, cloud broker, marketplace, channel partners, resellers, integrators, msps, managed service providers, vars, value added resellers, distributors, wholesalers, partner program, partner certification, partner training, partner support, co marketing, co selling, lead sharing, recurring revenue, commissions, margins, incentives, spiffs, mdf, market development funds, partner portal, silver partner, gold partner, platinum partner, strategic partner, technology partner, isv, independent software vendor, saas, paas, iaas, fintech partners, payment providers, stripe, paypal, adyen, mollie, credit card, bank transfer, sepa direct debit, crypto payment, bitcoin, ethereum, stablecoin, defi, web3, blockchain partners, ethereum, polygon, binance smart chain, solana, avalanche, chainlink, oracle blockchain, ipfs, filecoin, arweave, security partners, cloudflare, akamai, fortinet, palo alto, checkpoint, f5, barracuda, trend micro, kaspersky, eset, backup partners, veeam, acronis, veritas, commvault, rubrik, cohesity, druva, monitoring partners, datadog, new relic, dynatrace, appdynamics, splunk, elastic, grafana labs, automation partners, ansible, terraform, puppet, chef, jenkins, gitlab, github, bitbucket, atlassian, communication partners, slack, microsoft teams, zoom, discord, twilio, sendgrid, mailgun, training partners, udemy, coursera, pluralsight, linux academy, cloud guru, oreilly, certification partners, comptia, cisco, vmware, microsoft, aws, google, red hat, linux foundation, cncf, consulting partners, accenture, capgemini, atos, sopra steria, deloitte, pwc, ey, kpmg",
+      "og": {
+        "title": "VMCloud Strategic Partners - Leading Cloud Ecosystem Europe",
+        "description": "Discover our partnerships with OVHcloud, SEB Bank and 50+ technology leaders. Together, we're building tomorrow's cloud infrastructure.",
+        "image": "/images/og/partners-en.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/en/partners"
+    },
+    "legal": {
+      "title": "VMCloud Legal - Terms Conditions GDPR | Legal Documentation 2025",
+      "description": "Complete VMCloud legal documentation ⚖️ Detailed Terms & Conditions • GDPR privacy policy • DPA • Cookies • 99.99% SLA • AUP • Intellectual property • European compliance • Full transparency",
+      "keywords": "vmcloud legal, terms of service, terms and conditions, general terms, terms of use, terms of sale, gdpr, privacy policy, data protection, personal data, dpa, data processing agreement, subprocessing, cookies, trackers, consent, opt in, opt out, cnil, data protection authority, right of access, right to rectification, right to erasure, right to object, right to portability, dpo, data protection officer, sla, service level agreement, service commitment, compensation, credits, aup, acceptable use policy, intellectual property, copyright, trademarks, patents, licenses, open source, gpl, mit, apache, bsd, creative commons, contract, order, billing, payment, vat, taxes, termination, notice, suspension, dispute, mediation, arbitration, jurisdiction, applicable law, commercial court, force majeure, liability, limitation of liability, warranties, exclusions, indemnification, insurance, confidentiality, non-disclosure, nda, trade secrets, compliance, iso, sox, basel, mifid, kyc, aml, anti money laundering, embargo, sanctions, export control, hosting provider, publisher, electronic commerce law, illegal content notification, abuse report, dmca, copyright infringement, counterfeiting, moderation, transparency, transparency report, government requests, judicial requests, interception, surveillance, encryption, e2ee, zero knowledge, sovereignty, data location, international transfer, cloud act, schrems, adequacy decision, standard contractual clauses, codes of conduct, certification, labels, trust",
+      "og": {
+        "title": "VMCloud Legal Documentation - Terms Conditions GDPR Compliance",
+        "description": "Complete VMCloud legal documentation. Terms of Service, Privacy Policy, GDPR, DPA, Cookies, SLA. Full transparency and guaranteed European compliance.",
+        "image": "/images/og/legal-en.jpg",
+        "type": "website"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/en/legal"
     }
   }
 }

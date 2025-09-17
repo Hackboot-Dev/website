@@ -10,7 +10,7 @@ import SophisticatedBackground from '../../../components/animations/Sophisticate
 import {
   Building2, Users, TrendingUp, Award, Globe, Shield, Zap, Clock,
   ArrowRight, Sparkles, Target,
-  Rocket
+  Rocket, Code, Cpu
 } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';

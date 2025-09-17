@@ -3,9 +3,9 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import HeroSection from '../../components/sections/HeroSection';
-import FeaturesSection from '../../components/sections/FeaturesSection';
-import PricingSection from '../../components/sections/PricingSection';
-import TrustSection from '../../components/sections/TrustSection';
+import ProductCategoriesSection from '../../components/sections/ProductCategoriesSection';
+import InfrastructureSection from '../../components/sections/InfrastructureSection';
+import PartnersSection from '../../components/sections/PartnersSection';
 import CTASection from '../../components/sections/CTASection';
 import SophisticatedBackground from '../../components/animations/SophisticatedBackground';
 import seoConfig from '../../data/seo-config.json';
@@ -228,9 +228,9 @@ export default function HomePage() {
       <Header />
       <main>
         <HeroSection />
-        <FeaturesSection />
-        <PricingSection />
-        <TrustSection />
+        <ProductCategoriesSection />
+        <InfrastructureSection />
+        <PartnersSection />
         <CTASection />
       </main>
       <Footer />
