@@ -114,8 +114,8 @@ export default function HeroSection() {
                       transition: 'opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                   >
-                    <span className="text-xs text-zinc-500 tracking-wide sm:tracking-wider group-hover:text-zinc-400 transition-colors">{t('hero.metrics.uptime')}</span>
-                    <span className="text-xl sm:text-2xl font-light text-white group-hover:text-emerald-400 transition-colors duration-300">99.99%</span>
+                    <span className="text-xs text-zinc-500 tracking-wide sm:tracking-wider group-hover:text-zinc-400 transition-colors">{t('hero.metrics.datacenters') || 'Datacenters'}</span>
+                    <span className="text-xl sm:text-2xl font-light text-white group-hover:text-emerald-400 transition-colors duration-300">3 EU</span>
                   </div>
                   
                   <div 

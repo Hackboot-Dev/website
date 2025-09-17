@@ -182,6 +182,21 @@ export default function LocaleLayout({ children, params }: Props) {
             },
           })}
         </Script>
+
+        {/* Google Analytics */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-67JWW4SMZ2"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-67JWW4SMZ2');
+          `}
+        </Script>
+
         <PageReadiness />
         <LanguageProvider initialLanguage={locale}>
           {children}
