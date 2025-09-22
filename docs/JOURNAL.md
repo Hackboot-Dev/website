@@ -48,6 +48,17 @@ ERREURS: Aucune
 PROCHAINE ÉTAPE: N/A
 ---
 
+[2025-01-26 - 17:35]
+SESSION: Suppression de Clash Royale des données produits et filtres
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/data/products/base.json [modifié - suppression de 3 produits]
+- /apps/web/app/[locale]/products/page.tsx [modifié - suppression du filtre]
+DÉTAILS: Suppression complète des 3 produits Clash Royale (Supreme, Dominator, Godmode) du fichier base.json. Suppression de 'clash-royale' du type GameFilter et des filtres de jeu sur la page produits, à la fois sur mobile et desktop.
+ERREURS: Aucune
+PROCHAINE ÉTAPE: N/A
+---
+
 [2025-09-17 - 20:26]
 SESSION: Correction de l'erreur ReferenceError pour les icônes manquantes dans AboutPageClient
 STATUT: ✅ Réussi

@@ -19,7 +19,7 @@ import Button from '../../../components/ui/Button';
 import { getCategoryIcon, ArrowRightIcon, CPUIcon, RAMIcon, StorageIcon, NetworkIcon, ChevronDownIcon, CheckIcon } from '../../../components/ui/Icons';
 
 type Category = 'all' | 'vps' | 'gpu' | 'webhosting' | 'paas' | 'loadbalancer' | 'storage' | 'cdn' | 'gaming';
-type GameFilter = 'all' | 'clash-royale' | 'overwatch-2' | 'warzone' | 'valorant';
+type GameFilter = 'all' | 'overwatch-2' | 'warzone' | 'valorant';
 type PricingMode = 'monthly' | 'annual' | 'hourly';
 
 export default function ProductsPage() {
@@ -166,7 +166,6 @@ export default function ProductsPage() {
     // Filter by game if gaming category is selected and a specific game is chosen
     if (selectedCategory === 'gaming' && selectedGame !== 'all') {
       const gameMap: { [key: string]: string } = {
-        'clash-royale': 'Clash Royale',
         'overwatch-2': 'Overwatch 2',
         'warzone': 'Call of Duty: Warzone',
         'valorant': 'Valorant'
@@ -190,10 +189,10 @@ export default function ProductsPage() {
       
       // Pour les jeux gaming, trier par jeu puis par prix
       if (a.category === 'gaming' && b.category === 'gaming') {
-        const gameOrder = ['Clash Royale', 'Overwatch 2', 'Call of Duty: Warzone', 'Valorant'];
+        const gameOrder = ['Overwatch 2', 'Call of Duty: Warzone', 'Valorant'];
         const gameA = gameOrder.indexOf(a.game);
         const gameB = gameOrder.indexOf(b.game);
-        
+
         if (gameA !== gameB) {
           return gameA - gameB;
         }
@@ -464,7 +463,6 @@ export default function ProductsPage() {
                     <span className="text-xs text-zinc-500 whitespace-nowrap mr-2">{tt('products.gaming.filterByGame', 'Jeu:', 'Game:')}</span>
                     {[
                       { key: 'all' as GameFilter, name: tt('products.gaming.allGames', 'Tous', 'All') },
-                      { key: 'clash-royale' as GameFilter, name: 'Clash Royale' },
                       { key: 'overwatch-2' as GameFilter, name: 'Overwatch' },
                       { key: 'warzone' as GameFilter, name: 'Warzone' },
                       { key: 'valorant' as GameFilter, name: 'Valorant' }
@@ -508,7 +506,6 @@ export default function ProductsPage() {
                         <div className="space-y-1">
                           {[
                             { key: 'all' as GameFilter, name: tt('products.gaming.allGames', 'Tous les jeux', 'All games'), count: productsData.gaming ? productsData.gaming.length : 0 },
-                            { key: 'clash-royale' as GameFilter, name: 'Clash Royale', count: productsData.gaming ? productsData.gaming.filter((p: any) => p.game === 'Clash Royale').length : 0 },
                             { key: 'overwatch-2' as GameFilter, name: 'Overwatch 2', count: productsData.gaming ? productsData.gaming.filter((p: any) => p.game === 'Overwatch 2').length : 0 },
                             { key: 'warzone' as GameFilter, name: 'Call of Duty: Warzone', count: productsData.gaming ? productsData.gaming.filter((p: any) => p.game === 'Call of Duty: Warzone').length : 0 },
                             { key: 'valorant' as GameFilter, name: 'Valorant', count: productsData.gaming ? productsData.gaming.filter((p: any) => p.game === 'Valorant').length : 0 }
