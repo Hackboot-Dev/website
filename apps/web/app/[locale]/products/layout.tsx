@@ -19,6 +19,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         ? 'VMCloud Products – Sovereign Cloud Building Blocks'
         : 'Produits VMCloud – Briques du Cloud Souverain',
       description: isEN
+        ? 'Explore sovereign-grade cloud services: NVMe VPS with AMD EPYC from €29/month, NVIDIA GPU clusters for AI from €199/month, managed web hosting, object storage, CDN and edge services.'
+        : 'Découvrez des services cloud souverains : VPS NVMe AMD EPYC dès 29€/mois, clusters GPU NVIDIA pour IA dès 199€/mois, hébergement web managé, stockage objet, CDN et edge.',
       type: 'website',
       locale: isEN ? 'en_US' : 'fr_FR',
       url: `https://vmcl.fr/${locale}/products`,

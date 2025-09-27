@@ -19,6 +19,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         ? 'VMCloud Support – Engineers On Call 24/7'
         : 'Support VMCloud – Ingénieurs disponibles 24/7',
       description: isEN
+        ? 'Reach VMCloud engineers 24/7 via chat, ticket or phone. <15 minute median response, bilingual NOC, proactive monitoring and SLA-backed incident handling.'
+        : 'Contactez les ingénieurs VMCloud 24/7 par chat, ticket ou téléphone. Réponse médiane < 15 minutes, NOC bilingue, supervision proactive et gestion d\'incident sous SLA.',
       type: 'website',
       locale: isEN ? 'en_US' : 'fr_FR',
       url: `https://vmcl.fr/${locale}/support`,

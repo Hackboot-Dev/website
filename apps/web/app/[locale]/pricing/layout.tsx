@@ -19,6 +19,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         ? 'VMCloud Pricing – Transparent Sovereign Cloud Plans'
         : 'Tarifs VMCloud – Offres Cloud Souverain Transparentes',
       description: isEN
+        ? 'Build your sovereign cloud plan with transparent pricing: NVMe VPS on AMD EPYC from €29/month, GPU RTX/A100 nodes from €199/month, managed hosting from €12.90, hourly or annual billing with up to 25% savings.'
+        : 'Composez votre cloud souverain avec une tarification transparente : VPS NVMe AMD EPYC dès 29€/mois, nœuds GPU RTX/A100 dès 199€/mois, hébergement managé dès 12,90€, facturation horaire ou annuelle jusqu\'à -25%.',
       type: 'website',
       locale: isEN ? 'en_US' : 'fr_FR',
       url: `https://vmcl.fr/${locale}/pricing`,
