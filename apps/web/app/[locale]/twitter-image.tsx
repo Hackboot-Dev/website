@@ -40,18 +40,27 @@ export default async function Image({ params }: { params: { locale: string } }) 
         />
         
         {/* Logo */}
-        <div
-          style={{
-            fontSize: 28,
-            fontWeight: 300,
-            letterSpacing: '0.2em',
-            color: '#3b82f6',
-            marginBottom: 20,
-            textTransform: 'uppercase',
-          }}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+          style={{ width: 110, height: 110, marginBottom: 24 }}
         >
-          VMCloud
-        </div>
+          <defs>
+            <linearGradient id="logoGradientTwitter" x1="8" y1="16" x2="24" y2="16" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#3b82f6" />
+              <stop offset="1" stopColor="#8b5cf6" />
+            </linearGradient>
+          </defs>
+          <rect width="32" height="32" rx="6" fill="#0a0a0a" />
+          <path
+            d="M8 12L12 20L16 10L20 20L24 12"
+            stroke="url(#logoGradientTwitter)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="16" cy="16" r="1.5" fill="url(#logoGradientTwitter)" />
+        </svg>
 
         {/* Main message */}
         <div
@@ -66,8 +75,8 @@ export default async function Image({ params }: { params: { locale: string } }) 
           }}
         >
           {isEN 
-            ? '⚡ Lightning-Fast Cloud Infrastructure'
-            : '⚡ Infrastructure Cloud Ultra-Rapide'}
+            ? '⚡ Sovereign Cloud. Lightning Fast.'
+            : '⚡ Cloud souverain. Ultra-rapide.'}
         </div>
 
         {/* Key points */}
@@ -80,7 +89,7 @@ export default async function Image({ params }: { params: { locale: string } }) 
             lineHeight: 1.5,
           }}
         >
-          {isEN ? 'VPS from €4.99' : 'VPS dès 4.99€'} • GPU {isEN ? 'Servers' : 'Serveurs'} • Web Hosting
+          {isEN ? 'VPS from €29' : 'VPS dès 29€'} • GPU {isEN ? 'Clusters' : 'Clusters GPU'} • {isEN ? 'Managed Hosting' : 'Hébergement managé'}
           <br />
           {isEN ? 'European Datacenters' : 'Datacenters Européens'} • 99.99% SLA
         </div>
@@ -96,7 +105,7 @@ export default async function Image({ params }: { params: { locale: string } }) 
             fontWeight: 500,
           }}
         >
-          {isEN ? 'Start Free Trial →' : 'Essai Gratuit →'}
+          {isEN ? 'Spin up in 60s →' : 'Lancez en 60s →'}
         </div>
 
         {/* URL */}

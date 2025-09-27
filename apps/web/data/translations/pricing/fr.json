@@ -20,7 +20,7 @@
           "Parfait pour les pics de charge"
         ],
         "bestFor": "Startups, tests, développement",
-        "example": "€0.008/h pour un VPS starter"
+        "example": "€0.049/h pour un VPS Nano"
       },
       "monthly": {
         "name": "Abonnement Mensuel",
@@ -34,7 +34,7 @@
           "Ressources garanties 24/7"
         ],
         "bestFor": "Production, sites web, applications",
-        "example": "€4.99/mois pour un VPS starter"
+        "example": "€29/mois pour un VPS Nano"
       },
       "annual": {
         "name": "Engagement Annuel",
@@ -48,7 +48,7 @@
           "Migration gratuite"
         ],
         "bestFor": "Entreprises, projets établis",
-        "example": "€49.90/an pour un VPS starter"
+        "example": "€290/an pour un VPS Nano"
       },
       "bestForLabel": "Idéal pour",
       "exampleLabel": "Exemple :"

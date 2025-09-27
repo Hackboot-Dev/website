@@ -6,33 +6,44 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
   return {
     title: isEN
-      ? 'European Cloud Infrastructure | 6 Datacenters, 99.97% SLA - VMCloud'
-      : 'Infrastructure Cloud Européenne | 6 Datacenters, SLA 99.97% - VMCloud',
+      ? 'European Cloud Infrastructure | Tier III DCs & 99.99% SLA - VMCloud'
+      : 'Infrastructure Cloud Européenne | Datacenters Tier III & SLA 99,99% - VMCloud',
     description: isEN
-      ? 'Premium infrastructure: 6 EU datacenters, 2500+ AMD EPYC vCPUs, 48 Tesla/RTX GPUs, 400 Gbps network, multi-tier DDoS protection. Enterprise-grade reliability.'
-      : 'Infrastructure premium : 6 datacenters EU, 2500+ vCPUs AMD EPYC, 48 GPUs Tesla/RTX, réseau 400 Gbps, protection DDoS multi-niveaux. Fiabilité entreprise.',
+      ? 'VMCloud runs sovereign infrastructure across Tier III European datacenters with AMD EPYC compute, RTX/A100 GPU pools, 400 Gbps multi-homed network and layered DDoS defence for a 99.99% SLA.'
+      : 'VMCloud opère une infrastructure souveraine dans des datacenters Tier III européens avec compute AMD EPYC, pools GPU RTX/A100, réseau multi-homed 400 Gbps et défense DDoS multi-couches pour un SLA 99,99%.',
     keywords: isEN
-      ? 'cloud infrastructure, datacenters, amd epyc, tesla gpu, rtx gpu, ddos protection, vmcloud infrastructure'
-      : 'infrastructure cloud, datacenters, amd epyc, gpu tesla, gpu rtx, protection ddos, infrastructure vmcloud',
+      ? 'VMCloud infrastructure, Tier III datacenter, sovereign cloud, AMD EPYC servers, NVIDIA A100, 400 Gbps backbone, DDoS protection'
+      : 'infrastructure VMCloud, datacenter Tier III, cloud souverain, serveurs AMD EPYC, NVIDIA A100, backbone 400 Gbps, protection DDoS',
     openGraph: {
       title: isEN
-        ? 'VMCloud Infrastructure - Enterprise-Grade European Cloud'
-        : 'Infrastructure VMCloud - Cloud Européen Grade Entreprise',
+        ? 'VMCloud Infrastructure – Enterprise-Grade & Sovereign'
+        : 'Infrastructure VMCloud – Grade entreprise & souveraine',
       description: isEN
-        ? 'State-of-the-art infrastructure across 6 European locations. AMD EPYC processors, NVIDIA GPUs, redundant network, 99.97% uptime SLA.'
-        : 'Infrastructure de pointe dans 6 sites européens. Processeurs AMD EPYC, GPUs NVIDIA, réseau redondant, SLA 99.97% de disponibilité.',
+        ? 'State-of-the-art sovereign infrastructure across Tier III European locations with AMD EPYC compute, RTX/A100 GPU fabric and layered DDoS protection.'
+        : 'Infrastructure souveraine de pointe dans des sites européens Tier III avec compute AMD EPYC, fabric GPU RTX/A100 et protection DDoS multi-couches.',
       type: 'website',
       locale: isEN ? 'en_US' : 'fr_FR',
       url: `https://vmcl.fr/${locale}/infrastructure`,
+      images: [
+        {
+          url: `/${locale}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: isEN
+            ? 'VMCloud European sovereign infrastructure overview'
+            : 'Infrastructure souveraine européenne VMCloud',
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: isEN
-        ? 'VMCloud - Premium European Infrastructure'
-        : 'VMCloud - Infrastructure Européenne Premium',
+        ? 'VMCloud – Sovereign European Infrastructure'
+        : 'VMCloud – Infrastructure européenne souveraine',
       description: isEN
-        ? '6 datacenters, 2500+ vCPUs, 48 GPUs, 1.5PB storage. Enterprise cloud infrastructure.'
-        : '6 datacenters, 2500+ vCPUs, 48 GPUs, 1.5PB stockage. Infrastructure cloud entreprise.',
+        ? 'Tier III facilities, AMD EPYC compute, NVIDIA RTX/A100 GPU fabric, 400 Gbps backbone and 24/7 on-call engineering.'
+        : 'Sites Tier III, compute AMD EPYC, fabric GPU NVIDIA RTX/A100, backbone 400 Gbps et astreinte ingénieurs 24/7.',
+      images: [`/${locale}/twitter-image`],
     },
     alternates: {
       canonical: `/${locale}/infrastructure`,
@@ -48,4 +59,3 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 export default function InfrastructureLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
-

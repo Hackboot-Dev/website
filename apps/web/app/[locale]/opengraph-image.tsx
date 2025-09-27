@@ -41,18 +41,27 @@ export default async function Image({ params }: { params: { locale: string } }) 
         />
         
         {/* Logo/Brand */}
-        <div
-          style={{
-            fontSize: 32,
-            fontWeight: 300,
-            letterSpacing: '0.1em',
-            color: '#71717a',
-            marginBottom: 20,
-            textTransform: 'uppercase',
-          }}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+          style={{ width: 120, height: 120, marginBottom: 28 }}
         >
-          VMCloud
-        </div>
+          <defs>
+            <linearGradient id="logoGradient" x1="8" y1="16" x2="24" y2="16" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#3b82f6" />
+              <stop offset="1" stopColor="#8b5cf6" />
+            </linearGradient>
+          </defs>
+          <rect width="32" height="32" rx="6" fill="#0a0a0a" />
+          <path
+            d="M8 12L12 20L16 10L20 20L24 12"
+            stroke="url(#logoGradient)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="16" cy="16" r="1.5" fill="url(#logoGradient)" />
+        </svg>
 
         {/* Main title */}
         <div
@@ -83,9 +92,9 @@ export default async function Image({ params }: { params: { locale: string } }) 
         >
           <span>VPS NVMe</span>
           <span style={{ color: '#52525b' }}>•</span>
-          <span>GPU {isEN ? 'Servers' : 'Serveurs'}</span>
+          <span>GPU {isEN ? 'Clusters' : 'Clusters GPU'}</span>
           <span style={{ color: '#52525b' }}>•</span>
-          <span>Web Hosting</span>
+          <span>{isEN ? 'Managed Hosting' : 'Hébergement managé'}</span>
         </div>
 
         {/* Key features */}
@@ -99,8 +108,8 @@ export default async function Image({ params }: { params: { locale: string } }) 
           }}
         >
           <span>99.99% SLA</span>
-          <span>{isEN ? '24/7 Support' : 'Support 24/7'}</span>
-          <span>{isEN ? 'From' : 'Dès'} €4.99</span>
+          <span>{isEN ? '24/7 NOC' : 'NOC 24/7'}</span>
+          <span>{isEN ? 'From €29/mo' : 'Dès 29€/mois'}</span>
         </div>
 
         {/* CTA */}
@@ -115,7 +124,7 @@ export default async function Image({ params }: { params: { locale: string } }) 
             letterSpacing: '0.05em',
           }}
         >
-          {isEN ? '30-Day Free Trial' : 'Essai Gratuit 30 Jours'}
+          {isEN ? 'Deploy in 60s' : 'Déploiement en 60s'}
         </div>
 
         {/* Domain */}

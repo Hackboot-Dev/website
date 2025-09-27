@@ -34,13 +34,13 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     metadataBase: new URL('https://vmcl.fr'),
     title: {
       default: isEN
-        ? 'VMCloud — VPS, GPU Cloud & Web Hosting in Europe'
-        : 'VMCloud — Hébergement VPS, Cloud GPU & Web en France',
+        ? 'VMCloud — Sovereign NVMe VPS & GPU Cloud in Europe'
+        : 'VMCloud — Cloud souverain NVMe & GPU en France',
       template: '%s | VMCloud',
     },
     description: isEN
-      ? 'High-performance NVMe VPS from €29/month, GPU servers for AI/ML, and managed web hosting. European datacenters, 24/7 support, 99.99% SLA.'
-      : 'VPS NVMe haute performance dès 29€/mois, serveurs GPU pour IA/ML et hébergement web managé. Datacenters européens, support 24/7, SLA 99,99%.',
+      ? 'Sovereign European cloud by VMCloud: NVMe VPS with AMD EPYC from €29/month, NVIDIA GPU servers for AI from €199/month, managed web hosting and 24/7 NOC with 99.99% SLA.'
+      : 'Cloud souverain VMCloud : VPS NVMe AMD EPYC dès 29€/mois, serveurs GPU NVIDIA pour IA dès 199€/mois, hébergement managé et NOC 24/7 avec SLA 99,99%.',
     icons: {
       icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
       shortcut: ['/icon.svg'],
@@ -50,12 +50,12 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       type: 'website',
       url: `https://vmcl.fr/${locale}`,
       title: isEN
-        ? 'VMCloud - Premium Cloud Infrastructure | VPS from €29'
-        : 'VMCloud - Infrastructure Cloud Premium | VPS dès 29€',
+        ? 'VMCloud - Sovereign Cloud Infrastructure | VPS from €29'
+        : 'VMCloud - Infrastructure Cloud Souveraine | VPS dès 29€',
       siteName: 'VMCloud',
       description: isEN
-        ? '⚡ High-performance cloud infrastructure. VPS with NVMe SSD from €29/month, GPU servers for AI/ML, optimized web hosting. 24/7 support, 99.99% SLA.'
-        : '⚡ Infrastructure cloud haute performance. VPS avec SSD NVMe dès 29€/mois, serveurs GPU pour IA/ML, hébergement web optimisé. Support 24/7, SLA 99.99%.',
+        ? '⚡ Sovereign-grade performance. NVMe VPS from €29/month, GPU servers for AI/ML from €199/month, managed hosting and DDoS-protected 400 Gbps backbone. 24/7 experts, 99.99% SLA.'
+        : '⚡ Performance souveraine. VPS NVMe dès 29€/mois, serveurs GPU pour IA/ML dès 199€/mois, hébergement managé et backbone 400 Gbps anti-DDoS. Experts 24/7, SLA 99,99%.',
       locale: isEN ? 'en_US' : 'fr_FR',
       images: [
         {
@@ -73,11 +73,11 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       card: 'summary_large_image',
       site: '@vmcloud',
       title: isEN
-        ? 'VMCloud by Hackboot – Premium Cloud Infrastructure'
-        : 'VMCloud by Hackboot – Infrastructure Cloud Premium',
+        ? 'VMCloud by Hackboot – Sovereign Cloud from €29'
+        : 'VMCloud by Hackboot – Cloud souverain dès 29€',
       description: isEN
-        ? 'High‑performance VPS, GPU computing for AI/ML, and professional web hosting with 24/7 support.'
-        : 'VPS haute performance, calcul GPU pour AI/ML et hébergement web professionnel avec support 24/7.',
+        ? 'NVMe VPS with AMD EPYC, GPU clusters for AI and managed hosting with concierge-grade 24/7 support and 99.99% SLA.'
+        : 'VPS NVMe AMD EPYC, clusters GPU pour IA et hébergement managé avec support concierge 24/7 et SLA 99,99%.',
       images: [`/${locale}/twitter-image`],
     },
     robots: {
@@ -129,14 +129,14 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       'apple-touch-fullscreen': 'yes',
       'application-name': 'VMCloud',
       'msapplication-tooltip': isEN 
-        ? 'VMCloud - Premium Cloud Infrastructure'
-        : 'VMCloud - Infrastructure Cloud Premium',
+        ? 'VMCloud - Sovereign Cloud Infrastructure'
+        : 'VMCloud - Cloud souverain haute performance',
       'msapplication-starturl': `https://vmcl.fr/${locale}`,
       'msapplication-navbutton-color': '#000000',
       'msapplication-window': 'width=1024;height=768',
       'msapplication-task': isEN
-        ? 'name=Products;action-uri=/products;icon-uri=/icon.svg'
-        : 'name=Produits;action-uri=/products;icon-uri=/icon.svg',
+        ? 'name=Products;action-uri=/en/products;icon-uri=/icon.svg'
+        : 'name=Produits;action-uri=/fr/products;icon-uri=/icon.svg',
     },
   };
 }

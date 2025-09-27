@@ -1,26 +1,26 @@
 {
   "fr": {
     "home": {
-      "title": "VMCloud - Hébergement Cloud VPS GPU Web | Infrastructure Premium France 2025",
-      "description": "VMCloud #1 hébergement cloud France ⚡ VPS SSD NVMe ultra-rapide dès 4.99€ • Serveurs GPU Tesla A100/RTX 4090 pour IA/ML • Web hosting managé WordPress/PrestaShop • Datacenters Paris/Lyon • Support expert 24/7 • 99.99% uptime garanti • Essai 30 jours gratuit",
-      "keywords": "hébergement cloud france, vps ssd nvme, serveur gpu france, cloud gpu ai ml, hébergement web premium, serveur virtuel privé, infrastructure cloud française, datacenter france, vps haute performance, gpu tesla a100, hébergement wordpress optimisé, cloud computing france, serveur dédié virtuel, iaas france, paas france, hébergement professionnel, vps linux windows, cloud storage france, cdn france, load balancer, vps pas cher, serveur cloud, hébergement mutualisé, hébergement dédié, cloud privé, cloud public, cloud hybride, serveur minecraft, serveur game, hébergement prestashop, hébergement magento, hébergement drupal, hébergement joomla, serveur mail, backup cloud, disaster recovery, haute disponibilité, scalabilité, kubernetes hosting, docker hosting, conteneur cloud, microservices, serverless, edge computing, gpu rtx 4090, gpu rtx 3090, machine learning cloud, deep learning, intelligence artificielle, tensorflow hosting, pytorch hosting, jupyter notebook, data science cloud, big data, apache spark, hadoop cluster, elasticsearch hosting, mongodb hosting, postgresql hosting, mysql hosting, redis hosting, hébergement nodejs, hébergement python, hébergement php, hébergement ruby, hébergement java, hébergement .net, gitlab hosting, jenkins hosting, ci/cd pipeline, devops cloud, monitoring cloud, logs management, siem cloud, waf protection, ddos protection, firewall cloud, vpn cloud, réseau privé virtuel, interconnexion datacenter, peering, transit ip, bgp, ipv6, certificat ssl, let's encrypt, hébergement e-commerce, hébergement entreprise, hébergement pme, hébergement startup, migration cloud, consulting cloud, managed services, infogérance, hébergement souverain, rgpd compliant, iso 27001, soc 2, pci dss, hipaa, tier 3, tier 4, green it, éco responsable, neutralité carbone, énergie renouvelable, refroidissement liquide, pue optimisé, openstack, vmware, proxmox, xen, kvm, virtualization, bare metal, serveur physique, colocation, housing, rack dédié, cage privée, meet me room, cross connect, 10gbps, 40gbps, 100gbps, dark fiber, wavelength, mpls, sd-wan, sase, zero trust, cloud français souverain, alternative aws, alternative azure, alternative google cloud, alternative ovh, alternative scaleway, alternative digitalocean, alternative linode, alternative vultr, alternative hetzner, hébergement symfony, hébergement laravel, hébergement angular, hébergement react, hébergement vue.js, api hosting, rest api, graphql, websocket, real-time, streaming, vod hosting, live streaming, transcoding, hébergement blockchain, noeud ethereum, noeud bitcoin, web3 hosting, nft storage, ipfs hosting, hébergement metaverse, réalité virtuelle, réalité augmentée, hébergement iot, edge devices, 5g edge, smart city, industrie 4.0, hébergement médical, hébergement bancaire, hébergement gouvernement, hébergement éducation, hébergement recherche, hpc cloud, calcul haute performance, simulation, modélisation, rendering farm, hébergement créatif, hébergement agence, hébergement média, hébergement streaming, hébergement podcast, hébergement radio, hébergement tv",
+      "title": "VMCloud - Cloud souverain NVMe & GPU | VPS dès 29€",
+      "description": "VMCloud propulse votre cloud souverain : VPS NVMe AMD EPYC dès 29€/mois, serveurs GPU NVIDIA RTX/A100 dès 199€/mois, hébergement managé, backbone 400 Gbps et support NOC 24/7 avec SLA 99,99%.",
+      "keywords": "cloud souverain, VPS NVMe 29€, serveur GPU 199€, hébergement managé, VMCloud, Hackboot, datacenter France, SLA 99,99%, support 24/7, cloud européen",
       "og": {
-        "title": "VMCloud - Infrastructure Cloud Premium France 🚀 VPS GPU Web | Leader 2025",
-        "description": "Infrastructure cloud nouvelle génération. VPS NVMe ultra-rapides dès 4.99€/mois, GPU Tesla/RTX pour IA, hébergement web managé expert. Datacenters français, support 24/7. Essai gratuit 30 jours. Alternative française AWS/Azure.",
-        "image": "/images/og/home-fr.jpg",
+        "title": "VMCloud - Cloud souverain NVMe & GPU",
+        "description": "Infrastructure souveraine de nouvelle génération. VPS NVMe dès 29€/mois, GPU NVIDIA RTX/A100 pour IA/ML et hébergement managé avec support 24/7.",
+        "image": "/fr/opengraph-image",
         "type": "website",
-        "site_name": "VMCloud France",
+        "site_name": "VMCloud",
         "locale": "fr_FR"
       },
       "twitter": {
         "card": "summary_large_image",
-        "title": "VMCloud - Cloud Premium France 🇫🇷 VPS 4.99€ GPU IA Web",
-        "description": "Infrastructure cloud haute performance. VPS NVMe ⚡ GPU Tesla A100 🤖 Web hosting managé 🌐 Datacenters français 🔒 Support expert 24/7 📞 Essai 30j gratuit ✅",
-        "image": "/images/twitter/home-fr.jpg",
+        "title": "VMCloud - Cloud souverain dès 29€/mois",
+        "description": "VPS NVMe, clusters GPU IA et hébergement managé avec SLA 99,99% et experts 24/7.",
+        "image": "/fr/twitter-image",
         "creator": "@vmcloud_fr",
         "site": "@vmcloud_fr"
       },
-      "canonical": "https://vmcl.fr",
+      "canonical": "https://vmcl.fr/fr",
       "alternates": [
         { "lang": "en", "url": "https://vmcl.fr/en" },
         { "lang": "fr", "url": "https://vmcl.fr/fr" },
@@ -30,17 +30,23 @@
       "googlebot": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     },
     "products": {
-      "title": "Produits Cloud VMCloud - VPS GPU Web Storage CDN | Catalogue Complet 2025",
-      "description": "Catalogue complet solutions cloud professionnelles ⚡ VPS Linux/Windows dès 4.99€ • GPU Tesla A100 RTX 4090 • Web hosting WordPress/PrestaShop • Storage S3 • CDN global • Load Balancer • PaaS • Gaming • 100% infrastructure française",
-      "keywords": "produits cloud france, catalogue vps, serveurs gpu ia, hébergement web professionnel, solutions cloud entreprise, infrastructure iaas, plateforme paas, stockage s3 compatible, cdn global, load balancing, vps ssd nvme, gpu tesla rtx a100, hébergement wordpress woocommerce, serveur virtuel linux windows, cloud native france, vps debian, vps ubuntu, vps centos, vps rocky linux, vps almalinux, vps fedora, vps windows server 2022, vps windows server 2019, vps cpanel, vps plesk, vps directadmin, vps cyberpanel, vps docker, vps kubernetes, gpu cloud computing, gpu deep learning, gpu machine learning, gpu rendering, gpu transcoding, gpu mining interdit, tesla t4, tesla v100, tesla a100, tesla h100, rtx 3080, rtx 3090, rtx 4080, rtx 4090, rtx 4090 ti, cuda cores, tensor cores, vram, gpu memory, multi gpu, gpu cluster, web hosting cpanel, web hosting plesk, web hosting directadmin, wordpress hosting managé, woocommerce hosting, prestashop hosting, magento hosting, drupal hosting, joomla hosting, laravel hosting, symfony hosting, nodejs hosting, python hosting, ruby hosting, go hosting, rust hosting, java hosting, php hosting, asp.net hosting, staging environment, git deployment, auto backup, ssl gratuit, email hosting, webmail, imap, smtp, pop3, dkim, spf, dmarc, antispam, antivirus, object storage s3, block storage, file storage, snapshot, backup storage, archive storage, cold storage, hot storage, storage gateway, storage replication, storage encryption, cdn streaming, cdn static, cdn dynamic, edge locations, cache control, purge instant, http3, quic, brotli compression, image optimization, video optimization, websocket cdn, ddos protection cdn, waf cdn, bot protection, rate limiting, geo blocking, ip whitelisting, load balancer layer 4, load balancer layer 7, health check, session persistence, ssl termination, http2, grpc, websocket support, auto scaling, horizontal scaling, vertical scaling, paas docker, paas kubernetes, paas openshift, paas cloud foundry, paas heroku like, buildpack, git push deploy, ci/cd integration, blue green deployment, canary deployment, rolling update, gaming cloud, game server hosting, minecraft server, cs:go server, rust server, ark server, valheim server, palworld server, gmod server, tf2 server, factorio server, terraria server, 7 days to die, satisfactory server, game panel, pterodactyl panel, tcadmin, mod support, plugin support, ftp access, rcon, query port, anti ddos gaming, low ping, tick rate, dedicated ip gaming",
+      "title": "Catalogue produits VMCloud - VPS NVMe, GPU IA, Hébergement managé",
+      "description": "Parcourez les solutions cloud souverain VMCloud : VPS NVMe AMD EPYC dès 29€/mois, serveurs GPU RTX/A100 dès 199€/mois, hébergement managé, stockage objet S3, CDN européen et load balancer.",
+      "keywords": "catalogue VMCloud, VPS NVMe 29€, GPU IA 199€, hébergement managé, stockage objet S3, CDN européen, load balancer, PaaS, cloud souverain, support 24/7",
       "og": {
-        "title": "Catalogue Produits Cloud VMCloud 2025 | VPS GPU Web CDN Storage France",
-        "description": "Explorez nos 50+ solutions cloud. VPS haute performance, GPU pour IA/ML, hébergement web expert, stockage object S3, CDN mondial. Infrastructure 100% française, support 24/7.",
-        "image": "/images/og/products-fr.jpg",
+        "title": "Produits VMCloud – Briques du cloud souverain",
+        "description": "VPS NVMe, GPU IA, hébergement managé, stockage objet et CDN opérés en Europe avec support 24/7.",
+        "image": "/fr/opengraph-image",
         "type": "website"
       },
+      "twitter": {
+        "card": "summary_large_image",
+        "title": "Produits VMCloud",
+        "description": "Composez votre stack souveraine : VPS NVMe, GPU IA, stockage S3, CDN et load balancer.",
+        "image": "/fr/twitter-image"
+      },
       "robots": "index, follow",
-      "canonical": "https://vmcl.fr/products"
+      "canonical": "https://vmcl.fr/fr/products"
     },
     "about": {
       "title": "À Propos VMCloud - Leader Cloud France | Histoire Mission Équipe 2025",
@@ -123,22 +129,22 @@
   },
   "en": {
     "home": {
-      "title": "VMCloud - Premium Cloud Hosting VPS GPU Web | Enterprise Infrastructure 2025",
-      "description": "VMCloud #1 cloud infrastructure Europe ⚡ High-performance NVMe SSD VPS from €4.99 • Tesla A100/RTX 4090 GPU servers for AI/ML • Managed WordPress/PrestaShop hosting • Paris/Lyon datacenters • 24/7 expert support • 99.99% uptime • 30-day free trial",
-      "keywords": "cloud hosting europe, vps nvme ssd, gpu server hosting, cloud gpu ai ml, premium web hosting, virtual private server, cloud infrastructure provider, european datacenter, high performance vps, tesla a100 gpu, optimized wordpress hosting, cloud computing europe, virtual dedicated server, iaas provider, paas platform, enterprise hosting, linux windows vps, cloud storage europe, cdn global, load balancer, cheap vps, cloud server, shared hosting, dedicated hosting, private cloud, public cloud, hybrid cloud, minecraft server, game server, prestashop hosting, magento hosting, drupal hosting, joomla hosting, mail server, cloud backup, disaster recovery, high availability, scalability, kubernetes hosting, docker hosting, container cloud, microservices, serverless, edge computing, gpu rtx 4090, gpu rtx 3090, machine learning cloud, deep learning, artificial intelligence, tensorflow hosting, pytorch hosting, jupyter notebook, data science cloud, big data, apache spark, hadoop cluster, elasticsearch hosting, mongodb hosting, postgresql hosting, mysql hosting, redis hosting, nodejs hosting, python hosting, php hosting, ruby hosting, java hosting, .net hosting, gitlab hosting, jenkins hosting, ci/cd pipeline, devops cloud, cloud monitoring, logs management, siem cloud, waf protection, ddos protection, cloud firewall, cloud vpn, virtual private network, datacenter interconnect, peering, ip transit, bgp, ipv6, ssl certificate, let's encrypt, e-commerce hosting, enterprise hosting, sme hosting, startup hosting, cloud migration, cloud consulting, managed services, managed hosting, sovereign hosting, gdpr compliant, iso 27001, soc 2, pci dss, hipaa, tier 3, tier 4, green it, eco friendly, carbon neutral, renewable energy, liquid cooling, optimized pue, openstack, vmware, proxmox, xen, kvm, virtualization, bare metal, physical server, colocation, housing, dedicated rack, private cage, meet me room, cross connect, 10gbps, 40gbps, 100gbps, dark fiber, wavelength, mpls, sd-wan, sase, zero trust, sovereign cloud, aws alternative, azure alternative, google cloud alternative, ovh alternative, scaleway alternative, digitalocean alternative, linode alternative, vultr alternative, hetzner alternative, symfony hosting, laravel hosting, angular hosting, react hosting, vue.js hosting, api hosting, rest api, graphql, websocket, real-time, streaming, vod hosting, live streaming, transcoding, blockchain hosting, ethereum node, bitcoin node, web3 hosting, nft storage, ipfs hosting, metaverse hosting, virtual reality, augmented reality, iot hosting, edge devices, 5g edge, smart city, industry 4.0, medical hosting, banking hosting, government hosting, education hosting, research hosting, hpc cloud, high performance computing, simulation, modeling, render farm, creative hosting, agency hosting, media hosting, streaming hosting, podcast hosting, radio hosting, tv hosting",
+      "title": "VMCloud - Sovereign Cloud NVMe & GPU | VPS from €29",
+      "description": "VMCloud powers your sovereign cloud: NVMe AMD EPYC VPS from €29/month, NVIDIA RTX/A100 GPU servers from €199/month, managed hosting, 400 Gbps backbone and 24/7 NOC with 99.99% SLA.",
+      "keywords": "sovereign cloud, NVMe VPS €29, GPU server €199, managed hosting, VMCloud, Hackboot, European datacenter, 99.99% SLA, 24/7 support, European cloud",
       "og": {
-        "title": "VMCloud - Premium Cloud Infrastructure Europe 🚀 VPS GPU Web | Leader 2025",
-        "description": "Next-generation cloud infrastructure. Ultra-fast NVMe VPS from €4.99/month, Tesla/RTX GPU for AI, expert managed web hosting. European datacenters, 24/7 support. 30-day free trial. European alternative to AWS/Azure.",
-        "image": "/images/og/home-en.jpg",
+        "title": "VMCloud - Sovereign Cloud NVMe & GPU",
+        "description": "Next-gen sovereign infrastructure. NVMe VPS from €29/month, NVIDIA RTX/A100 GPU for AI/ML and managed hosting with 24/7 support.",
+        "image": "/en/opengraph-image",
         "type": "website",
         "site_name": "VMCloud",
         "locale": "en_US"
       },
       "twitter": {
         "card": "summary_large_image",
-        "title": "VMCloud - Premium Cloud Europe 🇪🇺 VPS €4.99 GPU AI Web",
-        "description": "High-performance cloud infrastructure. NVMe VPS ⚡ Tesla A100 GPU 🤖 Managed web hosting 🌐 European datacenters 🔒 Expert support 24/7 📞 30-day free trial ✅",
-        "image": "/images/twitter/home-en.jpg",
+        "title": "VMCloud - Sovereign Cloud from €29/month",
+        "description": "NVMe VPS, AI-ready GPU clusters and managed hosting with 99.99% SLA and 24/7 engineers.",
+        "image": "/en/twitter-image",
         "creator": "@vmcloud",
         "site": "@vmcloud"
       },
@@ -152,14 +158,20 @@
       "googlebot": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     },
     "products": {
-      "title": "VMCloud Cloud Products - VPS GPU Web Storage CDN | Complete Catalog 2025",
-      "description": "Complete catalog of professional cloud solutions ⚡ Linux/Windows VPS from €4.99 • Tesla A100 RTX 4090 GPU • WordPress/PrestaShop hosting • S3 Storage • Global CDN • Load Balancer • PaaS • Gaming • 100% European infrastructure",
-      "keywords": "cloud products europe, vps catalog, gpu servers ai, professional web hosting, enterprise cloud solutions, iaas infrastructure, paas platform, s3 compatible storage, global cdn, load balancing, nvme ssd vps, tesla rtx a100 gpu, wordpress woocommerce hosting, linux windows virtual server, cloud native europe, debian vps, ubuntu vps, centos vps, rocky linux vps, almalinux vps, fedora vps, windows server 2022 vps, windows server 2019 vps, cpanel vps, plesk vps, directadmin vps, cyberpanel vps, docker vps, kubernetes vps, gpu cloud computing, gpu deep learning, gpu machine learning, gpu rendering, gpu transcoding, no gpu mining, tesla t4, tesla v100, tesla a100, tesla h100, rtx 3080, rtx 3090, rtx 4080, rtx 4090, rtx 4090 ti, cuda cores, tensor cores, vram, gpu memory, multi gpu, gpu cluster, cpanel web hosting, plesk web hosting, directadmin web hosting, managed wordpress hosting, woocommerce hosting, prestashop hosting, magento hosting, drupal hosting, joomla hosting, laravel hosting, symfony hosting, nodejs hosting, python hosting, ruby hosting, go hosting, rust hosting, java hosting, php hosting, asp.net hosting, staging environment, git deployment, auto backup, free ssl, email hosting, webmail, imap, smtp, pop3, dkim, spf, dmarc, antispam, antivirus, s3 object storage, block storage, file storage, snapshot, backup storage, archive storage, cold storage, hot storage, storage gateway, storage replication, storage encryption, cdn streaming, cdn static, cdn dynamic, edge locations, cache control, instant purge, http3, quic, brotli compression, image optimization, video optimization, websocket cdn, cdn ddos protection, cdn waf, bot protection, rate limiting, geo blocking, ip whitelisting, layer 4 load balancer, layer 7 load balancer, health check, session persistence, ssl termination, http2, grpc, websocket support, auto scaling, horizontal scaling, vertical scaling, docker paas, kubernetes paas, openshift paas, cloud foundry paas, heroku like paas, buildpack, git push deploy, ci/cd integration, blue green deployment, canary deployment, rolling update, gaming cloud, game server hosting, minecraft server, cs:go server, rust server, ark server, valheim server, palworld server, gmod server, tf2 server, factorio server, terraria server, 7 days to die, satisfactory server, game panel, pterodactyl panel, tcadmin, mod support, plugin support, ftp access, rcon, query port, anti ddos gaming, low ping, tick rate, dedicated gaming ip",
+      "title": "VMCloud Product Catalogue - NVMe VPS, GPU, Managed Hosting",
+      "description": "Browse VMCloud’s sovereign cloud stack: NVMe AMD EPYC VPS from €29/month, NVIDIA RTX/A100 GPU servers from €199/month, managed hosting, S3 object storage, European CDN and load balancer.",
+      "keywords": "VMCloud catalogue, NVMe VPS €29, GPU cloud €199, managed hosting, S3 object storage, European CDN, load balancer, PaaS, sovereign cloud, 24/7 support",
       "og": {
-        "title": "VMCloud Cloud Products Catalog 2025 | VPS GPU Web CDN Storage Europe",
-        "description": "Explore our 50+ cloud solutions. High-performance VPS, GPU for AI/ML, expert web hosting, S3 object storage, global CDN. 100% European infrastructure, 24/7 support.",
-        "image": "/images/og/products-en.jpg",
+        "title": "VMCloud Products – Sovereign Cloud Building Blocks",
+        "description": "NVMe VPS, AI-ready GPU, managed hosting, object storage and CDN operated in Europe with 24/7 support.",
+        "image": "/en/opengraph-image",
         "type": "website"
+      },
+      "twitter": {
+        "card": "summary_large_image",
+        "title": "VMCloud Products",
+        "description": "Assemble your sovereign stack with NVMe VPS, GPU clusters, S3 storage, CDN and load balancer.",
+        "image": "/en/twitter-image"
       },
       "robots": "index, follow",
       "canonical": "https://vmcl.fr/en/products"

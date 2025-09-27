@@ -157,8 +157,8 @@ export default function HomePage() {
             "acceptedAnswer": {
               "@type": "Answer",
               "text": language === 'fr'
-                ? "Un VPS (Serveur Virtuel Privé) est un serveur virtualisé qui vous offre des ressources dédiées (CPU, RAM, stockage) sur une infrastructure cloud. Idéal pour héberger des sites web, applications, bases de données avec plus de contrôle qu'un hébergement mutualisé et moins cher qu'un serveur dédié. VMCloud propose des VPS NVMe haute performance dès 4.99€/mois."
-                : "A VPS (Virtual Private Server) is a virtualized server that provides dedicated resources (CPU, RAM, storage) on cloud infrastructure. Perfect for hosting websites, applications, databases with more control than shared hosting and cheaper than dedicated servers. VMCloud offers high-performance NVMe VPS from €4.99/month."
+                ? "Un VPS (Serveur Virtuel Privé) est un serveur virtualisé qui vous offre des ressources dédiées (CPU, RAM, stockage) sur une infrastructure cloud. Idéal pour héberger des sites web, applications, bases de données avec plus de contrôle qu'un hébergement mutualisé et moins cher qu'un serveur dédié. VMCloud propose des VPS NVMe haute performance dès 29€/mois."
+                : "A VPS (Virtual Private Server) is a virtualized server that provides dedicated resources (CPU, RAM, storage) on cloud infrastructure. Perfect for hosting websites, applications, databases with more control than shared hosting and cheaper than dedicated servers. VMCloud offers high-performance NVMe VPS from €29/month."
             }
           },
           {

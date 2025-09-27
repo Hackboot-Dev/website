@@ -11,23 +11,42 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
   return {
     title: isEn
-      ? 'Spontaneous Application - Careers | VMCloud'
-      : 'Candidature Spontanée - Carrières | VMCloud',
+      ? 'Spontaneous Application – Careers | VMCloud'
+      : 'Candidature spontanée – Carrières | VMCloud',
     description: isEn
-      ? 'Send us your spontaneous application. We\'re always looking for exceptional talents to join VMCloud.'
-      : 'Envoyez-nous votre candidature spontanée. Nous recherchons toujours des talents exceptionnels pour rejoindre VMCloud.',
+      ? 'Pitch us your profile and join the team shaping Europe’s sovereign cloud. Remote-friendly roles across SRE, network, product, success and ops.'
+      : 'Présentez-nous votre profil et rejoignez l\'équipe qui construit le cloud souverain européen. Postes remote-friendly en SRE, réseau, produit, success et ops.',
     keywords: isEn
-      ? 'spontaneous application, VMCloud careers, tech jobs, remote work'
-      : 'candidature spontanée, VMCloud carrières, emplois tech, travail à distance',
+      ? 'VMCloud spontaneous application, sovereign cloud jobs, remote tech talent'
+      : 'candidature spontanée VMCloud, emplois cloud souverain, talents tech remote',
     openGraph: {
       title: isEn
-        ? 'Join VMCloud - Spontaneous Application'
-        : 'Rejoignez VMCloud - Candidature Spontanée',
+        ? 'Join VMCloud – Spontaneous Application'
+        : 'Rejoignez VMCloud – Candidature spontanée',
       description: isEn
-        ? 'We\'re always looking for passionate talents'
-        : 'Nous recherchons toujours des talents passionnés',
-      images: ['/og-careers.jpg'],
+        ? 'Tell us how you want to power the sovereign cloud. We review every application personally.'
+        : 'Dites-nous comment vous voulez contribuer au cloud souverain. Chaque candidature est étudiée personnellement.',
+      images: [
+        {
+          url: `/${params.locale}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: isEn
+            ? 'Spontaneous application – VMCloud careers'
+            : 'Candidature spontanée – Carrières VMCloud',
+        },
+      ],
       type: 'website'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: isEn
+        ? 'Spontaneous Application | VMCloud Careers'
+        : 'Candidature spontanée | Carrières VMCloud',
+      description: isEn
+        ? 'Send us your story and join Hackboot’s sovereign cloud journey. Remote-first, equity, premium gear.'
+        : 'Envoyez-nous votre histoire et rejoignez l\'aventure cloud souverain Hackboot. Remote-first, equity, matériel premium.',
+      images: [`/${params.locale}/twitter-image`],
     },
     alternates: {
       canonical: `https://vmcl.fr/${params.locale}/careers/spontaneous`,

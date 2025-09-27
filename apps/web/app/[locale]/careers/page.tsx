@@ -11,31 +11,40 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
   return {
     title: isEn
-      ? 'Careers at VMCloud - Join Our Team | VMCloud'
-      : 'Carrières chez VMCloud - Rejoignez Notre Équipe | VMCloud',
+      ? 'Careers at VMCloud – Build the Sovereign Cloud'
+      : 'Carrières chez VMCloud – Construisez le cloud souverain',
     description: isEn
-      ? 'Join VMCloud and shape the future of cloud infrastructure. Remote-first culture, competitive salaries, and exciting challenges await.'
-      : 'Rejoignez VMCloud et façonnez l\'avenir de l\'infrastructure cloud. Culture remote-first, salaires compétitifs et défis passionnants.',
+      ? 'Join Hackboot’s sovereign cloud team. Remote-first roles across platform, SRE, network, product and support with transparent bands, equity and on-call compensation.'
+      : 'Rejoignez l\'équipe cloud souverain d\'Hackboot. Postes remote-first en plateforme, SRE, réseau, produit et support avec grilles transparentes, equity et rémunération d\'astreinte.',
     keywords: isEn
-      ? 'VMCloud careers, cloud jobs, tech jobs Estonia, remote work, developer jobs, DevOps careers'
-      : 'VMCloud carrières, emplois cloud, emplois tech Estonie, travail à distance, emplois développeur, carrières DevOps',
+      ? 'VMCloud jobs, sovereign cloud careers, remote SRE roles, Hackboot hiring, DevOps jobs Europe'
+      : 'emplois VMCloud, carrières cloud souverain, postes SRE remote, recrutements Hackboot, emplois DevOps Europe',
     openGraph: {
       title: isEn
-        ? 'Work at VMCloud - Join the Cloud Revolution'
-        : 'Travailler chez VMCloud - Rejoignez la Révolution Cloud',
+        ? 'Work at VMCloud – Join the Sovereign Cloud Team'
+        : 'Travailler chez VMCloud – Rejoindre l\'équipe du cloud souverain',
       description: isEn
-        ? 'Shape the future of European cloud infrastructure with VMCloud'
-        : 'Façonnez l\'avenir de l\'infrastructure cloud européenne avec VMCloud',
-      images: ['/og-careers.jpg'],
+        ? 'Shape Europe’s sovereign cloud with remote-first squads, transparent salary bands, BSPCE and high-impact missions.'
+        : 'Façonnez le cloud souverain européen au sein d\'équipes remote-first, avec grilles salariales transparentes, BSPCE et missions à fort impact.',
+      images: [
+        {
+          url: `/${params.locale}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: isEn
+            ? 'VMCloud careers – Join the sovereign cloud'
+            : 'Carrières VMCloud – Rejoignez le cloud souverain',
+        },
+      ],
       type: 'website'
     },
     twitter: {
       card: 'summary_large_image',
-      title: isEn ? 'VMCloud Careers' : 'VMCloud Carrières',
+      title: isEn ? 'VMCloud Careers – We’re hiring' : 'Carrières VMCloud – Nous recrutons',
       description: isEn
-        ? 'Join our passionate team building next-gen cloud infrastructure'
-        : 'Rejoignez notre équipe passionnée qui construit l\'infrastructure cloud de demain',
-      images: ['/og-careers.jpg']
+        ? 'Remote-first, equity for all, premium equipment and the mission to build the sovereign cloud.'
+        : 'Remote-first, equity pour tous, matériel premium et la mission de bâtir le cloud souverain.',
+      images: [`/${params.locale}/twitter-image`]
     },
     alternates: {
       canonical: `https://vmcl.fr/${params.locale}/careers`,

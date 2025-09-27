@@ -20,7 +20,7 @@
           "Perfect for traffic spikes"
         ],
         "bestFor": "Startups, testing, development",
-        "example": "€0.008/h for a starter VPS"
+        "example": "€0.049/h for a VPS Nano"
       },
       "monthly": {
         "name": "Monthly Subscription",
@@ -34,7 +34,7 @@
           "Guaranteed resources 24/7"
         ],
         "bestFor": "Production, websites, applications",
-        "example": "€4.99/month for a starter VPS"
+        "example": "€29/month for a VPS Nano"
       },
       "annual": {
         "name": "Annual Commitment",
@@ -48,7 +48,7 @@
           "Free migration"
         ],
         "bestFor": "Enterprises, established projects",
-        "example": "€49.90/year for a starter VPS"
+        "example": "€290/year for a VPS Nano"
       },
       "bestForLabel": "Best for",
       "exampleLabel": "Example:"

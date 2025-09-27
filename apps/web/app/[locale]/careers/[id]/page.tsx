@@ -41,23 +41,57 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const intlLocale = isEn ? 'en-US' : 'fr-FR';
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat(intlLocale, {
+      style: 'currency',
+      currency: job.currency || 'EUR',
+      maximumFractionDigits: 0,
+    }).format(value);
+
+  const salaryRange = job.salaryMin && job.salaryMax
+    ? `${formatCurrency(job.salaryMin)} – ${formatCurrency(job.salaryMax)}`
+    : undefined;
+
+  const coreSkills = job.skills?.slice(0, 4).join(', ');
+  const metaDescription = isEn
+    ? `${job.title} at VMCloud (${job.location}). ${salaryRange ? `Salary ${salaryRange}. ` : ''}Key skills: ${coreSkills}. Join Hackboot’s sovereign cloud team.`
+    : `${job.title} chez VMCloud (${job.location}). ${salaryRange ? `Salaire ${salaryRange}. ` : ''}Compétences clés : ${coreSkills}. Rejoignez l'équipe cloud souverain Hackboot.`;
+
+  const keywords = [
+    job.title,
+    job.team,
+    job.location,
+    ...(job.skills || []),
+    isEn ? 'VMCloud careers' : 'carrières VMCloud',
+    isEn ? 'sovereign cloud job' : 'emploi cloud souverain',
+  ].filter(Boolean).join(', ');
+
   return {
     title: isEn
       ? `${job.title} - Careers | VMCloud`
       : `${job.title} - Carrières | VMCloud`,
-    description: job.description,
-    keywords: job.skills.join(', '),
+    description: metaDescription,
+    keywords,
     openGraph: {
       title: job.title,
-      description: job.description,
+      description: metaDescription,
       type: 'website',
-      images: ['/og-careers.jpg']
+      url: `https://vmcl.fr/${params.locale}/careers/${params.id}`,
+      images: [
+        {
+          url: `/${params.locale}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: `${job.title} – VMCloud`,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: job.title,
-      description: job.description,
-      images: ['/og-careers.jpg']
+      description: metaDescription,
+      images: [`/${params.locale}/twitter-image`]
     },
     alternates: {
       canonical: `https://vmcl.fr/${params.locale}/careers/${params.id}`,
