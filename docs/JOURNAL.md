@@ -1379,3 +1379,36 @@ AMÉLIORATIONS UX:
 - Meilleure hiérarchie visuelle avec séparation claire
 PROCHAINE ÉTAPE: Tester sur différents appareils mobiles et vérifier l'accessibilité
 ---
+[2025-09-27 - 16:00]
+SESSION: Refonte complète du SEO - Correction des métadonnées et titres dynamiques
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/app/[locale]/layout.tsx [modifié] - Suppression références 4.99€ et essai gratuit
+- /apps/web/app/[locale]/products/layout.tsx [modifié] - Ajout métadonnées dynamiques
+- /apps/web/app/[locale]/support/layout.tsx [modifié] - Ajout métadonnées dynamiques
+- /apps/web/app/[locale]/infrastructure/layout.tsx [modifié] - Ajout métadonnées dynamiques
+- /apps/web/app/[locale]/pricing/layout.tsx [modifié] - Ajout métadonnées dynamiques
+- /apps/web/config/seo-metadata.ts [créé] - Configuration centralisée SEO
+- /apps/web/utils/generatePageMetadata.ts [créé] - Helper pour génération métadonnées
+DÉTAILS:
+PROBLÈMES IDENTIFIÉS:
+- Références obsolètes aux prix 4.99€ dans OpenGraph et descriptions
+- Mentions d'essai gratuit 30 jours alors que plus proposé
+- Titres non dynamiques - même titre pour toutes les pages
+- Descriptions génériques sans mots-clés spécifiques par page
+CORRECTIONS APPORTÉES:
+- Mise à jour des prix minimums VPS à 29€/mois (prix réel actuel)
+- Suppression de toutes les mentions d'essai gratuit
+- Implémentation de generateMetadata() pour titres dynamiques par page
+- Descriptions uniques et optimisées pour chaque page avec mots-clés
+- Support complet FR/EN pour tous les metadata
+- OpenGraph et Twitter Cards spécifiques par page
+OPTIMISATIONS SEO:
+- Titres descriptifs avec prix et services clés
+- Descriptions incluant prix réels et caractéristiques
+- Keywords adaptés par page et langue
+- URLs canoniques correctes avec préfixes de langue
+- Hreflang tags pour indexation multilingue
+ERREURS: Aucune - Build et tests réussis
+PROCHAINE ÉTAPE: Commit et push sur branche dev, puis monitoring SEO Google
+---

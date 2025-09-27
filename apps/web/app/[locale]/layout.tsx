@@ -39,8 +39,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       template: '%s | VMCloud',
     },
     description: isEN
-      ? 'High-performance NVMe VPS, GPU servers for AI/ML, and managed web hosting. European datacenters, 24/7 support, 99.99% SLA. 30-day free trial.'
-      : 'VPS NVMe, serveurs GPU pour IA/ML et hébergement web managé. Datacenters en France, support 24/7, SLA 99,99%. Essai gratuit 30 jours.',
+      ? 'High-performance NVMe VPS from €29/month, GPU servers for AI/ML, and managed web hosting. European datacenters, 24/7 support, 99.99% SLA.'
+      : 'VPS NVMe haute performance dès 29€/mois, serveurs GPU pour IA/ML et hébergement web managé. Datacenters européens, support 24/7, SLA 99,99%.',
     icons: {
       icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
       shortcut: ['/icon.svg'],
@@ -50,12 +50,12 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       type: 'website',
       url: `https://vmcl.fr/${locale}`,
       title: isEN
-        ? 'VMCloud - Premium Cloud Infrastructure | VPS from €4.99'
-        : 'VMCloud - Infrastructure Cloud Premium | VPS dès 4.99€',
+        ? 'VMCloud - Premium Cloud Infrastructure | VPS from €29'
+        : 'VMCloud - Infrastructure Cloud Premium | VPS dès 29€',
       siteName: 'VMCloud',
       description: isEN
-        ? '⚡ High-performance cloud infrastructure. VPS with NVMe SSD, GPU servers for AI/ML, optimized web hosting. 24/7 support, 99.99% SLA. Start free trial →'
-        : '⚡ Infrastructure cloud haute performance. VPS avec SSD NVMe, serveurs GPU pour IA/ML, hébergement web optimisé. Support 24/7, SLA 99.99%. Essai gratuit →',
+        ? '⚡ High-performance cloud infrastructure. VPS with NVMe SSD from €29/month, GPU servers for AI/ML, optimized web hosting. 24/7 support, 99.99% SLA.'
+        : '⚡ Infrastructure cloud haute performance. VPS avec SSD NVMe dès 29€/mois, serveurs GPU pour IA/ML, hébergement web optimisé. Support 24/7, SLA 99.99%.',
       locale: isEN ? 'en_US' : 'fr_FR',
       images: [
         {
