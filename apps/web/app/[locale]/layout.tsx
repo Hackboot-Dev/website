@@ -39,8 +39,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       template: '%s | VMCloud',
     },
     description: isEN
-      ? 'Sovereign European cloud by VMCloud: NVMe VPS with AMD EPYC from €29/month, NVIDIA GPU servers for AI from €199/month, managed web hosting and 24/7 NOC with 99.99% SLA.'
-      : 'Cloud souverain VMCloud : VPS NVMe AMD EPYC dès 29€/mois, serveurs GPU NVIDIA pour IA dès 199€/mois, hébergement managé et NOC 24/7 avec SLA 99,99%.',
+      ? 'Sovereign European cloud by VMCloud: NVMe VPS with AMD EPYC from €29/month, NVIDIA GPU servers for AI from €199/month, managed web hosting plus 24/7 NOC and continuous compliance monitoring.'
+      : 'Cloud souverain VMCloud : VPS NVMe AMD EPYC dès 29€/mois, serveurs GPU NVIDIA pour IA dès 199€/mois, hébergement managé, supervision NOC 24/7 et conformité RGPD renforcée.',
     icons: {
       icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
       shortcut: ['/icon.svg'],
@@ -54,8 +54,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         : 'VMCloud - Infrastructure Cloud Souveraine | VPS dès 29€',
       siteName: 'VMCloud',
       description: isEN
-        ? '⚡ Sovereign-grade performance. NVMe VPS from €29/month, GPU servers for AI/ML from €199/month, managed hosting and DDoS-protected 400 Gbps backbone. 24/7 experts, 99.99% SLA.'
-        : '⚡ Performance souveraine. VPS NVMe dès 29€/mois, serveurs GPU pour IA/ML dès 199€/mois, hébergement managé et backbone 400 Gbps anti-DDoS. Experts 24/7, SLA 99,99%.',
+        ? '⚡ Sovereign-grade performance. NVMe VPS from €29/month, GPU servers for AI/ML from €199/month, managed hosting and DDoS-protected 400 Gbps backbone with continuous monitoring by 24/7 experts.'
+        : '⚡ Performance souveraine. VPS NVMe dès 29€/mois, serveurs GPU pour IA/ML dès 199€/mois, hébergement managé et backbone 400 Gbps anti-DDoS avec experts en surveillance continue 24/7.',
       locale: isEN ? 'en_US' : 'fr_FR',
       images: [
         {
@@ -73,11 +73,11 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       card: 'summary_large_image',
       site: '@vmcloud',
       title: isEN
-        ? 'VMCloud by Hackboot – Sovereign Cloud from €29'
-        : 'VMCloud by Hackboot – Cloud souverain dès 29€',
+        ? 'VMCloud – Sovereign Cloud from €29'
+        : 'VMCloud – Cloud souverain dès 29€',
       description: isEN
-        ? 'NVMe VPS with AMD EPYC, GPU clusters for AI and managed hosting with concierge-grade 24/7 support and 99.99% SLA.'
-        : 'VPS NVMe AMD EPYC, clusters GPU pour IA et hébergement managé avec support concierge 24/7 et SLA 99,99%.',
+        ? 'NVMe VPS with AMD EPYC, GPU clusters for AI and managed hosting with concierge-grade 24/7 support and proactive compliance.'
+        : 'VPS NVMe AMD EPYC, clusters GPU pour IA et hébergement managé avec support concierge 24/7 et conformité renforcée.',
       images: [`/${locale}/twitter-image`],
     },
     robots: {
@@ -159,7 +159,7 @@ export default function LocaleLayout({ children, params }: Props) {
             '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'VMCloud',
-            alternateName: ['Hackboot', 'VMCloud by Hackboot'],
+            alternateName: ['VMCloud'],
             url: 'https://vmcl.fr',
             logo: 'https://vmcl.fr/icon.svg',
             sameAs: [

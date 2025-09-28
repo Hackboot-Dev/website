@@ -321,7 +321,7 @@ export default function UniversalProductPage({ product, category }: UniversalPro
                   <div className="mt-6 pt-6 border-t border-zinc-800/50 space-y-2">
                     <div className="flex items-center text-sm text-zinc-500">
                       <CheckIcon className="w-4 h-4 text-emerald-400 mr-2" />
-                      <span>SLA {product.sla || '99.9%'}</span>
+                      <span>SLA {product.sla || 'service targets'}</span>
                     </div>
                     <div className="flex items-center text-sm text-zinc-500">
                       <CheckIcon className="w-4 h-4 text-emerald-400 mr-2" />

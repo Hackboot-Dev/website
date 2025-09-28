@@ -119,7 +119,7 @@ export default function AboutPageClient() {
                     transition={{ delay: 0.3, duration: 0.6 }}
                     className="block text-5xl lg:text-6xl xl:text-7xl font-extralight tracking-tight text-white leading-[0.9]"
                   >
-                    {t('about.hero.title1') || (isEn ? 'From Hackboot' : 'De Hackboot')}
+                    {t('about.hero.title1') || (isEn ? 'From our cloud gaming roots' : 'De nos racines cloud gaming')}
                   </motion.span>
                   <motion.span
                     initial={{ opacity: 0, x: 30 }}
@@ -207,7 +207,7 @@ export default function AboutPageClient() {
               {[
                 {
                   number: '2023',
-                  label: t('about.stats.founded') || 'Création Hackboot',
+                  label: t('about.stats.founded') || 'Fondation du studio cloud gaming',
                   icon: Rocket,
                   description: t('about.stats.descriptions.keySales') || 'Vente de clés & logiciels'
                 },
@@ -224,10 +224,10 @@ export default function AboutPageClient() {
                   description: t('about.stats.descriptions.locations') || 'Paris, Amsterdam, Frankfurt'
                 },
                 {
-                  number: '99.99%',
-                  label: t('about.stats.sla') || 'SLA Garanti',
+                  number: '24/7',
+                  label: t('about.stats.sla') || 'Surveillance NOC',
                   icon: Shield,
-                  description: t('about.stats.descriptions.availability') || 'Disponibilité maximale'
+                  description: t('about.stats.descriptions.availability') || 'Équipe d\'astreinte permanente'
                 }
               ].map((stat, index) => (
                 <motion.div
@@ -264,7 +264,7 @@ export default function AboutPageClient() {
               className="text-center mb-20"
             >
               <h2 className="text-4xl lg:text-5xl font-extralight text-white mb-6 tracking-tight">
-                {t('about.timeline.title') || 'De Hackboot à VMCloud'}
+                {t('about.timeline.title') || 'Du cloud gaming à VMCloud'}
               </h2>
               <p className="text-zinc-500 max-w-2xl mx-auto">
                 {t('about.timeline.subtitle') || 'L\'évolution d\'une vision gaming vers une infrastructure cloud complète'}
@@ -279,7 +279,7 @@ export default function AboutPageClient() {
               {[
                 {
                   year: '2023',
-                  title: t('about.timeline.items.hackbootCreation.title') || (isEn ? 'Creation of Hackboot' : 'Création de Hackboot'),
+                  title: t('about.timeline.items.hackbootCreation.title') || (isEn ? 'Cloud gaming studio launch' : 'Lancement du studio cloud gaming'),
                   description: t('about.timeline.items.hackbootCreation.description') || 'Début avec la vente de clés de jeux à prix compétitifs. Construction d\'une première base client et compréhension du marché gaming.',
                   icon: Rocket,
                   highlight: false

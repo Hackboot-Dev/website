@@ -217,7 +217,7 @@
       "vps": {
         "name": "VPS",
         "description": "Serveurs privés virtuels haute performance",
-        "subtitle": "De 29€/mois - AMD EPYC™, NVMe, 99.9% SLA"
+        "subtitle": "De 29€/mois - AMD EPYC™, NVMe, supervision 24/7"
       },
       "gpu": {
         "name": "GPU Cloud",
@@ -514,7 +514,7 @@
       "2": "by VMCloud",
       "3": "Infrastructure"
     },
-    "subtitle": "Cloud européen premium : VPS AMD EPYC, GPU Computing Tesla/RTX, hébergement web. Déployez en 60s, support 24/7, SLA 99.9%.",
+    "subtitle": "Cloud européen premium : VPS AMD EPYC, GPU Computing Tesla/RTX, hébergement web. Déployez en 60s, support 24/7 et audits de sécurité trimestriels.",
     "cta": {
       "primary": "Commencer",
       "secondary": "Voir les tarifs"
@@ -542,7 +542,7 @@
     "security": {
       "title": "Sécurité Enterprise",
       "desc": "Chiffrement bout-en-bout avec conformité SOC2 et détection automatique des menaces.",
-      "metric": "99.9% SLA"
+      "metric": "Supervision 24/7"
     },
     "devExp": {
       "title": "Expérience Développeur",

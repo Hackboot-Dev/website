@@ -217,8 +217,8 @@
         ]
       },
       {
-        "category": "Hackboot Optimizations",
-        "category_fr": "Optimisations Hackboot",
+        "category": "VMCloud Optimizations",
+        "category_fr": "Optimisations VMCloud",
         "specs": [
           { "name": "GPU Boost", "value": "+15% performance" },
           { "name": "Memory Pooling", "value": "+20% efficiency" },
@@ -435,7 +435,7 @@
           { "name": "DDoS Protection", "name_fr": "Protection DDoS", "value": "10 Gbps to 1 Tbps", "value_fr": "10 Gbps à 1 Tbps" },
           { "name": "WAF", "value": "ModSecurity rules" },
           { "name": "PageSpeed", "value": "Score 95+ guaranteed", "value_fr": "Score 95+ garanti" },
-          { "name": "Uptime SLA", "value": "99.9% guaranteed", "value_fr": "99.9% garanti" }
+          { "name": "NOC coverage", "value": "24/7 team", "value_fr": "Équipe 24/7" }
         ]
       }
     ],
@@ -496,7 +496,7 @@
         { "en": "Free assisted migration", "fr": "Migration gratuite assistée" },
         { "en": "cPanel/Plesk available", "fr": "cPanel/Plesk disponible" },
         { "en": "24/7 support", "fr": "Support 24/7" },
-        { "en": "99.9% uptime SLA", "fr": "99.9% uptime SLA" },
+        { "en": "Continuous monitoring", "fr": "Monitoring continu" },
         { "en": "Real-time monitoring", "fr": "Monitoring temps réel" },
         { "en": "Auto-scaling available", "fr": "Auto-scaling disponible" }
       ]
@@ -758,7 +758,7 @@
           { "name": "Anycast IP", "value": "Global routing" },
           { "name": "DDoS Protection", "value": "Up to 3 Tbps" },
           { "name": "Auto-scaling", "value": "Dynamic capacity" },
-          { "name": "SLA", "value": "99.99% uptime" }
+          { "name": "Monitoring", "value": "Supervision 24/7" }
         ]
       },
       {
@@ -827,10 +827,10 @@
           "comparison": "Backend failure"
         },
         {
-          "name": "Uptime SLA",
-          "value": 99.99,
-          "unit": "%",
-          "comparison": "Guaranteed"
+          "name": "NOC Coverage",
+          "value": 24,
+          "unit": "h/day",
+          "comparison": "Dedicated team"
         }
       ]
     },
@@ -947,7 +947,7 @@
         "specs": [
           { "name": "Compatibility", "value": "S3 API v4 complete" },
           { "name": "Durability", "value": "99.999999999% (11 9's)" },
-          { "name": "Availability", "value": "99.99% SLA" },
+          { "name": "Availability", "value": "Active-active regions" },
           { "name": "Versioning", "value": "Automatic with history" },
           { "name": "Lifecycle", "value": "Policy-based archiving" },
           { "name": "Replication", "value": "Cross-region automatic" },
@@ -1228,10 +1228,10 @@
           "comparison": "Global capacity"
         },
         {
-          "name": "Uptime",
-          "value": 99.99,
-          "unit": "%",
-          "comparison": "Network SLA"
+          "name": "NOC coverage",
+          "value": 24,
+          "unit": "h/day",
+          "comparison": "Global operations"
         }
       ]
     },

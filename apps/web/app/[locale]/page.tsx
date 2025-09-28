@@ -193,8 +193,8 @@ export default function HomePage() {
             "acceptedAnswer": {
               "@type": "Answer",
               "text": language === 'fr'
-                ? "Nous garantissons un SLA de 99.99% sur tous nos services (99.9% pour les offres starter). Cela couvre la disponibilité du réseau, de l'infrastructure et des services. En cas de non-respect, vous recevez des crédits au prorata. Support 24/7 inclus avec temps de réponse < 15 minutes pour les incidents critiques."
-                : "We guarantee 99.99% SLA on all services (99.9% for starter plans). This covers network, infrastructure, and service availability. If we fail to meet it, you receive pro-rata credits. 24/7 support included with < 15 minute response time for critical incidents."
+                ? "Notre accord de niveau de service décrit des objectifs de disponibilité élevés couvrant réseau, infrastructure et services. En cas de manquement, un barème de crédits s'applique automatiquement. Le support 24/7 est inclus avec une réponse < 15 minutes pour les incidents critiques."
+                : "Our service level agreement outlines high availability objectives across network, infrastructure and services. If targets are missed, prorated credits apply automatically. 24/7 support is included with < 15 minute response time for critical incidents."
             }
           },
           {

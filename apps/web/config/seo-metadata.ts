@@ -33,12 +33,12 @@ export const seoMetadata: Record<string, PageMetadata> = {
       en: 'VMCloud — Premium Cloud Infrastructure | VPS, GPU & Web Hosting',
     },
     description: {
-      fr: 'Infrastructure cloud haute performance. VPS NVMe dès 29€/mois, serveurs GPU Tesla/RTX pour IA/ML, hébergement web managé. Datacenters européens, support 24/7, SLA 99.99%.',
-      en: 'High-performance cloud infrastructure. NVMe VPS from €29/month, Tesla/RTX GPU servers for AI/ML, managed web hosting. European datacenters, 24/7 support, 99.99% SLA.',
+      fr: 'Infrastructure cloud haute performance. VPS NVMe dès 29€/mois, serveurs GPU Tesla/RTX pour IA/ML, hébergement web managé. Datacenters européens, support NOC 24/7 et conformité RGPD renforcée.',
+      en: 'High-performance cloud infrastructure. NVMe VPS from €29/month, Tesla/RTX GPU servers for AI/ML, managed web hosting. European datacenters, 24/7 NOC support and reinforced GDPR compliance.',
     },
     keywords: {
-      fr: ['cloud', 'vps', 'serveur gpu', 'hébergement web', 'vmcloud', 'hackboot', 'infrastructure', 'iaas'],
-      en: ['cloud', 'vps', 'gpu server', 'web hosting', 'vmcloud', 'hackboot', 'infrastructure', 'iaas'],
+      fr: ['cloud', 'vps', 'serveur gpu', 'hébergement web', 'vmcloud', 'infrastructure', 'iaas', 'cloud souverain'],
+      en: ['cloud', 'vps', 'gpu server', 'web hosting', 'vmcloud', 'infrastructure', 'iaas', 'sovereign cloud'],
     },
   },
   products: {
@@ -71,8 +71,8 @@ export const seoMetadata: Record<string, PageMetadata> = {
       en: 'European Cloud Infrastructure | Datacenters & Network',
     },
     description: {
-      fr: 'Infrastructure premium avec 6 datacenters en Europe, 2500+ vCPUs AMD EPYC, 48 GPUs Tesla/RTX, réseau 400 Gbps, protection DDoS multi-tiers. SLA 99.97% garanti.',
-      en: 'Premium infrastructure with 6 European datacenters, 2500+ AMD EPYC vCPUs, 48 Tesla/RTX GPUs, 400 Gbps network, multi-tier DDoS protection. 99.97% SLA guaranteed.',
+      fr: 'Infrastructure premium avec 6 datacenters en Europe, 2500+ vCPUs AMD EPYC, 48 GPUs Tesla/RTX, réseau 400 Gbps, protection DDoS multi-tiers et audits de sécurité trimestriels.',
+      en: 'Premium infrastructure with 6 European datacenters, 2500+ AMD EPYC vCPUs, 48 Tesla/RTX GPUs, 400 Gbps network, multi-tier DDoS protection and quarterly security audits.',
     },
   },
   support: {
@@ -91,8 +91,8 @@ export const seoMetadata: Record<string, PageMetadata> = {
       en: 'About VMCloud | Our Story and Mission',
     },
     description: {
-      fr: 'VMCloud by Hackboot : Leader européen de l\'infrastructure cloud depuis 2019. Fondé par des experts du cloud gaming reconvertis en IaaS premium. Société estonienne VMCloud OÜ.',
-      en: 'VMCloud by Hackboot: European leader in cloud infrastructure since 2019. Founded by cloud gaming experts converted to premium IaaS. Estonian company VMCloud OÜ.',
+      fr: 'VMCloud : infrastructure cloud européenne bâtie par des experts du cloud gaming depuis 2019. Opérée par la société estonienne VMCloud OÜ.',
+      en: 'VMCloud: European cloud infrastructure engineered by cloud gaming specialists since 2019. Operated by Estonian company VMCloud OÜ.',
     },
   },
   careers: {
@@ -151,8 +151,8 @@ export const seoMetadata: Record<string, PageMetadata> = {
       en: 'Service Level Agreement (SLA) | VMCloud',
     },
     description: {
-      fr: 'SLA VMCloud avec garantie de disponibilité 99.9% minimum. Barème de crédits et engagements de performance détaillés.',
-      en: 'VMCloud SLA with 99.9% minimum uptime guarantee. Credit schedule and detailed performance commitments.',
+      fr: 'Accord de niveau de service VMCloud : engagements de disponibilité, crédits de service et processus d\'escalade détaillés.',
+      en: 'VMCloud service level agreement: documented availability commitments, service credits and clear escalation process.',
     },
   },
   'legal-dpa': {

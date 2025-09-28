@@ -6,18 +6,18 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
   return {
     title: isEN
-      ? 'Service Level Agreement | VMCloud 99.99% Sovereign SLA'
-      : 'Service Level Agreement | SLA souverain 99,99% VMCloud',
+      ? 'Service Level Agreement | VMCloud Sovereign SLA'
+      : 'Service Level Agreement | SLA souverain VMCloud',
     description: isEN
-      ? 'Dive into VMCloud’s SLA: 99.99% availability, credit policy, monitoring commitments and incident response windows for sovereign workloads.'
-      : 'Découvrez le SLA VMCloud : 99,99% de disponibilité, politique de crédits, engagements de supervision et délais de réponse incidents pour workloads souverains.',
+      ? 'Explore VMCloud’s SLA: availability targets, credit policy, monitoring commitments and incident response windows for sovereign workloads.'
+      : 'Découvrez le SLA VMCloud : objectifs de disponibilité, politique de crédits, engagements de supervision et délais de réponse incidents pour workloads souverains.',
     keywords: isEN
-      ? 'VMCloud SLA, 99.99 uptime, sovereign cloud SLA, incident response, service credits'
-      : 'SLA VMCloud, disponibilité 99,99, cloud souverain SLA, réponse incident, crédits de service',
+      ? 'VMCloud SLA, availability targets, sovereign cloud SLA, incident response, service credits'
+      : 'SLA VMCloud, objectifs de disponibilité, cloud souverain SLA, réponse incident, crédits de service',
     openGraph: {
       title: isEN
-        ? 'VMCloud 99.99% SLA'
-        : 'SLA 99,99% VMCloud',
+        ? 'VMCloud Sovereign SLA'
+        : 'SLA souverain VMCloud',
       description: isEN
         ? 'Our contractual SLA for sovereign cloud services including measurement, credits and escalation paths.'
         : 'Notre SLA contractuel pour le cloud souverain : mesures, crédits et voies d\'escalade.',
@@ -30,8 +30,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           width: 1200,
           height: 630,
           alt: isEN
-            ? 'VMCloud 99.99% SLA'
-            : 'SLA 99,99% VMCloud',
+            ? 'VMCloud Sovereign SLA'
+            : 'SLA souverain VMCloud',
         },
       ],
     },
@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         ? 'VMCloud Sovereign SLA'
         : 'SLA souverain VMCloud',
       description: isEN
-        ? '99.99% uptime commitment, proactive monitoring and response windows detailed.'
-        : 'Engagement de disponibilité 99,99%, supervision proactive et délais de réponse détaillés.',
+        ? 'Availability commitments, proactive monitoring and response windows detailed.'
+        : 'Engagements de disponibilité, supervision proactive et délais de réponse détaillés.',
       images: [`/${locale}/twitter-image`],
     },
     alternates: {

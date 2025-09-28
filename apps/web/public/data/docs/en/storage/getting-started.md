@@ -55,9 +55,9 @@ vmcloud storage sync ./local-folder s3://my-bucket/folder/
 
 | Class | Use Case | Availability | Price |
 |-------|----------|--------------|-------|
-| **Standard** | Frequently accessed data | 99.99% | $0.023/GB |
-| **Infrequent Access** | Data accessed less than once a month | 99.9% | $0.0125/GB |
-| **Archive** | Long-term storage | 99.9% | $0.004/GB |
+| **Standard** | Frequently accessed data | Multi-AZ | $0.023/GB |
+| **Infrequent Access** | Data accessed less than once a month | Regional | $0.0125/GB |
+| **Archive** | Long-term storage | Dual-site | $0.004/GB |
 
 ## Best Practices
 

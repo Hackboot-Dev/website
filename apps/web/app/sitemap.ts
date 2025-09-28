@@ -1,81 +1,102 @@
 import { MetadataRoute } from 'next';
+import productsBase from '../data/products/base.json';
+import careersPositionsFr from '../data/careers/positions-fr.json';
+
+type ProductEntry = { category: string; id: string };
+
+const baseUrl = 'https://vmcl.fr';
+const locales = ['fr', 'en'] as const;
+const lastModified = new Date();
+
+const basePages = [
+  '',
+  '/products',
+  '/pricing',
+  '/infrastructure',
+  '/about',
+  '/support',
+  '/support/chat',
+  '/support/tickets',
+  '/configurator',
+  '/careers',
+  '/careers/spontaneous',
+  '/login',
+  '/forgot-password',
+  '/terms',
+  '/legal/terms',
+  '/legal/dpa',
+  '/legal/sla',
+  '/legal/aup',
+  '/legal/changes',
+];
+
+const productEntries: ProductEntry[] = Object.entries(productsBase).flatMap(([category, items]) => {
+  const typedItems = Array.isArray(items) ? items : [];
+  return typedItems
+    .filter((item: any) => item?.id)
+    .map((item: any) => ({ category, id: item.id as string }));
+});
+
+const activeJobIds: string[] = (careersPositionsFr.positions || [])
+  .filter(position => position && position.active !== false)
+  .map(position => position.id);
+
+const buildAlternates = (path: string) => {
+  const localizedPath = path ? (path.startsWith('/') ? path : `/${path}`) : '';
+  const alternates = locales.reduce((acc, locale) => {
+    const localePath = `${baseUrl}/${locale}${localizedPath}`;
+    acc[locale] = localePath.endsWith('/') && localizedPath === '' ? localePath.slice(0, -1) : localePath;
+    return acc;
+  }, {} as Record<string, string>);
+  alternates['x-default'] = `${baseUrl}${localizedPath}` || baseUrl;
+  return alternates;
+};
+
+const buildUrl = (locale: string, path: string) => {
+  if (!path) return `${baseUrl}/${locale}`;
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  return `${baseUrl}/${locale}${normalized}`;
+};
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://vmcl.fr';
-  const locales = ['fr', 'en'];
-  const lastModified = new Date();
-
-  // Pages principales
-  const mainPages = [
-    '',
-    '/products', 
-    '/pricing',
-    '/infrastructure',
-    '/support',
-    '/legal/terms',
-    '/legal/dpa',
-    '/legal/sla',
-    '/legal/aup',
-  ];
-
-  // Catégories de produits
-  const productCategories = ['vps', 'gpu', 'webhosting', 'paas', 'loadbalancer', 'storage', 'cdn'];
-  
-  // Produits spécifiques (exemples)
-  const products = [
-    '/products/vps/vps-nano',
-    '/products/vps/vps-starter',
-    '/products/vps/vps-performance',
-    '/products/vps/vps-business',
-    '/products/vps/vps-enterprise',
-    '/products/gpu/gpu-t4',
-    '/products/gpu/gpu-rtx4090',
-    '/products/gpu/gpu-a100',
-    '/products/webhosting/web-starter',
-    '/products/webhosting/web-pro',
-    '/products/webhosting/web-business',
-  ];
-
   const entries: MetadataRoute.Sitemap = [];
 
-  // Génération des entrées pour chaque langue
   locales.forEach(locale => {
-    // Pages principales
-    mainPages.forEach(page => {
-      const url = `${baseUrl}/${locale}${page}`;
+    basePages.forEach(path => {
+      const url = buildUrl(locale, path);
       entries.push({
         url,
         lastModified,
-        changeFrequency: page === '' ? 'daily' : 'weekly',
-        priority: page === '' ? 1.0 : page.includes('products') || page.includes('pricing') ? 0.9 : 0.8,
-        alternates: {
-          languages: locales.reduce((acc, l) => {
-            acc[l] = `${baseUrl}/${l}${page}`;
-            return acc;
-          }, {} as Record<string, string>)
-        }
+        changeFrequency: path === '' ? 'daily' : 'weekly',
+        priority: path === '' ? 1.0 : path.startsWith('/products') || path.includes('pricing') ? 0.9 : 0.8,
+        alternates: { languages: buildAlternates(path) },
       });
     });
 
-    // Pages produits
-    products.forEach(product => {
-      const url = `${baseUrl}/${locale}${product}`;
+    productEntries.forEach(({ category, id }) => {
+      const productPath = `/products/${category}/${id}`;
       entries.push({
-        url,
+        url: buildUrl(locale, productPath),
         lastModified,
         changeFrequency: 'monthly',
         priority: 0.7,
-        alternates: {
-          languages: locales.reduce((acc, l) => {
-            acc[l] = `${baseUrl}/${l}${product}`;
-            return acc;
-          }, {} as Record<string, string>)
-        }
+        alternates: { languages: buildAlternates(productPath) },
+      });
+    });
+
+    activeJobIds.forEach(jobId => {
+      const jobPath = `/careers/${jobId}`;
+      entries.push({
+        url: buildUrl(locale, jobPath),
+        lastModified,
+        changeFrequency: 'weekly',
+        priority: 0.7,
+        alternates: { languages: buildAlternates(jobPath) },
       });
     });
   });
 
-  // Page racine avec x-default
+  // Root entry with x-default fallback
   entries.push({
     url: baseUrl,
     lastModified,
@@ -84,10 +105,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: {
       languages: {
         'x-default': baseUrl,
-        'fr': `${baseUrl}/fr`,
-        'en': `${baseUrl}/en`
-      }
-    }
+        fr: `${baseUrl}/fr`,
+        en: `${baseUrl}/en`,
+      },
+    },
   });
 
   return entries;

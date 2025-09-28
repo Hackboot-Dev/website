@@ -15,7 +15,7 @@
       "vps": {
         "name": "VPS",
         "description": "Serveurs privés virtuels haute performance",
-        "subtitle": "De 29€/mois - AMD EPYC™, NVMe, 99.9% SLA"
+        "subtitle": "De 29€/mois - AMD EPYC™, NVMe, supervision 24/7"
       },
       "gpu": {
         "name": "GPU Cloud",
@@ -323,7 +323,7 @@
     "security": {
       "title": "Sécurité Enterprise",
       "desc": "Chiffrement bout-en-bout avec conformité SOC2 et détection automatique des menaces.",
-      "metric": "99.9% SLA"
+      "metric": "Supervision 24/7"
     },
     "devExp": {
       "title": "Expérience Développeur",

@@ -44,8 +44,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         ? 'Spontaneous Application | VMCloud Careers'
         : 'Candidature spontanée | Carrières VMCloud',
       description: isEn
-        ? 'Send us your story and join Hackboot’s sovereign cloud journey. Remote-first, equity, premium gear.'
-        : 'Envoyez-nous votre histoire et rejoignez l\'aventure cloud souverain Hackboot. Remote-first, equity, matériel premium.',
+        ? 'Send us your story and join VMCloud’s sovereign cloud journey. Remote-first, equity, premium gear.'
+        : 'Envoyez-nous votre histoire et rejoignez l\'aventure cloud souverain VMCloud. Remote-first, equity, matériel premium.',
       images: [`/${params.locale}/twitter-image`],
     },
     alternates: {

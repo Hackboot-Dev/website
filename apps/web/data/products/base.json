@@ -14,7 +14,7 @@
       "hourly": 0.049,
       "monthly": 29,
       "annual": 290,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -31,7 +31,7 @@
       "hourly": 0.089,
       "monthly": 49,
       "annual": 490,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -48,7 +48,7 @@
       "hourly": 0.179,
       "monthly": 99,
       "annual": 990,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -65,7 +65,7 @@
       "hourly": 0.359,
       "monthly": 199,
       "annual": 1990,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "business"
     },
     {
@@ -82,7 +82,7 @@
       "hourly": 0.719,
       "monthly": 399,
       "annual": 3990,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     },
     {
@@ -99,7 +99,7 @@
       "hourly": 1.439,
       "monthly": 799,
       "annual": 7990,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     },
     {
@@ -116,7 +116,7 @@
       "hourly": 2.879,
       "monthly": 1599,
       "annual": 15990,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     },
     {
@@ -133,7 +133,7 @@
       "hourly": 5.759,
       "monthly": 3199,
       "annual": 31990,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     }
   ],
@@ -171,7 +171,7 @@
       "hourly": 1.50,
       "monthly": 829,
       "annual": 8290,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "pro"
     },
     {
@@ -189,7 +189,7 @@
       "hourly": 2.90,
       "monthly": 1599,
       "annual": 15990,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "pro"
     },
     {
@@ -207,7 +207,7 @@
       "hourly": 4.20,
       "monthly": 2319,
       "annual": 23190,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "enterprise"
     },
     {
@@ -226,7 +226,7 @@
       "hourly": 8.40,
       "monthly": 4639,
       "annual": 46390,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "enterprise"
     },
     {
@@ -245,7 +245,7 @@
       "hourly": 5.50,
       "monthly": 3035,
       "annual": 30350,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "enterprise"
     },
     {
@@ -264,7 +264,7 @@
       "hourly": 16.80,
       "monthly": 9279,
       "annual": 92790,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "enterprise"
     },
     {
@@ -283,7 +283,7 @@
       "hourly": 33.60,
       "monthly": 18559,
       "annual": 185590,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     }
   ],
@@ -304,7 +304,7 @@
       "hourly": 0.035,
       "monthly": 19,
       "annual": 190,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -323,7 +323,7 @@
       "hourly": 0.089,
       "monthly": 49,
       "annual": 490,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -342,7 +342,7 @@
       "hourly": 0.179,
       "monthly": 99,
       "annual": 990,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "pro"
     },
     {
@@ -361,7 +361,7 @@
       "hourly": 0.359,
       "monthly": 199,
       "annual": 1990,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "enterprise"
     }
   ],
@@ -382,7 +382,7 @@
       "hourly": 0.10,
       "monthly": 59,
       "annual": 590,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -401,7 +401,7 @@
       "hourly": 0.40,
       "monthly": 239,
       "annual": 2390,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "pro"
     },
     {
@@ -420,7 +420,7 @@
       "hourly": 1.20,
       "monthly": 719,
       "annual": 7190,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "pro"
     },
     {
@@ -439,7 +439,7 @@
       "hourly": 2.00,
       "monthly": 1199,
       "annual": 11990,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "enterprise"
     }
   ],
@@ -460,7 +460,7 @@
       "hourly": 0.04,
       "monthly": 29,
       "annual": 290,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -479,7 +479,7 @@
       "hourly": 0.14,
       "monthly": 99,
       "annual": 990,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "pro"
     },
     {
@@ -498,7 +498,7 @@
       "hourly": 0.42,
       "monthly": 299,
       "annual": 2990,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "enterprise"
     },
     {
@@ -517,7 +517,7 @@
       "hourly": 1.39,
       "monthly": 999,
       "annual": 9990,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     }
   ],
@@ -536,7 +536,7 @@
       "snapshots": "Quotidien",
       "replication": false,
       "price_per_gb_month": 0.10,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -553,7 +553,7 @@
       "snapshots": "Horaire",
       "replication": "Option",
       "price_per_gb_month": 0.15,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "pro"
     },
     {
@@ -570,7 +570,7 @@
       "snapshots": "Continu",
       "replication": "Incluse",
       "price_per_gb_month": 0.25,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     },
     {
@@ -587,7 +587,7 @@
       "snapshots": "Temps réel",
       "replication": "Multi-site",
       "price_per_gb_month": 0.40,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     }
   ],
@@ -607,7 +607,7 @@
       "image_optimization": false,
       "monthly": 19,
       "traffic_extra_per_gb": 0.08,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "standard"
     },
     {
@@ -625,7 +625,7 @@
       "image_optimization": true,
       "monthly": 99,
       "traffic_extra_per_gb": 0.05,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "pro"
     },
     {
@@ -643,7 +643,7 @@
       "image_optimization": "Auto",
       "monthly": 499,
       "traffic_extra_per_gb": 0.02,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "enterprise"
     },
     {
@@ -661,7 +661,7 @@
       "image_optimization": "AI-powered",
       "monthly": 2499,
       "traffic_extra_per_gb": 0.01,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise"
     }
   ],
@@ -681,7 +681,7 @@
       "hourly": 0.33,
       "monthly": 130,
       "annual": 1404,
-      "sla": "99.9%",
+      "sla": "Proactive monitoring",
       "support_level": "premium",
       "status": "ACTIVE"
     },
@@ -700,7 +700,7 @@
       "hourly": 0.45,
       "monthly": 180,
       "annual": 1944,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "premium",
       "status": "ACTIVE"
     },
@@ -719,7 +719,7 @@
       "hourly": 0.58,
       "monthly": 230,
       "annual": 2484,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise",
       "status": "ACTIVE"
     },
@@ -738,7 +738,7 @@
       "hourly": 0.95,
       "monthly": 380,
       "annual": 4104,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "premium",
       "status": "ACTIVE"
     },
@@ -757,7 +757,7 @@
       "hourly": 1.25,
       "monthly": 500,
       "annual": 5400,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise",
       "status": "ACTIVE"
     },
@@ -776,7 +776,7 @@
       "hourly": 2.13,
       "monthly": 850,
       "annual": 9180,
-      "sla": "99.999%",
+      "sla": "Advanced resilience",
       "support_level": "enterprise",
       "status": "ACTIVE"
     },
@@ -795,7 +795,7 @@
       "hourly": 1.25,
       "monthly": 500,
       "annual": 5400,
-      "sla": "99.95%",
+      "sla": "Priority response",
       "support_level": "premium",
       "status": "ACTIVE"
     },
@@ -814,7 +814,7 @@
       "hourly": 2.25,
       "monthly": 900,
       "annual": 9720,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise",
       "status": "ACTIVE"
     },
@@ -833,7 +833,7 @@
       "hourly": 1.13,
       "monthly": 450,
       "annual": 4860,
-      "sla": "99.99%",
+      "sla": "Continuous monitoring",
       "support_level": "enterprise",
       "status": "ACTIVE"
     }

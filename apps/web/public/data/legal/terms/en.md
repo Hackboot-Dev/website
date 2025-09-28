@@ -1092,11 +1092,11 @@ In case of translation of these conditions, French version prevails in case of i
 
 VMCloud OÜ maintains strict accounting, legal and financial separation between its different commercial activities to respect requirements of its banking partners and applicable financial regulations. This ring-fence architecture guarantees transparency and compliance of each entity.
 
-**Activity separation:** VMCloud OÜ's banking partners exclusively finance only traditional cloud activities of VMCloud entity. Cloud gaming activities and cheat development tool services constitute distinct commercial entities (Hackboot Cheat) with completely separate accounting, financing and legal responsibilities. This separation guarantees no financial or reputational contamination can affect main cloud services.
+**Activity separation:** VMCloud OÜ's banking partners exclusively finance only traditional cloud activities of VMCloud entity. Cloud gaming activities and related tool services are operated by a distinct gaming subsidiary with completely separate accounting, financing and legal responsibilities. This separation guarantees no financial or reputational contamination can affect main cloud services.
 
-**Shared infrastructure, separate governance:** Although VMCloud and Hackboot Cheat share same technical infrastructure and website for operational efficiency reasons, they remain legally and financially distinct. Clients access services via same user interface, but financial flows, contractual responsibilities and legal obligations are strictly compartmentalized according to subscribed activity.
+**Shared infrastructure, separate governance:** Although VMCloud and the gaming subsidiary share the same technical infrastructure and website for operational efficiency reasons, they remain legally and financially distinct. Clients access services via the same user interface, but financial flows, contractual responsibilities and legal obligations are strictly compartmentalized according to subscribed activity.
 
-**Contractual transparency:** Each subscribed service clearly falls under single entity: VPS, GPU, storage, CDN and load balancing services fall under VMCloud OÜ, while gaming and tool development services fall under Hackboot Cheat. This distinction is transparent to client and explicitly mentioned in corresponding invoices and contracts.
+**Contractual transparency:** Each subscribed service clearly falls under a single entity: VPS, GPU, storage, CDN and load balancing services fall under VMCloud OÜ, while gaming and tool development services fall under the dedicated gaming subsidiary. This distinction is transparent to clients and explicitly mentioned in corresponding invoices and contracts.
 
 ### 29.8. Obligation survival
 

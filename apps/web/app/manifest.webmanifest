@@ -1,5 +1,5 @@
 {
-  "name": "VMCloud by Hackboot",
+  "name": "VMCloud - European Sovereign Cloud",
   "short_name": "VMCloud",
   "start_url": "/",
   "display": "standalone",
@@ -15,4 +15,3 @@
     }
   ]
 }
-

@@ -2,8 +2,8 @@
   "fr": {
     "home": {
       "title": "VMCloud - Cloud souverain NVMe & GPU | VPS dès 29€",
-      "description": "VMCloud propulse votre cloud souverain : VPS NVMe AMD EPYC dès 29€/mois, serveurs GPU NVIDIA RTX/A100 dès 199€/mois, hébergement managé, backbone 400 Gbps et support NOC 24/7 avec SLA 99,99%.",
-      "keywords": "cloud souverain, VPS NVMe 29€, serveur GPU 199€, hébergement managé, VMCloud, Hackboot, datacenter France, SLA 99,99%, support 24/7, cloud européen",
+      "description": "VMCloud propulse votre cloud souverain : VPS NVMe AMD EPYC dès 29€/mois, serveurs GPU NVIDIA RTX/A100 dès 199€/mois, hébergement managé, backbone 400 Gbps et support NOC 24/7 avec conformité RGPD renforcée.",
+      "keywords": "cloud souverain, VPS NVMe 29€, serveur GPU 199€, hébergement managé, VMCloud, datacenter France, conformité RGPD, support 24/7, cloud européen, backbone 400 Gbps",
       "og": {
         "title": "VMCloud - Cloud souverain NVMe & GPU",
         "description": "Infrastructure souveraine de nouvelle génération. VPS NVMe dès 29€/mois, GPU NVIDIA RTX/A100 pour IA/ML et hébergement managé avec support 24/7.",
@@ -15,7 +15,7 @@
       "twitter": {
         "card": "summary_large_image",
         "title": "VMCloud - Cloud souverain dès 29€/mois",
-        "description": "VPS NVMe, clusters GPU IA et hébergement managé avec SLA 99,99% et experts 24/7.",
+        "description": "VPS NVMe, clusters GPU IA et hébergement managé avec supervision proactive 24/7 et conformité RGPD.",
         "image": "/fr/twitter-image",
         "creator": "@vmcloud_fr",
         "site": "@vmcloud_fr"
@@ -89,11 +89,11 @@
     },
     "infrastructure": {
       "title": "Infrastructure VMCloud - Datacenters France Tier 3+ | Réseau 100Gbps 2025",
-      "description": "Infrastructure cloud premium 🔥 3 datacenters Tier III+ France (Paris Lyon Marseille) • Réseau 100Gbps redondant • Stockage 100% NVMe • AMD EPYC dernière gen • Uptime 99.99% • Certifié ISO 27001 • Green IT",
-      "keywords": "infrastructure cloud, datacenter france, datacenter paris, datacenter lyon, datacenter marseille, tier 3 plus, tier iii+, tier 4, haute disponibilité, redondance n+1, redondance 2n, uptime 99.99%, sla garanti, réseau 100gbps, backbone, peering, ix france, ix paris, equinix, interxion, ovh, transit ip, bgp, anycast, multicast, ipv4, ipv6, vlan, vxlan, sdn, software defined network, nfv, spine leaf, mpls, vpls, dark fiber, wavelength, cross connect, meet me room, cage privée, rack 42u, pdu, alimentation redondante, groupe électrogène, onduleur, ups, batterie, refroidissement, free cooling, adiabatique, pue, dce, efficacité énergétique, green it, énergie renouvelable, neutralité carbone, iso 14001, stockage nvme, all flash, ssd entreprise, samsung pm1733, intel optane, pure storage, netapp, dell emc, hpe nimble, san, nas, object storage, ceph, minio, erasure coding, réplication, snapshot, backup, disaster recovery, rpo, rto, serveurs amd epyc, epyc 7003, milan, genoa, zen 3, zen 4, intel xeon, cascade lake, ice lake, sapphire rapids, gpu nvidia, tesla, quadro, rtx, datacenter gpu, cuda, tensor, ampere, hopper, dpus, bluefield, smartnic, fpga, asic, tpu, calcul quantique, edge computing, fog computing, micro datacenter, conteneurs, kubernetes, openshift, rancher, docker, podman, vmware vsphere, esxi, vcenter, vsan, nsx, openstack, proxmox, xcp-ng, citrix, nutanix, hyper-v, kvm, qemu, libvirt, bare metal, serveur dédié, colocation, housing, infogérance, managed services, monitoring 24/7, supervision, nagios, zabbix, prometheus, grafana, elk stack, splunk, siem, soc, noc, iso 27001, iso 27017, iso 27018, soc 1, soc 2, soc 3, pci dss, hipaa, hébergement santé, hds, rgpd, conformité, audit, pentest, bug bounty, sécurité physique, biométrie, badge, vidéosurveillance, détection intrusion, mantrap, cage faraday",
+      "description": "Infrastructure cloud premium 🔥 3 datacenters Tier III+ France (Paris Lyon Marseille) • Réseau 100Gbps redondant • Stockage 100% NVMe • AMD EPYC dernière gen • Audits de sécurité trimestriels • Certifié ISO 27001 • Green IT",
+      "keywords": "infrastructure cloud, datacenter france, datacenter paris, datacenter lyon, datacenter marseille, tier 3 plus, tier iii+, tier 4, haute disponibilité, redondance n+1, redondance 2n, supervision continue 24/7, audits sécurité, réseau 100gbps, backbone, peering, ix france, ix paris, equinix, interxion, ovh, transit ip, bgp, anycast, multicast, ipv4, ipv6, vlan, vxlan, sdn, software defined network, nfv, spine leaf, mpls, vpls, dark fiber, wavelength, cross connect, meet me room, cage privée, rack 42u, pdu, alimentation redondante, groupe électrogène, onduleur, ups, batterie, refroidissement, free cooling, adiabatique, pue, dce, efficacité énergétique, green it, énergie renouvelable, neutralité carbone, iso 14001, stockage nvme, all flash, ssd entreprise, samsung pm1733, intel optane, pure storage, netapp, dell emc, hpe nimble, san, nas, object storage, ceph, minio, erasure coding, réplication, snapshot, backup, disaster recovery, rpo, rto, serveurs amd epyc, epyc 7003, milan, genoa, zen 3, zen 4, intel xeon, cascade lake, ice lake, sapphire rapids, gpu nvidia, tesla, quadro, rtx, datacenter gpu, cuda, tensor, ampere, hopper, dpus, bluefield, smartnic, fpga, asic, tpu, calcul quantique, edge computing, fog computing, micro datacenter, conteneurs, kubernetes, openshift, rancher, docker, podman, vmware vsphere, esxi, vcenter, vsan, nsx, openstack, proxmox, xcp-ng, citrix, nutanix, hyper-v, kvm, qemu, libvirt, bare metal, serveur dédié, colocation, housing, infogérance, managed services, monitoring 24/7, supervision, nagios, zabbix, prometheus, grafana, elk stack, splunk, siem, soc, noc, iso 27001, iso 27017, iso 27018, soc 1, soc 2, soc 3, pci dss, hipaa, hébergement santé, hds, rgpd, conformité, audit, pentest, bug bounty, sécurité physique, biométrie, badge, vidéosurveillance, détection intrusion, mantrap, cage faraday",
       "og": {
         "title": "Infrastructure Cloud Premium VMCloud - Datacenters Tier III+ France",
-        "description": "Infrastructure entreprise de pointe. 3 datacenters Tier III+ en France, réseau 100Gbps, stockage NVMe, processeurs dernière génération. Certifié ISO 27001, 99.99% uptime garanti.",
+        "description": "Infrastructure entreprise de pointe. 3 datacenters Tier III+ en France, réseau 100Gbps, stockage NVMe, processeurs dernière génération. Certifié ISO 27001 et supervision continue 24/7.",
         "image": "/images/og/infrastructure-fr.jpg",
         "type": "website"
       },
@@ -115,11 +115,11 @@
     },
     "legal": {
       "title": "Mentions Légales VMCloud - CGU CGV RGPD | Documentation Juridique 2025",
-      "description": "Documentation légale complète VMCloud ⚖️ CGU CGV détaillées • Politique confidentialité RGPD • DPA • Cookies • SLA 99.99% • AUP • Propriété intellectuelle • Conformité européenne • Transparence totale",
+      "description": "Documentation légale complète VMCloud ⚖️ CGU CGV détaillées • Politique confidentialité RGPD • DPA • Cookies • Engagements de service • AUP • Propriété intellectuelle • Conformité européenne • Transparence totale",
       "keywords": "mentions légales vmcloud, cgu, cgv, conditions générales utilisation, conditions générales vente, rgpd, gdpr, politique confidentialité, privacy policy, protection données, données personnelles, dpa, data processing agreement, sous traitance, cookies, traceurs, consentement, opt in, opt out, cnil, anssi, droit accès, droit rectification, droit effacement, droit opposition, droit portabilité, dpo, data protection officer, délégué protection données, sla, service level agreement, engagement service, compensation, crédits, aup, acceptable use policy, politique utilisation acceptable, propriété intellectuelle, copyright, marques, brevets, licences, open source, gpl, mit, apache, bsd, creative commons, contrat, commande, facturation, paiement, tva, taxes, résiliation, préavis, suspension, litige, médiation, arbitrage, juridiction, loi applicable, droit français, tribunal commerce, force majeure, responsabilité, limitation responsabilité, garanties, exclusions, indemnisation, assurance, confidentialité, non divulgation, nda, secret affaires, conformité, compliance, iso, sox, bâle, mifid, kyc, aml, lutte blanchiment, embargo, sanctions, export control, hébergeur, éditeur, loi confiance économie numérique, lcen, notification contenu illicite, signalement abus, dmca, copyright infringement, contrefaçon, modération, transparence, rapport transparence, demandes gouvernementales, requêtes judiciaires, interception, surveillance, chiffrement, e2ee, zero knowledge, souveraineté, localisation données, transfert international, cloud act, schrems, adequacy decision, bce, clauses contractuelles types, codes conduite, certification, labels, trust, confiance",
       "og": {
         "title": "Documentation Légale VMCloud - CGU CGV RGPD Conformité",
-        "description": "Toute la documentation juridique VMCloud. CGU, CGV, RGPD, DPA, Cookies, SLA. Transparence totale et conformité européenne garantie.",
+        "description": "Toute la documentation juridique VMCloud. CGU, CGV, RGPD, DPA et Cookies. Transparence totale et conformité européenne garantie.",
         "image": "/images/og/legal-fr.jpg",
         "type": "website"
       },
@@ -130,8 +130,8 @@
   "en": {
     "home": {
       "title": "VMCloud - Sovereign Cloud NVMe & GPU | VPS from €29",
-      "description": "VMCloud powers your sovereign cloud: NVMe AMD EPYC VPS from €29/month, NVIDIA RTX/A100 GPU servers from €199/month, managed hosting, 400 Gbps backbone and 24/7 NOC with 99.99% SLA.",
-      "keywords": "sovereign cloud, NVMe VPS €29, GPU server €199, managed hosting, VMCloud, Hackboot, European datacenter, 99.99% SLA, 24/7 support, European cloud",
+      "description": "VMCloud powers your sovereign cloud: NVMe AMD EPYC VPS from €29/month, NVIDIA RTX/A100 GPU servers from €199/month, managed hosting, 400 Gbps backbone and 24/7 NOC with continuous compliance monitoring.",
+      "keywords": "sovereign cloud, NVMe VPS €29, GPU server €199, managed hosting, VMCloud, European datacenter, GDPR compliance, 24/7 support, European cloud, security audits",
       "og": {
         "title": "VMCloud - Sovereign Cloud NVMe & GPU",
         "description": "Next-gen sovereign infrastructure. NVMe VPS from €29/month, NVIDIA RTX/A100 GPU for AI/ML and managed hosting with 24/7 support.",
@@ -143,7 +143,7 @@
       "twitter": {
         "card": "summary_large_image",
         "title": "VMCloud - Sovereign Cloud from €29/month",
-        "description": "NVMe VPS, AI-ready GPU clusters and managed hosting with 99.99% SLA and 24/7 engineers.",
+        "description": "NVMe VPS, AI-ready GPU clusters and managed hosting with 24/7 engineers and proactive compliance.",
         "image": "/en/twitter-image",
         "creator": "@vmcloud",
         "site": "@vmcloud"
@@ -217,11 +217,11 @@
     },
     "infrastructure": {
       "title": "VMCloud Infrastructure - European Datacenters Tier 3+ | 100Gbps Network 2025",
-      "description": "Premium cloud infrastructure 🔥 3 Tier III+ datacenters Europe (Paris Lyon Marseille) • Redundant 100Gbps network • 100% NVMe storage • Latest gen AMD EPYC • 99.99% uptime • ISO 27001 certified • Green IT",
-      "keywords": "cloud infrastructure, european datacenter, paris datacenter, lyon datacenter, marseille datacenter, tier 3 plus, tier iii+, tier 4, high availability, n+1 redundancy, 2n redundancy, 99.99% uptime, guaranteed sla, 100gbps network, backbone, peering, france ix, paris ix, equinix, interxion, ovh, ip transit, bgp, anycast, multicast, ipv4, ipv6, vlan, vxlan, sdn, software defined network, nfv, spine leaf, mpls, vpls, dark fiber, wavelength, cross connect, meet me room, private cage, 42u rack, pdu, redundant power, generator, ups, battery, cooling, free cooling, adiabatic, pue, dce, energy efficiency, green it, renewable energy, carbon neutral, iso 14001, nvme storage, all flash, enterprise ssd, samsung pm1733, intel optane, pure storage, netapp, dell emc, hpe nimble, san, nas, object storage, ceph, minio, erasure coding, replication, snapshot, backup, disaster recovery, rpo, rto, amd epyc servers, epyc 7003, milan, genoa, zen 3, zen 4, intel xeon, cascade lake, ice lake, sapphire rapids, nvidia gpu, tesla, quadro, rtx, datacenter gpu, cuda, tensor, ampere, hopper, dpus, bluefield, smartnic, fpga, asic, tpu, quantum computing, edge computing, fog computing, micro datacenter, containers, kubernetes, openshift, rancher, docker, podman, vmware vsphere, esxi, vcenter, vsan, nsx, openstack, proxmox, xcp-ng, citrix, nutanix, hyper-v, kvm, qemu, libvirt, bare metal, dedicated server, colocation, housing, managed services, 24/7 monitoring, supervision, nagios, zabbix, prometheus, grafana, elk stack, splunk, siem, soc, noc, iso 27001, iso 27017, iso 27018, soc 1, soc 2, soc 3, pci dss, hipaa, health hosting, hds, gdpr, compliance, audit, pentest, bug bounty, physical security, biometrics, badge, video surveillance, intrusion detection, mantrap, faraday cage",
+      "description": "Premium cloud infrastructure 🔥 3 Tier III+ datacenters in Europe (Paris Lyon Marseille) • Redundant 100Gbps network • 100% NVMe storage • Latest gen AMD EPYC • Quarterly security audits • ISO 27001 certified • Green IT",
+      "keywords": "cloud infrastructure, european datacenter, paris datacenter, lyon datacenter, marseille datacenter, tier 3 plus, tier iii+, tier 4, high availability, n+1 redundancy, 2n redundancy, continuous monitoring, security audits, 100gbps network, backbone, peering, france ix, paris ix, equinix, interxion, ovh, ip transit, bgp, anycast, multicast, ipv4, ipv6, vlan, vxlan, sdn, software defined network, nfv, spine leaf, mpls, vpls, dark fiber, wavelength, cross connect, meet me room, private cage, 42u rack, pdu, redundant power, generator, ups, battery, cooling, free cooling, adiabatic, pue, dce, energy efficiency, green it, renewable energy, carbon neutral, iso 14001, nvme storage, all flash, enterprise ssd, samsung pm1733, intel optane, pure storage, netapp, dell emc, hpe nimble, san, nas, object storage, ceph, minio, erasure coding, replication, snapshot, backup, disaster recovery, rpo, rto, amd epyc servers, epyc 7003, milan, genoa, zen 3, zen 4, intel xeon, cascade lake, ice lake, sapphire rapids, nvidia gpu, tesla, quadro, rtx, datacenter gpu, cuda, tensor, ampere, hopper, dpus, bluefield, smartnic, fpga, asic, tpu, quantum computing, edge computing, fog computing, micro datacenter, containers, kubernetes, openshift, rancher, docker, podman, vmware vsphere, esxi, vcenter, vsan, nsx, openstack, proxmox, xcp-ng, citrix, nutanix, hyper-v, kvm, qemu, libvirt, bare metal, dedicated server, colocation, housing, managed services, 24/7 monitoring, supervision, nagios, zabbix, prometheus, grafana, elk stack, splunk, siem, soc, noc, iso 27001, iso 27017, iso 27018, soc 1, soc 2, soc 3, pci dss, hipaa, health hosting, hds, gdpr, compliance, audit, pentest, bug bounty, physical security, biometrics, badge, video surveillance, intrusion detection, mantrap, faraday cage",
       "og": {
         "title": "VMCloud Premium Cloud Infrastructure - Tier III+ European Datacenters",
-        "description": "State-of-the-art enterprise infrastructure. 3 Tier III+ datacenters in Europe, 100Gbps network, NVMe storage, latest generation processors. ISO 27001 certified, 99.99% guaranteed uptime.",
+        "description": "State-of-the-art enterprise infrastructure. 3 Tier III+ datacenters in Europe, 100Gbps network, NVMe storage, latest generation processors. ISO 27001 certified with continuous 24/7 supervision.",
         "image": "/images/og/infrastructure-en.jpg",
         "type": "website"
       },
@@ -243,11 +243,11 @@
     },
     "legal": {
       "title": "VMCloud Legal - Terms Conditions GDPR | Legal Documentation 2025",
-      "description": "Complete VMCloud legal documentation ⚖️ Detailed Terms & Conditions • GDPR privacy policy • DPA • Cookies • 99.99% SLA • AUP • Intellectual property • European compliance • Full transparency",
+      "description": "Complete VMCloud legal documentation ⚖️ Detailed Terms & Conditions • GDPR privacy policy • DPA • Cookies • Service commitments • AUP • Intellectual property • European compliance • Full transparency",
       "keywords": "vmcloud legal, terms of service, terms and conditions, general terms, terms of use, terms of sale, gdpr, privacy policy, data protection, personal data, dpa, data processing agreement, subprocessing, cookies, trackers, consent, opt in, opt out, cnil, data protection authority, right of access, right to rectification, right to erasure, right to object, right to portability, dpo, data protection officer, sla, service level agreement, service commitment, compensation, credits, aup, acceptable use policy, intellectual property, copyright, trademarks, patents, licenses, open source, gpl, mit, apache, bsd, creative commons, contract, order, billing, payment, vat, taxes, termination, notice, suspension, dispute, mediation, arbitration, jurisdiction, applicable law, commercial court, force majeure, liability, limitation of liability, warranties, exclusions, indemnification, insurance, confidentiality, non-disclosure, nda, trade secrets, compliance, iso, sox, basel, mifid, kyc, aml, anti money laundering, embargo, sanctions, export control, hosting provider, publisher, electronic commerce law, illegal content notification, abuse report, dmca, copyright infringement, counterfeiting, moderation, transparency, transparency report, government requests, judicial requests, interception, surveillance, encryption, e2ee, zero knowledge, sovereignty, data location, international transfer, cloud act, schrems, adequacy decision, standard contractual clauses, codes of conduct, certification, labels, trust",
       "og": {
         "title": "VMCloud Legal Documentation - Terms Conditions GDPR Compliance",
-        "description": "Complete VMCloud legal documentation. Terms of Service, Privacy Policy, GDPR, DPA, Cookies, SLA. Full transparency and guaranteed European compliance.",
+        "description": "Complete VMCloud legal documentation. Terms of Service, Privacy Policy, GDPR, DPA and Cookies. Full transparency and guaranteed European compliance.",
         "image": "/images/og/legal-en.jpg",
         "type": "website"
       },

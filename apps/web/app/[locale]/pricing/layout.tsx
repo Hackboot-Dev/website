@@ -12,8 +12,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       ? 'Build your sovereign cloud plan with transparent pricing: NVMe VPS on AMD EPYC from €29/month, GPU RTX/A100 nodes from €199/month, managed hosting from €12.90, hourly or annual billing with up to 25% savings.'
       : 'Composez votre cloud souverain avec une tarification transparente : VPS NVMe AMD EPYC dès 29€/mois, nœuds GPU RTX/A100 dès 199€/mois, hébergement managé dès 12,90€, facturation horaire ou annuelle jusqu\'à -25%.',
     keywords: isEN
-      ? 'VMCloud pricing, VPS €29, GPU cloud €199, sovereign cloud rates, pay as you go, SLA 99.99'
-      : 'tarifs VMCloud, VPS 29€, cloud GPU 199€, cloud souverain, paiement à l\'usage, SLA 99,99%',
+      ? 'VMCloud pricing, VPS €29, GPU cloud €199, sovereign cloud rates, pay as you go, proactive monitoring'
+      : 'tarifs VMCloud, VPS 29€, cloud GPU 199€, cloud souverain, paiement à l\'usage, supervision 24/7',
     openGraph: {
       title: isEN
         ? 'VMCloud Pricing – Transparent Sovereign Cloud Plans'

@@ -56,7 +56,7 @@ const channelsData = {
         response: '< 1 minute',
         priority: 'Programmatic',
         endpoint: '/api/v1/tickets',
-        availability: '99.99% uptime',
+        availability: 'Monitored 24/7',
         features: ['REST/GraphQL', 'Webhooks', 'Bulk operations']
       }
     ],
@@ -108,7 +108,7 @@ const channelsData = {
         response: '< 1 minute',
         priority: 'Programmatique',
         endpoint: '/api/v1/tickets',
-        availability: '99.99% disponibilité',
+        availability: 'Surveillance 24/7',
         features: ['REST/GraphQL', 'Webhooks', 'Opérations bulk']
       }
     ],

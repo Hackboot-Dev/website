@@ -226,8 +226,8 @@ export default function LoginPage() {
                     </div>
                     <p className="text-zinc-400 text-sm">
                       {language === 'fr'
-                        ? '3 datacenters • 99.99% uptime • Support 24/7'
-                        : '3 datacenters • 99.99% uptime • 24/7 Support'
+                        ? '3 datacenters • Surveillance 24/7 • Support 24/7'
+                        : '3 datacenters • 24/7 monitoring • 24/7 Support'
                       }
                     </p>
                   </div>

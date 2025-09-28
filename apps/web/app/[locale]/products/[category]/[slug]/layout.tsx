@@ -43,8 +43,8 @@ export function generateMetadata({ params }: Params): Metadata {
   const baseDescription = product?.description || product?.highlight;
   const description = product
     ? language === 'en'
-      ? `${baseDescription || 'High-performance sovereign cloud service'} ${monthlyPrice ? `Plans start at ${monthlyPrice}/month with 24/7 support and 99.99% SLA.` : ''}`.trim()
-      : `${baseDescription || 'Service cloud souverain haute performance'} ${monthlyPrice ? `Offres dès ${monthlyPrice}/mois avec support 24/7 et SLA 99,99%.` : ''}`.trim()
+      ? `${baseDescription || 'High-performance sovereign cloud service'} ${monthlyPrice ? `Plans start at ${monthlyPrice}/month with 24/7 support and continuous monitoring.` : ''}`.trim()
+      : `${baseDescription || 'Service cloud souverain haute performance'} ${monthlyPrice ? `Offres dès ${monthlyPrice}/mois avec support 24/7 et supervision continue.` : ''}`.trim()
     : language === 'en'
       ? 'Discover sovereign VMCloud products with NVMe compute, GPU acceleration and managed services.'
       : 'Découvrez les produits souverains VMCloud avec compute NVMe, accélération GPU et services managés.';

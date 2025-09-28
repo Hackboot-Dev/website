@@ -4,23 +4,23 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://vmcl.fr'),
   title: {
-    default: 'VMCloud by Hackboot – Cloud souverain NVMe dès 29€/mois',
-    template: '%s | VMCloud by Hackboot',
+    default: 'VMCloud – Cloud souverain NVMe dès 29€/mois',
+    template: '%s | VMCloud',
   },
   description:
-    'Infrastructure cloud européenne par Hackboot : VPS NVMe ultra-rapides dès 29€/mois, GPU NVIDIA pour IA/ML à partir de 199€/mois, hébergement managé et support expert 24/7 avec SLA 99,99%.',
+    'Infrastructure cloud européenne opérée par VMCloud : VPS NVMe ultra-rapides dès 29€/mois, GPU NVIDIA pour IA/ML à partir de 199€/mois, hébergement managé, conformité RGPD renforcée et centre d\'opérations réseau 24/7.',
   keywords: [
     'VMCloud',
-    'Hackboot',
     'cloud souverain',
     'VPS NVMe 29€',
     'serveur GPU IA',
     'hébergement web premium',
     'cloud européen',
     'support 24/7',
-    'SLA 99.99%',
     'datacenter France',
     'infrastructure AMD EPYC',
+    'conformité RGPD',
+    'backbone 400 Gbps',
   ],
   icons: {
     icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
@@ -30,17 +30,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://vmcl.fr/',
-    title: 'VMCloud by Hackboot – Cloud souverain NVMe dès 29€/mois',
-    siteName: 'VMCloud by Hackboot',
+    title: 'VMCloud – Cloud souverain NVMe dès 29€/mois',
+    siteName: 'VMCloud',
     description:
-      'Cloud européen haute performance : VPS NVMe dès 29€/mois, GPU dédiés IA/ML, hébergement managé et support 24/7/365.',
+      'Cloud européen haute performance : VPS NVMe dès 29€/mois, GPU dédiés IA/ML, hébergement managé, audits de sécurité trimestriels et SOC 24/7.',
     locale: 'en_US',
     images: [
       {
         url: '/en/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'VMCloud – Cloud souverain NVMe et GPU IA par Hackboot',
+        alt: 'VMCloud – Cloud souverain NVMe et GPU IA',
       },
     ],
     alternateLocale: ['fr_FR'],
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     site: '@vmcloud',
-    title: 'VMCloud by Hackboot – Cloud souverain dès 29€/mois',
+    title: 'VMCloud – Cloud souverain dès 29€/mois',
     description:
-      'VPS NVMe, GPU NVIDIA pour IA/ML et hébergement managé avec support 24/7 et SLA 99,99%.',
+      'VPS NVMe, GPU NVIDIA pour IA/ML et hébergement managé avec supervision proactive 24/7.',
     images: ['/en/twitter-image'],
   },
   robots: {

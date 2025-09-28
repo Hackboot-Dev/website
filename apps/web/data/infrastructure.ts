@@ -183,9 +183,9 @@ export const infrastructureData = {
       packetLoss: '< 0.05%',
     },
     sla: [
-      { tier: 'Standard', uptime: '99.9%', products: 'VPS, Hosting', mttr: '< 4h', support: 'Business hours', credits: '10%–25%' },
-      { tier: 'Pro', uptime: '99.95%', products: 'GPU, VPS Pro', mttr: '< 2h', support: '24/7 Priority', credits: '25%–50%' },
-      { tier: 'Enterprise', uptime: '99.99%', products: 'Dedicated, Mission-critical', mttr: '< 1h', support: '24/7 Dedicated', credits: '50%–100%' },
+      { tier: 'Standard', uptime: 'High availability', products: 'VPS, Hosting', mttr: '< 4h', support: 'Business hours', credits: '10%–25%' },
+      { tier: 'Pro', uptime: 'Enhanced availability', products: 'GPU, VPS Pro', mttr: '< 2h', support: '24/7 Priority', credits: '25%–50%' },
+      { tier: 'Enterprise', uptime: 'Continuous availability', products: 'Dedicated, Mission-critical', mttr: '< 1h', support: '24/7 Dedicated', credits: '50%–100%' },
     ],
     redundancy: {
       power: '2N UPS + N+1 gensets',
@@ -208,4 +208,3 @@ export const infrastructureData = {
 };
 
 export type InfrastructureData = typeof infrastructureData;
-

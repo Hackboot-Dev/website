@@ -9,18 +9,18 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       ? 'Terms & Legal Framework | VMCloud Terms of Service'
       : 'Conditions générales & cadre légal | VMCloud',
     description: isEN
-      ? 'Review VMCloud’s terms of service, privacy commitments, SLA, data processing agreement and acceptable use policy for sovereign cloud customers.'
-      : 'Consultez les conditions générales de VMCloud, nos engagements de confidentialité, SLA, DPA et politique d\'utilisation acceptable pour un cloud souverain.',
+      ? 'Review VMCloud’s terms of service, privacy commitments, service guarantees, data processing agreement and acceptable use policy for sovereign cloud customers.'
+      : 'Consultez les conditions générales de VMCloud, nos engagements de confidentialité, garanties de service, DPA et politique d\'utilisation acceptable pour un cloud souverain.',
     keywords: isEN
-      ? 'VMCloud terms, SLA 99.99, GDPR compliance, data processing agreement, acceptable use'
-      : 'conditions VMCloud, SLA 99,99, conformité RGPD, DPA, politique d\'utilisation',
+      ? 'VMCloud terms, service guarantees, GDPR compliance, data processing agreement, acceptable use'
+      : 'conditions VMCloud, garanties de service, conformité RGPD, DPA, politique d\'utilisation',
     openGraph: {
       title: isEN
         ? 'VMCloud Legal Terms & Compliance'
         : 'VMCloud – Conditions légales & conformité',
       description: isEN
-        ? 'All legal commitments in one place: Terms of Service, SLA, GDPR compliance and security policies for the sovereign cloud.'
-        : 'Tous les engagements légaux : CGV/CGU, SLA, conformité RGPD et politiques de sécurité du cloud souverain.',
+        ? 'All legal commitments in one place: Terms of Service, service guarantees, GDPR compliance and security policies for the sovereign cloud.'
+        : 'Tous les engagements légaux : CGV/CGU, garanties de service, conformité RGPD et politiques de sécurité du cloud souverain.',
       type: 'website',
       locale: isEN ? 'en_US' : 'fr_FR',
       url: `https://vmcl.fr/${locale}/terms`,
@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         ? 'VMCloud Terms & Compliance'
         : 'VMCloud – Conditions & conformité',
       description: isEN
-        ? 'Understand our sovereign cloud commitments: SLA, GDPR, data processing, acceptable use.'
-        : 'Découvrez nos engagements cloud souverain : SLA, RGPD, traitement des données, utilisation acceptable.',
+        ? 'Understand our sovereign cloud commitments: service guarantees, GDPR, data processing, acceptable use.'
+        : 'Découvrez nos engagements cloud souverain : garanties de service, RGPD, traitement des données, utilisation acceptable.',
       images: [`/${locale}/twitter-image`],
     },
     alternates: {

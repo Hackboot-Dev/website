@@ -91,7 +91,7 @@ export default async function Image({ params }: { params: { locale: string } }) 
         >
           {isEN ? 'VPS from €29' : 'VPS dès 29€'} • GPU {isEN ? 'Clusters' : 'Clusters GPU'} • {isEN ? 'Managed Hosting' : 'Hébergement managé'}
           <br />
-          {isEN ? 'European Datacenters' : 'Datacenters Européens'} • 99.99% SLA
+          {isEN ? 'European Datacenters' : 'Datacenters Européens'} • {isEN ? 'Continuous monitoring' : 'Supervision continue'}
         </div>
 
         {/* CTA */}

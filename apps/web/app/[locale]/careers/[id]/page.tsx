@@ -55,8 +55,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const coreSkills = job.skills?.slice(0, 4).join(', ');
   const metaDescription = isEn
-    ? `${job.title} at VMCloud (${job.location}). ${salaryRange ? `Salary ${salaryRange}. ` : ''}Key skills: ${coreSkills}. Join Hackboot’s sovereign cloud team.`
-    : `${job.title} chez VMCloud (${job.location}). ${salaryRange ? `Salaire ${salaryRange}. ` : ''}Compétences clés : ${coreSkills}. Rejoignez l'équipe cloud souverain Hackboot.`;
+    ? `${job.title} at VMCloud (${job.location}). ${salaryRange ? `Salary ${salaryRange}. ` : ''}Key skills: ${coreSkills}. Join VMCloud’s sovereign cloud team.`
+    : `${job.title} chez VMCloud (${job.location}). ${salaryRange ? `Salaire ${salaryRange}. ` : ''}Compétences clés : ${coreSkills}. Rejoignez l'équipe cloud souverain VMCloud.`;
 
   const keywords = [
     job.title,

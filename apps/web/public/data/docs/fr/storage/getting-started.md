@@ -55,9 +55,9 @@ vmcloud storage sync ./dossier-local s3://mon-bucket/dossier/
 
 | Classe | Cas d'Usage | Disponibilité | Prix |
 |--------|-------------|---------------|------|
-| **Standard** | Données fréquemment accédées | 99,99% | 0,023€/GB |
-| **Accès Peu Fréquent** | Données accédées moins d'une fois par mois | 99,9% | 0,0125€/GB |
-| **Archive** | Stockage à long terme | 99,9% | 0,004€/GB |
+| **Standard** | Données fréquemment accédées | Multi-AZ | 0,023€/GB |
+| **Accès Peu Fréquent** | Données accédées moins d'une fois par mois | Régional | 0,0125€/GB |
+| **Archive** | Stockage à long terme | Bi-site | 0,004€/GB |
 
 ## Meilleures Pratiques
 

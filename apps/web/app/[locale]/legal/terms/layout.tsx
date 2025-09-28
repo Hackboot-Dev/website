@@ -9,11 +9,11 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       ? 'Terms of Service | VMCloud Sovereign Cloud Legal'
       : 'Conditions générales de service | Légal VMCloud',
     description: isEN
-      ? 'Read VMCloud’s Terms of Service detailing contractual framework, billing, SLA enforcement and customer commitments for sovereign cloud services.'
-      : 'Consultez les Conditions Générales de Service VMCloud : cadre contractuel, facturation, application du SLA et engagements client du cloud souverain.',
+      ? 'Read VMCloud’s Terms of Service detailing contractual framework, billing, incident handling and customer commitments for sovereign cloud services.'
+      : 'Consultez les Conditions Générales de Service VMCloud : cadre contractuel, facturation, gestion des incidents et engagements client du cloud souverain.',
     keywords: isEN
-      ? 'VMCloud terms of service, sovereign cloud contract, billing policy, SLA 99.99'
-      : 'conditions service VMCloud, contrat cloud souverain, politique facturation, SLA 99,99',
+      ? 'VMCloud terms of service, sovereign cloud contract, billing policy, incident response'
+      : 'conditions service VMCloud, contrat cloud souverain, politique facturation, gestion des incidents',
     openGraph: {
       title: isEN
         ? 'VMCloud Terms of Service'

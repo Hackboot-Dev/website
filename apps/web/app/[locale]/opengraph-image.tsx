@@ -107,7 +107,7 @@ export default async function Image({ params }: { params: { locale: string } }) 
             marginBottom: 40,
           }}
         >
-          <span>99.99% SLA</span>
+          <span>{isEN ? 'Quarterly audits' : 'Audits trimestriels'}</span>
           <span>{isEN ? '24/7 NOC' : 'NOC 24/7'}</span>
           <span>{isEN ? 'From €29/mo' : 'Dès 29€/mois'}</span>
         </div>

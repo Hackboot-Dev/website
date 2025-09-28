@@ -19,7 +19,7 @@
     "usage": "Maximum performance",
     "description": "Extreme NVMe PCIe 4.0 storage for the most demanding workloads with included replication.",
     "use_cases": ["HPC and supercomputing", "High-frequency trading", "Real-time 3D rendering", "4K/8K streaming", "Real-time applications"],
-    "features": ["NVMe PCIe 4.0", "200K IOPS per TB", "Sub-0.1ms latency", "Continuous snapshots", "7 GB/s throughput", "Multi-site replication", "99.99% SLA"],
+    "features": ["NVMe PCIe 4.0", "200K IOPS per TB", "Sub-0.1ms latency", "Continuous snapshots", "7 GB/s throughput", "Multi-site replication", "Documented recovery playbooks"],
     "target_audience": "Critical applications, HPC, finance",
     "highlight": "Extreme performance"
   },

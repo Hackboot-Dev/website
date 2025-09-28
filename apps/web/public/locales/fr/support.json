@@ -2,7 +2,7 @@
   "support": {
     "hero": {
       "badge": "Support & Assistance",
-      "title": "Centre d'Aide Hackboot",
+      "title": "Centre d'Aide VMCloud",
       "subtitle": "Nous sommes là pour vous",
       "description": "Support technique expert disponible 24/7. Temps de réponse moyen < 15 minutes pour les clients Business et Enterprise.",
       "searchPlaceholder": "Rechercher dans la base de connaissances...",
@@ -52,7 +52,7 @@
         "features": ["Réponse détaillée", "Documentation jointe", "Suivi par ticket", "Multi-destinataires"],
         "responseTime": "< 4 heures",
         "availability": "Jours ouvrés",
-        "email": "support@hackboot.com",
+        "email": "support@vmcloud.com",
         "cta": "Envoyer un Email"
       },
       
@@ -252,7 +252,7 @@
         "country": "Estonie, UE",
         "businessId": "Reg. 16962303",
         "email": "Email Support",
-        "emailValue": "support@hackboot.com",
+        "emailValue": "support@vmcloud.com",
         "phone": "Téléphone",
         "phoneValue": "+372 555 0123"
       }

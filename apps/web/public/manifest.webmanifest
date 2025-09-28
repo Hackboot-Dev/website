@@ -1,7 +1,7 @@
 {
   "name": "VMCloud - Premium Cloud Infrastructure",
   "short_name": "VMCloud",
-  "description": "High-performance VPS, GPU servers, and web hosting with 99.99% SLA",
+  "description": "High-performance VPS, GPU servers, and web hosting with 24/7 monitoring",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

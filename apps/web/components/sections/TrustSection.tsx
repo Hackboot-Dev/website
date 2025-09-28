@@ -13,7 +13,7 @@ export default function TrustSection() {
     { icon: CheckIcon, title: 'ISO 27001', desc: 'Certification sécurité' },
     { icon: NetworkIcon, title: 'RGPD', desc: 'Conformité européenne' },
     { icon: CPUIcon, title: 'Tier III+', desc: 'Datacenters certifiés' },
-    { icon: CheckIcon, title: '99.99% SLA', desc: 'Disponibilité garantie' },
+    { icon: CheckIcon, title: 'Audits trimestriels', desc: 'Contrôles sécurité' },
     { icon: NetworkIcon, title: 'DDoS Protection', desc: 'Protection avancée' },
     { icon: StorageIcon, title: 'Backup 3-2-1', desc: 'Sauvegardes redondantes' },
     { icon: CPUIcon, title: 'Support 24/7', desc: 'Équipe experte' },
@@ -22,7 +22,7 @@ export default function TrustSection() {
     { icon: CheckIcon, title: 'ISO 27001', desc: 'Security certified' },
     { icon: NetworkIcon, title: 'GDPR', desc: 'European compliance' },
     { icon: CPUIcon, title: 'Tier III+', desc: 'Certified datacenters' },
-    { icon: CheckIcon, title: '99.99% SLA', desc: 'Guaranteed uptime' },
+    { icon: CheckIcon, title: 'Quarterly audits', desc: 'Security reviews' },
     { icon: NetworkIcon, title: 'DDoS Protection', desc: 'Advanced protection' },
     { icon: StorageIcon, title: '3-2-1 Backup', desc: 'Redundant backups' },
     { icon: CPUIcon, title: '24/7 Support', desc: 'Expert team' },
@@ -31,12 +31,12 @@ export default function TrustSection() {
 
   const stats = language === 'fr' ? [
     { value: '50K+', label: 'Clients actifs' },
-    { value: '99.99%', label: 'Uptime moyen' },
+    { value: '24/7', label: 'Surveillance NOC' },
     { value: '15min', label: 'Temps réponse' },
     { value: '10+', label: 'Années d\'expérience' },
   ] : [
     { value: '50K+', label: 'Active clients' },
-    { value: '99.99%', label: 'Average uptime' },
+    { value: '24/7', label: 'NOC monitoring' },
     { value: '15min', label: 'Response time' },
     { value: '10+', label: 'Years experience' },
   ];

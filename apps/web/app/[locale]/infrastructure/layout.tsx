@@ -6,11 +6,11 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
   return {
     title: isEN
-      ? 'European Cloud Infrastructure | Tier III DCs & 99.99% SLA - VMCloud'
-      : 'Infrastructure Cloud Européenne | Datacenters Tier III & SLA 99,99% - VMCloud',
+      ? 'European Cloud Infrastructure | Tier III DCs & 24/7 Monitoring - VMCloud'
+      : 'Infrastructure Cloud Européenne | Datacenters Tier III & supervision 24/7 - VMCloud',
     description: isEN
-      ? 'VMCloud runs sovereign infrastructure across Tier III European datacenters with AMD EPYC compute, RTX/A100 GPU pools, 400 Gbps multi-homed network and layered DDoS defence for a 99.99% SLA.'
-      : 'VMCloud opère une infrastructure souveraine dans des datacenters Tier III européens avec compute AMD EPYC, pools GPU RTX/A100, réseau multi-homed 400 Gbps et défense DDoS multi-couches pour un SLA 99,99%.',
+      ? 'VMCloud runs sovereign infrastructure across Tier III European datacenters with AMD EPYC compute, RTX/A100 GPU pools, 400 Gbps multi-homed network and layered DDoS defence with continuous monitoring.'
+      : 'VMCloud opère une infrastructure souveraine dans des datacenters Tier III européens avec compute AMD EPYC, pools GPU RTX/A100, réseau multi-homed 400 Gbps et défense DDoS multi-couches avec supervision continue.',
     keywords: isEN
       ? 'VMCloud infrastructure, Tier III datacenter, sovereign cloud, AMD EPYC servers, NVIDIA A100, 400 Gbps backbone, DDoS protection'
       : 'infrastructure VMCloud, datacenter Tier III, cloud souverain, serveurs AMD EPYC, NVIDIA A100, backbone 400 Gbps, protection DDoS',

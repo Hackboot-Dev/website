@@ -14,11 +14,11 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       ? 'Careers at VMCloud – Build the Sovereign Cloud'
       : 'Carrières chez VMCloud – Construisez le cloud souverain',
     description: isEn
-      ? 'Join Hackboot’s sovereign cloud team. Remote-first roles across platform, SRE, network, product and support with transparent bands, equity and on-call compensation.'
-      : 'Rejoignez l\'équipe cloud souverain d\'Hackboot. Postes remote-first en plateforme, SRE, réseau, produit et support avec grilles transparentes, equity et rémunération d\'astreinte.',
+      ? 'Join VMCloud’s sovereign cloud team. Remote-first roles across platform, SRE, network, product and support with transparent bands, equity and on-call compensation.'
+      : 'Rejoignez l\'équipe cloud souverain VMCloud. Postes remote-first en plateforme, SRE, réseau, produit et support avec grilles transparentes, equity et rémunération d\'astreinte.',
     keywords: isEn
-      ? 'VMCloud jobs, sovereign cloud careers, remote SRE roles, Hackboot hiring, DevOps jobs Europe'
-      : 'emplois VMCloud, carrières cloud souverain, postes SRE remote, recrutements Hackboot, emplois DevOps Europe',
+      ? 'VMCloud jobs, sovereign cloud careers, remote SRE roles, European DevOps positions'
+      : 'emplois VMCloud, carrières cloud souverain, postes SRE remote, emplois DevOps Europe',
     openGraph: {
       title: isEn
         ? 'Work at VMCloud – Join the Sovereign Cloud Team'
