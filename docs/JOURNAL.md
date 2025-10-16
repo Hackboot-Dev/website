@@ -1119,8 +1119,8 @@ FICHIERS:
 - /apps/web/public/robots.txt [créé] - Configuration robots optimisée SEO
 DÉTAILS:
 - Metadata dynamique par langue avec titles optimisés :
-  * FR: "VMCloud - Infrastructure Cloud Premium | VPS, GPU Computing, Hébergement Web par Hackboot"
-  * EN: "VMCloud - Premium Cloud Infrastructure | VPS, GPU Computing, Web Hosting by Hackboot"
+  * FR: "VMCloud - Infrastructure Cloud Premium | VPS, GPU Computing, Hébergement Web"
+  * EN: "VMCloud - Premium Cloud Infrastructure | VPS, GPU Computing, Web Hosting"
 - Descriptions SEO riches avec mots-clés stratégiques (AMD EPYC, Tesla GPU, etc.)
 - Mots-clés dynamiques FR/EN pour cibler les recherches "VMCloud", "Hackboot", variations
 - Hreflang tags complets (fr-FR, en-US, x-default) pour indexation multilingue
@@ -1132,7 +1132,7 @@ DÉTAILS:
 - Open Graph et Twitter Cards dynamiques par langue
 - Canonical URLs appropriés (/fr vs /en)
 - robots.txt optimisé avec sitemaps multilingues
-- Hero content redesigné avec "VMCloud by Hackboot Infrastructure" pour branding
+- Hero content redesigné avec "VMCloud Infrastructure" pour branding
 ARCHITECTURE SEO:
 - Meta tags dynamiques selon langue avec useEffect optimisé
 - Structured data JSON-LD pour rich snippets Google

@@ -23,7 +23,7 @@ Dernière mise à jour: 2025-09-04
 ## Constats détaillés
 
 ### 1) Balises meta et Open Graph/Twitter
-- Title par défaut: « VMCloud by Hackboot – Premium Cloud Infrastructure » (OK, clair + branding)
+- Title par défaut: « VMCloud – Premium Cloud Infrastructure » (OK, clair)
 - Description (EN): présente et pertinente (OK), mais non localisée.
 - Keywords: présents mais non essentiels pour Google (ne nuisent pas; à entretenir si utiles pour autres moteurs).
 - Open Graph: type/siteName/url/title/description OK, mais pas d’image (`og:image`) ni variantes locale (`og:locale:alternate`).
@@ -109,13 +109,12 @@ Risques/Opportunités:
 ## Propositions de métadonnées localisées
 
 ### EN (homepage)
-- Title: VMCloud by Hackboot – Premium Cloud Infrastructure (VPS, GPU, Hosting)
+- Title: VMCloud – Premium Cloud Infrastructure (VPS, GPU, Hosting)
 - Description: Premium European cloud infrastructure: high‑performance VPS, AI/ML GPU computing, and professional web hosting with 24/7 support and 99.9% SLA.
 - Keywords (optionnels): vps hosting, cloud server, gpu cloud, ai gpu, web hosting, european cloud, amd epyc, nvme, dedicated server, 99.9% sla
 - OG/Twitter: image `https://<domain>/og/home-en.png`, alt: “VMCloud – Premium Cloud Infrastructure (VPS • GPU • Hosting)”
 
-### FR (homepage)
-- Title: VMCloud par Hackboot – Infrastructure Cloud Premium (VPS, GPU, Hébergement)
+- Title: VMCloud – Infrastructure Cloud Premium (VPS, GPU, Hébergement)
 - Description: Infrastructure cloud européenne premium : VPS haute performance, calcul GPU pour IA/ML et hébergement web professionnel avec support 24/7 et SLA 99,9 %.
 - Mots‑clés (optionnels): hébergement vps, serveur cloud, gpu cloud, gpu ia, hébergement web, cloud européen, amd epyc, nvme, serveur dédié, sla 99,9
 - OG/Twitter: image `https://<domain>/og/home-fr.png`, alt: “VMCloud – Infrastructure Cloud Premium (VPS • GPU • Hébergement)”
@@ -149,7 +148,7 @@ Risques/Opportunités:
 - hébergement wordpress optimisé ssl gratuit
 
 ### Branded
-- vmcloud, vmcloud by hackboot, hackboot cloud
+- vmcloud, hackboot cloud
 
 ---
 
@@ -185,9 +184,9 @@ export const generateMetadata = ({ params }) => {
   return {
     title: {
       default: isFR
-        ? 'VMCloud par Hackboot – Infrastructure Cloud Premium'
-        : 'VMCloud by Hackboot – Premium Cloud Infrastructure',
-      template: isFR ? '%s | VMCloud par Hackboot' : '%s | VMCloud by Hackboot',
+        ? 'VMCloud – Infrastructure Cloud Premium'
+        : 'VMCloud – Premium Cloud Infrastructure',
+      template: '%s | VMCloud',
     },
     description: isFR
       ? 'Infrastructure cloud européenne premium : VPS haute performance, GPU IA/ML…'

@@ -73,8 +73,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       card: 'summary_large_image',
       site: '@vmcloud',
       title: isEN
-        ? 'VMCloud by Hackboot – Premium Cloud Infrastructure'
-        : 'VMCloud by Hackboot – Infrastructure Cloud Premium',
+        ? 'VMCloud – Premium Cloud Infrastructure'
+        : 'VMCloud – Infrastructure Cloud Premium',
       description: isEN
         ? 'High‑performance VPS, GPU computing for AI/ML, and professional web hosting with 24/7 support.'
         : 'VPS haute performance, calcul GPU pour AI/ML et hébergement web professionnel avec support 24/7.',
@@ -159,7 +159,7 @@ export default function LocaleLayout({ children, params }: Props) {
             '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'VMCloud',
-            alternateName: ['Hackboot', 'VMCloud by Hackboot'],
+            alternateName: ['Hackboot'],
             url: 'https://vmcl.fr',
             logo: 'https://vmcl.fr/icon.svg',
             sameAs: [

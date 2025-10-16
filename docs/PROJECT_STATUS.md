@@ -96,7 +96,7 @@
 
 ### Optimisation SEO Avancée
 - [x] **NOUVEAU**: SEO dynamique complet selon langue utilisateur
-- [x] **NOUVEAU**: Meta titles optimisés "VMCloud by Hackboot" pour branding
+- [x] **NOUVEAU**: Meta titles optimisés "VMCloud" pour branding
 - [x] **NOUVEAU**: Descriptions riches avec mots-clés stratégiques (AMD EPYC, Tesla GPU)
 - [x] **NOUVEAU**: Hreflang tags complets (fr-FR, en-US, x-default)
 - [x] **NOUVEAU**: JSON-LD Schema.org structured data complet
@@ -106,7 +106,7 @@
 - [x] **NOUVEAU**: Open Graph et Twitter Cards dynamiques
 - [x] **NOUVEAU**: Canonical URLs pour éviter duplicate content
 - [x] **NOUVEAU**: robots.txt optimisé avec sitemaps multilingues
-- [x] **NOUVEAU**: Hero redesigné avec branding "VMCloud by Hackboot Infrastructure"
+- [x] **NOUVEAU**: Hero redesigné avec branding "VMCloud Infrastructure"
 
 ## 🚧 En cours
 - [ ] Configuration de la clé API Gemini
