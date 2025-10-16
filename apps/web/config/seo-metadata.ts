@@ -91,8 +91,8 @@ export const seoMetadata: Record<string, PageMetadata> = {
       en: 'About VMCloud | Our Story and Mission',
     },
     description: {
-      fr: 'VMCloud by Hackboot : Leader européen de l\'infrastructure cloud depuis 2019. Fondé par des experts du cloud gaming reconvertis en IaaS premium. Société estonienne VMCloud OÜ.',
-      en: 'VMCloud by Hackboot: European leader in cloud infrastructure since 2019. Founded by cloud gaming experts converted to premium IaaS. Estonian company VMCloud OÜ.',
+      fr: 'VMCloud : Leader européen de l\'infrastructure cloud depuis 2019. Fondé par des experts du cloud gaming reconvertis en IaaS premium. Société estonienne VMCloud OÜ.',
+      en: 'VMCloud: European leader in cloud infrastructure since 2019. Founded by cloud gaming experts converted to premium IaaS. Estonian company VMCloud OÜ.',
     },
   },
   careers: {

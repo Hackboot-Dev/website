@@ -4,14 +4,13 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://vmcl.fr'),
   title: {
-    default: 'VMCloud by Hackboot – Premium Cloud Infrastructure',
-    template: '%s | VMCloud by Hackboot',
+    default: 'VMCloud – Premium Cloud Infrastructure',
+    template: '%s | VMCloud',
   },
   description:
-    'Premium European cloud infrastructure by Hackboot: High‑performance VPS, AI/ML GPU computing, and professional web hosting with 24/7 support and 99.9% SLA.',
+    'Premium European cloud infrastructure with high‑performance VPS, AI/ML GPU computing, and professional web hosting supported 24/7 with a 99.9% SLA.',
   keywords: [
     'VMCloud',
-    'Hackboot',
     'VPS hosting',
     'cloud server',
     'GPU computing',
@@ -27,12 +26,13 @@ export const metadata: Metadata = {
     icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
     shortcut: ['/icon.svg'],
     apple: ['/icon.svg'],
+    other: [{ rel: 'mask-icon', url: '/icon.svg', color: '#0a0a0a' }],
   },
   openGraph: {
     type: 'website',
     url: 'https://vmcl.fr/',
-    title: 'VMCloud by Hackboot – Premium Cloud Infrastructure',
-    siteName: 'VMCloud by Hackboot',
+    title: 'VMCloud – Premium Cloud Infrastructure',
+    siteName: 'VMCloud',
     description:
       'Premium European cloud infrastructure: high‑performance VPS, AI/ML GPU computing, and professional web hosting.',
     locale: 'en_US',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     site: '@vmcloud',
-    title: 'VMCloud by Hackboot – Premium Cloud Infrastructure',
+    title: 'VMCloud – Premium Cloud Infrastructure',
     description:
       'High‑performance VPS, GPU computing for AI/ML, and professional web hosting with 24/7 support.',
     images: ['/og/home-en'],
