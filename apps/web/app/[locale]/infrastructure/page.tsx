@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import './infrastructure.css';
 import {
   CpuChipIcon,
@@ -73,9 +73,74 @@ export default function InfrastructurePage() {
     [translations]
   );
 
+  const hoverableRef = useRef<HTMLDivElement | null>(null);
+
+  const handleGlobalPointerMove = useCallback((event: PointerEvent) => {
+    if (!hoverableRef.current) return;
+    const element = hoverableRef.current;
+    const rect = element.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    element.style.setProperty('--pointer-x', `${x}px`);
+    element.style.setProperty('--pointer-y', `${y}px`);
+  }, []);
+
+  useEffect(() => {
+    const current = hoverableRef.current;
+    if (!current) return;
+    current.style.setProperty('--pointer-x', '50%');
+    current.style.setProperty('--pointer-y', '50%');
+    const handleLeave = () => {
+      current.style.setProperty('--pointer-x', '50%');
+      current.style.setProperty('--pointer-y', '50%');
+    };
+
+    window.addEventListener('pointermove', handleGlobalPointerMove);
+    current.addEventListener('pointerleave', handleLeave);
+
+    return () => {
+      window.removeEventListener('pointermove', handleGlobalPointerMove);
+      current.removeEventListener('pointerleave', handleLeave);
+    };
+  }, [handleGlobalPointerMove]);
+
   if (!mounted) {
     return null;
   }
+
+  const AnimatedPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, className = '', ...props }) => {
+    const panelRef = useRef<HTMLDivElement | null>(null);
+
+    const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+      if (!panelRef.current) return;
+      const element = panelRef.current;
+      const rect = element.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      element.style.setProperty('--pointer-x', `${x}px`);
+      element.style.setProperty('--pointer-y', `${y}px`);
+    }, []);
+
+    const handlePointerLeave = useCallback(() => {
+      if (!panelRef.current) return;
+      panelRef.current.style.setProperty('--pointer-x', '50%');
+      panelRef.current.style.setProperty('--pointer-y', '50%');
+    }, []);
+
+    return (
+      <div
+        ref={panelRef}
+        className={`interactive-panel ${className}`.trim()}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        {...props}
+      >
+        <div className="interactive-panel__glow" aria-hidden />
+        <div className="interactive-panel__border" aria-hidden />
+        <div className="relative z-[1]">{children}</div>
+      </div>
+    );
+  };
 
   const heroHighlights = [
     {
@@ -269,7 +334,7 @@ export default function InfrastructurePage() {
   return (
     <>
       <SophisticatedBackground />
-      <div className="min-h-screen bg-zinc-950">
+      <div className="min-h-screen bg-zinc-950" ref={hoverableRef}>
         <div className="fixed inset-0 opacity-[0.015] bg-noise pointer-events-none" />
 
         <Header />
@@ -282,6 +347,8 @@ export default function InfrastructurePage() {
               <div className="absolute bottom-1/3 left-1/4 w-24 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
               <div className="absolute top-20 left-10 w-2 h-2 bg-zinc-800 rounded-full animate-subtle-float" />
               <div className="absolute bottom-16 right-24 w-1 h-1 bg-zinc-700 rounded-full animate-subtle-float" />
+              <div className="hero-spotlight" aria-hidden />
+              <div className="hero-spotlight hero-spotlight--alt" aria-hidden />
             </div>
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -331,14 +398,14 @@ export default function InfrastructurePage() {
                 {heroHighlights.map((item, index) => {
                   const Icon = item.icon;
                   return (
-                    <div
+                    <AnimatedPanel
                       key={item.key}
-                      className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 rounded-2xl p-6 text-left animate-fade-in-up"
+                      className="backdrop-blur-sm rounded-2xl p-6 text-left animate-fade-in-up"
                       style={{ animationDelay: `${0.1 * index}s` }}
                     >
                       <Icon className="w-6 h-6 text-zinc-400 mb-4" />
                       <p className="text-sm text-zinc-300 leading-relaxed">{item.text}</p>
-                    </div>
+                    </AnimatedPanel>
                   );
                 })}
               </div>
@@ -362,11 +429,11 @@ export default function InfrastructurePage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-grid">
                 {pillarItems.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <div key={item.key} className="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-6 flex flex-col gap-4">
+                    <AnimatedPanel key={item.key} className="rounded-2xl p-6 flex flex-col gap-4">
                       <div className="flex items-center gap-3">
                         <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800">
                           <Icon className="w-6 h-6 text-zinc-300" />
@@ -384,7 +451,7 @@ export default function InfrastructurePage() {
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </AnimatedPanel>
                   );
                 })}
               </div>
@@ -408,9 +475,9 @@ export default function InfrastructurePage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-grid">
                 {architectureColumns.map((column) => (
-                  <div key={column.key} className="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-6 flex flex-col gap-4">
+                  <AnimatedPanel key={column.key} className="rounded-2xl p-6 flex flex-col gap-4">
                     <div>
                       <h3 className="text-2xl font-light text-white mb-2">{column.title}</h3>
                       <p className="text-sm text-zinc-400">{column.description}</p>
@@ -423,7 +490,7 @@ export default function InfrastructurePage() {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </AnimatedPanel>
                 ))}
               </div>
             </div>
@@ -446,11 +513,11 @@ export default function InfrastructurePage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-grid">
                 {assuranceBlocks.map((block) => {
                   const Icon = block.icon;
                   return (
-                    <div key={block.key} className="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-6 flex flex-col gap-4">
+                    <AnimatedPanel key={block.key} className="rounded-2xl p-6 flex flex-col gap-4">
                       <div className="flex items-center gap-3">
                         <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800">
                           <Icon className="w-6 h-6 text-zinc-300" />
@@ -465,7 +532,7 @@ export default function InfrastructurePage() {
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </AnimatedPanel>
                   );
                 })}
               </div>
