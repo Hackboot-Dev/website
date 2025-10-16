@@ -2,259 +2,146 @@
   "infrastructure": {
     "hero": {
       "badge": "Infrastructure Cloud Premium",
-      "evolution": "Du pionnier du cloud gaming haute performance à l'infrastructure cloud européenne premium",
-      "title": "Infrastructure Technique",
-      "subtitle": "> 3M€ d'Investissement",
-      "description": "Hardware propriétaire dernière génération. Performance garantie sans overselling. Infrastructure 100% européenne avec une expertise unique en latence ultra-faible.",
+      "title": "Architecture souveraine pensée pour la performance",
+      "subtitle": "Nous opérons chaque brique de bout en bout.",
+      "description": "Bare-metal propriétaire, équipe SRE européenne et chaîne logicielle intégrée. Notre objectif : délivrer une plateforme stable, prédictive et maîtrisée, sans overselling ni compromis.",
       "cta": {
-        "products": "Voir les Produits",
-        "pricing": "Tarification",
-        "support": "Support 24/7"
+        "primary": "Parler à un ingénieur",
+        "secondary": "Explorer les offres",
+        "tertiary": "Documentation technique"
+      },
+      "highlights": {
+        "compute": "Clusters compute AMD EPYC optimisés pour la charge",
+        "gpu": "Pods GPU NVLink dédiés aux workloads IA, rendu et streaming",
+        "network": "Backbone multi-site avec routage actif-actif et filtrage avancé",
+        "ops": "Ingénierie SRE européenne, supervision continue et opérations automatisées"
       }
     },
-    
-    "stats": {
-      "uptime": "Uptime Réel 2024",
-      "latency": "Latence EU",
-      "vcpus": "vCPUs AMD EPYC",
-      "gpus": "GPU Disponibles"
-    },
-    
-    "capacity": {
-      "badge": "Capacité Totale",
-      "title": "Vue d'Ensemble Infrastructure",
-      "compute": {
-        "title": "Compute",
-        "totalVcpus": "Total vCPUs",
-        "totalRam": "RAM Total",
-        "nodes": "Nodes",
-        "utilization": "Utilisation"
-      },
-      "storage": {
-        "title": "Stockage",
-        "nvmeCapacity": "Capacité NVMe",
-        "performance": "Performance",
-        "utilization": "Utilisation"
-      },
-      "network": {
-        "title": "Réseau",
-        "capacity": "Capacité",
-        "burst": "Burst",
-        "utilization": "Utilisation"
-      },
-      "gpu": {
-        "title": "Inventaire GPU",
-        "highDemand": "Utilisé - Forte Demande",
-        "units": "unités"
+    "pillars": {
+      "badge": "Piliers techniques",
+      "title": "Ce que nous maîtrisons de bout en bout",
+      "description": "Nos ingénieurs conçoivent le matériel, l'orchestration et les processus opérationnels en parallèle pour absorber vos charges critiques.",
+      "items": {
+        "compute": {
+          "title": "Compute fabric sur-mesure",
+          "description": "Bare-metal optimisé AMD EPYC orchestré par notre control-plane.",
+          "points": [
+            "Processeurs AMD EPYC dernière génération avec profil NUMA accordé",
+            "Provisionnement automatique via images durcies et cloud-init maison",
+            "Observation temps réel sur densité, thermique et latence disque"
+          ]
+        },
+        "gpu": {
+          "title": "Fermes GPU spécialisées",
+          "description": "Pods GPU dédiés pour IA, rendu et streaming, isolés par design.",
+          "points": [
+            "Pods NVLink et NVSwitch isolés par usage IA, rendu et streaming",
+            "Routage PCIe optimisé pour faible latence et bande passante continue",
+            "Refroidissement liquide supervisé avec alerting prédictif"
+          ]
+        },
+        "network": {
+          "title": "Backbone et edge contrôlés",
+          "description": "Réseau actif-actif pensé pour absorber les pics et sécuriser le trafic.",
+          "points": [
+            "Topologie spine-leaf redondée entre sites européens",
+            "BGP interne avec politiques adaptées aux workloads sensibles",
+            "Protection DDoS multi-couches et inspection applicative permanente"
+          ]
+        },
+        "data": {
+          "title": "Données et stockage souverains",
+          "description": "Conçu pour la consistance, la sécurité et la proximité réglementaire.",
+          "points": [
+            "Volumes NVMe haute endurance agrégés par logiciel maison",
+            "Ceph multi-domaines pour objets, blocs et snapshots cohérents",
+            "Chiffrement systématique avec gestion de clés via HSM interne"
+          ]
+        },
+        "ops": {
+          "title": "Opérations pilotées par le code",
+          "description": "Processus SRE, GitOps et observabilité intégrés à la plateforme.",
+          "points": [
+            "Infrastructure-as-code GitOps avec revues systématiques",
+            "Pipeline CI/CD dédié à chaque composant plateforme",
+            "Runbooks SRE et exercices de chaos engineering programmés"
+          ]
+        }
       }
     },
-    
-    "regions": {
-      "badge": "Présence Européenne",
-      "title": "Datacenters Tier III+",
-      "description": "Colocation premium chez Equinix et Interxion. Redondance 2N sur l'alimentation, refroidissement DX avec PUE < 1.3",
-      "status": {
-        "operational": "Opérationnel",
-        "maintenance": "Maintenance",
-        "coming": "Bientôt"
-      },
-      "gpuAvailable": "GPU Disponibles",
-      "peering": "Peering"
-    },
-    
-    "compute": {
-      "badge": "Architecture Technique",
-      "title": "Compute & Virtualisation",
-      "vpsHosts": {
-        "title": "VPS Hosts"
-      },
-      "gpuHosts": {
-        "title": "GPU Hosts"
-      },
-      "virtualization": {
-        "title": "Stack Virtualisation",
-        "hypervisor": "Hyperviseur"
-      },
-      "cpu": "CPU",
-      "ram": "RAM",
-      "storage": "Stockage",
-      "network": "Réseau",
-      "density": "Densité",
-      "gpuSlots": "Slots GPU",
-      "cooling": "Refroidissement"
-    },
-    
-    "network": {
-      "badge": "Infrastructure Réseau",
-      "title": "Backbone & Protection",
-      "description": "de capacité avec burst jusqu'à",
-      "description2": "réseaux directs, CDN via",
-      "ddos": {
-        "title": "Protection DDoS Multi-Couches",
-        "mitigation": "Mitigation",
-        "provider": "Fournisseur",
-        "sla": "SLA"
-      },
-      "peering": {
-        "title": "Points de Peering",
-        "connected": "Connecté",
-        "planned": "Planifié"
-      },
-      "transit": {
-        "title": "Transit & CDN",
-        "providers": "Transit Providers",
-        "cdnPartnership": "Partenariat CDN",
-        "cdnDescription": "pour edge caching global",
-        "avgLatency": "Latence moyenne EU",
-        "guaranteedLatency": "Latence garantie"
+    "architecture": {
+      "badge": "Architecture",
+      "title": "Trois couches pour servir vos charges",
+      "description": "Une chaîne matérielle, logicielle et opérationnelle alignée pour délivrer une expérience cohérente.",
+      "columns": {
+        "hardware": {
+          "title": "Fondation matériel",
+          "description": "Nous maîtrisons le cycle de vie des hôtes et de la connectivité.",
+          "points": [
+            "Bare-metal propriétaire avec alimentation et refroidissement redondés",
+            "Segmentation physique par familles de services et zones de sécurité",
+            "Capteurs continus sur énergie, thermique et acoustique"
+          ]
+        },
+        "platform": {
+          "title": "Plateforme cloud",
+          "description": "Orchestration applicative et services managés unifiés.",
+          "points": [
+            "Control-plane Kubernetes et Nomad opérés par notre équipe",
+            "Services managés : bases de données, message bus, observabilité",
+            "Réseaux virtuels privés, load-balancing logiciel et edge BGP"
+          ]
+        },
+        "experience": {
+          "title": "Expérience développeur",
+          "description": "Interfaces cohérentes pour construire, déployer et suivre.",
+          "points": [
+            "API publique, CLI et provider Terraform maintenus ensemble",
+            "Portail unifié avec métriques temps réel et journaux corrélés",
+            "Support technique senior avec escalade directe vers l'ingénierie"
+          ]
+        }
       }
     },
-    
-    "storage": {
-      "badge": "Infrastructure Stockage",
-      "title": "NVMe Gen4 & Stockage Distribué",
-      "local": {
-        "title": "Stockage Local",
-        "models": "Modèles",
-        "readSpeed": "Vitesse Lecture",
-        "writeSpeed": "Vitesse Écriture",
-        "iops": "IOPS",
-        "latency": "Latence"
-      },
-      "distributed": {
-        "title": "Stockage Distribué",
-        "capacity": "Capacité",
-        "replication": "Réplication",
-        "performance": "Performance",
-        "useCases": "Cas d'Usage"
-      },
-      "backup": {
-        "title": "Backup & Recovery",
-        "method": "Méthode",
-        "frequency": "Fréquence",
-        "retention": "Rétention",
-        "rpo": "RPO",
-        "rto": "RTO"
+    "assurance": {
+      "badge": "Fiabilité et conformité",
+      "title": "Ce qui garantit la continuité",
+      "description": "Nos engagements s'appuient sur une gouvernance stricte et une supervision permanente.",
+      "blocks": {
+        "security": {
+          "title": "Sécurité",
+          "points": [
+            "Accès physique biométrique et salles surveillées en permanence",
+            "Segmentation réseau micro-segmentée avec politiques zero-trust",
+            "Audits de sécurité continus, durcissement kernel et patching automatisé"
+          ]
+        },
+        "resilience": {
+          "title": "Résilience",
+          "points": [
+            "Opérations multi-sites actives avec bascule orchestrée",
+            "Sauvegardes orchestrées et tests de restauration réguliers",
+            "Plans de reprise validés par exercices conjoints avec les clients"
+          ]
+        },
+        "governance": {
+          "title": "Gouvernance",
+          "points": [
+            "Processus conformes RGPD avec supervision interne dédiée",
+            "Traçabilité complète des changements et journaux immuables",
+            "Revues de conformité menées avec partenaires européens"
+          ]
+        }
       }
     },
-    
-    "security": {
-      "badge": "Sécurité & Conformité",
-      "title": "Protection Multi-Couches",
-      "certifications": {
-        "obtained": "Obtenu",
-        "compliant": "Conforme",
-        "ready": "Prêt",
-        "inProgress": "En cours"
-      },
-      "physical": {
-        "title": "Sécurité Physique"
-      },
-      "network": {
-        "title": "Sécurité Réseau"
-      },
-      "encryption": {
-        "title": "Chiffrement",
-        "atRest": "Au Repos",
-        "inTransit": "En Transit",
-        "keys": "Clés"
-      },
-      "compliance": {
-        "title": "RGPD/GDPR",
-        "dataResidency": "Data residency EU",
-        "dpa": "DPA disponible",
-        "rightToForget": "Droit à l'oubli",
-        "auditTrails": "Journaux d'audit"
-      }
-    },
-    
-    "reliability": {
-      "badge": "Fiabilité & SLA",
-      "title": "Garanties de Service",
-      "description": "Uptime réel 2024 :",
-      "description2": "Seulement",
-      "sla": {
-        "tier": "Niveau",
-        "mttr": "MTTR",
-        "support": "Support",
-        "credits": "Crédits"
-      },
-      "redundancy": {
-        "title": "Redondance Infrastructure",
-        "power": "Alimentation",
-        "network": "Réseau",
-        "cooling": "Refroidissement",
-        "storage": "Stockage"
-      },
-      "metrics": {
-        "title": "Métriques Réelles 2024",
-        "actualUptime": "Uptime Réel",
-        "majorIncidents": "Incidents Majeurs",
-        "avgLatency": "Latence Moyenne",
-        "packetLoss": "Perte de Paquets"
-      }
-    },
-    
-    "stack": {
-      "badge": "Stack Technique",
-      "title": "Orchestration & Monitoring",
-      "orchestration": {
-        "title": "Orchestration"
-      },
-      "monitoring": {
-        "title": "Monitoring"
-      },
-      "automation": {
-        "title": "API & Automatisation",
-        "api": "API",
-        "graphql": "GraphQL",
-        "terraform": "Terraform",
-        "cli": "CLI",
-        "webhooks": "Webhooks"
-      }
-    },
-    
-    "roadmap": {
-      "badge": "Roadmap 2025",
-      "title": "Évolution de la Plateforme",
-      "q1": {
-        "title": "T1 2025",
-        "networkUpgrade": "Upgrade réseau Paris 100G",
-        "gpuDeployment": "Déploiement nouveaux GPU A100",
-        "apiDevelopment": "Développement API v2"
-      },
-      "q2": {
-        "title": "T2 2025",
-        "madridLaunch": "Lancement datacenter Madrid",
-        "objectStorage": "Object Storage S3 (MinIO)",
-        "terraformProvider": "Provider Terraform"
-      },
-      "q3": {
-        "title": "T3 2025",
-        "milanLaunch": "Lancement datacenter Milan",
-        "kubernetes": "Service Kubernetes managé",
-        "isoCertification": "Certification ISO 27001"
-      },
-      "q4": {
-        "title": "T4 2025",
-        "multiRegion": "Réplication multi-région",
-        "edgeComputing": "Edge computing (CDN)",
-        "quantumCrypto": "Cryptographie quantum-safe"
-      },
-      "status": {
-        "completed": "Complété",
-        "inProgress": "En cours",
-        "planned": "Planifié"
-      }
-    },
-    
     "cta": {
-      "title": "Infrastructure Premium Européenne",
-      "description": "Rejoignez les entreprises qui ont choisi Hackboot pour leur infrastructure critique. Support 24/7, SLA garanti, et une équipe d'experts européens.",
-      "talkExpert": "Parler à un Expert",
-      "exploreProducts": "Explorer les Produits",
-      "requestDemo": "Demander une Démo",
-      "footer": "Hackboot OÜ • Entreprise estonienne • Infrastructure 100% européenne"
+      "badge": "Prêt à avancer ?",
+      "title": "Construisons votre architecture",
+      "description": "Contactez-nous pour une revue technique de vos workloads, une architecture personnalisée et un accompagnement par nos ingénieurs européens.",
+      "primary": "Parler à un ingénieur",
+      "secondary": "Explorer les offres",
+      "tertiary": "Documentation technique",
+      "footer": "Hackboot OÜ • Entreprise estonienne • Infrastructure opérée en Europe"
     }
   }
 }
