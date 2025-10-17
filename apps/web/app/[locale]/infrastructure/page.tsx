@@ -577,7 +577,7 @@ export default function InfrastructurePage() {
                 </div>
 
                 <p className="text-xs text-zinc-500 uppercase tracking-[0.2em] mt-12">
-                  {t('cta.footer', 'Hackboot OÜ • Entreprise estonienne • Infrastructure opérée en Europe')}
+                  {t('cta.footer', 'VMCloud OÜ • Société estonienne • Infrastructure opérée en Europe')}
                 </p>
               </div>
             </div>
