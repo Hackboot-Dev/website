@@ -26,21 +26,21 @@ apps/web/public/robots.txt     # Configuration robots
 #### Titles Optimisés
 ```typescript
 const titles = {
-  fr: 'VMCloud - Infrastructure Cloud Premium | VPS, GPU Computing, Hébergement Web par Hackboot',
-  en: 'VMCloud - Premium Cloud Infrastructure | VPS, GPU Computing, Web Hosting by Hackboot'
+  fr: 'VMCloud - Infrastructure Cloud Premium | VPS, GPU Computing, Hébergement Web',
+  en: 'VMCloud - Premium Cloud Infrastructure | VPS, GPU Computing, Web Hosting'
 };
 ```
 
 **Stratégie** :
-- **Brand focus** : "VMCloud by Hackboot" pour association marques
+- **Brand focus** : "VMCloud" pour cohérence de marque
 - **Keywords premium** : "Premium", "Infrastructure Cloud", "GPU Computing"
 - **Technical terms** : "VPS", "AMD EPYC", "Tesla GPU" pour référencement technique
 
 #### Descriptions Riches
 ```typescript
 const descriptions = {
-  fr: 'VMCloud by Hackboot : Infrastructure cloud européenne premium. VPS haute performance, GPU Computing IA/ML, hébergement web. Support 24/7, SLA 99.9%. Déployez en 60s.',
-  en: 'VMCloud by Hackboot: Premium European cloud infrastructure. High-performance VPS, AI/ML GPU Computing, web hosting. 24/7 support, 99.9% SLA. Deploy in 60s.'
+  fr: 'VMCloud : Infrastructure cloud européenne premium. VPS haute performance, GPU Computing IA/ML, hébergement web. Support 24/7, SLA 99.9%. Déployez en 60s.',
+  en: 'VMCloud: Premium European cloud infrastructure. High-performance VPS, AI/ML GPU Computing, web hosting. 24/7 support, 99.9% SLA. Deploy in 60s.'
 };
 ```
 
@@ -75,7 +75,7 @@ const keywords = {
   "@context": "https://schema.org",
   "@type": "Organization", 
   "name": "VMCloud",
-  "alternateName": ["Hackboot", "VMCloud by Hackboot"],
+  "alternateName": ["Hackboot"],
   "url": "https://vmcloud.com",
   "description": "Infrastructure cloud européenne premium...",
   "foundingDate": "2024"
@@ -169,7 +169,7 @@ structuredData.offers.push(newOffer);
 ### 3. Configuration robots.txt
 
 ```
-# VMCloud by Hackboot - Premium Cloud Infrastructure
+# VMCloud - Premium Cloud Infrastructure
 User-agent: *
 Allow: /
 

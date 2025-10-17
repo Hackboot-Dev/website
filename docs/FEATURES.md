@@ -64,7 +64,7 @@
 
 ## 🚀 Optimisation SEO Avancée
 ### Meta Data Dynamique
-- **Titles optimisés** : "VMCloud by Hackboot" pour branding
+- **Titles optimisés** : "VMCloud" pour branding
 - **Descriptions riches** : Mots-clés AMD EPYC, Tesla GPU, etc.
 - **Keywords stratégiques** : 50+ variations VMCloud/Hackboot
 - **Hreflang complet** : fr-FR, en-US, x-default

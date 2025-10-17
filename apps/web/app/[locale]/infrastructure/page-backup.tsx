@@ -1268,7 +1268,7 @@ export default function InfrastructurePage() {
                 
                 <div className="mt-8 pt-8 border-t border-zinc-800">
                   <p className="text-sm text-zinc-500">
-                    {t('cta.footer', 'Hackboot OÜ • Entreprise estonienne • Infrastructure 100% européenne')}
+                    {t('cta.footer', 'VMCloud OÜ • Société estonienne • Infrastructure 100% européenne')}
                   </p>
                 </div>
               </div>
