@@ -193,6 +193,94 @@
   animation: subtleFloat 4s ease-in-out infinite;
 }
 
+.hero-spotlight {
+  position: absolute;
+  inset: auto;
+  top: 30%;
+  left: 10%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle at center, rgba(34, 211, 238, 0.18), transparent 60%);
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: rotateGlow 18s linear infinite;
+}
+
+.hero-spotlight--alt {
+  top: auto;
+  bottom: 20%;
+  left: auto;
+  right: 12%;
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.16), transparent 65%);
+  animation-duration: 22s;
+}
+
+@keyframes rotateGlow {
+  0% {
+    transform: translate(-10%, -20%) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate(10%, 10%) rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: translate(-10%, -20%) rotate(360deg) scale(1);
+  }
+}
+
+.interactive-panel {
+  position: relative;
+  border-radius: 1rem;
+  background: rgba(24, 24, 27, 0.65);
+  border: 1px solid rgba(63, 63, 70, 0.7);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.interactive-panel:hover {
+  transform: translateY(-6px);
+  border-color: rgba(45, 212, 191, 0.3);
+  box-shadow: 0 30px 60px rgba(6, 182, 212, 0.07), 0 18px 40px rgba(88, 28, 135, 0.08);
+}
+
+.interactive-panel__glow,
+.interactive-panel__border {
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.interactive-panel__glow {
+  background: radial-gradient(240px circle at var(--pointer-x, 50%) var(--pointer-y, 50%), rgba(34, 211, 238, 0.15), transparent 70%);
+}
+
+.interactive-panel__border {
+  border: 1px solid rgba(129, 140, 248, 0.25);
+  mix-blend-mode: screen;
+}
+
+.interactive-panel:hover .interactive-panel__glow,
+.interactive-panel:hover .interactive-panel__border {
+  opacity: 1;
+}
+
+.interactive-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(180px circle at var(--pointer-x, 50%) var(--pointer-y, 50%), rgba(59, 130, 246, 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.interactive-panel:hover::after {
+  opacity: 1;
+}
+
 /* Loading skeleton animation */
 @keyframes shimmer {
   0% {
