@@ -510,9 +510,9 @@
   "hero": {
     "label": "INFRASTRUCTURE CLOUD PREMIUM",
     "title": {
-      "1": "VMCloud",
-      "2": "by VMCloud",
-      "3": "Infrastructure"
+      "1": "Infrastructure",
+      "2": "Cloud",
+      "3": "Premium"
     },
     "subtitle": "Cloud européen premium : VPS AMD EPYC, GPU Computing Tesla/RTX, hébergement web. Déployez en 60s, support 24/7, SLA 99.9%.",
     "cta": {
