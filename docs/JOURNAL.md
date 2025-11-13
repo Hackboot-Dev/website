@@ -1,5 +1,19 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-11-13 - 14:30]
+SESSION: Correction du titre redondant "VMCloud by VMCloud" sur la page d'accueil
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/locales/fr.json [modifié]
+- /apps/web/locales/en.json [modifié]
+DÉTAILS: Le titre principal du hero affichait "VMCloud by VMCloud Infrastructure", ce qui était redondant et n'avait pas de sens. Modification des clés de traduction pour afficher :
+- FR: "Infrastructure Cloud Premium" (au lieu de "VMCloud by VMCloud Infrastructure")
+- EN: "Premium Cloud Infrastructure" (au lieu de "VMCloud by VMCloud Infrastructure")
+La marque VMCloud est maintenant affichée uniquement dans le label au-dessus du titre, ce qui est plus cohérent et professionnel.
+ERREURS: Aucune
+PROCHAINE ÉTAPE: N/A
+---
+
 [2025-01-26 - 17:16]
 SESSION: Ajout de la page Careers dans le header et nettoyage du footer
 STATUT: ✅ Réussi
