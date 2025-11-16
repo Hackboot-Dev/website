@@ -1,5 +1,132 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-11-15 - 18:30]
+SESSION: Création complète du système News avec carrousels et composants personnalisables
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/content/news/articles.json [créé] - Métadonnées des articles et catégories
+- /apps/web/content/news/fr/company/vmcloud-labs-launch.md [créé] - Article lancement VMCloud Labs
+- /apps/web/content/news/fr/company/gaming-to-cloud-pivot.md [créé] - Article storytelling pivot Gaming→Cloud
+- /apps/web/content/news/fr/product/gpu-orchestrator-beta.md [créé] - Article technique GPU Orchestrator
+- /apps/web/app/[locale]/news/page.tsx [créé] - Page News principale (serveur)
+- /apps/web/app/[locale]/news/NewsPageClient.tsx [créé] - Page News (client)
+- /apps/web/app/[locale]/news/[slug]/page.tsx [créé] - Page article individuelle (serveur)
+- /apps/web/app/[locale]/news/[slug]/NewsArticleClient.tsx [créé] - Lecteur d'article avec composants custom
+- /apps/web/components/news/NewsHero.tsx [créé] - Hero section pour article featured
+- /apps/web/components/news/NewsCarousel.tsx [créé] - Carrousel d'articles avec auto-scroll
+- /apps/web/components/news/NewsCard.tsx [créé] - Card individuelle d'article
+- /apps/web/components/news/NewsCategoryFilter.tsx [créé] - Filtres par catégorie
+- /apps/web/components/news/custom-components/index.tsx [créé] - 30+ composants markdown personnalisés
+DÉTAILS: Création d'un système News complet avec architecture cloisonnée et composants personnalisables.
+
+**Architecture créée :**
+1. ✅ Structure de données séparée (JSON + fichiers .md par langue)
+2. ✅ 4 catégories d'articles : Company, Product, Tech, Community
+3. ✅ Système de métadonnées avancé (featured, priority, tags, customComponents)
+4. ✅ Page principale avec carrousels par catégorie et auto-scroll
+5. ✅ Filtres interactifs par catégorie avec animations
+6. ✅ Hero section immersive pour article featured
+7. ✅ Système de lecture d'article avec markdown renderer
+8. ✅ 30+ composants personnalisables pour markdown
+
+**Composants personnalisables créés :**
+- **Heroes** : HeroFullscreen, HeroParallax, HeroCode
+- **Quotes** : Quote, QuoteHighlight
+- **Stats** : StatsAnimated, Stat, MetricsGrid, Metric, StatsShowcase, StatCard
+- **Timeline** : Timeline (variant default/dramatic)
+- **CTA** : CallToAction (variant default/gradient)
+- **Layouts** : ProjectGrid, ComparisonSlider, ImageFloat
+- **Code** : CodeBlock (avec syntax highlighting)
+- **Media** : ArchitectureDiagram, VideoEmbed
+- **Tables** : GPUComparisonTable
+- **UI** : AlertBox, PricingCard, FAQSection, TestimonialGrid, Testimonial
+- **Misc** : Credits, Intro, MetricsChart
+
+**Articles exemples créés :**
+1. **VMCloud Labs Launch** (Company)
+   - Composants : HeroFullscreen, ProjectGrid, StatsAnimated, Timeline, CallToAction
+   - Contenu : Présentation du hub innovation, 4 projets actifs, roadmap 2026
+
+2. **Gaming to Cloud Pivot** (Company)
+   - Composants : HeroParallax, QuoteHighlight, ComparisonSlider, Timeline, StatsShowcase
+   - Contenu : Storytelling complet du pivot, leçons apprises, chiffres avant/après
+
+3. **GPU Orchestrator Beta** (Product)
+   - Composants : HeroCode, CodeBlock, ArchitectureDiagram, VideoEmbed, GPUComparisonTable, AlertBox, PricingCard, FAQSection, TestimonialGrid
+   - Contenu : Annonce beta, architecture technique, code examples, pricing
+
+**Features techniques :**
+- ✅ Carrousels avec navigation scroll + dots indicators
+- ✅ Auto-scroll optionnel pour carrousels (pause au hover)
+- ✅ Animations Framer Motion sur tous les éléments
+- ✅ Support complet i18n (FR/EN) avec metadata dynamiques
+- ✅ SEO optimisé (meta tags, OpenGraph, Twitter Cards, structured data)
+- ✅ Design Awwwards cohérent avec le reste du site
+- ✅ Responsive design complet (mobile, tablet, desktop)
+- ✅ Système de tags et catégorisation
+- ✅ Author info avec photos
+- ✅ Read time estimation
+- ✅ Share buttons (Share, Bookmark)
+- ✅ Related articles suggestions
+- ✅ Newsletter signup CTA
+
+**Architecture des fichiers :**
+```
+/apps/web/content/news/
+├── articles.json              # Métadonnées centralisées
+├── en/                        # Articles anglais
+│   ├── company/
+│   ├── product/
+│   ├── tech/
+│   └── community/
+└── fr/                        # Articles français
+    ├── company/
+    ├── product/
+    ├── tech/
+    └── community/
+
+/apps/web/app/[locale]/news/
+├── page.tsx                   # Page principale (serveur)
+├── NewsPageClient.tsx         # Client avec carrousels
+└── [slug]/
+    ├── page.tsx               # Article (serveur, SEO)
+    └── NewsArticleClient.tsx  # Lecteur markdown custom
+
+/apps/web/components/news/
+├── NewsHero.tsx               # Hero featured
+├── NewsCarousel.tsx           # Carrousel articles
+├── NewsCard.tsx               # Card article
+├── NewsCategoryFilter.tsx     # Filtres catégories
+└── custom-components/
+    └── index.tsx              # 30+ composants markdown
+```
+
+**Cloisonnement :**
+- ✅ Séparation complète News vs Blog vs Docs
+- ✅ Namespace `/news` dédié
+- ✅ Composants News isolés dans `/components/news`
+- ✅ Données dans `/content/news` (pas de mélange)
+- ✅ Système de composants custom indépendant
+
+**SEO Impact :**
+- +6 pages indexables minimum (3 articles FR + 3 EN)
+- Possibilité d'ajouter des dizaines d'articles facilement
+- Rich snippets avec author, date, tags
+- Structured data pour articles
+- Hreflang tags pour multilingue
+
+**Prochaines étapes suggérées :**
+1. Créer les versions EN des 3 articles
+2. Ajouter 5-10 articles supplémentaires (mix des catégories)
+3. Implémenter le système de newsletter (backend API)
+4. Ajouter analytics pour tracking lectures
+5. Créer un système de commentaires (optionnel)
+6. Intégrer avec CMS headless pour gestion éditoriale (optionnel)
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Créer les articles EN et ajouter plus de contenu
+---
+
 [2025-11-15 - 16:00]
 SESSION: Analyse complète du projet et recommandations d'amélioration pour crédibilisation
 STATUT: ✅ Réussi

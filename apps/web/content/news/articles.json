@@ -1,0 +1,232 @@
+{
+  "articles": [
+    {
+      "id": "vmcloud-labs-launch",
+      "slug": "vmcloud-labs-launch",
+      "category": "company",
+      "featured": true,
+      "priority": 1,
+      "date": "2025-11-15",
+      "author": {
+        "name": "Gaylor Loche",
+        "role": "CEO & Founder",
+        "avatar": "/images/team/gaylor.jpg"
+      },
+      "readTime": 5,
+      "tags": ["innovation", "labs", "r&d"],
+      "customComponents": ["hero-fullscreen", "stats-animated", "timeline"],
+      "title": {
+        "en": "Introducing VMCloud Labs: Our Innovation Playground",
+        "fr": "Présentation de VMCloud Labs : Notre Terrain d'Innovation"
+      },
+      "excerpt": {
+        "en": "Discover our new R&D hub where we share prototypes, experiments, and cutting-edge cloud infrastructure innovations.",
+        "fr": "Découvrez notre nouveau hub R&D où nous partageons nos prototypes, expériences et innovations cloud de pointe."
+      },
+      "coverImage": "/images/news/vmcloud-labs-cover.jpg",
+      "coverImageAlt": {
+        "en": "VMCloud Labs - Innovation Hub",
+        "fr": "VMCloud Labs - Hub d'Innovation"
+      }
+    },
+    {
+      "id": "gaming-to-cloud-pivot",
+      "slug": "gaming-to-cloud-pivot",
+      "category": "company",
+      "featured": true,
+      "priority": 2,
+      "date": "2025-11-10",
+      "author": {
+        "name": "Julien Larmanaud",
+        "role": "COO & Lead Developer",
+        "avatar": "/images/team/julien.png"
+      },
+      "readTime": 8,
+      "tags": ["story", "pivot", "strategy"],
+      "customComponents": ["hero-parallax", "comparison-slider", "quote-highlight"],
+      "title": {
+        "en": "How We Pivoted from Gaming VMs to Premium Cloud Infrastructure",
+        "fr": "Comment Nous Avons Pivoté du Gaming vers l'Infrastructure Cloud Premium"
+      },
+      "excerpt": {
+        "en": "The story of Hackboot's transformation from a gaming cloud platform to VMCloud, a premium infrastructure provider.",
+        "fr": "L'histoire de la transformation d'Hackboot, plateforme cloud gaming, vers VMCloud, fournisseur d'infrastructure premium."
+      },
+      "coverImage": "/images/news/pivot-story-cover.jpg",
+      "coverImageAlt": {
+        "en": "From Gaming to Cloud - Our Journey",
+        "fr": "Du Gaming au Cloud - Notre Parcours"
+      }
+    },
+    {
+      "id": "gpu-orchestrator-beta",
+      "slug": "gpu-orchestrator-beta",
+      "category": "product",
+      "featured": true,
+      "priority": 3,
+      "date": "2025-11-08",
+      "author": {
+        "name": "Gengis Lahoui",
+        "role": "Technical Director",
+        "avatar": "/images/team/gengis.png"
+      },
+      "readTime": 6,
+      "tags": ["gpu", "beta", "ml", "kubernetes"],
+      "customComponents": ["code-demo", "architecture-diagram", "video-embed"],
+      "title": {
+        "en": "GPU Orchestrator Beta: Intelligent Multi-GPU Scheduling",
+        "fr": "GPU Orchestrator Beta : Ordonnancement Multi-GPU Intelligent"
+      },
+      "excerpt": {
+        "en": "Announcing the public beta of our GPU orchestrator with AI-powered scheduling and automatic resource optimization.",
+        "fr": "Annonce de la beta publique de notre orchestrateur GPU avec planification IA et optimisation automatique des ressources."
+      },
+      "coverImage": "/images/news/gpu-orchestrator-cover.jpg",
+      "coverImageAlt": {
+        "en": "GPU Orchestrator Architecture",
+        "fr": "Architecture GPU Orchestrator"
+      }
+    },
+    {
+      "id": "multi-datacenter-architecture",
+      "slug": "multi-datacenter-architecture",
+      "category": "tech",
+      "featured": false,
+      "priority": 4,
+      "date": "2025-11-05",
+      "author": {
+        "name": "Gengis Lahoui",
+        "role": "Technical Director",
+        "avatar": "/images/team/gengis.png"
+      },
+      "readTime": 12,
+      "tags": ["infrastructure", "architecture", "datacenter"],
+      "customComponents": ["interactive-map", "tech-stack", "metrics-dashboard"],
+      "title": {
+        "en": "Inside VMCloud: Our Multi-Datacenter Architecture Explained",
+        "fr": "Dans VMCloud : Notre Architecture Multi-Datacenter Expliquée"
+      },
+      "excerpt": {
+        "en": "A deep dive into how we built a resilient, geo-distributed infrastructure across 6 European datacenters.",
+        "fr": "Plongée en profondeur dans la construction de notre infrastructure résiliente et géo-distribuée à travers 6 datacenters européens."
+      },
+      "coverImage": "/images/news/datacenter-architecture-cover.jpg",
+      "coverImageAlt": {
+        "en": "VMCloud Datacenter Network",
+        "fr": "Réseau de Datacenters VMCloud"
+      }
+    },
+    {
+      "id": "sla-transparency-report",
+      "slug": "sla-transparency-report-q4-2025",
+      "category": "company",
+      "featured": false,
+      "priority": 5,
+      "date": "2025-11-01",
+      "author": {
+        "name": "Gaylor Loche",
+        "role": "CEO & Founder",
+        "avatar": "/images/team/gaylor.jpg"
+      },
+      "readTime": 4,
+      "tags": ["transparency", "sla", "uptime"],
+      "customComponents": ["metrics-grid", "incident-timeline"],
+      "title": {
+        "en": "Q4 2025 Transparency Report: 99.97% Uptime Achieved",
+        "fr": "Rapport de Transparence Q4 2025 : 99.97% de Disponibilité Atteint"
+      },
+      "excerpt": {
+        "en": "Our quarterly transparency report with detailed SLA metrics, incidents analysis, and improvements implemented.",
+        "fr": "Notre rapport de transparence trimestriel avec métriques SLA détaillées, analyse des incidents et améliorations implémentées."
+      },
+      "coverImage": "/images/news/sla-report-cover.jpg",
+      "coverImageAlt": {
+        "en": "SLA Report Dashboard",
+        "fr": "Tableau de Bord Rapport SLA"
+      }
+    },
+    {
+      "id": "community-webinar-gpu-ml",
+      "slug": "community-webinar-gpu-ml-november",
+      "category": "community",
+      "featured": false,
+      "priority": 6,
+      "date": "2025-10-28",
+      "author": {
+        "name": "Julien Larmanaud",
+        "role": "COO & Lead Developer",
+        "avatar": "/images/team/julien.png"
+      },
+      "readTime": 3,
+      "tags": ["webinar", "gpu", "ml", "community"],
+      "customComponents": ["event-countdown", "registration-cta"],
+      "title": {
+        "en": "Join Our Webinar: GPU Computing 101 for Machine Learning",
+        "fr": "Rejoignez Notre Webinar : GPU Computing 101 pour le Machine Learning"
+      },
+      "excerpt": {
+        "en": "Free webinar on November 20th: Learn the fundamentals of GPU computing for ML workloads. Live Q&A included.",
+        "fr": "Webinar gratuit le 20 novembre : Apprenez les fondamentaux du GPU computing pour les charges ML. Q&A en direct incluse."
+      },
+      "coverImage": "/images/news/webinar-gpu-ml-cover.jpg",
+      "coverImageAlt": {
+        "en": "GPU Computing Webinar",
+        "fr": "Webinar GPU Computing"
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "company",
+      "slug": "company",
+      "name": {
+        "en": "Company News",
+        "fr": "Actualités Entreprise"
+      },
+      "description": {
+        "en": "Company announcements, milestones, and strategic updates",
+        "fr": "Annonces entreprise, jalons et mises à jour stratégiques"
+      },
+      "color": "cyan"
+    },
+    {
+      "id": "product",
+      "slug": "product",
+      "name": {
+        "en": "Product Updates",
+        "fr": "Mises à Jour Produits"
+      },
+      "description": {
+        "en": "New features, products, and service improvements",
+        "fr": "Nouvelles fonctionnalités, produits et améliorations de service"
+      },
+      "color": "purple"
+    },
+    {
+      "id": "tech",
+      "slug": "tech",
+      "name": {
+        "en": "Tech Insights",
+        "fr": "Insights Techniques"
+      },
+      "description": {
+        "en": "Technical deep dives, architecture, and engineering stories",
+        "fr": "Analyses techniques approfondies, architecture et stories d'ingénierie"
+      },
+      "color": "blue"
+    },
+    {
+      "id": "community",
+      "slug": "community",
+      "name": {
+        "en": "Community",
+        "fr": "Communauté"
+      },
+      "description": {
+        "en": "Events, webinars, and community highlights",
+        "fr": "Événements, webinars et actualités communauté"
+      },
+      "color": "green"
+    }
+  ]
+}
