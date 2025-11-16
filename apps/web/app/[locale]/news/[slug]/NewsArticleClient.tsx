@@ -37,7 +37,7 @@ import {
   TestimonialGrid,
   Testimonial,
   Credits,
-} from '@/components/news/custom-components';
+} from '../../../../components/news/custom-components';
 
 interface NewsArticleClientProps {
   article: any;

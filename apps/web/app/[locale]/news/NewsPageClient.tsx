@@ -6,10 +6,10 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useLanguage } from '@/contexts/LanguageContext';
-import NewsHero from '@/components/news/NewsHero';
-import NewsCarousel from '@/components/news/NewsCarousel';
-import NewsCategoryFilter from '@/components/news/NewsCategoryFilter';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import NewsHero from '../../../components/news/NewsHero';
+import NewsCarousel from '../../../components/news/NewsCarousel';
+import NewsCategoryFilter from '../../../components/news/NewsCategoryFilter';
 import { ArrowRight, TrendingUp, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 

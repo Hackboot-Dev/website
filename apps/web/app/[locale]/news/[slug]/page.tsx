@@ -5,7 +5,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import NewsArticleClient from './NewsArticleClient';
-import articlesData from '@/content/news/articles.json';
+import articlesData from '../../../../content/news/articles.json';
 
 interface PageProps {
   params: {
