@@ -21,8 +21,8 @@ function getValidPasswordHash(): string {
     return hashPassword(envPassword);
   }
   // Default hash for 'admin123' - CHANGE IN PRODUCTION
-  // SHA-256('admin123') = 240be518fabd2724ddb6f04eeb9d5b00d03c7f0e0c4f01b38e8f73d0bdc1a7f8
-  return '240be518fabd2724ddb6f04eeb9d5b00d03c7f0e0c4f01b38e8f73d0bdc1a7f8';
+  // SHA-256('admin123') = 240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9
+  return '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
 }
 
 export async function POST(request: NextRequest) {

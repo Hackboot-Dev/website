@@ -177,20 +177,48 @@ export default function AdsPage() {
     setSelectedElement(newElement.id);
   };
 
-  // Apply template
+  // Apply template - adapts to current canvas size
   const applyTemplate = (template: typeof TEMPLATES[0]) => {
-    const newElements: CanvasElement[] = template.elements.map((el, index) => ({
-      id: generateId(),
-      type: el.type as CanvasElement['type'],
-      x: el.x,
-      y: el.y,
-      width: el.width,
-      height: el.height,
-      text: el.text,
-      fontSize: el.fontSize,
-      fontWeight: el.fontWeight,
-      fill: el.fill,
-    }));
+    const currentSize = CANVAS_SIZES[canvasSize];
+    const templateSize = { width: 1200, height: 630 }; // Original template size
+
+    // Calculate scale and offset for centering content
+    const isVertical = currentSize.height > currentSize.width;
+    const scaleX = currentSize.width / templateSize.width;
+    const scaleY = currentSize.height / templateSize.height;
+    const scale = Math.min(scaleX, scaleY);
+
+    // Vertical offset to center content in vertical formats
+    const verticalOffset = isVertical ? (currentSize.height - templateSize.height * scale) / 3 : 0;
+
+    const newElements: CanvasElement[] = template.elements.map((el, index) => {
+      // First element is always the background - make it full size
+      if (index === 0 && el.type === 'rect') {
+        return {
+          id: generateId(),
+          type: 'rect' as const,
+          x: 0,
+          y: 0,
+          width: currentSize.width,
+          height: currentSize.height,
+          fill: el.fill,
+        };
+      }
+
+      // Scale and reposition other elements
+      return {
+        id: generateId(),
+        type: el.type as CanvasElement['type'],
+        x: Math.round(el.x * scale),
+        y: Math.round(el.y * scale + verticalOffset),
+        width: el.width ? Math.round(el.width * scale) : undefined,
+        height: el.height ? Math.round(el.height * scale) : undefined,
+        text: el.text,
+        fontSize: el.fontSize ? Math.round(el.fontSize * scale) : undefined,
+        fontWeight: el.fontWeight,
+        fill: el.fill,
+      };
+    });
     setElements(newElements);
     setShowTemplates(false);
   };
@@ -288,9 +316,12 @@ export default function AdsPage() {
     });
   }, [elements, canvasSize, selectedElement]);
 
-  // Redraw on changes
+  // Redraw on changes (with small delay to ensure canvas is mounted)
   useEffect(() => {
-    drawCanvas();
+    const timer = setTimeout(() => {
+      drawCanvas();
+    }, 10);
+    return () => clearTimeout(timer);
   }, [elements, selectedElement, canvasSize, drawCanvas]);
 
   // Export canvas
@@ -439,17 +470,22 @@ export default function AdsPage() {
         )}
 
         {/* Canvas area */}
-        <main className={`flex-1 ${showTemplates ? 'ml-[352px]' : 'ml-16'} p-8 flex items-center justify-center min-h-[calc(100vh-4rem)] transition-all`}>
-          <div className="relative">
+        <main className={`flex-1 ${showTemplates ? 'ml-[352px]' : 'ml-16'} mr-72 p-8 flex items-center justify-center min-h-[calc(100vh-4rem)] transition-all overflow-auto`}>
+          <div
+            className="relative flex items-center justify-center"
+            style={{
+              width: '100%',
+              maxWidth: CANVAS_SIZES[canvasSize].width >= CANVAS_SIZES[canvasSize].height ? '700px' : '400px',
+            }}
+          >
             <canvas
+              key={canvasSize}
               ref={canvasRef}
               width={CANVAS_SIZES[canvasSize].width}
               height={CANVAS_SIZES[canvasSize].height}
-              className="bg-zinc-900 rounded-lg shadow-2xl border border-zinc-800"
+              className="bg-zinc-900 rounded-lg shadow-2xl border border-zinc-800 w-full"
               style={{
-                maxWidth: '100%',
-                maxHeight: 'calc(100vh - 200px)',
-                objectFit: 'contain'
+                aspectRatio: `${CANVAS_SIZES[canvasSize].width} / ${CANVAS_SIZES[canvasSize].height}`,
               }}
               onClick={(e) => {
                 // Simple element selection on click
