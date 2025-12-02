@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": "admin",
+      "username": "admin",
+      "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+      "role": "admin",
+      "createdAt": "2025-11-30"
+    }
+  ],
+  "_comment": "Password hash is SHA-256. Default password: 'admin123'. IMPORTANT: Change this in production and use environment variable ADS_ADMIN_PASSWORD instead."
+}

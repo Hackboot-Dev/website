@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { verifySessionToken } from './lib/ads-session';
 
 // Supported locales
 const locales = ['fr', 'en'];
@@ -25,7 +26,24 @@ export function middleware(req: NextRequest) {
     : pathname;
   
   const isDocsPath = actualPath.startsWith('/docs') || actualPath.startsWith('/api/docs');
+  const isAdsPath = actualPath.startsWith('/ads');
   const isProd = process.env.NODE_ENV === 'production' || process.env.APP_ENV === 'production';
+
+  // Protect /ads/ route - require authentication
+  // Skip login page itself to avoid redirect loop
+  if (isAdsPath && !actualPath.startsWith('/ads/login')) {
+    const sessionToken = req.cookies.get('ads_session')?.value;
+    const session = sessionToken ? verifySessionToken(sessionToken) : null;
+
+    if (!session) {
+      // Not authenticated - redirect to login page
+      const locale = pathname.split('/')[1];
+      const validLocale = locales.includes(locale) ? locale : defaultLocale;
+
+      const loginUrl = new URL(`/${validLocale}/ads/login`, req.url);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
 
   if (isProd && isDocsPath) {
     const wantsJson = pathname.startsWith('/api/') || req.headers.get('accept')?.includes('application/json');
