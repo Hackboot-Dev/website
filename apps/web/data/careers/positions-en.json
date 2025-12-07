@@ -1,196 +1,6 @@
 {
   "positions": [
     {
-      "id": "hr-manager-solo",
-      "title": "HR Manager (Solo)",
-      "team": "People & Culture",
-      "category": "hr",
-      "level": "senior",
-      "salaryMin": 65000,
-      "salaryMax": 80000,
-      "currency": "EUR",
-      "type": "fulltime",
-      "location": "Remote France/EU",
-      "contractType": "CDI",
-      "active": true,
-      "priority": 1,
-      "skills": [
-        "Tech recruiting",
-        "HR processes",
-        "FR labor law",
-        "GDPR",
-        "HRIS",
-        "Payroll (via partner)",
-        "Employee relations",
-        "Remote culture"
-      ],
-      "languages": ["English (C1+)", "French (B2+)"] ,
-      "description": "Own and build the HR function end‑to‑end as a solo operator initially. Lead hiring (SRE/infra roles), implement pragmatic HR processes, ensure FR/EU compliance, and pilot payroll through an external firm.",
-      "requirements": [
-        "7+ years HR experience with autonomy",
-        "Strong command of French labor law",
-        "Experience in tech/infra environments",
-        "HRIS and process rollout from scratch",
-        "Hands‑on with outsourced payroll",
-        "Ability to hire scarce profiles (SRE, storage, network)"
-      ],
-      "benefits": [
-        "Remote‑first in EU",
-        "Transparent salary bands",
-        "Equity (BSPCE)",
-        "Learning budget",
-        "Top‑tier equipment"
-      ],
-      "missions": [
-        "Design the 12‑month People roadmap",
-        "Industrialize recruiting (scorecards, pipeline, agencies)",
-        "Secure payroll/compliance (GDPR, time, on‑call)",
-        "Deploy HRIS and manager rituals",
-        "Publish levels and gross salary bands"
-      ]
-    },
-    {
-      "id": "head-of-platform-sre-lead",
-      "title": "Head of Platform / SRE Lead",
-      "team": "Platform & Operations",
-      "category": "infrastructure",
-      "level": "lead",
-      "salaryMin": 90000,
-      "salaryMax": 120000,
-      "currency": "EUR",
-      "type": "fulltime",
-      "location": "Remote EU (France preferred)",
-      "contractType": "CDI",
-      "active": true,
-      "priority": 2,
-      "skills": [
-        "SLA/SLO & error budgets",
-        "On‑call & incident command",
-        "CI/CD, GitOps",
-        "Infrastructure as Code",
-        "Kubernetes",
-        "Observability",
-        "Backups & DR",
-        "Ops leadership"
-      ],
-      "languages": ["English (C1)", "French (B2)"] ,
-      "description": "Production owner for reliability end‑to‑end. Initially (frugality), you also cover SRE leadership, observability, and release. Establish SLOs, on‑call, IaC standards, and lead operations.",
-      "requirements": [
-        "8+ years SRE/Platform, 2+ in lead",
-        "Proven 24/7 production experience",
-        "SLOs, on‑call, and blameless post‑mortems",
-        "CI/CD, IaC, K8s runtime mastery",
-        "Security mindset and hardening",
-        "Coaching and team scaling"
-      ],
-      "benefits": [
-        "Pragmatic tech choices",
-        "Observability/tooling budget",
-        "Paid on‑call",
-        "Equity (BSPCE)",
-        "EU remote"
-      ],
-      "missions": [
-        "Define ops architecture and SLOs",
-        "Roll out on‑call and incident runbooks",
-        "Standardize CI/CD and IaC",
-        "Build observability (logs, metrics, traces)",
-        "Secure backups and DR"
-      ]
-    },
-    {
-      "id": "senior-sre-engineer",
-      "title": "Senior Platform/SRE Engineer",
-      "team": "Platform",
-      "category": "infrastructure",
-      "level": "senior",
-      "salaryMin": 70000,
-      "salaryMax": 95000,
-      "currency": "EUR",
-      "type": "fulltime",
-      "location": "Remote EU",
-      "contractType": "CDI",
-      "active": true,
-      "priority": 3,
-      "skills": [
-        "Automation",
-        "Kubernetes",
-        "Terraform/Ansible",
-        "Observability (Prometheus/Loki/Tempo)",
-        "Backups/DR",
-        "Linux hardening",
-        "Go/Bash/Python"
-      ],
-      "languages": ["English (C1)", "French (B2)"] ,
-      "description": "Operate the platform, automate toil, strengthen observability, and ensure robust backups/DR. You enjoy durable fixes (RCA) and eliminating operational debt.",
-      "requirements": [
-        "5+ years SRE/ops",
-        "Hands‑on K8s and IaC",
-        "SLO culture and post‑mortems",
-        "Solid Linux and networking",
-        "Strong scripting"
-      ],
-      "benefits": [
-        "High‑end equipment",
-        "Paid on‑call",
-        "Cert budget",
-        "EU remote",
-        "Equity"
-      ],
-      "missions": [
-        "Automate runbooks and deployments",
-        "Deploy and tune observability",
-        "Quarterly DR tests",
-        "Harden operational security",
-        "Reduce MTTR and toil"
-      ]
-    },
-    {
-      "id": "senior-virtualization-compute",
-      "title": "Senior Virtualization/Compute Engineer (KVM/VMware/K8s)",
-      "team": "Compute",
-      "category": "infrastructure",
-      "level": "senior",
-      "salaryMin": 70000,
-      "salaryMax": 95000,
-      "currency": "EUR",
-      "type": "fulltime",
-      "location": "Remote EU",
-      "contractType": "CDI",
-      "active": true,
-      "priority": 4,
-      "skills": [
-        "KVM/Libvirt/Proxmox",
-        "VMware vSphere",
-        "Kubernetes",
-        "Image hardening",
-        "Cluster design",
-        "Provisioning/templates",
-        "Performance tuning"
-      ],
-      "languages": ["English (C1)", "French (B2)"] ,
-      "description": "Design and operate compute clusters (KVM/VMware/K8s), maintain hardened images, and standardize secure golden templates for consistent deployments.",
-      "requirements": [
-        "5+ years in virtualization/compute",
-        "Large‑scale 24/7 production",
-        "Linux security and hardening",
-        "Automation (Terraform/Ansible)"
-      ],
-      "benefits": [
-        "Bare‑metal environment",
-        "Lab/POC budget",
-        "Certifications supported",
-        "EU remote",
-        "Equity"
-      ],
-      "missions": [
-        "Design/evolve compute clusters",
-        "Industrialize images and templates",
-        "Harden and patch systematically",
-        "Optimize performance and density"
-      ]
-    },
-    {
       "id": "senior-storage-engineer",
       "title": "Senior Storage Engineer (Ceph/ZFS/Object/Block)",
       "team": "Storage",
@@ -203,7 +13,7 @@
       "location": "Remote EU",
       "contractType": "CDI",
       "active": true,
-      "priority": 5,
+      "priority": 1,
       "skills": [
         "Ceph (RBD/RGW)",
         "ZFS",
@@ -248,7 +58,7 @@
       "location": "Remote France/EU",
       "contractType": "CDI",
       "active": true,
-      "priority": 6,
+      "priority": 2,
       "skills": [
         "Incident/change process",
         "Service catalog",
@@ -293,7 +103,7 @@
       "location": "Remote EU (with DC visits)",
       "contractType": "CDI",
       "active": true,
-      "priority": 7,
+      "priority": 3,
       "skills": [
         "BGP/EVPN",
         "Peering & interconnects",

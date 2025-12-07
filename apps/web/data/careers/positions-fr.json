@@ -1,197 +1,6 @@
 {
   "positions": [
     {
-      "id": "drh-solo",
-      "title": "DRH (solo)",
-      "team": "People & Culture",
-      "category": "hr",
-      "level": "senior",
-      "salaryMin": 60000,
-      "salaryMax": 75000,
-      "currency": "EUR",
-      "type": "fulltime",
-      "location": "France (remote d'abord)",
-      "contractType": "CDI",
-      "active": true,
-      "priority": 1,
-      "skills": [
-        "Recrutement tech",
-        "Process RH",
-        "Droit social FR",
-        "RGPD",
-        "SIRH",
-        "Paie (pilotée via cabinet)",
-        "Relations sociales",
-        "Culture remote"
-      ],
-      "languages": ["Français (C1+)", "Anglais (B2+)"] ,
-      "description": "Vous structurez et opérez la fonction RH de A à Z, en solo au départ. Vous gérez le recrutement (profils SRE/infra), posez les process RH, sécurisez le juridique social et pilotez la paie via un cabinet. Vous construisez des pratiques robustes et frugales adaptées à une équipe d'engineering exigeante.",
-      "requirements": [
-        "7+ ans d'expérience RH dont 3+ en autonomie",
-        "Excellente maîtrise du droit social français",
-        "Pratique des environnements tech/infra",
-        "Mise en place de SIRH et process from scratch",
-        "Expérience paie externalisée (cabinet)",
-        "Capacité à recruter des profils pénuriques (SRE, stockage, réseau)",
-        "Rigueur, confidentialité, sens business"
-      ],
-      "benefits": [
-        "Télétravail intégral depuis la France",
-        "Bandes salariales publiées et transparentes",
-        "BSPCE",
-        "Budget formation",
-        "Matériel haut de gamme"
-      ],
-      "missions": [
-        "Construire la feuille de route People (12 mois)",
-        "Industrialiser le recrutement (scorecards, pipeline, cabinets)",
-        "Sécuriser paie et conformités (RGPD, temps, astreintes)",
-        "Déployer SIRH et rituels managériaux",
-        "Mettre en place grilles de niveaux et fourchettes brutes"
-      ]
-    },
-    {
-      "id": "head-of-platform-sre-lead",
-      "title": "Head of Platform / SRE Lead",
-      "team": "Plateforme & Exploitation",
-      "category": "infrastructure",
-      "level": "lead",
-      "salaryMin": 85000,
-      "salaryMax": 110000,
-      "currency": "EUR",
-      "type": "fulltime",
-      "location": "France/UE (remote)",
-      "contractType": "CDI",
-      "active": true,
-      "priority": 2,
-      "skills": [
-        "SLA/SLO, budgets d'erreur",
-        "On-call & incident command",
-        "CI/CD, GitOps",
-        "Infrastructure as Code (Terraform, Ansible)",
-        "Kubernetes",
-        "Observabilité",
-        "Backups & DR",
-        "Management ops"
-      ],
-      "languages": ["Français (C1+)", "Anglais (B2+)"] ,
-      "description": "Propriétaire de la production: vous définissez et pilotez la fiabilité bout‑à‑bout. Au départ (frugalité), vous cumulez SRE lead, observabilité et release management. Vous mettez en place les SLO, l'astreinte, l'IaC, et animez l'exploitation.",
-      "requirements": [
-        "8+ ans en SRE/Plateforme dont 2+ en lead",
-        "Expérience prouvée en production 24/7",
-        "Mise en place de SLO, on-call, post-mortems",
-        "Maîtrise CI/CD, IaC, runtime K8s",
-        "Culture sécurité et durcissement",
-        "Capacité à coacher et scaler l'équipe"
-      ],
-      "benefits": [
-        "Choix technos pragmatique, pas de legacy inutile",
-        "Budget tooling et observabilité",
-        "Astreinte rémunérée",
-        "BSPCE",
-        "Remote UE"
-      ],
-      "missions": [
-        "Définir l'architecture d'exploitation et les SLO",
-        "Mettre en place l'astreinte et le runbook incident",
-        "Standardiser CI/CD et IaC",
-        "Structurer l'observabilité (logs, metrics, traces)",
-        "Sécuriser sauvegardes et PRA/DR"
-      ]
-    },
-    {
-      "id": "senior-sre-engineer",
-      "title": "Ingénieur·e Plateforme / SRE Senior",
-      "team": "Plateforme",
-      "category": "infrastructure",
-      "level": "senior",
-      "salaryMin": 65000,
-      "salaryMax": 85000,
-      "currency": "EUR",
-      "type": "fulltime",
-      "location": "France/UE (remote)",
-      "contractType": "CDI",
-      "active": true,
-      "priority": 3,
-      "skills": [
-        "Automation",
-        "Kubernetes",
-        "Terraform/Ansible",
-        "Observabilité (Prometheus, Loki, Tempo)",
-        "Backups/DR",
-        "Linux hardening",
-        "Scripting (Go/Bash/Python)"
-      ],
-      "languages": ["Français (C1)", "Anglais (B2)"] ,
-      "description": "Vous opérer la plateforme au quotidien, automatisez, améliorez l'observabilité et garantissez les sauvegardes/PRA. Vous aimez résoudre des incidents durablement (RCA) et supprimer la dette opérationnelle.",
-      "requirements": [
-        "5+ ans en SRE/ops",
-        "Maîtrise K8s et IaC",
-        "Culture SLO et post‑mortem",
-        "Solides bases réseau et Linux",
-        "Go/Python ou Bash avancé"
-      ],
-      "benefits": [
-        "Matériel haut de gamme",
-        "Astreinte rémunérée",
-        "Budget certifs",
-        "Remote UE",
-        "BSPCE"
-      ],
-      "missions": [
-        "Automatiser runbooks et déploiements",
-        "Déployer et tuner observabilité",
-        "Tester PRA/DR trimestriellement",
-        "Améliorer la sécurité opérationnelle",
-        "Réduire MTTR et toil"
-      ]
-    },
-    {
-      "id": "senior-virtualisation-compute",
-      "title": "Ingénieur·e Virtualisation / Compute Senior (KVM/VMware/K8s)",
-      "team": "Compute",
-      "category": "infrastructure",
-      "level": "senior",
-      "salaryMin": 65000,
-      "salaryMax": 85000,
-      "currency": "EUR",
-      "type": "fulltime",
-      "location": "France/UE (remote)",
-      "contractType": "CDI",
-      "active": true,
-      "priority": 4,
-      "skills": [
-        "KVM/Libvirt/Proxmox",
-        "VMware vSphere",
-        "Kubernetes",
-        "Durcissement images",
-        "Cluster design",
-        "Provisioning & templates",
-        "Performance tuning"
-      ],
-      "languages": ["Français (C1)", "Anglais (B2)"] ,
-      "description": "Vous concevez et opérez des clusters compute (KVM/VMware/K8s), maintenez les images et durcissez les workloads. Vous standardisez les golden images et les templates sécurisés.",
-      "requirements": [
-        "5+ ans en virtualisation/compute",
-        "Production 24/7 à l'échelle",
-        "Sécurité et durcissement Linux",
-        "Automatisation (Terraform/Ansible)"
-      ],
-      "benefits": [
-        "Environnement bare‑metal exigeant",
-        "Budget lab/POC",
-        "Certifs financées",
-        "Remote UE",
-        "BSPCE"
-      ],
-      "missions": [
-        "Concevoir/faire évoluer les clusters compute",
-        "Industrialiser la gestion d'images et templates",
-        "Mettre en place le durcissement et le patching",
-        "Optimiser la performance et la densité"
-      ]
-    },
-    {
       "id": "senior-stockage",
       "title": "Ingénieur·e Stockage Senior (Ceph/ZFS/objets/bloc)",
       "team": "Stockage",
@@ -204,7 +13,7 @@
       "location": "France/UE (remote)",
       "contractType": "CDI",
       "active": true,
-      "priority": 5,
+      "priority": 1,
       "skills": [
         "Ceph (RBD/RGW)",
         "ZFS",
@@ -249,7 +58,7 @@
       "location": "France (remote/Hybride)",
       "contractType": "CDI",
       "active": true,
-      "priority": 6,
+      "priority": 2,
       "skills": [
         "Gestion incidents/changes",
         "Catalogue de services",
@@ -294,7 +103,7 @@
       "location": "France/UE (remote, datacenters possibles)",
       "contractType": "CDI",
       "active": true,
-      "priority": 7,
+      "priority": 3,
       "skills": [
         "BGP/EVPN",
         "Peering & interconnexions",
