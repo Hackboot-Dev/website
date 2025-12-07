@@ -5,6 +5,7 @@
     "pricing": "Tarifs",
     "documentation": "Documentation",
     "support": "Support",
+    "changelog": "Changelog",
     "careers": "Recrutement",
     "signIn": "Connexion",
     "getStarted": "Commencer"
@@ -860,6 +861,50 @@
       "subtitle": "Franchissez la prochaine étape de votre carrière avec VMCloud",
       "contact": "Nous Contacter",
       "about": "En Savoir Plus Sur Nous"
+    }
+  },
+  "changelog": {
+    "badge": "Produit & Infra",
+    "title1": "Changelog",
+    "title2": "et roadmap live",
+    "subtitle": "Un espace unique pour toutes les releases produit, changements d'infra et mises à jour support. On partage le pourquoi, le quand et où suivre.",
+    "ctaPrimary": "Dernières release notes",
+    "ctaSecondary": "Page statut",
+    "roadmapTitle": "Roadmap",
+    "roadmapSubtitle": "Ce que nous livrons maintenant, ensuite et plus tard",
+    "bucketLabels": {
+      "now": "En cours",
+      "next": "Ensuite",
+      "later": "Plus tard",
+      "badgeNow": "Build",
+      "badgeNext": "Prépa",
+      "badgeLater": "Discovery"
+    },
+    "releasesTitle": "Articles récents du changelog",
+    "releasesHeading": "Notes de version",
+    "viewAll": "Voir tout",
+    "accessTitle": "Tous les canaux changelog",
+    "accessSubtitle": "Choisissez le flux qui colle à votre usage",
+    "transparency": "Transparence par défaut",
+    "hub1": {
+      "title": "Releases produit",
+      "description": "UX/UI, facturation, API, portail client.",
+      "href": "https://blog.vmcl.fr/changelog"
+    },
+    "hub2": {
+      "title": "Infra / opérations",
+      "description": "Réseau, stockage, virtualisation, fiabilité.",
+      "href": "https://blog.vmcl.fr/changelog/infrastructure"
+    },
+    "hub3": {
+      "title": "Support & docs",
+      "description": "Runbooks, KB, playbooks et SLA.",
+      "href": "https://blog.vmcl.fr/changelog/support"
+    },
+    "hub4": {
+      "title": "Board roadmap",
+      "description": "Discovery, build et déploiement.",
+      "href": "https://blog.vmcl.fr/changelog/roadmap"
     }
   }
 }

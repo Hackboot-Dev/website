@@ -1,7 +1,7 @@
 'use client';
 
 // /workspaces/website/apps/web/app/infrastructure/page.tsx  
-// Description: Technical infrastructure page showcasing Hackboot premium capabilities
+// Description: Technical infrastructure page showcasing VMCloud premium capabilities
 // Last modified: 2025-08-27
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
@@ -1243,7 +1243,7 @@ export default function InfrastructurePage() {
                   {t('cta.title', 'Infrastructure Premium Européenne')}
                 </h2>
                 <p className="text-zinc-400 text-lg mb-8 max-w-2xl mx-auto">
-                  {t('cta.description', 'Rejoignez les entreprises qui ont choisi Hackboot pour leur infrastructure critique. Support 24/7, SLA garanti, et une équipe d\'experts européens.')}
+                  {t('cta.description', 'Rejoignez les entreprises qui ont choisi VMCloud pour leur infrastructure critique. Support 24/7, SLA garanti, et une équipe d\'experts européens.')}
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <Link 

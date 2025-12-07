@@ -1,8 +1,8 @@
-# Infrastructure Hackboot - Documentation Technique
+# Infrastructure VMCloud - Documentation Technique
 
 ## 🚀 L'Évolution : Du Gaming au Cloud Infrastructure Premium
 
-Hackboot a commencé comme pionnier du cloud gaming haute performance. Aujourd'hui, après plusieurs millions d'euros d'investissements en infrastructure propriétaire, nous sommes devenus un acteur majeur du cloud européen premium. Notre expertise unique en latence ultra-faible et performances extrêmes nous permet de servir les workloads les plus exigeants.
+VMCloud a commencé comme pionnier du cloud gaming haute performance. Aujourd'hui, après plusieurs millions d'euros d'investissements en infrastructure propriétaire, nous sommes devenus un acteur majeur du cloud européen premium. Notre expertise unique en latence ultra-faible et performances extrêmes nous permet de servir les workloads les plus exigeants.
 
 ## 📊 Vue d'Ensemble Infrastructure
 
@@ -205,7 +205,7 @@ Control Plane
 
 ## 💰 Modèle Premium
 
-### Pourquoi Hackboot ?
+### Pourquoi VMCloud ?
 - **Performance** : Hardware dernière génération uniquement
 - **Support** : Ingénieurs seniors, pas de script
 - **Flexibilité** : Custom configs possibles
@@ -242,7 +242,7 @@ Control Plane
 
 ## 📞 Contact & Support
 
-**Entreprise** : Hackboot OÜ (Estonie)
+**Entreprise** : VMCloud OÜ (Estonie)
 **Support** : support@hackboot.com
 **Sales** : sales@hackboot.com
 **NOC** : 24/7 monitoring

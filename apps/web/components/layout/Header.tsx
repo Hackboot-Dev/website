@@ -57,6 +57,9 @@ export default function Header() {
             <LocalizedLink href="/support" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
               <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.support')}</span>
             </LocalizedLink>
+            <LocalizedLink href="/changelog" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
+              <span className="group-hover:tracking-wide transition-all duration-300">{t('nav.changelog')}</span>
+            </LocalizedLink>
             <LocalizedLink href="/about" className="link-minimal text-zinc-400 hover:text-white text-sm tracking-wide group relative">
               <span className="group-hover:tracking-wide transition-all duration-300">{t('about.title')}</span>
             </LocalizedLink>
@@ -120,6 +123,13 @@ export default function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t('nav.support')}
+              </LocalizedLink>
+              <LocalizedLink
+                href="/changelog"
+                className="text-zinc-300 hover:text-white py-2 text-sm tracking-wide"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t('nav.changelog')}
               </LocalizedLink>
               <LocalizedLink
                 href="/about"

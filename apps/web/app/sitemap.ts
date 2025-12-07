@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/products', 
     '/pricing',
     '/infrastructure',
+    '/changelog',
     '/support',
     '/legal/terms',
     '/legal/dpa',

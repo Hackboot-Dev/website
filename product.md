@@ -228,7 +228,7 @@
 | **Containers** | • Docker + NVIDIA Container Toolkit<br>• Kubernetes GPU support | ✓ Ready to use |
 | **Monitoring** | • nvidia-smi<br>• GPU dashboards<br>• Prometheus metrics | ✓ Temps réel |
 
-### 🚀 Optimisations Hackboot
+### 🚀 Optimisations VMCloud
 
 | Optimisation | Description | Bénéfice |
 | --- | --- | --- |
@@ -795,4 +795,4 @@
 | **Onboarding basic** | Vidéo | 2h | **Inclus** |
 | **Formation admin** | Webinar | 8h | **299€** |
 | **Formation avancée** | Sur site | 3 jours | **2999€** |
-| **Certification Hackboot** | Examen en ligne | - | **199€** |
+| **Certification VMCloud** | Examen en ligne | - | **199€** |

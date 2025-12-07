@@ -159,7 +159,6 @@ export default function LocaleLayout({ children, params }: Props) {
             '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'VMCloud',
-            alternateName: ['Hackboot'],
             url: 'https://vmcl.fr',
             logo: 'https://vmcl.fr/icon.svg',
             sameAs: [

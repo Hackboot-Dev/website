@@ -1,0 +1,182 @@
+{
+  "en": {
+    "stats": {
+      "cadenceLabel": "Bi-weekly drops",
+      "dropsPerMonth": "2",
+      "dropsSuffix": "drops/month",
+      "nextLabel": "Next drop",
+      "nextValue": "Oct 3, 2025",
+      "nextNote": "Sprint 21",
+      "updatedLabel": "Updated",
+      "updatedValue": "Sept 2025",
+      "updatedNote": "48h ago"
+    },
+    "links": {
+      "status": "https://status.vmcl.fr",
+      "allReleases": "https://blog.vmcl.fr/changelog"
+    },
+    "roadmap": {
+      "now": [
+        {
+          "title": "GPU fleet refresh (A100/H100 mix)",
+          "detail": "North/West EU racks energized, autoscaling profiles in beta.",
+          "eta": "Rolling out"
+        },
+        {
+          "title": "Network spine upgrade",
+          "detail": "100G → 400G fabric, new TLS offload for edge POPs.",
+          "eta": "Q4 cutover"
+        },
+        {
+          "title": "Managed backups v2",
+          "detail": "Cross-region policies, immutability, and faster restores.",
+          "eta": "Pilot customers"
+        }
+      ],
+      "next": [
+        {
+          "title": "Portal 2.0 launchpad",
+          "detail": "Unified billing + observability widgets, dark/light parity.",
+          "eta": "Oct 2025"
+        },
+        {
+          "title": "Observability presets",
+          "detail": "Golden dashboards for K8s, Ceph, and hypervisor pools.",
+          "eta": "Oct/Nov"
+        },
+        {
+          "title": "On-call & SLA credits 2.0",
+          "detail": "Self-serve credits, faster RCA handoff, new severity ladder.",
+          "eta": "Nov 2025"
+        }
+      ],
+      "later": [
+        {
+          "title": "GPU bare-metal pools",
+          "detail": "Short-lived bare-metal leases for training bursts."
+        },
+        {
+          "title": "Object storage edge cache",
+          "detail": "Geo cache tier + signed URL policies."
+        },
+        {
+          "title": "Self-serve private DC interconnects",
+          "detail": "Automated LOA/CFA and provisioning from the portal."
+        }
+      ]
+    },
+    "releases": [
+      {
+        "title": "Sep 2025 — Network hardening & observability lift",
+        "summary": "400G-ready spine, TLS offload refresh, and new SLO burn alerts for customer VNets.",
+        "date": "Sep 18, 2025",
+        "href": "https://blog.vmcl.fr/changelog/2025-09-network-observability",
+        "tags": ["Infrastructure", "Reliability"]
+      },
+      {
+        "title": "Aug 2025 — GPU fleet refresh & autoscaling",
+        "summary": "A100/H100 mix, faster cold starts, and autoscaling presets for AI workloads.",
+        "date": "Aug 29, 2025",
+        "href": "https://blog.vmcl.fr/changelog/2025-08-gpu-refresh",
+        "tags": ["GPU", "Performance"]
+      },
+      {
+        "title": "Jul 2025 — Portal & billing improvements",
+        "summary": "New invoices layout, usage breakdowns, and unified team access controls.",
+        "date": "Jul 22, 2025",
+        "href": "https://blog.vmcl.fr/changelog/2025-07-portal-billing",
+        "tags": ["Product", "Billing"]
+      }
+    ]
+  },
+  "fr": {
+    "stats": {
+      "cadenceLabel": "Livraisons bi-mensuelles",
+      "dropsPerMonth": "2",
+      "dropsSuffix": "drops/mois",
+      "nextLabel": "Prochain drop",
+      "nextValue": "3 oct. 2025",
+      "nextNote": "Sprint 21",
+      "updatedLabel": "Mis à jour",
+      "updatedValue": "Sept 2025",
+      "updatedNote": "il y a 48h"
+    },
+    "links": {
+      "status": "https://status.vmcl.fr",
+      "allReleases": "https://blog.vmcl.fr/changelog"
+    },
+    "roadmap": {
+      "now": [
+        {
+          "title": "Renouvellement flotte GPU (A100/H100)",
+          "detail": "Baies Nord/Ouest EU activées, profils autoscaling en bêta.",
+          "eta": "Déploiement en cours"
+        },
+        {
+          "title": "Upgrade spine réseau",
+          "detail": "Fabric 100G → 400G, nouvel offload TLS sur les POPs edge.",
+          "eta": "Basculage T4"
+        },
+        {
+          "title": "Sauvegardes managées v2",
+          "detail": "Politiques cross-region, immutabilité et restores plus rapides.",
+          "eta": "Clients pilotes"
+        }
+      ],
+      "next": [
+        {
+          "title": "Portal 2.0",
+          "detail": "Facturation unifiée + widgets observabilité, parité dark/light.",
+          "eta": "Oct 2025"
+        },
+        {
+          "title": "Presets observabilité",
+          "detail": "Dashboards prêts à l’emploi pour K8s, Ceph et pools hyperviseurs.",
+          "eta": "Oct/Nov"
+        },
+        {
+          "title": "On-call & crédits SLA 2.0",
+          "detail": "Crédits self-service, RCAs plus rapides, nouvelle grille de sévérité.",
+          "eta": "Nov 2025"
+        }
+      ],
+      "later": [
+        {
+          "title": "Pools GPU bare-metal",
+          "detail": "Locations bare-metal courtes pour les pics d’entraînement."
+        },
+        {
+          "title": "Cache edge Object Storage",
+          "detail": "Cache géo + politiques d’URL signées."
+        },
+        {
+          "title": "Interconnexions DC self-serve",
+          "detail": "Automatisation LOA/CFA et provisioning depuis le portail."
+        }
+      ]
+    },
+    "releases": [
+      {
+        "title": "Sept 2025 — Durcissement réseau & observabilité",
+        "summary": "Spine prête 400G, refresh offload TLS et alertes SLO burn pour les VNets clients.",
+        "date": "18 sept. 2025",
+        "href": "https://blog.vmcl.fr/changelog/2025-09-network-observability",
+        "tags": ["Infrastructure", "Fiabilité"]
+      },
+      {
+        "title": "Août 2025 — Refresh flotte GPU & autoscaling",
+        "summary": "Mix A100/H100, cold starts accélérés et presets autoscaling pour l’IA.",
+        "date": "29 août 2025",
+        "href": "https://blog.vmcl.fr/changelog/2025-08-gpu-refresh",
+        "tags": ["GPU", "Performance"]
+      },
+      {
+        "title": "Juil 2025 — Portail & facturation",
+        "summary": "Nouveau layout factures, vue usage détaillée et contrôles d’accès unifiés.",
+        "date": "22 juil. 2025",
+        "href": "https://blog.vmcl.fr/changelog/2025-07-portal-billing",
+        "tags": ["Produit", "Facturation"]
+      }
+    ]
+  }
+}

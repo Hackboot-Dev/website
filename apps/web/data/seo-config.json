@@ -31,8 +31,8 @@
     },
     "products": {
       "title": "Produits Cloud VMCloud - VPS GPU Web Storage CDN | Catalogue Complet 2025",
-      "description": "Catalogue complet solutions cloud professionnelles ⚡ VPS Linux/Windows dès 4.99€ • GPU Tesla A100 RTX 4090 • Web hosting WordPress/PrestaShop • Storage S3 • CDN global • Load Balancer • PaaS • Gaming • 100% infrastructure française",
-      "keywords": "produits cloud france, catalogue vps, serveurs gpu ia, hébergement web professionnel, solutions cloud entreprise, infrastructure iaas, plateforme paas, stockage s3 compatible, cdn global, load balancing, vps ssd nvme, gpu tesla rtx a100, hébergement wordpress woocommerce, serveur virtuel linux windows, cloud native france, vps debian, vps ubuntu, vps centos, vps rocky linux, vps almalinux, vps fedora, vps windows server 2022, vps windows server 2019, vps cpanel, vps plesk, vps directadmin, vps cyberpanel, vps docker, vps kubernetes, gpu cloud computing, gpu deep learning, gpu machine learning, gpu rendering, gpu transcoding, gpu mining interdit, tesla t4, tesla v100, tesla a100, tesla h100, rtx 3080, rtx 3090, rtx 4080, rtx 4090, rtx 4090 ti, cuda cores, tensor cores, vram, gpu memory, multi gpu, gpu cluster, web hosting cpanel, web hosting plesk, web hosting directadmin, wordpress hosting managé, woocommerce hosting, prestashop hosting, magento hosting, drupal hosting, joomla hosting, laravel hosting, symfony hosting, nodejs hosting, python hosting, ruby hosting, go hosting, rust hosting, java hosting, php hosting, asp.net hosting, staging environment, git deployment, auto backup, ssl gratuit, email hosting, webmail, imap, smtp, pop3, dkim, spf, dmarc, antispam, antivirus, object storage s3, block storage, file storage, snapshot, backup storage, archive storage, cold storage, hot storage, storage gateway, storage replication, storage encryption, cdn streaming, cdn static, cdn dynamic, edge locations, cache control, purge instant, http3, quic, brotli compression, image optimization, video optimization, websocket cdn, ddos protection cdn, waf cdn, bot protection, rate limiting, geo blocking, ip whitelisting, load balancer layer 4, load balancer layer 7, health check, session persistence, ssl termination, http2, grpc, websocket support, auto scaling, horizontal scaling, vertical scaling, paas docker, paas kubernetes, paas openshift, paas cloud foundry, paas heroku like, buildpack, git push deploy, ci/cd integration, blue green deployment, canary deployment, rolling update, gaming cloud, game server hosting, minecraft server, cs:go server, rust server, ark server, valheim server, palworld server, gmod server, tf2 server, factorio server, terraria server, 7 days to die, satisfactory server, game panel, pterodactyl panel, tcadmin, mod support, plugin support, ftp access, rcon, query port, anti ddos gaming, low ping, tick rate, dedicated ip gaming",
+      "description": "Catalogue complet solutions cloud professionnelles ⚡ VPS Linux/Windows dès 4.99€ • GPU Tesla A100 RTX 4090 • Web hosting WordPress/PrestaShop • Storage S3 • CDN global • Load Balancer • PaaS • 100% infrastructure française",
+      "keywords": "produits cloud france, catalogue vps, serveurs gpu ia, hébergement web professionnel, solutions cloud entreprise, infrastructure iaas, plateforme paas, stockage s3 compatible, cdn global, load balancing, vps ssd nvme, gpu tesla rtx a100, hébergement wordpress woocommerce, serveur virtuel linux windows, cloud native france, vps debian, vps ubuntu, vps centos, vps rocky linux, vps almalinux, vps fedora, vps windows server 2022, vps windows server 2019, vps cpanel, vps plesk, vps directadmin, vps cyberpanel, vps docker, vps kubernetes, gpu cloud computing, gpu deep learning, gpu machine learning, gpu rendering, gpu transcoding, gpu mining interdit, tesla t4, tesla v100, tesla a100, tesla h100, rtx 3080, rtx 3090, rtx 4080, rtx 4090, rtx 4090 ti, cuda cores, tensor cores, vram, gpu memory, multi gpu, gpu cluster, web hosting cpanel, web hosting plesk, web hosting directadmin, wordpress hosting managé, woocommerce hosting, prestashop hosting, magento hosting, drupal hosting, joomla hosting, laravel hosting, symfony hosting, nodejs hosting, python hosting, ruby hosting, go hosting, rust hosting, java hosting, php hosting, asp.net hosting, staging environment, git deployment, auto backup, ssl gratuit, email hosting, webmail, imap, smtp, pop3, dkim, spf, dmarc, antispam, antivirus, object storage s3, block storage, file storage, snapshot, backup storage, archive storage, cold storage, hot storage, storage gateway, storage replication, storage encryption, cdn streaming, cdn static, cdn dynamic, edge locations, cache control, purge instant, http3, quic, brotli compression, image optimization, video optimization, websocket cdn, ddos protection cdn, waf cdn, bot protection, rate limiting, geo blocking, ip whitelisting, load balancer layer 4, load balancer layer 7, health check, session persistence, ssl termination, http2, grpc, websocket support, auto scaling, horizontal scaling, vertical scaling, paas docker, paas kubernetes, paas openshift, paas cloud foundry, paas heroku like, buildpack, git push deploy, ci/cd integration, blue green deployment, canary deployment, rolling update",
       "og": {
         "title": "Catalogue Produits Cloud VMCloud 2025 | VPS GPU Web CDN Storage France",
         "description": "Explorez nos 50+ solutions cloud. VPS haute performance, GPU pour IA/ML, hébergement web expert, stockage object S3, CDN mondial. Infrastructure 100% française, support 24/7.",
@@ -80,6 +80,25 @@
       },
       "robots": "index, follow",
       "canonical": "https://vmcl.fr/support"
+    },
+    "changelog": {
+      "title": "Changelog VMCloud & Roadmap | Releases produit & infra 2025",
+      "description": "Release notes produit, mises à jour infra/support et roadmap détaillée. Accès direct aux blogs changelog, status page et notes de versions.",
+      "keywords": "changelog vmcloud, release notes vmcloud, mises à jour infrastructure, roadmap vmcloud, notes de version, changelog produit, changelog infrastructure, status vmcloud",
+      "og": {
+        "title": "Changelog VMCloud & Roadmap live",
+        "description": "Toutes les releases produit, infra et support, plus la roadmap en cours.",
+        "image": "/images/og/support-fr.jpg",
+        "type": "website"
+      },
+      "twitter": {
+        "card": "summary_large_image",
+        "title": "Changelog VMCloud — Releases & Roadmap",
+        "description": "Notes de version, mises à jour infra/support et roadmap détaillée.",
+        "image": "/images/og/support-fr.jpg"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/fr/changelog"
     },
     "infrastructure": {
       "title": "Infrastructure VMCloud - Datacenters France Tier 3+ | Réseau 100Gbps 2025",
@@ -153,8 +172,8 @@
     },
     "products": {
       "title": "VMCloud Cloud Products - VPS GPU Web Storage CDN | Complete Catalog 2025",
-      "description": "Complete catalog of professional cloud solutions ⚡ Linux/Windows VPS from €4.99 • Tesla A100 RTX 4090 GPU • WordPress/PrestaShop hosting • S3 Storage • Global CDN • Load Balancer • PaaS • Gaming • 100% European infrastructure",
-      "keywords": "cloud products europe, vps catalog, gpu servers ai, professional web hosting, enterprise cloud solutions, iaas infrastructure, paas platform, s3 compatible storage, global cdn, load balancing, nvme ssd vps, tesla rtx a100 gpu, wordpress woocommerce hosting, linux windows virtual server, cloud native europe, debian vps, ubuntu vps, centos vps, rocky linux vps, almalinux vps, fedora vps, windows server 2022 vps, windows server 2019 vps, cpanel vps, plesk vps, directadmin vps, cyberpanel vps, docker vps, kubernetes vps, gpu cloud computing, gpu deep learning, gpu machine learning, gpu rendering, gpu transcoding, no gpu mining, tesla t4, tesla v100, tesla a100, tesla h100, rtx 3080, rtx 3090, rtx 4080, rtx 4090, rtx 4090 ti, cuda cores, tensor cores, vram, gpu memory, multi gpu, gpu cluster, cpanel web hosting, plesk web hosting, directadmin web hosting, managed wordpress hosting, woocommerce hosting, prestashop hosting, magento hosting, drupal hosting, joomla hosting, laravel hosting, symfony hosting, nodejs hosting, python hosting, ruby hosting, go hosting, rust hosting, java hosting, php hosting, asp.net hosting, staging environment, git deployment, auto backup, free ssl, email hosting, webmail, imap, smtp, pop3, dkim, spf, dmarc, antispam, antivirus, s3 object storage, block storage, file storage, snapshot, backup storage, archive storage, cold storage, hot storage, storage gateway, storage replication, storage encryption, cdn streaming, cdn static, cdn dynamic, edge locations, cache control, instant purge, http3, quic, brotli compression, image optimization, video optimization, websocket cdn, cdn ddos protection, cdn waf, bot protection, rate limiting, geo blocking, ip whitelisting, layer 4 load balancer, layer 7 load balancer, health check, session persistence, ssl termination, http2, grpc, websocket support, auto scaling, horizontal scaling, vertical scaling, docker paas, kubernetes paas, openshift paas, cloud foundry paas, heroku like paas, buildpack, git push deploy, ci/cd integration, blue green deployment, canary deployment, rolling update, gaming cloud, game server hosting, minecraft server, cs:go server, rust server, ark server, valheim server, palworld server, gmod server, tf2 server, factorio server, terraria server, 7 days to die, satisfactory server, game panel, pterodactyl panel, tcadmin, mod support, plugin support, ftp access, rcon, query port, anti ddos gaming, low ping, tick rate, dedicated gaming ip",
+      "description": "Complete catalog of professional cloud solutions ⚡ Linux/Windows VPS from €4.99 • Tesla A100 RTX 4090 GPU • WordPress/PrestaShop hosting • S3 Storage • Global CDN • Load Balancer • PaaS • 100% European infrastructure",
+      "keywords": "cloud products europe, vps catalog, gpu servers ai, professional web hosting, enterprise cloud solutions, iaas infrastructure, paas platform, s3 compatible storage, global cdn, load balancing, nvme ssd vps, tesla rtx a100 gpu, wordpress woocommerce hosting, linux windows virtual server, cloud native europe, debian vps, ubuntu vps, centos vps, rocky linux vps, almalinux vps, fedora vps, windows server 2022 vps, windows server 2019 vps, cpanel vps, plesk vps, directadmin vps, cyberpanel vps, docker vps, kubernetes vps, gpu cloud computing, gpu deep learning, gpu machine learning, gpu rendering, gpu transcoding, no gpu mining, tesla t4, tesla v100, tesla a100, tesla h100, rtx 3080, rtx 3090, rtx 4080, rtx 4090, rtx 4090 ti, cuda cores, tensor cores, vram, gpu memory, multi gpu, gpu cluster, cpanel web hosting, plesk web hosting, directadmin web hosting, managed wordpress hosting, woocommerce hosting, prestashop hosting, magento hosting, drupal hosting, joomla hosting, laravel hosting, symfony hosting, nodejs hosting, python hosting, ruby hosting, go hosting, rust hosting, java hosting, php hosting, asp.net hosting, staging environment, git deployment, auto backup, free ssl, email hosting, webmail, imap, smtp, pop3, dkim, spf, dmarc, antispam, antivirus, s3 object storage, block storage, file storage, snapshot, backup storage, archive storage, cold storage, hot storage, storage gateway, storage replication, storage encryption, cdn streaming, cdn static, cdn dynamic, edge locations, cache control, instant purge, http3, quic, brotli compression, image optimization, video optimization, websocket cdn, cdn ddos protection, cdn waf, bot protection, rate limiting, geo blocking, ip whitelisting, layer 4 load balancer, layer 7 load balancer, health check, session persistence, ssl termination, http2, grpc, websocket support, auto scaling, horizontal scaling, vertical scaling, docker paas, kubernetes paas, openshift paas, cloud foundry paas, heroku like paas, buildpack, git push deploy, ci/cd integration, blue green deployment, canary deployment, rolling update",
       "og": {
         "title": "VMCloud Cloud Products Catalog 2025 | VPS GPU Web CDN Storage Europe",
         "description": "Explore our 50+ cloud solutions. High-performance VPS, GPU for AI/ML, expert web hosting, S3 object storage, global CDN. 100% European infrastructure, 24/7 support.",
@@ -202,6 +221,25 @@
       },
       "robots": "index, follow",
       "canonical": "https://vmcl.fr/en/support"
+    },
+    "changelog": {
+      "title": "VMCloud Changelog & Roadmap | Product & Infra Releases 2025",
+      "description": "Release notes for product, infrastructure, and support plus the detailed roadmap. Direct access to changelog blogs, status page, and release feeds.",
+      "keywords": "vmcloud changelog, vmcloud release notes, vmcloud roadmap, product changelog, infrastructure updates, status vmcloud, vmcloud blog changelog",
+      "og": {
+        "title": "VMCloud Changelog & Live Roadmap",
+        "description": "All product, infra, and support releases with a transparent roadmap.",
+        "image": "/images/og/support-en.jpg",
+        "type": "website"
+      },
+      "twitter": {
+        "card": "summary_large_image",
+        "title": "VMCloud Changelog — Releases & Roadmap",
+        "description": "Release notes, infra/support updates, and the detailed roadmap.",
+        "image": "/images/og/support-en.jpg"
+      },
+      "robots": "index, follow",
+      "canonical": "https://vmcl.fr/en/changelog"
     },
     "infrastructure": {
       "title": "VMCloud Infrastructure - European Datacenters Tier 3+ | 100Gbps Network 2025",

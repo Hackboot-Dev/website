@@ -5,6 +5,7 @@
     "pricing": "Pricing",
     "documentation": "Documentation",
     "support": "Support",
+    "changelog": "Changelog",
     "careers": "Careers",
     "signIn": "Sign In",
     "getStarted": "Get Started"
@@ -935,6 +936,50 @@
       "subtitle": "Take the next step in your career with VMCloud",
       "contact": "Contact Us",
       "about": "Learn More About Us"
+    }
+  },
+  "changelog": {
+    "badge": "Product & Infra",
+    "title1": "Changelog",
+    "title2": "and live roadmap",
+    "subtitle": "One place for every release, infrastructure change, and support update. We publish why it ships, when it rolls out, and where to follow along.",
+    "ctaPrimary": "Latest release notes",
+    "ctaSecondary": "Status page",
+    "roadmapTitle": "Roadmap",
+    "roadmapSubtitle": "What we are shipping now, next and later",
+    "bucketLabels": {
+      "now": "Now",
+      "next": "Next",
+      "later": "Later",
+      "badgeNow": "Build",
+      "badgeNext": "Prep",
+      "badgeLater": "Discovery"
+    },
+    "releasesTitle": "Recent changelog posts",
+    "releasesHeading": "Release notes",
+    "viewAll": "View all",
+    "accessTitle": "All changelog channels",
+    "accessSubtitle": "Pick the feed that matches your workflow",
+    "transparency": "Transparent by design",
+    "hub1": {
+      "title": "Product releases",
+      "description": "UI/UX, billing, API surface, customer portal.",
+      "href": "https://blog.vmcl.fr/changelog"
+    },
+    "hub2": {
+      "title": "Infrastructure/ops",
+      "description": "Network, storage, virtualization, reliability notes.",
+      "href": "https://blog.vmcl.fr/changelog/infrastructure"
+    },
+    "hub3": {
+      "title": "Support & docs",
+      "description": "Runbooks, KB updates, playbooks, and SLAs.",
+      "href": "https://blog.vmcl.fr/changelog/support"
+    },
+    "hub4": {
+      "title": "Roadmap board",
+      "description": "What is in discovery, build, and rollout.",
+      "href": "https://blog.vmcl.fr/changelog/roadmap"
     }
   }
 }

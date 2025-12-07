@@ -100,7 +100,7 @@
 - [x] **NOUVEAU**: Descriptions riches avec mots-clés stratégiques (AMD EPYC, Tesla GPU)
 - [x] **NOUVEAU**: Hreflang tags complets (fr-FR, en-US, x-default)
 - [x] **NOUVEAU**: JSON-LD Schema.org structured data complet
-- [x] **NOUVEAU**: Organisation structured data avec alternateName Hackboot
+- [x] **NOUVEAU**: Organisation structured data (brand unique VMCloud)
 - [x] **NOUVEAU**: Structured offers pour VPS/GPU avec prix
 - [x] **NOUVEAU**: AggregateRating, ContactPoint, PostalAddress
 - [x] **NOUVEAU**: Open Graph et Twitter Cards dynamiques
@@ -146,7 +146,7 @@
 - **Icônes ajoutées** : 10 nouvelles icônes pour la page support
 - **Documents légaux** : 5 (Terms, AUP, SLA, DPA, Changes) en FR/EN (10 fichiers total)
 - **Pages légales** : 5 pages Next.js avec routing dynamique
-- **SEO targets** : VMCloud, Hackboot, + 50 mots-clés connexes
+- **SEO targets** : VMCloud + 50 mots-clés connexes
 - **Schema.org objects** : Organization, Offers, AggregateRating, ContactPoint
 - **Hreflang coverage** : fr-FR, en-US, x-default pour indexation multilingue
 

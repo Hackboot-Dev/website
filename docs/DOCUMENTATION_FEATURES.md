@@ -48,7 +48,7 @@ Chaque fonctionnalité complexe du projet a sa documentation détaillée.
 ### SEO Optimization System
 **Fichier** : [features/SEO_OPTIMIZATION.md](./features/SEO_OPTIMIZATION.md)
 
-**Description** : Système complet d'optimisation SEO pour dominer Google sur "VMCloud" et "Hackboot" avec metadata dynamique et structured data.
+**Description** : Système complet d'optimisation SEO pour dominer Google sur "VMCloud" avec metadata dynamique et structured data.
 
 **Contenu** :
 - Metadata dynamique par langue (titles, descriptions, keywords)
@@ -64,6 +64,31 @@ Chaque fonctionnalité complexe du projet a sa documentation détaillée.
 - `/apps/web/app/page.tsx` - SEO dynamique principal
 - `/apps/web/locales/[fr|en].json` - Traductions optimisées
 - `/apps/web/public/robots.txt` - Configuration robots
+
+---
+
+### Changelog System
+**Fichier** : [features/CHANGELOG.md](./features/CHANGELOG.md)
+
+**Description** : Système de changelog public avec roadmap live, release notes et communication transparente sur les développements VMCloud.
+
+**Contenu** :
+- Architecture complète (types, loader, composants)
+- Live roadmap (Now, Next, Later) avec phases de développement
+- Release notes avec cards et liens vers blog posts
+- Stats dashboard (cadence, prochains drops, dernière MAJ)
+- 4 canaux changelog (Product, Infrastructure, Support, Roadmap)
+- Guide configuration et ajout de releases
+- Support multilingue FR/EN complet
+- Testing et validation
+- Future enhancements (RSS, search, filtering, webhooks)
+
+**Fichiers concernés** :
+- `/apps/web/app/[locale]/changelog/` - Pages et composants
+- `/apps/web/types/changelog.ts` - Définitions TypeScript
+- `/apps/web/utils/changelogLoader.ts` - Loader centralisé
+- `/apps/web/data/changelog.json` - Données roadmap/releases
+- `/apps/web/locales/[fr|en].json` - Traductions UI (section changelog)
 
 ---
 

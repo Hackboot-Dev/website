@@ -25,6 +25,7 @@ export default function Footer() {
       { name: isFr ? 'Tarifs' : 'Pricing', href: '/pricing' }
     ],
     company: [
+      { name: isFr ? 'Changelog' : 'Changelog', href: '/changelog' },
       { name: isFr ? 'À propos' : 'About', href: '/about' },
       { name: isFr ? 'Carrières' : 'Careers', href: '/careers' }
     ],

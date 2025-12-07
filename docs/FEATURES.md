@@ -66,11 +66,11 @@
 ### Meta Data Dynamique
 - **Titles optimisés** : "VMCloud" pour branding
 - **Descriptions riches** : Mots-clés AMD EPYC, Tesla GPU, etc.
-- **Keywords stratégiques** : 50+ variations VMCloud/Hackboot
+- **Keywords stratégiques** : 50+ variations VMCloud
 - **Hreflang complet** : fr-FR, en-US, x-default
 
 ### Structured Data
-- **Schema.org complet** : Organization avec alternateName Hackboot
+- **Schema.org complet** : Organization VMCloud
 - **Structured Offers** : VPS/GPU avec prix et disponibilité
 - **Contact/Rating/Address** : Données complètes pour rich snippets
 - **OfferCatalog** : Tous les services structurés
@@ -90,7 +90,7 @@
 - **Raccourcis clavier** : Navigation rapide
 
 ## 🏢 Pages d'Infrastructure
-- **Infrastructure technique** : Données réelles Hackboot
+- **Infrastructure technique** : Données réelles VMCloud
 - **6 datacenters EU** : Capacités détaillées par région
 - **Stats transparentes** : 2500 vCPUs, 48 GPUs, 1.5PB stockage
 - **Mention pivot** : Gaming → Cloud infrastructure
