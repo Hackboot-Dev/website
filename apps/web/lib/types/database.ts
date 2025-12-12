@@ -67,13 +67,26 @@ export type Client = {
   paymentTerms?: number;         // Days to pay (30, 45, 60)
   creditLimit?: number;          // Max outstanding amount
 
+  // Authentication (for future client portal)
+  auth?: {
+    passwordHash?: string;       // Hashed password (bcrypt)
+    lastLoginAt?: Timestamp;     // Last login timestamp
+    emailVerified?: boolean;     // Email verification status
+    resetToken?: string;         // Password reset token
+    resetTokenExpiry?: Timestamp;// Token expiration
+  };
+
+  // Source tracking
+  isGenerated?: boolean;         // true if auto-generated for simulation
+  generatedAt?: Timestamp;       // When it was generated
+
   // Dates
   createdAt: Timestamp;
   updatedAt: Timestamp;
   firstPurchaseAt?: Timestamp;
   lastPurchaseAt?: Timestamp;
 
-  // Stats (computed)
+  // Stats (computed from transactions)
   totalRevenue?: number;         // Lifetime revenue
   totalTransactions?: number;    // Number of transactions
 

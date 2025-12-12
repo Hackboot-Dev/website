@@ -1,5 +1,59 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-12 - Session 1]
+SESSION: Synchronisation Client ↔ P&L Transactions
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/lib/types/database.ts [modifié - ajout champs auth et isGenerated pour Client]
+- /apps/web/lib/utils/clientGenerator.ts [créé - générateur de clients aléatoires]
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - intégration clients dans transactions]
+
+CHANGEMENTS:
+```
+1. TYPE CLIENT ENRICHI
+   - Ajout champs auth (passwordHash, lastLoginAt, emailVerified, resetToken)
+   - Ajout isGenerated et generatedAt pour tracer les clients auto-générés
+   - Prêt pour l'authentification future du portail client
+
+2. GÉNÉRATEUR DE CLIENTS
+   - 60 prénoms français (30 masculins, 30 féminins)
+   - 50 noms de famille français
+   - Génération email réaliste (prénom.nom@domain.fr)
+   - Génération téléphone format français (+33 06/07)
+   - Support clients individuels et entreprises (70%/30%)
+
+3. TRANSACTION ENRICHIE AVEC CLIENT
+   - Chaque transaction a maintenant clientId, clientName, clientEmail (obligatoire)
+   - Plus de transaction sans client
+
+4. NOUVELLE MODAL TRANSACTIONS
+   - 2 modes : "Client existant" (recherche) ou "Générer" (auto)
+   - Recherche clients avec filtre nom/email
+   - Preview du client généré avec bouton régénérer
+   - Création automatique du client dans Firebase lors de la vente
+   - Affichage du nom client dans l'historique des transactions
+
+5. SYNCHRONISATION AUTOMATIQUE
+   - Quand une vente est créée → client créé dans Firebase (si généré)
+   - Stats client mises à jour (totalRevenue, totalTransactions, lastPurchaseAt)
+   - L'onglet Clients reflète automatiquement les nouveaux clients
+```
+
+ARCHITECTURE:
+```
+Transaction (PnL) ────────────────► Client (Firebase)
+     │                                    │
+     │ clientId (required)                │
+     │ clientName (snapshot)              │
+     │ clientEmail (snapshot)             │
+     │                                    │
+     └──────── Sync stats ────────────────┘
+               (totalRevenue, totalTransactions)
+```
+
+PROCHAINE ÉTAPE: Tester l'intégration en développement
+---
+
 [2025-12-11 - Session 3]
 SESSION: Nettoyage boutons temporaires P&L Dashboard
 STATUT: ✅ Réussi

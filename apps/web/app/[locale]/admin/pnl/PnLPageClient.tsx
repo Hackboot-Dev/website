@@ -38,9 +38,14 @@ import {
   Calendar,
   BarChart3,
   RefreshCw,
+  Search,
+  UserPlus,
+  Shuffle,
 } from 'lucide-react';
 import { getCompanyDb } from '../../../../lib/firebase';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { generateRandomClient, type GeneratedClient } from '../../../../lib/utils/clientGenerator';
+import type { Client } from '../../../../lib/types/database';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -58,7 +63,14 @@ type Transaction = {
   amount: number; // Montant réel de cette transaction
   isCustom: boolean; // false = prix standard, true = prix spécial
   note?: string; // Note optionnelle (ex: "Réduction fidélité")
+  // Client info (required)
+  clientId: string; // Reference to client document
+  clientName: string; // Snapshot for quick display
+  clientEmail?: string; // Snapshot of email
 };
+
+// Client selection mode in transaction modal
+type ClientSelectionMode = 'existing' | 'generate';
 
 type Product = {
   id: string;
@@ -118,15 +130,21 @@ type PnLData = {
 const MONTHS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
 const MONTH_KEYS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
-// Helper: Generate transactions from client count and price
+// Helper: Generate transactions from client count and price (with generated clients)
 const generateTransactions = (counts: Record<string, number>, price: number): Record<string, Transaction[]> => {
   const result: Record<string, Transaction[]> = {};
   for (const [month, count] of Object.entries(counts)) {
-    result[month] = Array.from({ length: count }, (_, i) => ({
-      id: `${month}_${i}`,
-      amount: price,
-      isCustom: false,
-    }));
+    result[month] = Array.from({ length: count }, (_, i) => {
+      const client = generateRandomClient();
+      return {
+        id: `${month}_${i}`,
+        amount: price,
+        isCustom: false,
+        clientId: client.id,
+        clientName: client.name,
+        clientEmail: client.email,
+      };
+    });
   }
   return result;
 };
@@ -281,6 +299,14 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
   const [syncing, setSyncing] = useState(false);
 
+  // Client selection for transactions
+  const [clients, setClients] = useState<Client[]>([]);
+  const [loadingClients, setLoadingClients] = useState(false);
+  const [clientSelectionMode, setClientSelectionMode] = useState<ClientSelectionMode>('generate');
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const [clientSearchQuery, setClientSearchQuery] = useState('');
+  const [generatedClientPreview, setGeneratedClientPreview] = useState<GeneratedClient | null>(null);
+
   const currentMonthKey = MONTH_KEYS[selectedMonth];
 
   // Toggle accordion
@@ -427,6 +453,82 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   // Sync from Firebase (force refresh)
   const syncData = () => loadData(true);
 
+  // Load clients from Firebase
+  const loadClients = useCallback(async () => {
+    if (!db) return;
+    try {
+      setLoadingClients(true);
+      const q = query(collection(db, 'clients'), orderBy('createdAt', 'desc'));
+      const snapshot = await getDocs(q);
+      const clientsData = snapshot.docs.map((doc) => doc.data() as Client);
+      setClients(clientsData);
+    } catch (err) {
+      console.error('Error loading clients:', err);
+    } finally {
+      setLoadingClients(false);
+    }
+  }, [db]);
+
+  // Create client in Firebase
+  const createClientInDb = async (clientData: GeneratedClient): Promise<Client> => {
+    if (!db) throw new Error('Database not initialized');
+
+    const now = new Date().toISOString();
+    const client: Client = {
+      id: clientData.id,
+      companyId: company,
+      name: clientData.name,
+      email: clientData.email,
+      phone: clientData.phone,
+      company: clientData.company,
+      type: clientData.type,
+      status: 'active',
+      currency: 'EUR',
+      isGenerated: true,
+      generatedAt: clientData.generatedAt,
+      createdAt: now,
+      updatedAt: now,
+      totalRevenue: 0,
+      totalTransactions: 0,
+    };
+
+    await setDoc(doc(db, 'clients', client.id), client);
+    setClients((prev) => [client, ...prev]);
+    return client;
+  };
+
+  // Update client stats after transaction
+  const updateClientStats = async (clientId: string, amount: number) => {
+    if (!db) return;
+    try {
+      const clientRef = doc(db, 'clients', clientId);
+      const clientSnap = await getDoc(clientRef);
+      if (clientSnap.exists()) {
+        const clientData = clientSnap.data() as Client;
+        const now = new Date().toISOString();
+        await setDoc(clientRef, {
+          ...clientData,
+          totalRevenue: (clientData.totalRevenue || 0) + amount,
+          totalTransactions: (clientData.totalTransactions || 0) + 1,
+          lastPurchaseAt: now,
+          firstPurchaseAt: clientData.firstPurchaseAt || now,
+          updatedAt: now,
+        });
+      }
+    } catch (err) {
+      console.error('Error updating client stats:', err);
+    }
+  };
+
+  // Load clients when modal opens
+  useEffect(() => {
+    if (transactionsModal) {
+      loadClients();
+      // Generate a preview client
+      setGeneratedClientPreview(generateRandomClient());
+    }
+  }, [transactionsModal, loadClients]);
+
   // Update ref for keyboard shortcut
   saveDataRef.current = saveData;
 
@@ -441,8 +543,14 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     return txs.reduce((sum, tx) => sum + tx.amount, 0);
   };
 
-  // Add standard transaction(s)
-  const addStandardTransactions = (catId: string, productId: string, month: string, count: number) => {
+  // Add standard transaction(s) with client info
+  const addStandardTransactions = async (
+    catId: string,
+    productId: string,
+    month: string,
+    count: number,
+    clientInfo: { id: string; name: string; email?: string }
+  ) => {
     if (!data) return;
     const product = data.productCategories.find((c) => c.id === catId)?.products.find((p) => p.id === productId);
     if (!product) return;
@@ -451,6 +559,9 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
       id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       amount: product.price,
       isCustom: false,
+      clientId: clientInfo.id,
+      clientName: clientInfo.name,
+      clientEmail: clientInfo.email,
     }));
 
     setData((prev) => {
@@ -471,10 +582,21 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
       };
     });
     setHasChanges(true);
+
+    // Update client stats
+    const totalAmount = product.price * count;
+    await updateClientStats(clientInfo.id, totalAmount);
   };
 
-  // Add custom transaction
-  const addCustomTransaction = (catId: string, productId: string, month: string, amount: number, note?: string) => {
+  // Add custom transaction with client info
+  const addCustomTransaction = async (
+    catId: string,
+    productId: string,
+    month: string,
+    amount: number,
+    clientInfo: { id: string; name: string; email?: string },
+    note?: string
+  ) => {
     if (!data) return;
 
     const newTransaction: Transaction = {
@@ -482,6 +604,9 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
       amount,
       isCustom: true,
       note,
+      clientId: clientInfo.id,
+      clientName: clientInfo.name,
+      clientEmail: clientInfo.email,
     };
 
     setData((prev) => {
@@ -502,6 +627,9 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
       };
     });
     setHasChanges(true);
+
+    // Update client stats
+    await updateClientStats(clientInfo.id, amount);
   };
 
   // Delete transaction
@@ -1207,7 +1335,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   const reductions = getTotalReductions(currentMonthKey);
   const grossProfit = getGrossProfit(currentMonthKey);
   const expenses = getTotalExpenses(currentMonthKey);
-  const clients = getTotalClients(currentMonthKey);
+  const totalClientsCount = getTotalClients(currentMonthKey);
   const operatingProfit = getOperatingProfit(currentMonthKey);
   const taxes = getTotalTaxes(currentMonthKey);
   const netProfit = getNetProfit(currentMonthKey);
@@ -1379,7 +1507,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
             </div>
           </div>
           <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Clients</p>
-          <p className="text-2xl font-extralight text-white">{clients}</p>
+          <p className="text-2xl font-extralight text-white">{totalClientsCount}</p>
           <p className="text-xs text-zinc-600 mt-2">YTD: {getYTDClients()}</p>
         </div>
 
@@ -2700,21 +2828,26 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
         </div>
       )}
 
-      {/* Transactions Modal */}
+      {/* Transactions Modal - With Client Selection */}
       {transactionsModal && (
         <div
           className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-6"
           onClick={(e) => e.target === e.currentTarget && setTransactionsModal(null)}
         >
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-md overflow-hidden">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto">
             {/* Header */}
-            <div className="px-5 py-4 border-b border-zinc-800 flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-zinc-800 flex items-center justify-between sticky top-0 bg-zinc-900 z-10">
               <div>
                 <h3 className="text-lg font-semibold text-white">{transactionsModal.product.label}</h3>
                 <p className="text-sm text-zinc-500">{MONTHS[selectedMonth]} {selectedYear} • {formatCurrency(transactionsModal.product.price)}/unité</p>
               </div>
               <button
-                onClick={() => setTransactionsModal(null)}
+                onClick={() => {
+                  setTransactionsModal(null);
+                  setClientSelectionMode('generate');
+                  setSelectedClientId(null);
+                  setClientSearchQuery('');
+                }}
                 className="p-2 text-zinc-500 hover:text-white rounded-lg hover:bg-zinc-800"
               >
                 <X className="h-5 w-5" />
@@ -2736,52 +2869,203 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
             {/* Content */}
             <div className="p-5 space-y-5">
-              {/* Counter */}
-              <div className="flex items-center justify-center gap-4">
-                <button
-                  onClick={() => setTxCounter(Math.max(1, txCounter - 1))}
-                  className="w-11 h-11 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors"
-                >
-                  <Minus className="h-5 w-5" />
-                </button>
-                <input
-                  type="number"
-                  value={txCounter}
-                  onChange={(e) => setTxCounter(Math.max(1, Number(e.target.value) || 1))}
-                  min="1"
-                  className="w-16 text-center text-3xl font-bold text-white bg-transparent outline-none"
-                />
-                <button
-                  onClick={() => setTxCounter(txCounter + 1)}
-                  className="w-11 h-11 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors"
-                >
-                  <Plus className="h-5 w-5" />
-                </button>
-              </div>
+              {/* Client Selection */}
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  Attribution du client
+                </p>
 
-              {/* Quick select */}
-              <div className="flex justify-center gap-2">
-                {[1, 5, 10, 20].map((n) => (
+                {/* Mode Toggle */}
+                <div className="flex gap-2">
                   <button
-                    key={n}
-                    onClick={() => setTxCounter(n)}
-                    className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                      txCounter === n ? 'bg-violet-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'
+                    onClick={() => setClientSelectionMode('existing')}
+                    className={`flex-1 py-2.5 px-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors ${
+                      clientSelectionMode === 'existing'
+                        ? 'bg-violet-600 text-white'
+                        : 'bg-zinc-800 text-zinc-400 hover:text-white'
                     }`}
                   >
-                    {n}
+                    <Search className="h-4 w-4" />
+                    Client existant
                   </button>
-                ))}
+                  <button
+                    onClick={() => {
+                      setClientSelectionMode('generate');
+                      setSelectedClientId(null);
+                      setGeneratedClientPreview(generateRandomClient());
+                    }}
+                    className={`flex-1 py-2.5 px-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors ${
+                      clientSelectionMode === 'generate'
+                        ? 'bg-violet-600 text-white'
+                        : 'bg-zinc-800 text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    <Shuffle className="h-4 w-4" />
+                    Générer
+                  </button>
+                </div>
+
+                {/* Existing Client Search */}
+                {clientSelectionMode === 'existing' && (
+                  <div className="space-y-2">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                      <input
+                        type="text"
+                        value={clientSearchQuery}
+                        onChange={(e) => setClientSearchQuery(e.target.value)}
+                        placeholder="Rechercher un client..."
+                        className="w-full pl-10 pr-4 py-2.5 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm placeholder-zinc-600 focus:border-violet-500 outline-none"
+                      />
+                    </div>
+                    <div className="max-h-40 overflow-y-auto space-y-1 bg-zinc-800/50 rounded-lg p-2">
+                      {loadingClients ? (
+                        <div className="flex items-center justify-center py-4">
+                          <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
+                        </div>
+                      ) : clients.filter(c =>
+                        clientSearchQuery === '' ||
+                        c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
+                        c.email.toLowerCase().includes(clientSearchQuery.toLowerCase())
+                      ).length === 0 ? (
+                        <p className="text-center py-4 text-zinc-500 text-sm">
+                          {clients.length === 0 ? 'Aucun client' : 'Aucun résultat'}
+                        </p>
+                      ) : (
+                        clients
+                          .filter(c =>
+                            clientSearchQuery === '' ||
+                            c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
+                            c.email.toLowerCase().includes(clientSearchQuery.toLowerCase())
+                          )
+                          .slice(0, 10)
+                          .map((client) => (
+                            <button
+                              key={client.id}
+                              onClick={() => setSelectedClientId(client.id)}
+                              className={`w-full text-left px-3 py-2 rounded-lg flex items-center justify-between transition-all ${
+                                selectedClientId === client.id
+                                  ? 'bg-violet-600/20 border border-violet-500'
+                                  : 'bg-zinc-800/50 hover:bg-zinc-700/50 border border-transparent'
+                              }`}
+                            >
+                              <div>
+                                <p className="text-white text-sm font-medium">{client.name}</p>
+                                <p className="text-zinc-500 text-xs">{client.email}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                {client.isGenerated && (
+                                  <span className="text-xs px-1.5 py-0.5 bg-zinc-700 text-zinc-400 rounded">Auto</span>
+                                )}
+                                {selectedClientId === client.id && (
+                                  <Check className="h-4 w-4 text-violet-500" />
+                                )}
+                              </div>
+                            </button>
+                          ))
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Generated Client Preview */}
+                {clientSelectionMode === 'generate' && generatedClientPreview && (
+                  <div className="bg-zinc-800/50 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-white font-medium">{generatedClientPreview.name}</p>
+                        <p className="text-zinc-500 text-sm">{generatedClientPreview.email}</p>
+                      </div>
+                      <button
+                        onClick={() => setGeneratedClientPreview(generateRandomClient())}
+                        className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-700 rounded-lg transition-colors"
+                        title="Régénérer"
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <p className="text-xs text-zinc-600">
+                      Ce client sera créé automatiquement lors de l'ajout de la vente
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Quantity Counter */}
+              <div className="pt-2 border-t border-zinc-800">
+                <p className="text-sm font-medium text-zinc-400 mb-3">Quantité</p>
+                <div className="flex items-center justify-center gap-4">
+                  <button
+                    onClick={() => setTxCounter(Math.max(1, txCounter - 1))}
+                    className="w-11 h-11 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors"
+                  >
+                    <Minus className="h-5 w-5" />
+                  </button>
+                  <input
+                    type="number"
+                    value={txCounter}
+                    onChange={(e) => setTxCounter(Math.max(1, Number(e.target.value) || 1))}
+                    min="1"
+                    className="w-16 text-center text-3xl font-bold text-white bg-transparent outline-none"
+                  />
+                  <button
+                    onClick={() => setTxCounter(txCounter + 1)}
+                    className="w-11 h-11 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors"
+                  >
+                    <Plus className="h-5 w-5" />
+                  </button>
+                </div>
+
+                {/* Quick select */}
+                <div className="flex justify-center gap-2 mt-3">
+                  {[1, 5, 10, 20].map((n) => (
+                    <button
+                      key={n}
+                      onClick={() => setTxCounter(n)}
+                      className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                        txCounter === n ? 'bg-violet-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Add button */}
               <button
-                onClick={() => {
-                  addStandardTransactions(transactionsModal.catId, transactionsModal.product.id, currentMonthKey, txCounter);
-                  const newTxs = Array.from({ length: txCounter }, () => ({
+                onClick={async () => {
+                  let clientInfo: { id: string; name: string; email?: string };
+
+                  if (clientSelectionMode === 'existing' && selectedClientId) {
+                    const client = clients.find(c => c.id === selectedClientId);
+                    if (!client) return;
+                    clientInfo = { id: client.id, name: client.name, email: client.email };
+                  } else if (clientSelectionMode === 'generate' && generatedClientPreview) {
+                    // Create the generated client in Firebase
+                    const newClient = await createClientInDb(generatedClientPreview);
+                    clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
+                  } else {
+                    return;
+                  }
+
+                  await addStandardTransactions(
+                    transactionsModal.catId,
+                    transactionsModal.product.id,
+                    currentMonthKey,
+                    txCounter,
+                    clientInfo
+                  );
+
+                  // Update modal state
+                  const newTxs: Transaction[] = Array.from({ length: txCounter }, () => ({
                     id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                     amount: transactionsModal.product.price,
                     isCustom: false,
+                    clientId: clientInfo.id,
+                    clientName: clientInfo.name,
+                    clientEmail: clientInfo.email,
                   }));
                   setTransactionsModal({
                     ...transactionsModal,
@@ -2794,13 +3078,20 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                     },
                   });
                   setTxCounter(1);
+
+                  // Generate new preview for next transaction
+                  if (clientSelectionMode === 'generate') {
+                    setGeneratedClientPreview(generateRandomClient());
+                  }
                 }}
-                className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-medium transition-colors"
+                disabled={clientSelectionMode === 'existing' && !selectedClientId}
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-700 disabled:text-zinc-500 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
               >
+                <UserPlus className="h-4 w-4" />
                 Ajouter {txCounter} vente{txCounter > 1 ? 's' : ''} ({formatCurrency(txCounter * transactionsModal.product.price)})
               </button>
 
-              {/* Custom */}
+              {/* Custom price section */}
               <details className="group">
                 <summary className="text-sm text-zinc-500 hover:text-zinc-300 cursor-pointer list-none flex items-center gap-2">
                   <ChevronDown className="h-4 w-4 group-open:rotate-180 transition-transform" />
@@ -2822,28 +3113,61 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                     className="flex-1 px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm placeholder-zinc-600 focus:border-orange-500 outline-none"
                   />
                   <button
-                    onClick={() => {
+                    onClick={async () => {
                       const amount = Number(customTxAmount);
-                      if (amount > 0) {
-                        addCustomTransaction(transactionsModal.catId, transactionsModal.product.id, currentMonthKey, amount, customTxNote || undefined);
-                        setTransactionsModal({
-                          ...transactionsModal,
-                          product: {
-                            ...transactionsModal.product,
-                            transactions: {
-                              ...transactionsModal.product.transactions,
-                              [currentMonthKey]: [
-                                ...(transactionsModal.product.transactions?.[currentMonthKey] || []),
-                                { id: `tx_${Date.now()}`, amount, isCustom: true, note: customTxNote || undefined },
-                              ],
-                            },
+                      if (amount <= 0) return;
+
+                      let clientInfo: { id: string; name: string; email?: string };
+
+                      if (clientSelectionMode === 'existing' && selectedClientId) {
+                        const client = clients.find(c => c.id === selectedClientId);
+                        if (!client) return;
+                        clientInfo = { id: client.id, name: client.name, email: client.email };
+                      } else if (clientSelectionMode === 'generate' && generatedClientPreview) {
+                        const newClient = await createClientInDb(generatedClientPreview);
+                        clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
+                      } else {
+                        return;
+                      }
+
+                      await addCustomTransaction(
+                        transactionsModal.catId,
+                        transactionsModal.product.id,
+                        currentMonthKey,
+                        amount,
+                        clientInfo,
+                        customTxNote || undefined
+                      );
+
+                      setTransactionsModal({
+                        ...transactionsModal,
+                        product: {
+                          ...transactionsModal.product,
+                          transactions: {
+                            ...transactionsModal.product.transactions,
+                            [currentMonthKey]: [
+                              ...(transactionsModal.product.transactions?.[currentMonthKey] || []),
+                              {
+                                id: `tx_${Date.now()}`,
+                                amount,
+                                isCustom: true,
+                                note: customTxNote || undefined,
+                                clientId: clientInfo.id,
+                                clientName: clientInfo.name,
+                                clientEmail: clientInfo.email,
+                              },
+                            ],
                           },
-                        });
-                        setCustomTxAmount('');
-                        setCustomTxNote('');
+                        },
+                      });
+                      setCustomTxAmount('');
+                      setCustomTxNote('');
+
+                      if (clientSelectionMode === 'generate') {
+                        setGeneratedClientPreview(generateRandomClient());
                       }
                     }}
-                    disabled={!customTxAmount || Number(customTxAmount) <= 0}
+                    disabled={!customTxAmount || Number(customTxAmount) <= 0 || (clientSelectionMode === 'existing' && !selectedClientId)}
                     className="px-4 py-2 bg-orange-600 hover:bg-orange-500 disabled:bg-zinc-700 disabled:text-zinc-500 text-white rounded-lg text-sm font-medium transition-colors"
                   >
                     OK
@@ -2851,17 +3175,26 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                 </div>
               </details>
 
-              {/* List */}
+              {/* Transaction History - with client names */}
               {getTransactionsCount(transactionsModal.product, currentMonthKey) > 0 && (
                 <div className="border-t border-zinc-800 pt-4">
-                  <p className="text-xs text-zinc-500 mb-2">Historique</p>
-                  <div className="space-y-1 max-h-36 overflow-y-auto">
+                  <p className="text-xs text-zinc-500 mb-2">Historique ({getTransactionsCount(transactionsModal.product, currentMonthKey)} ventes)</p>
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
                     {(transactionsModal.product.transactions?.[currentMonthKey] || []).map((tx, index) => (
-                      <div key={tx.id} className="group flex items-center justify-between py-1.5 px-2 rounded hover:bg-zinc-800/50">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-zinc-600 w-5">#{index + 1}</span>
-                          <span className={tx.isCustom ? 'text-orange-400' : 'text-white'}>{formatCurrency(tx.amount)}</span>
-                          {tx.note && <span className="text-xs text-zinc-500">{tx.note}</span>}
+                      <div key={tx.id} className="group flex items-center justify-between py-2 px-2 rounded hover:bg-zinc-800/50">
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <span className="text-xs text-zinc-600 w-5 flex-shrink-0">#{index + 1}</span>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className={tx.isCustom ? 'text-orange-400 font-medium' : 'text-white font-medium'}>
+                                {formatCurrency(tx.amount)}
+                              </span>
+                              {tx.note && <span className="text-xs text-zinc-500 truncate">• {tx.note}</span>}
+                            </div>
+                            <p className="text-xs text-zinc-500 truncate">
+                              {tx.clientName || 'Client inconnu'}
+                            </p>
+                          </div>
                         </div>
                         <button
                           onClick={() => {
@@ -2877,9 +3210,9 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                               },
                             });
                           }}
-                          className="opacity-0 group-hover:opacity-100 p-1 text-zinc-500 hover:text-red-400"
+                          className="opacity-0 group-hover:opacity-100 p-1.5 text-zinc-500 hover:text-red-400 hover:bg-zinc-800 rounded flex-shrink-0"
                         >
-                          <X className="h-3 w-3" />
+                          <X className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     ))}
