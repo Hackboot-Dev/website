@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VMCloud - Dashboard Financier</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0,212,255,0.2);
+        }
+
+        .kpi-card.warning {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .kpi-card.danger {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .kpi-card.success {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .kpi-label {
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .kpi-detail {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        .alert-section {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(245, 158, 11, 0.2));
+            border: 2px solid #ef4444;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .alert-section h2 {
+            color: #ef4444;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-section h2::before {
+            content: "⚠️";
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .timeline-point {
+            background: #1a1a2e;
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            z-index: 1;
+            border: 2px solid;
+        }
+
+        .timeline-point.now {
+            border-color: #10b981;
+        }
+
+        .timeline-point.warning {
+            border-color: #f59e0b;
+        }
+
+        .timeline-point.danger {
+            border-color: #ef4444;
+        }
+
+        .timeline-point .date {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .timeline-point .event {
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        .timeline-point .impact {
+            font-size: 0.85rem;
+        }
+
+        .structure-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .structure-section h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+
+        .org-tree {
+            font-family: monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #10b981;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .timeline::before {
+                width: 4px;
+                height: 100%;
+                left: 50%;
+                top: 0;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>VMCloud Dashboard Financier</h1>
+        <p>Dernière mise à jour : Décembre 2025 | Phase : Lancement commercial</p>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+        <div class="kpi-card success">
+            <div class="kpi-label">Trésorerie</div>
+            <div class="kpi-value">1.5M€</div>
+            <div class="kpi-detail">Cash disponible</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Burn Rate</div>
+            <div class="kpi-value">36K€</div>
+            <div class="kpi-detail">/mois (dont 1.1K€ intérêts)</div>
+        </div>
+        <div class="kpi-card success">
+            <div class="kpi-label">Runway</div>
+            <div class="kpi-value">41 mois</div>
+            <div class="kpi-detail">Jusqu'à mi-2029</div>
+        </div>
+        <div class="kpi-card warning">
+            <div class="kpi-label">Breakeven MRR</div>
+            <div class="kpi-value">55.6K€</div>
+            <div class="kpi-detail">Objectif avant fin 2027</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">MRR Actuel</div>
+            <div class="kpi-value">0€</div>
+            <div class="kpi-detail">Phase lancement</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Financement Total</div>
+            <div class="kpi-value">3M€</div>
+            <div class="kpi-detail">1.5M cash + 1.5M OVH</div>
+        </div>
+    </div>
+
+    <!-- Alerte 2027 -->
+    <div class="alert-section">
+        <h2>Alerte Critique : Fin 2027</h2>
+        <p style="margin-bottom: 20px;">Double effet : fin du programme OVH + fin du différé de remboursement du prêt SEB</p>
+
+        <div class="timeline">
+            <div class="timeline-point now">
+                <div class="date">2025-2027</div>
+                <div class="event">Période actuelle</div>
+                <div class="impact" style="color: #10b981;">Burn: 36K€/mois</div>
+            </div>
+            <div class="timeline-point warning">
+                <div class="date">Fin 2027</div>
+                <div class="event">Fin différé prêt</div>
+                <div class="impact" style="color: #f59e0b;">+13K€/mois</div>
+            </div>
+            <div class="timeline-point warning">
+                <div class="date">Fin 2027</div>
+                <div class="event">Fin programme OVH</div>
+                <div class="impact" style="color: #f59e0b;">+16-30K€/mois</div>
+            </div>
+            <div class="timeline-point danger">
+                <div class="date">Post-2027</div>
+                <div class="event">Nouveau burn</div>
+                <div class="impact" style="color: #ef4444;">65-80K€/mois</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+        <div class="chart-container">
+            <h3 class="chart-title">📊 Projection Trésorerie (24 mois)</h3>
+            <div class="chart-wrapper">
+                <canvas id="treasuryChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">💰 Répartition du Burn Rate</h3>
+            <div class="chart-wrapper">
+                <canvas id="burnChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">📈 Scénarios MRR vs Burn</h3>
+            <div class="chart-wrapper">
+                <canvas id="scenarioChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">🏗️ Répartition Financement</h3>
+            <div class="chart-wrapper">
+                <canvas id="fundingChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Structure -->
+    <div class="structure-section">
+        <h2>🏢 Structure de Détention</h2>
+        <pre class="org-tree">
+Fondateur (100%)
+    │
+    └── DVP Holding (100%)
+            │
+            └── VMCloud Group OÜ (100%)
+                    │
+                    ├── VMCloud OÜ (100%)
+                    │   └── Cloud infrastructure
+                    │
+                    └── Hackboot (100%)
+                        └── Gaming
+        </pre>
+    </div>
+
+    <div class="footer">
+        <p>Dashboard généré automatiquement depuis /docs/business/</p>
+        <p>VMCloud OÜ - Estonie | Données confidentielles</p>
+    </div>
+
+    <script>
+        // Configuration commune
+        Chart.defaults.color = '#888';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+
+        // 1. Projection Trésorerie
+        const treasuryCtx = document.getElementById('treasuryChart').getContext('2d');
+
+        // Calcul des projections
+        const months = [];
+        const treasuryWithRevenue = [];
+        const treasuryWithoutRevenue = [];
+        const burnLine = [];
+
+        let cashWith = 1500000;
+        let cashWithout = 1500000;
+        let mrr = 0;
+        const burnRate = 36130;
+
+        for (let i = 0; i <= 24; i++) {
+            const date = new Date(2025, 11 + i, 1);
+            months.push(date.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' }));
+
+            // Scénario avec revenus croissants
+            if (i > 0) {
+                mrr = Math.min(mrr + 4000, 80000); // +4K MRR/mois, max 80K
+                cashWith = cashWith - burnRate + (mrr * 0.65); // 65% marge
+            }
+            treasuryWithRevenue.push(Math.max(0, cashWith));
+
+            // Scénario sans revenus
+            if (i > 0) {
+                cashWithout = cashWithout - burnRate;
+            }
+            treasuryWithoutRevenue.push(Math.max(0, cashWithout));
+
+            // Ligne de burn post-2027 (à partir du mois 24)
+            if (i >= 24) {
+                burnLine.push(70000 * (i - 23));
+            } else {
+                burnLine.push(null);
+            }
+        }
+
+        new Chart(treasuryCtx, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Avec revenus (+4K MRR/mois)',
+                        data: treasuryWithRevenue,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Sans revenus',
+                        data: treasuryWithoutRevenue,
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                xMin: 24,
+                                xMax: 24,
+                                borderColor: '#f59e0b',
+                                borderWidth: 2,
+                                borderDash: [5, 5],
+                                label: {
+                                    content: 'Fin 2027',
+                                    enabled: true
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000000).toFixed(1) + 'M€';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Répartition Burn Rate
+        const burnCtx = document.getElementById('burnChart').getContext('2d');
+        new Chart(burnCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['SRE', 'DRH', 'CRE', 'Virtualization', 'Bandwidth', 'Intérêts prêt', 'Autres'],
+                datasets: [{
+                    data: [15400, 7800, 4000, 3000, 3000, 1130, 1800],
+                    backgroundColor: [
+                        '#00d4ff',
+                        '#7b2cbf',
+                        '#10b981',
+                        '#f59e0b',
+                        '#6366f1',
+                        '#ef4444',
+                        '#64748b'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${context.label}: ${value.toLocaleString()}€ (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. Scénarios MRR vs Burn
+        const scenarioCtx = document.getElementById('scenarioChart').getContext('2d');
+        new Chart(scenarioCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Aujourd\'hui', 'M+6', 'M+12', 'M+24', 'Post-2027'],
+                datasets: [
+                    {
+                        label: 'Burn Rate',
+                        data: [36130, 36130, 40000, 36130, 75000],
+                        backgroundColor: '#ef4444',
+                    },
+                    {
+                        label: 'MRR (objectif)',
+                        data: [0, 50000, 100000, 150000, 150000],
+                        backgroundColor: '#10b981',
+                    },
+                    {
+                        label: 'Breakeven',
+                        data: [55600, 55600, 61500, 55600, 115000],
+                        backgroundColor: 'rgba(245, 158, 11, 0.5)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 2,
+                        type: 'line'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + '€';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 4. Répartition Financement
+        const fundingCtx = document.getElementById('fundingChart').getContext('2d');
+        new Chart(fundingCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Programme OVH (non-cash)', 'Prêt SEB Bank', 'Apport DVP Holding'],
+                datasets: [{
+                    data: [1500000, 800000, 700000],
+                    backgroundColor: [
+                        '#00d4ff',
+                        '#7b2cbf',
+                        '#10b981'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                return `${context.label}: ${(value / 1000000).toFixed(1)}M€`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

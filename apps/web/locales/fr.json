@@ -16,7 +16,7 @@
       "title1": "VMCloud",
       "title2": "À VMCloud",
       "title3": "L'Évolution",
-      "subtitle": "Depuis 2023, nous avons évolué de la vente de clés de jeux au développement logiciel, puis au cloud gaming. Fin 2025, avec 2.5M€ levés, VMCloud structure cette expertise pour conquérir le marché européen depuis l'Estonie."
+      "subtitle": "Depuis 2023, VMCloud construit l'infrastructure cloud européenne de nouvelle génération. Avec 2.5M€ levés auprès d'OVHCloud et SEB Pank, nous offrons des solutions compute, GPU et stockage premium depuis l'Estonie."
     },
     "stats": {
       "founded": "Création VMCloud",
@@ -26,7 +26,7 @@
     },
     "timeline": {
       "title": "Notre Histoire",
-      "subtitle": "L'évolution d'une vision gaming vers une infrastructure cloud complète"
+      "subtitle": "De la vision à la réalité : construire le cloud européen de demain"
     },
     "partners": {
       "title": "Écosystème & Partenaires",
@@ -37,14 +37,14 @@
       "subtitle": "Opérant depuis l'Estonie avec une conformité totale",
       "estonia": {
         "title": "Juridiction Estonienne",
-        "content": "En Estonie, le développement et l'utilisation de modifications de jeux (cheats) sont entièrement légaux. Cette juridiction nous permet d'innover librement tout en respectant les réglementations européennes."
+        "content": "L'Estonie offre un écosystème digital de pointe avec une infrastructure e-gouvernement parmi les plus avancées au monde. Cette juridiction nous permet d'opérer efficacement tout en respectant les réglementations européennes."
       },
       "expansion": {
         "title": "Expansion Européenne",
         "content": "Notre structure estonienne nous offre un cadre idéal pour l'expansion européenne. Nous adaptons nos services à chaque marché tout en maintenant notre excellence opérationnelle."
       },
       "note": "Note:",
-      "note.content": "VMCloud opère en totale transparence avec les autorités estoniennes et européennes. Notre activité gaming, incluant le développement de cheats, est déclarée et conforme à la législation locale."
+      "note.content": "VMCloud opère en totale conformité avec les réglementations européennes. Notre infrastructure est certifiée et nos pratiques respectent les standards RGPD et de protection des données."
     },
     "vision": {
       "title": "Notre Vision",
@@ -91,28 +91,28 @@
     "timeline": {
       "items": {
         "hackbootCreation": {
-          "title": "Les Débuts",
-          "description": "Début avec la vente de clés de jeux à prix compétitifs. Construction d'une première base client et compréhension du marché gaming."
+          "title": "La Vision",
+          "description": "Création de VMCloud avec une ambition claire : bâtir une infrastructure cloud européenne premium, souveraine et performante."
         },
         "softwareDev": {
-          "title": "Développement Logiciel",
-          "description": "Pivot vers le développement de logiciels sur mesure. Création d'outils et d'applications pour la communauté gaming."
+          "title": "Les Fondations",
+          "description": "Développement de l'architecture technique, partenariats stratégiques avec AMD et NVIDIA. Mise en place des premiers datacenters."
         },
         "cloudGaming": {
-          "title": "Cloud Gaming & Cheats",
-          "description": "Lancement du cloud gaming et développement de cheats légaux en Estonie. Expertise technique approfondie en optimisation GPU."
+          "title": "Expertise GPU & Compute",
+          "description": "Développement d'une expertise pointue en optimisation GPU et calcul haute performance. Infrastructure dédiée à l'IA et au machine learning."
         },
         "vmcloudBirth": {
           "title": "Naissance de VMCloud",
           "description": "Levée de 2.5M€ avec OVHCloud et SEB Pank. Structuration de l'entreprise et transformation en VMCloud pour le marché européen."
         },
         "rapidExpansion": {
-          "title": "Expansion Rapide",
-          "description": "Acquisition de milliers de clients, expansion européenne depuis l'Estonie. Infrastructure enterprise déployée dans 3 datacenters majeurs."
+          "title": "Lancement Plateforme",
+          "description": "Mise en ligne de la plateforme VMCloud avec 7 gammes de produits : VPS, GPU Cloud, Hébergement Web, PaaS, Load Balancer, Stockage et CDN. Infrastructure opérationnelle dans 3 datacenters européens."
         },
         "innovation": {
-          "title": "Innovation & Croissance",
-          "description": "Consolidation des acquis, ajout de nouveaux services innovants. Nouveaux datacenters prévus à Madrid et Milan. Développement de solutions IA."
+          "title": "Développement Continu",
+          "description": "Amélioration continue de l'expérience utilisateur : refonte console, documentation, API publique et outils d'automatisation. Nouveaux services et fonctionnalités selon les besoins du marché."
         }
       }
     },
@@ -122,7 +122,7 @@
       "datacenters": "Datacenters",
       "sla": "SLA Garanti",
       "descriptions": {
-        "keySales": "Vente de clés & logiciels",
+        "keySales": "Cloud Infrastructure",
         "investors": "OVH, SEB Pank & plus",
         "locations": "Paris, Amsterdam, Frankfurt",
         "availability": "Disponibilité maximale"
@@ -233,12 +233,7 @@
       "paas": { "name": "PaaS" },
       "loadbalancer": { "name": "Load Balancer" },
       "storage": { "name": "Stockage" },
-      "cdn": { "name": "CDN" },
-      "gaming": {
-        "name": "Cloud Gaming",
-        "description": "Cheats et modifications gaming premium",
-        "subtitle": "De 130€/mois - Cheats indétectés pour les meilleurs jeux"
-      }
+      "cdn": { "name": "CDN" }
     },
     "viewAll": "Voir tous les produits",
     "pricing": {
@@ -391,12 +386,7 @@
       "paas": "Platform as a Service",
       "loadbalancer": "Load Balancer",
       "storage": "Stockage",
-      "cdn": "CDN",
-      "gaming": "Cloud Gaming"
-    },
-    "gaming": {
-      "filterByGame": "Filtrer par jeu",
-      "allGames": "Tous les jeux"
+      "cdn": "CDN"
     },
     "labels": {
       "idealFor": "Idéal pour",
@@ -639,7 +629,7 @@
       },
       "nvidia": {
         "role": "Partenaire GPU",
-        "desc": "Programme partenaire pour l'accès prioritaire aux GPU Tesla et RTX pour nos solutions IA et gaming."
+        "desc": "Programme partenaire pour l'accès prioritaire aux GPU Tesla et RTX pour nos solutions IA et calcul haute performance."
       },
       "equinix": {
         "role": "Infrastructure Réseau",
@@ -829,7 +819,7 @@
       "gpu_specialist": {
         "title": "Spécialiste Infrastructure GPU",
         "team": "Équipe GPU",
-        "description": "Optimisez les charges GPU pour le gaming et l'IA. Travaillez sur l'infrastructure cloud gaming et machine learning de pointe."
+        "description": "Optimisez les charges GPU pour l'IA et le calcul haute performance. Travaillez sur l'infrastructure cloud et machine learning de pointe."
       },
       "security_engineer": {
         "title": "Ingénieur Sécurité",

@@ -1,5 +1,1391 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-11 - Session 3]
+SESSION: Nettoyage boutons temporaires P&L Dashboard
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - suppression boutons temp]
+
+CHANGEMENTS:
+```
+1. BOUTONS SUPPRIMÉS
+   - "DB Status" indicator (affichait le statut de connexion Firebase)
+   - "Init DB" button (orange) - initialisait la DB avec données par défaut
+   - "Purge DB" button (rouge) - supprimait toutes les données Firebase
+
+2. RAISON
+   - Ces boutons étaient temporaires pour le debug de l'intégration multi-Firebase
+   - Le système multi-société (VMCloud/Hackboot) fonctionne maintenant correctement
+   - Le bouton "Sync" reste disponible pour forcer la synchronisation
+```
+
+PROCHAINE ÉTAPE: Le dashboard P&L est prêt pour utilisation en production
+---
+
+[2025-12-11 - Session 2]
+SESSION: Import données Hackboot.xlsx dans P&L Dashboard
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - import données Excel]
+
+CHANGEMENTS MAJEURS:
+```
+1. ANALYSE FICHIER EXCEL
+   - Structure: 6 feuilles (SAMPLE Monthly P&L, YTD, BLANK templates)
+   - Données Hackboot: Revenue, Clients, Réductions, Expenses par mois
+
+2. DONNÉES IMPORTÉES - PRODUCTS (CLIENTS)
+   - Pack Essentiel: 19.99€, 282 clients YTD (Sep-Dec: 12,49,89,132)
+   - Pack Avantage: 35€, 149 clients YTD (Sep-Dec: 4,16,51,78)
+   - Pack Élite: 60€, 62 clients YTD (Oct-Dec: 7,21,34)
+   - VM Clash Royal: 160€, 103 clients (Jan-Jun: 23,31,12,7,4,26)
+   - VM Call Of Duty: 1650€, 44 clients (Jan-Jun: 8,4,9,13,3,7)
+   - VM Overwatch 2: 880.4€, 32 clients (Jan-Jun: 2,1,6,4,8,11)
+
+3. DONNÉES IMPORTÉES - EXPENSES
+   - Employés: Luf (Freelance) 4000€/mois Jan-Jun = 24000€ YTD
+   - Software AWS:
+     * AWS Clash Royal (t3.large): 6169.7€ YTD
+     * AWS Overwatch 2 (g4dn.2xlarge): 25804.8€ YTD
+     * AWS Call Of Duty (g4dn.2xlarge): 35481.6€ YTD
+
+4. STRUCTURE CATÉGORIES (MATCHING EXCEL)
+   - Employee: Luf, Gengis
+   - Software & Cloud: AWS instances, LMS
+   - Banking & Finance: Bank Fees, Bad Debts, Interest, Insurance, Loan Fees
+   - Business Général: 17 items (AWS Infra, OVH, Telecom, Marketing, etc.)
+   - Véhicule: Gas, Maintenance, Licensing, Insurance
+   - Taxes: TVA, Disbursement fees, Property Tax, B&O Tax
+
+5. HELPER FUNCTION
+   - generateTransactions(): Convertit nombre de clients en Transaction[]
+```
+
+TOTAUX EXCEL (YTD):
+- Gross Profit: 131,824.98€
+- Total Expenses: 91,456.10€
+- Net Profit: 40,368.88€
+
+PROCHAINE ÉTAPE: Tester en développement avec les vraies données
+---
+
+[2025-12-11 - Session 1]
+SESSION: Admin P&L Dashboard v2 - Fonctionnalités Excel Hackboot.xlsx
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - v2 features]
+
+CHANGEMENTS MAJEURS:
+```
+1. TYPES ÉTENDUS
+   - ExpenseItem: ajout champs type? et note? pour badges
+   - ReductionData: nouveau type pour COGS (returns, discounts, cogs)
+   - PnLData: ajout propriété reductions
+
+2. NOUVELLES CATÉGORIES DE DÉPENSES
+   - Banking & Finance: Bank Fees, Bad Debts, Interest, Loan Fees, Insurance
+   - Vehicle: Gas, Maintenance, Licensing, Insurance
+   - Business étendu: Depreciation, Travel, Freight, Patents, Dues, Meals
+   - Taxes étendu: Property Tax, B&O Tax, Disbursement fees
+
+3. SECTION RÉDUCTIONS (COGS)
+   - Sales Returns (éditable)
+   - Sales Discounts (éditable)
+   - Cost of Goods Sold (éditable)
+   - Calcul automatique: Gross Profit = Revenue - Reductions
+   - Net Profit = Gross Profit - Expenses
+
+4. EXPORTS
+   - CSV: Export complet avec toutes catégories + YTD
+   - PDF: Rapport formaté avec jspdf + jspdf-autotable
+
+5. VUE ANNUELLE (12 MOIS)
+   - Nouvel onglet "Vue annuelle"
+   - Tableau horizontal Jan→Dec + YTD
+   - Revenue, Réductions, Gross Profit, Expenses, Net Profit
+   - Breakdown par catégorie
+
+6. GRAPHIQUES RECHARTS
+   - LineChart: Revenue vs Dépenses vs Profit Net sur 12 mois
+   - Placement dans l'onglet Overview
+
+7. BADGES TYPE/NOTE
+   - Affichage badges dans l'onglet Dépenses
+   - Type: violet badge (ex: "Freelance", "sub constant")
+   - Note: blue badge (ex: "t3.large", "90/user")
+```
+
+DÉPENDANCES:
+- jspdf (déjà installé)
+- jspdf-autotable (déjà installé)
+- recharts (déjà installé)
+
+PROCHAINE ÉTAPE: Tests utilisateur de toutes les fonctionnalités
+---
+
+[2025-12-10 - 21:00]
+SESSION: Refonte design admin - Cohérence avec le site principal
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/layout.tsx [modifié - nouveau design]
+- /apps/web/app/[locale]/admin/AdminDashboardClient.tsx [modifié - nouveau design]
+- /apps/web/app/[locale]/admin/login/AdminLoginClient.tsx [modifié - nouveau design]
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - header et styles]
+
+CHANGEMENTS MAJEURS:
+```
+1. LAYOUT ADMIN
+   - Suppression de la sidebar auto-collapse
+   - Ajout Header/Footer du site
+   - Ajout SophisticatedBackground + Noise overlay
+   - Nouvelle navigation admin sous le header (sub-nav sticky)
+   - Badge Admin + Navigation horizontale + User info
+
+2. DASHBOARD ADMIN
+   - Badge "Dashboard" style site
+   - Titre "Administration" font-extralight
+   - Cards stats avec icônes colorées style site
+   - Quick access avec hover arrows
+   - Animations Framer Motion staggered
+
+3. PAGE LOGIN
+   - Header/Footer du site
+   - SophisticatedBackground + geometric accents
+   - Formulaire style minimal (borders sharp, pas rounded)
+   - Icônes dans les inputs
+   - Bouton blanc (style CTA du site)
+
+4. PAGE P&L
+   - Header avec badge "Finance"
+   - KPI cards style cohérent (borders, icônes, font-extralight)
+   - Tabs avec style blanc actif
+   - Month navigator style minimal
+   - Overview cards bordures zinc-900
+```
+
+DESIGN PATTERNS APPLIQUÉS:
+- font-extralight pour les titres
+- bg-zinc-900/20 border border-zinc-900 pour les containers
+- Pas de rounded-xl → sharp corners
+- Badges uppercase tracking-[0.2em]
+- Animations Framer Motion avec ease [0.16, 1, 0.3, 1]
+
+PROCHAINE ÉTAPE: Tests visuels en développement
+---
+
+[2025-12-10 - 19:30]
+SESSION: Refonte majeure P&L - Transactions, Accordéons, Quantités
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - refonte complète]
+
+CHANGEMENTS STRUCTURELS:
+```
+1. SYSTÈME DE TRANSACTIONS (au lieu de simple compteur clients)
+   - Type Transaction: { id, amount, isCustom, note? }
+   - Product.transactions: Record<month, Transaction[]>
+   - Revenue = somme des montants de toutes les transactions
+   - Transactions standard (prix unitaire) et custom (prix spécial)
+   - Modal dédié pour gérer les transactions par produit
+
+2. DÉPENSES - QUANTITÉ MANUELLE
+   - ExpenseItem.quantity: Record<month, number> (qté manuelle)
+   - ExpenseItem.adjustments: Record<month, number> (ajust. €)
+   - Total = (qtyManuelle + qtyAuto) × prixUnitaire + ajustement
+   - Affichage: qté manuelle (bleu) + qté auto (violet)
+
+3. MODAL RÈGLES - ACCORDÉONS
+   - Plus de grille → accordéons par catégorie
+   - Clique sur catégorie → ouvre/ferme les items
+   - Badge "X lié(s)" pour les catégories avec règles
+   - Animation rotate sur chevron
+
+4. MODAL TRANSACTIONS
+   - Header avec résumé (prix, nb tx, revenue total)
+   - Liste des transactions avec édition inline
+   - Badge "Custom" pour les prix spéciaux
+   - Boutons: +1 standard, +X, +custom
+   - Suppression par transaction
+```
+
+FONCTIONS AJOUTÉES:
+- getTransactionsCount(), getTransactionsRevenue()
+- addStandardTransactions(), addCustomTransaction()
+- deleteTransaction(), updateTransactionAmount()
+- updateExpenseQuantity(), updateExpenseAdjustment()
+- getAutoQuantity(), toggleAccordion()
+
+PROCHAINE ÉTAPE: Tests complets
+---
+
+[2025-12-10 - 18:30]
+SESSION: Refonte système P&L - Prix unitaire & Multiplicateurs
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - refonte majeure]
+
+CHANGEMENTS:
+```
+1. TYPES DE DONNÉES
+   - ExpenseItem: ajout `unitPrice` (prix unitaire)
+   - ExpenseCategory: ajout `isProtected` (non supprimable)
+   - ProductRule: `costPerClient` → `multiplier`
+   - Calcul: coût = clients × multiplier × unitPrice
+
+2. ONGLET DÉPENSES (structure similaire à Produits)
+   - Tableau: Élément | Prix unitaire | Ajustement | Total
+   - Prix unitaire éditable inline
+   - Gestion catégories (ajout/suppression/renommer)
+   - Catégories protégées: "Employés", "Taxes" (badge)
+   - Bouton "Ajouter une catégorie de dépenses"
+
+3. MODAL RÈGLES - NOUVEAU SÉLECTEUR
+   - Plus de <select> → grille de cartes cliquables
+   - Chaque item = carte avec nom, catégorie, prix
+   - Coche verte si déjà ajouté
+   - Multiplicateur éditable (×1, ×2, ×3...)
+   - Affichage calcul: ×1 = 4500€
+
+4. FONCTIONS AJOUTÉES
+   - updateExpenseUnitPrice()
+   - addExpenseCategory() / deleteExpenseCategory()
+   - renameExpenseCategory() / renameExpenseItem()
+   - updateRuleMultiplier()
+   - getExpenseItem()
+```
+
+LOGIQUE MÉTIER:
+- Employé Luf = 4500€/mois (unitPrice)
+- Règle produit: ×1 (multiplier)
+- 10 clients → 10 × 1 × 4500€ = 45000€ coût auto
+
+PROCHAINE ÉTAPE: Tests complets
+---
+
+[2025-12-10 - 18:00]
+SESSION: Refonte roadmap publique et changelog - Alignement avec réalité business
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/data/roadmap/roadmap-full.json [modifié - roadmap réaliste]
+- /apps/web/data/changelog/roadmap.json [modifié - version courte cohérente]
+- /apps/web/data/changelog/releases.json [modifié - suppression releases fictives]
+
+CHANGEMENTS:
+```
+1. ROADMAP-FULL.JSON
+   - Passage de Q4 2025 à Q1 2026 (phase actuelle)
+   - Features "in_progress" : Console redesign, Support, Documentation
+   - API/CLI/Terraform → planifié H1 2026 (réaliste)
+   - Retrait mentions H100 (non disponibles)
+   - Correction prix VPS : "From €9.99" (était €29)
+   - Correction GPU : "T4, RTX 4090, A100" (sans H100)
+   - SLA corrigé : 99.9% (était 99.95%)
+
+2. CHANGELOG/ROADMAP.JSON
+   - Cohérence avec roadmap-full
+   - Now: Console, Support, Docs
+   - Next: API, CLI, Terraform (H1 2026)
+   - Later: Multi-user, Managed DBs, Object Storage
+
+3. RELEASES.JSON
+   - Suppression 3 releases fictives (Sept/Août/Juil 2025)
+   - Une seule release : "Décembre 2025 - Lancement plateforme"
+   - Stats mises à jour (prochaine: Janvier 2026)
+```
+
+ANALYSE BUSINESS EFFECTUÉE:
+- Lecture complète /docs/business/ (finance, gtm, operations, etc.)
+- VMCloud = startup pré-revenu, 1.5M€ cash, 41 mois runway
+- Alerte critique : fin programme OVH fin 2027
+- Objectif : 55K€ MRR avant fin 2027
+
+PROCHAINE ÉTAPE: Vérifier rendu pages /roadmap et /changelog
+---
+
+[2025-12-10 - 16:30]
+SESSION: Refonte du modal des règles de coûts (P&L)
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - nouveau design modal]
+
+AMÉLIORATIONS:
+```
+1. DESIGN MODAL
+   - Header avec icône et titre plus élégant
+   - Backdrop blur pour meilleur focus
+   - Shadow violette subtile
+   - Coins arrondis plus modernes (rounded-2xl)
+
+2. LISTE DES RÈGLES
+   - Numérotation des règles (1, 2, 3...)
+   - Badges colorés pour les montants (+X€)
+   - Hover effects avec bouton supprimer
+   - Scrollable si beaucoup de règles (max-h-[200px])
+   - État vide stylisé avec icône
+
+3. FORMULAIRE AJOUT
+   - Layout inline (select + input + bouton sur une ligne)
+   - Focus states avec border violet
+   - Bouton "Ajouter" avec icône +
+   - Plus compact et fluide
+
+4. UX
+   - Click outside pour fermer
+   - Labels "uppercase tracking-wider" pour hiérarchie
+   - Info box explicative en haut
+```
+
+PROCHAINE ÉTAPE: Tests de l'interface
+---
+
+[2025-12-10 - 16:00]
+SESSION: Ajout système d'authentification admin
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /apps/web/data/admin/users.json [créé - utilisateurs admin]
+- /apps/web/lib/auth.ts [créé - utilitaires auth]
+- /apps/web/app/api/admin/login/route.ts [créé - endpoint login]
+- /apps/web/app/api/admin/logout/route.ts [créé - endpoint logout]
+- /apps/web/app/api/admin/session/route.ts [créé - vérification session]
+- /apps/web/app/[locale]/admin/login/page.tsx [créé - page login]
+- /apps/web/app/[locale]/admin/login/AdminLoginClient.tsx [créé - formulaire login]
+
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/layout.tsx [modifié - protection routes]
+
+SYSTÈME AUTH:
+```
+1. USERS.JSON
+   - Stockage des users admin
+   - Format: id, username, password (hash), role, name
+   - User par défaut: admin/admin (dev)
+
+2. API ENDPOINTS
+   - POST /api/admin/login → Authentification
+   - POST /api/admin/logout → Déconnexion
+   - GET /api/admin/session → Vérification session
+
+3. PROTECTION ROUTES
+   - Layout vérifie la session au chargement
+   - Redirect vers /admin/login si non authentifié
+   - Cookie httpOnly avec expiration 24h
+   - Page login sans layout sidebar
+
+4. CREDENTIALS DEV
+   - Username: admin
+   - Password: admin
+```
+
+PROCHAINE ÉTAPE: Tester le flow complet login → dashboard → P&L
+---
+
+[2025-12-10 - 15:45]
+SESSION: Création du panel Admin avec Firebase et P&L
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /apps/web/lib/firebase.ts [créé - configuration Firebase]
+- /apps/web/app/[locale]/admin/layout.tsx [créé - layout sidebar admin]
+- /apps/web/app/[locale]/admin/page.tsx [créé - dashboard admin]
+- /apps/web/app/[locale]/admin/AdminDashboardClient.tsx [créé - composant dashboard]
+- /apps/web/app/[locale]/admin/pnl/page.tsx [créé - page P&L]
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [créé - composant P&L complet]
+- /apps/web/.env.example [créé - variables Firebase]
+
+FICHIERS MODIFIÉS:
+- /apps/web/package.json [firebase ajouté aux dépendances]
+
+FONCTIONNALITÉS ADMIN PANEL:
+```
+1. STRUCTURE ROUTES
+   - /admin → Dashboard principal
+   - /admin/pnl → Profit & Loss tracking
+   - /admin/settings → (prévu)
+
+2. LAYOUT ADMIN
+   - Sidebar collapsible avec navigation
+   - Icônes et couleurs cohérentes (violet theme)
+   - Responsive et animations
+
+3. PAGE P&L
+   - Ajout entrées (revenue/expense)
+   - Catégories prédéfinies (VPS, GPU, Hosting, Infrastructure...)
+   - Filtrage par mois
+   - Calcul automatique: Revenue, Expenses, Net Profit, Margin
+   - Tableau des entrées avec export prévu
+   - Stockage Firebase Firestore
+
+4. FIREBASE CONFIG
+   - Initialisation côté client uniquement
+   - Variables env documentées dans .env.example
+   - Collection: pnl_entries
+```
+
+PROCHAINE ÉTAPE: Configurer Firebase avec les vraies credentials et tester le P&L
+---
+
+[2025-12-10 - 14:30]
+SESSION: Documentation Organisation et Conformité VMCloud (Suite et Fin)
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /docs/business/organization/HIRING.md [complété - 1307 lignes]
+- /docs/business/organization/CULTURE.md [complété - 1292 lignes]
+- /docs/business/legal/COMPLIANCE.md [complété - 1124 lignes]
+
+CONTENU HIRING.MD:
+```
+1. PLAN DE RECRUTEMENT
+   - Stratégie: Croissance organique liée au MRR
+   - Règle: 1 hire technique = 10K€ MRR supplémentaire
+   - Headcount plan: 6 → 10-12 (2026) → 17-24 (post-levée)
+
+2. PROFILS RECHERCHÉS (5 fiches complètes)
+   - Support L1 / Technical CSM: 3-4.5K€/mois
+   - Account Executive Junior: 4-5.5K€ + 15-20% variable
+   - DevOps/SRE Senior: 7-10K€/mois
+   - Marketing Manager: 5-7.5K€/mois
+   - Solution Engineer: 7-10K€/mois
+
+3. PROCESS DE RECRUTEMENT
+   - 7 étapes: Screening → Call intro → Test → Tech → Culture → Refs → Offre
+   - Durée totale: 2-3 semaines
+   - Tests techniques par rôle détaillés
+   - Scorecard évaluation (/15)
+
+4. SOURCING
+   - Canaux: LinkedIn, Cooptation (1000€), WTTJ, Communities
+   - Employer branding actions (blog, page carrières, events)
+
+5. RÉMUNÉRATION
+   - Grilles salariales par niveau (Junior → Expert)
+   - Package: Fixe + Variable + Equity (si levée)
+   - Variable sales: 15-20% commission, accélérateurs uncapped
+
+6. ONBOARDING
+   - Process 30/60/90 jours détaillé
+   - Buddy system
+   - Checklist nouveau collaborateur
+
+7. MÉTRIQUES ET RISQUES
+   - KPIs: Time to hire <30j, Cost per hire <2K€, Retention >85%
+   - Challenges: Notoriété, budget, structure contractor
+```
+
+CONTENU CULTURE.MD:
+```
+1. VALEURS FONDAMENTALES (5 valeurs)
+   - OWNERSHIP: "C'est mon problème"
+   - TRANSPARENCE: "Tout le monde sait tout"
+   - PRAGMATISME: "Done > Perfect"
+   - CLIENT-FIRST: Support humain, priorité client
+   - AUTONOMIE: "Trust by default"
+   - Hiérarchie des valeurs en cas de conflit
+
+2. CULTURE DE TRAVAIL
+   - Remote-first, Async-first, Résultats-first
+   - Principes: Write-first, Disagree and commit
+   - Framework décision (Type 1/2/3)
+   - RACI simplifié
+
+3. COMMUNICATION INTERNE
+   - Outils: Discord, Notion, GitHub, Meet
+   - Rituels: Daily async, Weekly sync, Team bi-hebdo, Retros
+   - Niveau de transparence (partagé vs confidentiel)
+
+4. DÉVELOPPEMENT ET CROISSANCE
+   - Budget formation: 500-1000€/an
+   - Tracks IC et Management
+   - Cycle performance: Feedback continu + Reviews
+
+5. BIEN-ÊTRE ET ÉQUILIBRE
+   - Horaires flexibles, pas de core hours
+   - Politique déconnexion
+   - Prévention burnout
+
+6. DIVERSITÉ ET INCLUSION
+   - Engagement D&I
+   - Recrutement inclusif
+   - Politique anti-harcèlement (tolérance zéro)
+
+7. RITUELS ET TRADITIONS
+   - Célébrations milestones
+   - Team building (5-10K€/an budget)
+
+8. MESURE DE LA CULTURE
+   - eNPS target >50
+   - Engagement surveys semestriels
+   - Actions feedback loop
+```
+
+CONTENU COMPLIANCE.MD:
+```
+1. RGPD / PROTECTION DES DONNÉES
+   - Statut: ✅ CONFORME
+   - Structure: Responsable traitement VMCloud OÜ, pas DPO requis
+   - Registre des traitements (6 traitements documentés)
+   - DPA, Privacy policy, Cookies policy en place
+   - Sous-traitants Article 28: OVH, Stripe, Google (tous EU)
+   - Pas de transferts hors UE, pas de Cloud Act
+
+2. SÉCURITÉ (ISO 27001, SOC 2)
+   - Certifications: Aucune actuellement (prévu 2026+ post-levée)
+   - PSSI: À formaliser Q1 2025
+   - Contrôles de sécurité: MFA ✅, RBAC ✅, Chiffrement ✅
+   - Pentest: Prévu Q2 2025
+
+3. HDS (HÉBERGEUR DONNÉES SANTÉ)
+   - Statut: Non certifié, non prioritaire
+   - Si client santé: Référer vers provider HDS
+
+4. SecNumCloud / SOUVERAINETÉ
+   - Statut: Non (hors scope)
+   - Arguments souveraineté: EU, pas Cloud Act, 100% EU infra
+
+5. NIS2 / DORA
+   - NIS2: Probablement exempt (taille <50 employés)
+   - DORA: Non concerné (pas entité financière)
+   - Veille active sur évolutions
+
+6. CONFORMITÉ SECTORIELLE
+   - Peut servir: Startups, Gaming, AI/ML, SaaS, E-commerce
+   - Avec précautions: Fintech, Éducation
+   - Ne peut pas servir: Santé (HDS), Admin (SecNumCloud)
+
+7. AUP (ACCEPTABLE USE POLICY)
+   - Usages interdits: Spam, malware, illégal, cryptomining
+   - Process enforcement: Warning → Suspension → Résiliation
+
+8. RAPPORTS ET AUDITS
+   - Security whitepaper: À créer Q1 2025
+   - Process questionnaires clients (SLA 5-15 jours)
+
+9. ROADMAP CONFORMITÉ
+   - 2025: PSSI, pentest, whitepaper, gap analysis
+   - 2026+: ISO 27001, SOC 2 (si levée)
+
+10. INCIDENTS ET NOTIFICATION
+    - Process notification RGPD (72h CNIL)
+    - Assurance cyber: À souscrire Q1 2025
+```
+
+DOCUMENTATION BUSINESS COMPLÈTE:
+```
+RÉCAPITULATIF SESSION COMPLÈTE (10 déc 2025)
+════════════════════════════════════════════
+
+gtm/
+├── GTM.md (1,047 lignes) ✅
+├── SALES.md (962 lignes) ✅
+└── PARTNERSHIPS.md (1,125 lignes) ✅
+
+operations/
+├── INFRASTRUCTURE.md (1,093 lignes) ✅
+├── OPERATIONS.md (1,088 lignes) ✅
+└── SUPPORT.md (1,100 lignes) ✅
+
+organization/
+├── HIRING.md (1,307 lignes) ✅
+├── CULTURE.md (1,292 lignes) ✅
+└── TEAM.md (existant) ✅
+
+legal/
+├── COMPLIANCE.md (1,124 lignes) ✅
+└── LEGAL.md (existant) ✅
+
+products/
+├── PRODUCTS.md (existant) ✅
+├── PRICING.md (677 lignes) ✅
+└── SEGMENTS.md (757 lignes) ✅
+
+TOTAL: ~10,500+ lignes de documentation business
+```
+
+PROCHAINE ÉTAPE: Documentation business VMCloud complète. Prêt pour implémentation ou révision.
+---
+
+[2025-12-10 - 12:15]
+SESSION: Documentation Sales et Partenariats VMCloud
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /docs/business/gtm/SALES.md [complété - 962 lignes]
+- /docs/business/gtm/PARTNERSHIPS.md [complété - 1125 lignes]
+
+CONTENU SALES.MD:
+```
+1. ORGANISATION COMMERCIALE
+   - Phase actuelle: Founder-led sales
+   - Structure future: AE → SDR → CS (triggers MRR)
+   - Couverture par segment définie
+
+2. PROCESS DE VENTE
+   - Self-service < 200€/mois (< 1 jour)
+   - Sales Assist 200€-2K€ (7-30 jours)
+   - Sales-Led > 2K€ (30-90 jours)
+   - Framework qualification BANT+ (score /19)
+
+3. PIPELINE ET FORECAST
+   - 6 stages: Lead → Qualified → Demo → Proposal → Nego → Won
+   - Métriques cibles: Win rate 30%, ADS 400€, Cycle 21j
+
+4. OBJECTIFS ET COMPENSATION
+   - Q1-Q4 2025: 10K€ → 55K€ MRR
+   - Structure compensation AE/SDR/CS définie
+   - Incentives: Fast close, Big deal, Multi-year
+
+5. OUTILS STACK COMMERCIAL
+   - Actuel: HubSpot Free, Gmail, Cal.com
+   - Cible: HubSpot Starter, Lemlist, Crisp, PandaDoc
+
+6. PLAYBOOKS DÉTAILLÉS
+   - Playbook Inbound (H+0-4)
+   - Playbook Demo (45 min structuré)
+   - Playbook Objections (prix, concurrence, technique, risque, timing)
+
+7. DEALS ET CONTRATS
+   - Types: Self-service, Annuel, Multi-year, Enterprise
+   - Politique remises (auto vs fondateur vs interdites)
+   - Process signature par taille de deal
+
+8. PERFORMANCE ET REVIEWS
+   - Dashboard KPIs (volume, conversion, efficacité, qualité)
+   - Cadence: daily/weekly/monthly/quarterly
+   - Template Win/Loss analysis
+```
+
+CONTENU PARTNERSHIPS.MD:
+```
+1. TYPES DE PARTENARIATS
+   - Priorité 1: Referral + Agency Partners
+   - Priorité 2: MSP/Consulting
+   - Priorité 3: Technology Partners, Ecosystem
+
+2. PARTENAIRES ACTUELS
+   - OVHcloud: Startup Program (critique, 1.5M€ crédits)
+   - Hackboot: Société sœur, premier client GPU
+
+3. PROGRAMME PARTENAIRES (3 tiers)
+   - Tier 1 Referral: 20% MRR × 12 mois
+   - Tier 2 Partner: 25% MRR × 24 mois + co-marketing
+   - Tier 3 Premier: 30% MRR permanent + MDF
+
+4. INTÉGRATIONS TECHNOLOGIQUES
+   - Q1: API, Terraform, CLI
+   - Q2: GitHub Actions, GitLab CI, Ansible
+   - Q3: Datadog, Grafana, Prometheus
+   - Q4: Marketplace, One-click deploys
+
+5. PARTENARIATS STRATÉGIQUES
+   - OVHcloud: Plan post-program 2027
+   - French Tech/Startups: Programme crédits
+   - White-label: Pas prioritaire avant 50K€ MRR
+
+6. ÉCOSYSTÈME ET COMMUNAUTÉ
+   - VMCloud for Startups: 500€ crédits (Q2 2025)
+   - VMCloud for Education: -50% + crédits
+   - Open Source: CLI, Terraform provider, SDKs
+
+7. RISQUES ET DÉPENDANCES
+   - Critique: Dépendance OVHcloud (fin 2027)
+   - Plan mitigation 4 options détaillé
+   - Matrice risques complète
+
+8. ROADMAP PARTENARIATS
+   - Q1: Foundation (referral program, 5 agences)
+   - Q2-Q3: Activation (15 partenaires, 10% MRR)
+   - Q4+: Scale (25+ partenaires, 15% MRR)
+```
+
+TEMPLATES ET RESSOURCES INCLUS:
+- Template contrat partenaire (10 sections)
+- Outreach email templates (first contact + relance)
+- Checklist onboarding partenaire
+- Partner Directory listing template
+- FAQ partenaires
+
+PROCHAINE ÉTAPE: Documents operations/ (SLA, Support) ou organization/ (Team, Culture, Hiring)
+---
+
+[2025-12-10 - 11:30]
+SESSION: Stratégie Go-to-Market complète VMCloud
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /docs/business/gtm/GTM.md [complété - 1047 lignes]
+
+CONTENU DOCUMENTÉ:
+```
+1. MODÈLE GTM
+   - Motion principale: PLG + Sales Assist
+   - Self-service < 200€, Sales assist 200€-2K€, Sales-led > 2K€
+   - Cycle de vente par segment (1 jour → 90 jours)
+
+2. CANAUX D'ACQUISITION (Mix cible M+12)
+   - SEO/Organique: 35% (CAC 100€) - P1
+   - Content Marketing: 25% (CAC 150€) - P1
+   - Referral/WOM: 20% (CAC 50€) - P1
+   - Partenariats: 10% (CAC 200€) - P2
+   - Paid Ads: 5% (CAC 400€) - P3
+
+3. FUNNEL ACQUISITION
+   - Visiteurs 20K → Signups 1K (5%) → Activation 400 (40%)
+   - → Conversion 120 (30%) → Rétention 100 (85%)
+   - CAC blended cible: 150€
+
+4. ACTIVATION & ONBOARDING
+   - Parcours J0 → J14 détaillé
+   - Time to First Deploy < 10 min
+   - "Aha Moment": deploy + support rapide
+
+5. RÉTENTION & EXPANSION
+   - Piliers: Fiabilité, Support, Engagement, Communauté
+   - Signaux churn et actions
+   - Triggers upsell/cross-sell
+   - NRR cible > 110%
+
+6. MARKETING & BRAND
+   - Tagline: "Le cloud professionnel, en mieux"
+   - Budget marketing Y1: 30,000€
+   - Répartition: Content 40%, Paid 25%, Events 20%
+
+7. COMMUNAUTÉ
+   - Discord principal (500 membres M+12)
+   - Newsletter hebdo (3K abonnés M+12)
+   - Programme Ambassador (Q3 2025)
+
+8. SALES PROCESS
+   - Self-service / Sales Assist / Sales-Led
+   - Stack: HubSpot, Cal.com, Crisp
+   - FAQ objections complète
+
+9. MÉTRIQUES GTM
+   - KPIs acquisition, conversion, rétention
+   - Reporting quotidien/hebdo/mensuel/trimestriel
+   - Cible MRR: 55K€ fin 2027
+
+10. ROADMAP GTM
+    - Q1 2025: Foundation (10K€ MRR)
+    - Q2-Q3 2025: Growth (35K€ MRR)
+    - Q4 2025+: Scale (55K€ MRR)
+```
+
+ANNEXES INCLUSES:
+- Templates emails (Bienvenue, Fin trial, Win-back)
+- Checklist lancement canal
+- Competitive response playbook
+
+PROCHAINE ÉTAPE: SALES.md ou PARTNERSHIPS.md
+---
+
+[2025-12-10 - 11:00]
+SESSION: Segmentation clients et personas VMCloud
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /docs/business/products/SEGMENTS.md [complété - 757 lignes]
+
+CONTENU DOCUMENTÉ:
+```
+1. SEGMENTATION STRATÉGIQUE
+   - Matrice budget × maturité technique
+   - Par taille: Sweet spot = PME/ETI (10-5000 employés)
+   - Par secteur: P1 Tech/SaaS (35%), Agences (25%)
+   - Par use case: Web, AI/ML, Rendering, Gaming
+
+2. PERSONAS DÉTAILLÉS (4)
+   - Thomas (CTO Startup) : Principal, LTV 50K€
+   - Marie (Directrice Agence) : Secondaire, LTV 70K€
+   - Alex (ML Engineer) : Tertiaire, LTV 100K€
+   - Hackboot (Gaming) : Client interne GPU
+
+3. ICP (IDEAL CUSTOMER PROFILE)
+   - B2B Principal: 10-500 employés, Tech/Agences, EU francophone
+   - B2B GPU: 5-200 employés, AI/ML teams, Europe/US
+   - B2C: Non ciblé (via Hackboot uniquement)
+
+4. SEGMENTS PRIORITAIRES
+   - P1: PME Tech (80K€ MRR cible 12 mois)
+   - P2: Agences digitales (45K€ MRR cible)
+   - P3: AI/ML Teams (80K€ MRR cible)
+
+5. SEGMENTS À ÉVITER
+   - Non rentables: Particuliers budget, étudiants, miners
+   - Non alignés: Adulte, gambling, spam
+   - Pas prêts: Santé (HDS), Finance (PCI-DSS)
+
+6. GÉOGRAPHIE
+   - P1: France (50%), Belgique (15%)
+   - P2: Suisse romande, Luxembourg
+   - Expansion: EU Ouest → Nordics → International
+
+7. MÉTRIQUES PAR SEGMENT
+   - PME Tech: CAC 500€, LTV 50K€, Churn <5%
+   - Agences: CAC 300€, LTV 70K€, Churn <3%
+   - Mix cible M+24: 150K€ MRR
+
+8. ANNEXES
+   - Checklist qualification sales
+   - Mapping produits × segments
+   - Canaux acquisition par segment
+```
+
+SOURCES UTILISÉES:
+- /docs/business/strategy/VISION.md (ICP existant, positionnement)
+- /docs/business/products/PRODUCTS.md (use cases GPU)
+- /docs/business/products/PRICING.md (tiers de prix)
+
+PROCHAINE ÉTAPE: GTM.md ou autre fichier business
+---
+
+[2025-12-10 - 10:30]
+SESSION: Stratégie pricing complète + mise à jour grille tarifaire VPS
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /docs/business/products/PRICING.md [complété - 677 lignes]
+- /apps/web/data/products/base.json [prix VPS mis à jour]
+
+CONTENU DOCUMENTÉ PRICING.md:
+```
+1. PHILOSOPHIE DE PRICING
+   - Stratégie bi-modale: Entry compétitif / Premium value-based
+   - 5 principes: Compétitivité, Value, Transparence, Simplicité, Flexibilité
+
+2. MODÈLES DE FACTURATION
+   - Horaire, Mensuel, Annuel (-17%)
+   - CB, SEPA, PayPal, Facture entreprise
+   - Cycles détaillés par produit
+
+3. NOUVELLE GRILLE TARIFAIRE VPS (Q1 2025)
+   | Offre | Ancien | Nouveau | Évolution |
+   | VPS-NANO | 29€ | 9.99€ | -66% |
+   | VPS-STARTER | 49€ | 19.99€ | -59% |
+   | VPS-PERFORMANCE | 99€ | 49€ | -50% |
+   | VPS-BUSINESS | 199€ | 149€ | -25% |
+   | VPS-ENTERPRISE | 399€ | 349€ | -12% |
+   | VPS-ELITE | 799€ | 699€ | -12% |
+   | VPS-TITANIUM | 1599€ | 1499€ | -6% |
+   | VPS-QUANTUM | 3199€ | 2999€ | -6% |
+
+   GPU: Prix maintenus (bien positionnés marché)
+
+4. BENCHMARK CONCURRENTIEL COMPLET
+   - VMCloud vs OVH, Hetzner, Scaleway, DO, AWS
+   - Positionnement: +40-80% vs EU low-cost, -20% vs US hyperscalers
+   - Justification: Support inclus, SLA, backups, IPv4
+
+5. REMISES ET PROGRAMMES
+   - Annuel: 17% (standard marché)
+   - Volume B2B: 5-25% selon paliers (500€-10K€+)
+   - Programmes spéciaux: En attente (Startup, Education, OSS)
+
+6. PRICING B2B/ENTERPRISE
+   - Self-service < 500€, Assisted 500€-5K€, Enterprise > 5K€
+   - Engagements: Business aucun, Enterprise 2K€/6mois, Strategic 10K€/12mois
+
+7. CRÉDITS ET ESSAIS
+   - Free trial: 50€ / 14 jours (CB requise)
+   - POC Enterprise: 500€ / 30 jours
+   - Money-back: 7 jours
+
+8. ANALYSE DE MARGE (nouveaux prix)
+   - Starter: 31-46% (vs 90-95% avant)
+   - Business/Enterprise: 76-88% (maintenu)
+   - Marge moyenne pondérée cible: ~58%
+
+9. KPIS PRICING
+   - ARPU cible: 150€/mois
+   - Conversion: 5%
+   - Trial-to-paid: 30%
+```
+
+MISE À JOUR BASE.JSON:
+- 8 offres VPS: prix horaire, mensuel, annuel recalculés
+- Formule annuel: mensuel × 12 × 0.83 (17% remise)
+- Formule horaire: mensuel ÷ 720 (sans premium flexibilité)
+
+DÉCISIONS STRATÉGIQUES:
+- Entry-level: Alignement marché pour acquisition (-50 à -66%)
+- Premium: Maintien prix élevés justifiés par services inclus
+- Remise annuelle: 17% standard (≈ 2 mois gratuits)
+- Programmes spéciaux: Reportés (Startup, Education, OSS)
+- Seuil négociation B2B: 1000€/mois
+
+PROCHAINE ÉTAPE: Compléter SEGMENTS.md (segmentation clients)
+---
+
+[2025-12-08 - 14:30]
+SESSION: Rédaction complète PRODUCTS.md - Catalogue produits VMCloud
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /docs/business/products/PRODUCTS.md [complété - 780 lignes]
+
+CONTENU DOCUMENTÉ:
+```
+1. VUE D'ENSEMBLE PORTFOLIO
+   - 7 catégories produits, 36 offres au total
+   - Statut "Beta fonctionnelle" pour tous
+
+2. DÉTAIL PAR PRODUIT
+   - VPS: 8 offres (29€ - 3199€/mois)
+   - GPU Cloud: 8 offres (469€ - 18559€/mois) - Focus AI/ML
+   - Web Hosting: 4 offres (19€ - 199€/mois)
+   - PaaS: 4 offres (59€ - 1199€/mois)
+   - Load Balancer: 4 offres (29€ - 999€/mois)
+   - Storage: 4 offres (0.10€ - 0.40€/GB/mois)
+   - CDN: 4 offres (19€ - 2499€/mois)
+
+3. OS SUPPORTÉS (16 images)
+   - 14 Linux (Ubuntu, Debian, Rocky, Alma, CentOS, Fedora, openSUSE, Arch)
+   - 2 Windows Server (2019, 2022)
+
+4. CAPACITÉ INFRASTRUCTURE RÉELLE
+   - 60 serveurs EPYC 7003 (256 GB RAM) = ~3840 vCPUs
+   - 85 GPU (25× T4, 20× 4090, 30× A100 40GB, 10× A100 80GB)
+   - ~100 TB NVMe
+   - 3 DC: Paris, Amsterdam, Frankfurt
+
+5. FEATURES MANQUANTES VS CONCURRENCE
+   - 40+ features comparées avec Scaleway, OVH, DO, Hetzner, Infomaniak
+   - Priorités: API, Console, Terraform, Docs, S3, K8s
+
+6. DETTE TECHNIQUE IDENTIFIÉE
+   - Critique: Console fragmentée, API inexistante, Terraform/CLI fantômes, Docs absentes
+   - Important: Écart site/réalité, Billing immature, Pas de multi-user
+   - Moyenne: Tests, Observabilité, DR non testé
+
+7. ROADMAP PRODUIT (mini)
+   - Court terme: API v1, Console v1, Docs, S3
+   - Moyen terme: K8s, DB managée, DC Madrid/Milan, H100
+   - Long terme: Bare Metal, Serverless, Certifications
+
+8. DIFFÉRENCIATEURS
+   - Support expert humain
+   - Prix juste (mid-premium)
+   - Souveraineté EU
+   - Agilité startup
+```
+
+SOURCES UTILISÉES:
+- apps/web/data/products/base.json (prix, specs)
+- apps/web/data/infrastructure/config.ts (DC, GPU inventory)
+- docs/business/finance/FINANCIALS.md (parc serveurs)
+- docs/business/finance/METRICS.md (capacités)
+- docs/business/strategy/COMPETITIVE.md (positionnement)
+
+DÉCISIONS PRISES:
+- Chiffres réels du parc documentés (vs chiffres marketing site)
+- Dette technique explicitement listée avec impacts
+- Questions en attente préservées pour validation fondateur
+
+PROCHAINE ÉTAPE: Compléter PRICING.md (stratégie tarifaire)
+---
+
+[2025-12-07 - 23:45]
+SESSION: Remplissage documentation financière avec données réelles VMCloud
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+
+**Finance (réorganisés en /docs/business/finance/):**
+- /docs/business/finance/FINANCIALS.md [complété avec données réelles]
+- /docs/business/finance/FUNDING.md [complété avec prêt SEB, OVH, structure holding]
+- /docs/business/finance/METRICS.md [complété avec targets et OKRs Q1 2026]
+
+**Organisation (réorganisé en /docs/business/organization/):**
+- /docs/business/organization/TEAM.md [complété avec salaires réels contractors]
+
+**Legal (réorganisé en /docs/business/legal/):**
+- /docs/business/legal/LEGAL.md [complété avec structure OÜ estonienne]
+
+DONNÉES CLÉS DOCUMENTÉES:
+```
+Financement total: 3 000 000 €
+├── OVH Startup Program: 1 500 000 € (non-cash, 24 mois)
+├── Prêt SEB Bank: 800 000 € (7 ans, 1.7%)
+└── Apport DVP Holding: 700 000 €
+
+Trésorerie disponible: ~1 500 000 €
+Burn rate mensuel: ~35 000 €
+├── RH (contractors): ~30 200 €
+│   ├── SRE: 15 400 €/mois (700€/j × 22j)
+│   ├── DRH: 7 800 €/mois (650€/j × 12j)
+│   ├── CRE: 4 000 €/mois
+│   └── Virtualization: 3 000 €/mois (750€ TJM × 4j)
+├── Bande passante: ~3 000 €
+└── Divers: ~2 000 €
+
+Runway: ~42 mois
+Breakeven MRR: ~54 000 €
+
+Structure juridique:
+DVP Holding → VMCloud Group OÜ → VMCloud OÜ (Estonie)
+                              └→ Hackboot (entreprise sœur gaming)
+```
+
+QUESTIONS PRÉSERVÉES: Toutes les sections "Questions à répondre" maintenues dans chaque fichier pour complétion future (budget marketing, conditions OVH, garanties prêt, etc.)
+
+ERREURS CORRIGÉES:
+- Correction des estimations de salaires (11K€ → 30K€/mois)
+- Préservation des questions supprimées par erreur
+
+PROCHAINE ÉTAPE: Répondre aux questions restantes dans les fichiers finance (revenue share OVH, garanties bancaires, budget marketing, etc.)
+---
+
+[2025-12-07 - 22:30]
+SESSION: Création complète de la documentation business /docs/business/
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /docs/business/README.md [index et guide d'utilisation]
+
+**Stratégie (3 fichiers):**
+- /docs/business/VISION.md [mission, vision, valeurs, positionnement]
+- /docs/business/STRATEGY.md [objectifs 12/24 mois, OKRs, risques]
+- /docs/business/COMPETITIVE.md [concurrents, différenciateurs, menaces]
+
+**Produits & Marché (3 fichiers):**
+- /docs/business/PRODUCTS.md [catalogue, détail par produit, roadmap]
+- /docs/business/PRICING.md [stratégie pricing, grilles, benchmark]
+- /docs/business/SEGMENTS.md [segments clients, personas, ICP, géographie]
+
+**Go-to-Market (3 fichiers):**
+- /docs/business/GTM.md [canaux acquisition, funnel, marketing, rétention]
+- /docs/business/SALES.md [organisation commerciale, process, pipeline]
+- /docs/business/PARTNERSHIPS.md [partenariats tech/channel, programme]
+
+**Finance (3 fichiers):**
+- /docs/business/FINANCIALS.md [P&L, coûts, marges, trésorerie]
+- /docs/business/FUNDING.md [historique, cap table, stratégie levée]
+- /docs/business/METRICS.md [KPIs SaaS, clients, produit, support]
+
+**Organisation (3 fichiers):**
+- /docs/business/TEAM.md [équipe, organigramme, compétences]
+- /docs/business/HIRING.md [plan recrutement, process, rémunération]
+- /docs/business/CULTURE.md [valeurs, communication, bien-être, D&I]
+
+**Opérations (3 fichiers):**
+- /docs/business/OPERATIONS.md [monitoring, incidents, change management]
+- /docs/business/SUPPORT.md [organisation, SLA, outils, self-service]
+- /docs/business/INFRASTRUCTURE.md [DC, compute, storage, network, coûts]
+
+**Legal & Compliance (2 fichiers):**
+- /docs/business/LEGAL.md [structure juridique, contrats, PI, assurances]
+- /docs/business/COMPLIANCE.md [RGPD, ISO 27001, HDS, SecNumCloud, NIS2]
+
+DÉTAILS: Création de 20 fichiers de documentation business structurés avec des questions à compléter. Chaque fichier couvre un aspect spécifique de l'entreprise avec des tableaux, checklists et templates prêts à être remplis.
+
+STRUCTURE TOTALE:
+```
+/docs/business/
+├── README.md          (index + guide)
+├── VISION.md          (stratégie)
+├── STRATEGY.md        (stratégie)
+├── COMPETITIVE.md     (stratégie)
+├── PRODUCTS.md        (produits)
+├── PRICING.md         (produits)
+├── SEGMENTS.md        (produits)
+├── GTM.md             (go-to-market)
+├── SALES.md           (go-to-market)
+├── PARTNERSHIPS.md    (go-to-market)
+├── FINANCIALS.md      (finance)
+├── FUNDING.md         (finance)
+├── METRICS.md         (finance)
+├── TEAM.md            (organisation)
+├── HIRING.md          (organisation)
+├── CULTURE.md         (organisation)
+├── OPERATIONS.md      (ops)
+├── SUPPORT.md         (ops)
+├── INFRASTRUCTURE.md  (ops)
+├── LEGAL.md           (legal)
+└── COMPLIANCE.md      (legal)
+```
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Compléter les fichiers avec les informations VMCloud, en commençant par VISION.md et TEAM.md
+---
+
+[2025-12-07 - 21:15]
+SESSION: Nettoyage complet des références gaming/cheats + Dissociation Hackboot/VMCloud
+STATUT: ✅ Réussi
+FICHIERS SUPPRIMÉS:
+- /apps/web/data/products/fr/gaming.json [supprimé]
+- /apps/web/data/products/en/gaming.json [supprimé]
+
+FICHIERS MODIFIÉS:
+- /apps/web/data/products/base.json [supprimé catégorie gaming]
+- /apps/web/data/products/display-config.json [supprimé config gaming]
+- /apps/web/locales/fr.json [nettoyé ~15 références gaming/cheats]
+- /apps/web/locales/en.json [nettoyé ~15 références gaming/cheats]
+- /apps/web/public/locales/fr/infrastructure.json [modifié evolution text]
+- /apps/web/public/locales/en/infrastructure.json [modifié evolution text]
+- /apps/web/config/seo-metadata.ts [nettoyé description about]
+- /apps/web/app/[locale]/about/page.tsx [nettoyé keywords/descriptions]
+- /apps/web/app/[locale]/about/AboutPageClient.tsx [nettoyé fallbacks hardcodés]
+- /apps/web/data/careers/positions.json [modifié skills GPU specialist]
+
+DÉTAILS: L'utilisateur a confirmé que l'activité gaming/cheats est désormais gérée par Hackboot (entreprise sœur), et VMCloud doit être présentée uniquement comme provider cloud infra premium.
+
+**Changements majeurs :**
+1. Suppression complète de la catégorie "gaming" dans les produits
+2. Réécriture de l'histoire VMCloud :
+   - AVANT: "vente de clés → logiciels → cloud gaming → VMCloud"
+   - APRÈS: "Vision → Fondations → Expertise GPU/Compute → VMCloud"
+3. Suppression de toutes les mentions de cheats/modifications de jeux
+4. Mise à jour des descriptions :
+   - NVIDIA: "solutions IA et gaming" → "solutions IA et calcul haute performance"
+   - GPU Specialist: "gaming et IA" → "IA et calcul haute performance"
+5. Section légale mise à jour :
+   - AVANT: justification légale des cheats en Estonie
+   - APRÈS: focus sur écosystème digital estonien et conformité RGPD
+
+**Fichiers conservés avec "cheat" (légitimes) :**
+- AUP (aup/fr.md, aup/en.md) : INTERDICTION des cheats dans les conditions d'utilisation
+- Terms (terms/fr.md, terms/en.md) : Mentions légales interdisant les cheats
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Validation visuelle des pages About, Careers, et Roadmap
+---
+
+[2025-12-07 - 20:15]
+SESSION: Création de la page Roadmap complète (/roadmap)
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/data/roadmap/roadmap-full.json [créé]
+- /apps/web/app/[locale]/roadmap/page.tsx [créé]
+- /apps/web/app/[locale]/roadmap/RoadmapPageClient.tsx [créé]
+- /apps/web/app/[locale]/changelog/ChangelogPageClient.tsx [modifié]
+DÉTAILS: L'utilisateur souhaitait que les liens "Roadmap" mènent vers une vraie page sur vmcl.fr au lieu d'un site externe.
+
+**Analyse effectuée :**
+- roadmap-entreprise.md : Phases 0-3 mois, 3-6 mois, 6-12 mois, 12-18 mois
+- xmind.md : Catalogue produits complet (VPS/GPU/Web/PaaS/CDN/Storage/LB)
+
+**Structure créée :**
+- `/apps/web/data/roadmap/roadmap-full.json` : Données i18n FR/EN complètes
+- `/apps/web/app/[locale]/roadmap/page.tsx` : Server component + metadata SEO
+- `/apps/web/app/[locale]/roadmap/RoadmapPageClient.tsx` : Client component avec animations
+
+**Fonctionnalités de la page Roadmap :**
+1. Hero section : Badge, titre animé, stats (régions/SLA/releases)
+2. Timeline des phases :
+   - T4 2024 : Socle & Alignement (en cours)
+   - S1 2025 : Alignement B2B/B2B2C (planifié)
+   - S2 2025 : Multi-Région & Managé (plus tard)
+   - 2026+ : Plateforme Complète (plus tard)
+3. Catégories par phase : Plateforme, Support, Marque/Légal, Entreprise, Conformité, etc.
+4. Items avec statut : completed/in_progress/planned/later + barres de progression
+5. Vue produits : Compute, Platform, Network, Storage avec statuts GA/Coming
+6. CTA feedback : Liens vers /support et /changelog
+
+**Lien mis à jour dans changelog :**
+- `https://roadmap.vmcl.fr` → `/${currentLang}/roadmap` (navigation interne)
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Valider visuellement sur http://localhost:3000/fr/roadmap
+---
+
+[2025-12-07 - 19:00]
+SESSION: Correction du positionnement des déclenchements d'animations (viewport)
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/app/[locale]/changelog/ChangelogPageClient.tsx [modifié]
+DÉTAILS: L'utilisateur a signalé que les animations apparaissaient à des hauteurs incorrectes (trop haut ou pas assez haut) avec des problèmes de timing pour le déclenchement.
+
+**Problèmes identifiés :**
+- Marges viewport négatives asymétriques dans `whileInView` causant des déclenchements imprévisibles
+- `margin: "-40% 0px -50% 0px"` sur les roadmap cards
+- `margin: "-45% 0px -45% 0px"` sur les timeline items
+- Valeurs d'`amount` trop élevées (0.5) pour certains éléments
+- Incohérence entre les différentes sections (certaines avec `margin`, d'autres avec `amount`)
+
+**Solution appliquée :**
+✅ **Roadmap cards** :
+  - `margin: "-40% 0px -50% 0px"` → `amount: 0.3` (se déclenche quand 30% de l'élément est visible)
+  - Plus prévisible et cohérent
+
+✅ **Timeline releases** :
+  - `margin: "-45% 0px -45% 0px"` → `amount: 0.3`
+  - `delay: 0.2s` → `0.1s` (timing plus naturel)
+
+✅ **Headers de sections** :
+  - Roadmap header : `amount: 0.5` → `0.3`, `duration: 0.5s` → `0.6s`
+  - Releases header : `amount: 0.5` → `0.4`, `duration: 0.5s` → `0.6s`
+  - Access header : `amount: 0.5` → `0.4`, `duration: 0.5s` → `0.6s`
+
+✅ **Hub cards** :
+  - `amount: 0.3` → `0.5` (déclenchement plus tardif pour plus de visibilité)
+  - `duration: 0.4s` → `0.5s`
+  - Ajout de `delay: i * 0.05` (stagger léger entre les cartes)
+
+✅ **View All link** :
+  - `amount: 0.5` → `0.8` (ne se déclenche que quand bien visible)
+  - `duration: 0.4s` → `0.5s`
+
+**Principe appliqué :**
+- Préférer `amount` (pourcentage de l'élément visible) au lieu de `margin` (marges négatives)
+- `amount` est plus prévisible et intuitif
+- Valeurs typiques : 0.3 pour éléments qui défilent, 0.5 pour headers, 0.8 pour éléments de fin
+- Durées harmonisées autour de 0.5-0.6s (au lieu de 0.4-0.5s)
+
+**Résultat attendu :**
+- Animations se déclenchent à la bonne hauteur de scroll
+- Plus de cohérence dans le déclenchement des animations
+- Timing plus fluide et naturel
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Valider visuellement le nouveau comportement des animations
+---
+
+[2025-12-07 - 18:45]
+SESSION: Ralentissement drastique des animations (trop rapides)
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/app/[locale]/changelog/ChangelogPageClient.tsx [modifié]
+DÉTAILS: L'utilisateur a continué à signaler que les animations apparaissent trop vite, "en 2D", instantanément. Le problème n'était pas le MOMENT du déclenchement mais la VITESSE de l'animation elle-même.
+
+**Problème identifié :**
+- Durées d'animation trop courtes (0.4s-0.6s)
+- Aucun delay pour laisser respirer
+- Easing trop linéaire
+- Mouvement trop petit (±30px) donnait une impression de "pop"
+
+**Solution appliquée :**
+✅ **Timeline releases** :
+  - Durée : 0.6s → 1.2s (DOUBLÉ)
+  - Easing : "easeOut" → `[0.16, 1, 0.3, 1]` (courbe custom progressive)
+  - Delay : 0s → 0.2s
+  - Mouvement : ±30px → ±50px (plus visible)
+  - Viewport : `amount: 0.5` (50% visible pour déclenchement)
+  - Suppression des marges négatives complexes
+
+✅ **Roadmap cards (now/next/later)** :
+  - Durée : 0.4s → 0.8s
+  - Easing : "easeOut" → `[0.16, 1, 0.3, 1]` (courbe custom progressive)
+  - Delay : 0s → `i * 0.1` (stagger de 0.1s entre chaque carte)
+  - Mouvement : y: 10px → y: 20px
+  - Viewport : `amount: 0.3` → `amount: 0.5`
+
+**Easing curve utilisée :**
+`[0.16, 1, 0.3, 1]` = cubic-bezier similaire à "easeOutExpo" mais plus doux
+
+**Résultat attendu :**
+- Animations 2x plus lentes et progressives
+- Effet de "slide" plus visible et fluide
+- Cards de roadmap apparaissent les unes après les autres (stagger)
+- Plus d'effet "2D instantané"
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Tester visuellement le nouveau timing
+---
+
+[2025-12-07 - 18:30]
+SESSION: Correction du bug de "rollback" des animations
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/app/[locale]/changelog/ChangelogPageClient.tsx [modifié]
+DÉTAILS: L'utilisateur a signalé un bug très étrange : les animations se font correctement, puis une fois terminées, elles se "refont" comme un rollback.
+
+**Problème identifié :**
+- **Conflit entre Framer Motion et Tailwind CSS transitions**
+- Les `transition-all duration-200` sur les cards animaient TOUTES les propriétés CSS
+- Quand l'animation Framer Motion (opacity, y) se terminait, les transitions CSS se retriggaient
+- Cela créait un effet de "rollback" ou de clignotement
+
+**Solution appliquée :**
+✅ Remplacement de `transition-all` par `transition-[border-color,background-color]` (propriétés spécifiques)
+✅ Ajout de `ease: "easeOut"` sur toutes les animations Framer Motion
+✅ Séparation des durées : `opacity: { duration: 0.4 }` pour la timeline
+✅ Ajout de `duration-200` explicite sur tous les `transition-colors`
+✅ Uniformisation : ne jamais animer les mêmes propriétés avec Framer Motion ET CSS
+
+**Explication technique :**
+```jsx
+// ❌ AVANT (bugué)
+<motion.div
+  animate={{ opacity: 1, y: 0 }}
+  className="transition-all duration-200"  // Anime TOUT, même opacity/transform
+/>
+
+// ✅ APRÈS (fixé)
+<motion.div
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ ease: "easeOut" }}
+  className="transition-[border-color,background-color] duration-200"  // Seulement hover states
+/>
+```
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Tester visuellement et s'assurer qu'il n'y a plus de rollback
+---
+
+[2025-12-07 - 18:15]
+SESSION: Correction fine des animations du Changelog
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/app/[locale]/changelog/ChangelogPageClient.tsx [modifié]
+DÉTAILS: L'utilisateur a signalé des bugs supplémentaires après la première refonte :
+1. Bug du "g" de "Changelog" coupé par overflow
+2. Animations qui clignotent (apparaissent/disparaissent au scroll)
+3. Animations se déclenchent trop tôt
+
+**Problèmes identifiés :**
+- `overflow-hidden` sur les motion.div coupait les descendantes (g, p, y)
+- `leading-[0.9]` trop serré causait le clipping
+- `margin: "-50px"` sur viewport déclenchait les animations trop tôt
+- `delay` calculés (idx * 0.1, i * 0.05) causaient des clignotements
+- Manque de `amount` sur les viewport pour un déclenchement prévisible
+
+**Actions réalisées :**
+✅ Titre H1 : suppression de `overflow-hidden`, changement de `leading-[0.9]` → `leading-tight`
+✅ Titre H1 : ajout de `space-y-2` pour meilleur espacement entre lignes
+✅ Roadmap cards : suppression des delays, changement `margin: "-50px"` → `amount: 0.3`
+✅ Timeline releases : réduction mouvement de ±50px → ±30px, suppression delays, ajout `amount: 0.3`
+✅ Tous les titres de section : ajout de `amount: 0.5` et `transition: { duration }`
+✅ Hubs : suppression des delays, ajout `amount: 0.3`
+✅ Uniformisation : toutes les animations ont `viewport={{ once: true, amount: X }}`
+
+**Paramètres viewport optimisés :**
+- Roadmap cards : `amount: 0.3` (se déclenche quand 30% visible)
+- Titres de section : `amount: 0.5` (se déclenche quand 50% visible)
+- Timeline items : `amount: 0.3` (se déclenche quand 30% visible)
+- Durées réduites : 0.4s-0.5s (au lieu de 0.6s)
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: N/A
+---
+
+[2025-12-07 - 18:00]
+SESSION: Correction des animations buguées sur la page Changelog
+STATUT: ✅ Réussi
+FICHIERS:
+- /apps/web/app/[locale]/changelog/ChangelogPageClient.tsx [modifié]
+DÉTAILS: L'utilisateur a signalé plusieurs problèmes sur la page changelog :
+1. Animations qui disparaissent/réapparaissent au scroll
+2. Impossibilité de cliquer sur les éléments après hover
+3. Timeline des releases à styliser comme la page About
+4. Section stats du hero confuse (« Livraison bimensuelle », « Prochain drop », etc.)
+
+**Problèmes identifiés :**
+- Les animations du Hero utilisaient des inline styles avec `visibleItems` state qui créaient des re-renders au scroll
+- Utilisation de `useStaggerEntry` hook qui causait des bugs de state
+- Hovers trop complexes avec des overlays qui bloquaient les clics
+- Stats confuses avec trop d'informations peu pertinentes
+
+**Actions réalisées :**
+✅ Remplacement de toutes les animations inline par des `motion.div` avec `whileInView`
+✅ Suppression des hooks `useEntryAnimation` et `useStaggerEntry` inutilisés
+✅ Simplification de la section stats du Hero (seulement « Last updated » et « Next drop »)
+✅ Refonte complète de la timeline des releases en s'inspirant de la page About
+✅ Correction des hovers pour permettre les clics (cursor-pointer, transitions plus courtes)
+✅ Ajout de `viewport={{ once: true }}` pour éviter les re-triggers d'animations au scroll
+✅ Nettoyage des imports inutilisés (LocalizedLink, LinkIcon)
+
+**Style de la timeline :**
+- Pattern inspiré de AboutPageClient.tsx (lignes 257-356)
+- Timeline verticale avec gradient de ligne
+- Icônes circulaires centrales avec bordures
+- Animation `initial={{ x: idx % 2 === 0 ? -50 : 50 }}` pour effet alterné
+- Cards cliquables avec hover subtil
+- Design responsive avec breakpoints lg:
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Tester visuellement les animations et vérifier la fluidité au scroll
+---
+
 [2025-11-13 - 15:00]
 SESSION: Audit SEO complet et corrections prioritaires
 STATUT: ✅ Réussi

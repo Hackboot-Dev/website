@@ -59,7 +59,7 @@
       "location": "remote-eu",
       "active": true,
       "priority": 3,
-      "skills": ["CUDA", "GPU Optimization", "ML/AI", "C++/Python", "Cloud Gaming"],
+      "skills": ["CUDA", "GPU Optimization", "ML/AI", "C++/Python", "HPC"],
       "requirements": [
         "Deep GPU programming knowledge",
         "CUDA/OpenCL expertise",
@@ -67,7 +67,7 @@
         "ML frameworks (PyTorch, TensorFlow)"
       ],
       "niceToHave": [
-        "Cloud gaming experience",
+        "Cloud GPU experience",
         "Video encoding/streaming",
         "AMD ROCm knowledge"
       ]

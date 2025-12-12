@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import ChangelogPageClient from './ChangelogPageClient';
-import seoConfig from '../../../data/seo-config.json';
+import seoConfig from '../../../data/seo/config.json';
 import { Language } from '../../../utils/loadTranslations';
 
 type Params = { params: { locale: Language } };
