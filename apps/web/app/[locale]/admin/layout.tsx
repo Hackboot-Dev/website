@@ -18,6 +18,7 @@ import {
   ChevronLeft,
   ChevronDown,
   Users,
+  Package,
 } from 'lucide-react';
 
 type AdminUser = {
@@ -192,6 +193,22 @@ export default function AdminLayout({ children, params }: AdminLayoutProps) {
                   Clients
                 </Link>
 
+                {/* Catalogue */}
+                <Link
+                  href={`/${locale}/admin/catalogue`}
+                  className={`
+                    flex items-center gap-2 px-4 py-2 text-sm font-medium
+                    transition-all duration-200
+                    ${pathname.includes('/admin/catalogue')
+                      ? 'bg-white text-zinc-950'
+                      : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
+                    }
+                  `}
+                >
+                  <Package className="h-4 w-4" />
+                  Catalogue
+                </Link>
+
                 {/* P&L Dropdown */}
                 <div
                   className="relative"
@@ -307,6 +324,22 @@ export default function AdminLayout({ children, params }: AdminLayoutProps) {
             >
               <Users className="h-3.5 w-3.5" />
               Clients
+            </Link>
+
+            {/* Catalogue */}
+            <Link
+              href={`/${locale}/admin/catalogue`}
+              className={`
+                flex items-center gap-2 px-3 py-1.5 text-xs font-medium whitespace-nowrap
+                transition-all duration-200
+                ${pathname.includes('/admin/catalogue')
+                  ? 'bg-white text-zinc-950'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
+                }
+              `}
+            >
+              <Package className="h-3.5 w-3.5" />
+              Catalogue
             </Link>
 
             {/* P&L Companies */}

@@ -1,17 +1,16 @@
-// Removed 'use client' to allow server-side data loading
 'use client';
 
-// /workspaces/website/apps/web/app/products/page.tsx
-// Description: Product listing page with curated offers, clear cards, subtle animations
-// Last modified: 2025-08-22
-// Related docs: /docs/JOURNAL.md
+// /workspaces/website/apps/web/app/[locale]/products/page.tsx
+// Description: Product listing page - reads from Firebase public with local JSON fallback
+// Last modified: 2025-12-13
+// Related docs: /docs/features/ADMIN_PANEL.md
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import Header from '../../../components/layout/Header';
 import Footer from '../../../components/layout/Footer';
-import { getEnrichedProductData } from '../../../utils/productDataLoader';
+import { getEnrichedProductData, EnrichedProduct } from '../../../lib/catalogue/publicCatalogueLoader';
 import { useStaggerEntry } from '../../../hooks/useEntryAnimation';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import Badge from '../../../components/ui/Badge';
@@ -33,13 +32,26 @@ export default function ProductsPage() {
     return t('common.langUnavailable') || 'Language unavailable';
   };
 
-  // Load products data based on current language (default to 'fr' if not set)
-  const productsData = getEnrichedProductData(language || 'fr');
+  // State for async product loading from Firebase
+  const [productsData, setProductsData] = useState<Record<string, EnrichedProduct[]>>({});
+  const [isDataLoading, setIsDataLoading] = useState(true);
 
-  // Debug: Check if data is loaded
-  if (!productsData || Object.keys(productsData).length === 0) {
-    console.error('No products data loaded! Language:', language);
-  }
+  // Load products data from Firebase (with local JSON fallback)
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        setIsDataLoading(true);
+        const data = await getEnrichedProductData(language || 'fr');
+        setProductsData(data);
+      } catch (err) {
+        console.error('Failed to load products:', err);
+      } finally {
+        setIsDataLoading(false);
+      }
+    }
+
+    loadProducts();
+  }, [language]);
 
   // Get category from URL params or default to 'all'
   const categoryFromUrl = searchParams.get('category') as Category | null;
@@ -296,10 +308,26 @@ export default function ProductsPage() {
   };
 
 
+  // Show loading state while fetching data
+  if (isDataLoading) {
+    return (
+      <div className="min-h-screen bg-zinc-950">
+        <Header />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="w-10 h-10 border-2 border-zinc-600 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-zinc-400 text-sm">{tt('products.ui.loading', 'Chargement des produits...', 'Loading products...')}</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-zinc-950">
       <Header />
-      
+
       {/* Hero compact pour accès rapide aux produits */}
       <section className="relative bg-zinc-950 overflow-hidden">
         {/* Arrière-plan sophistiqué avec effets */}

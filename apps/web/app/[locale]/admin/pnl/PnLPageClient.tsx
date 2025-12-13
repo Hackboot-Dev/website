@@ -8,6 +8,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import {
   Plus,
@@ -70,7 +71,7 @@ type Transaction = {
 };
 
 // Client selection mode in transaction modal
-type ClientSelectionMode = 'existing' | 'generate';
+type ClientSelectionMode = 'existing' | 'create' | 'generate';
 
 type Product = {
   id: string;
@@ -306,6 +307,9 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [clientSearchQuery, setClientSearchQuery] = useState('');
   const [generatedClientPreview, setGeneratedClientPreview] = useState<GeneratedClient | null>(null);
+  // Manual client creation
+  const [newClientName, setNewClientName] = useState('');
+  const [newClientEmail, setNewClientEmail] = useState('');
 
   const currentMonthKey = MONTH_KEYS[selectedMonth];
 
@@ -397,18 +401,62 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     loadData();
   }, [loadData]);
 
-  // Warn before leaving with unsaved changes
+  // Warn before leaving with unsaved changes (reload, close, back button, links)
   useEffect(() => {
+    if (!hasChanges) return;
+
+    // Handler for page refresh/close
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = 'Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter ?';
+      return e.returnValue;
+    };
+
+    // Handler for browser back/forward buttons
+    const handlePopState = (e: PopStateEvent) => {
       if (hasChanges) {
-        e.preventDefault();
-        e.returnValue = '';
-        return '';
+        const confirmLeave = window.confirm(
+          'Vous avez des modifications non sauvegardées.\n\nVoulez-vous vraiment quitter cette page ?'
+        );
+        if (!confirmLeave) {
+          // Push current state back to prevent navigation
+          window.history.pushState(null, '', window.location.href);
+        }
       }
     };
 
+    // Handler for link clicks (internal navigation)
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a');
+
+      if (link && link.href && !link.href.startsWith('javascript:') && !link.target) {
+        // Check if it's an internal link (same origin)
+        const url = new URL(link.href, window.location.origin);
+        if (url.origin === window.location.origin && url.pathname !== window.location.pathname) {
+          const confirmLeave = window.confirm(
+            'Vous avez des modifications non sauvegardées.\n\nVoulez-vous vraiment quitter cette page ?'
+          );
+          if (!confirmLeave) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }
+      }
+    };
+
+    // Push initial state for popstate handling
+    window.history.pushState(null, '', window.location.href);
+
     window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('popstate', handlePopState);
+    document.addEventListener('click', handleLinkClick, true);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+      document.removeEventListener('click', handleLinkClick, true);
+    };
   }, [hasChanges]);
 
   // Keyboard shortcut: Cmd+Enter or Ctrl+Enter to save
@@ -2828,301 +2876,545 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
         </div>
       )}
 
-      {/* Transactions Modal - With Client Selection */}
-      {transactionsModal && (
-        <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-6"
-          onClick={(e) => e.target === e.currentTarget && setTransactionsModal(null)}
+      {/* Transactions Modal - Professional Design (Portal to escape stacking context) */}
+      {transactionsModal && typeof window !== 'undefined' && createPortal(
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm"
+          onClick={() => {
+            setTransactionsModal(null);
+            setClientSelectionMode('generate');
+            setSelectedClientId(null);
+            setClientSearchQuery('');
+            setNewClientName('');
+            setNewClientEmail('');
+          }}
         >
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto">
-            {/* Header */}
-            <div className="px-5 py-4 border-b border-zinc-800 flex items-center justify-between sticky top-0 bg-zinc-900 z-10">
-              <div>
-                <h3 className="text-lg font-semibold text-white">{transactionsModal.product.label}</h3>
-                <p className="text-sm text-zinc-500">{MONTHS[selectedMonth]} {selectedYear} • {formatCurrency(transactionsModal.product.price)}/unité</p>
-              </div>
-              <button
-                onClick={() => {
-                  setTransactionsModal(null);
-                  setClientSelectionMode('generate');
-                  setSelectedClientId(null);
-                  setClientSearchQuery('');
-                }}
-                className="p-2 text-zinc-500 hover:text-white rounded-lg hover:bg-zinc-800"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            {/* Stats */}
-            <div className="px-5 py-4 bg-zinc-800/30 flex border-b border-zinc-800">
-              <div className="flex-1 text-center">
-                <p className="text-2xl font-bold text-white">{getTransactionsCount(transactionsModal.product, currentMonthKey)}</p>
-                <p className="text-xs text-zinc-500">ventes</p>
-              </div>
-              <div className="w-px bg-zinc-700" />
-              <div className="flex-1 text-center">
-                <p className="text-2xl font-bold text-emerald-400">{formatCurrency(getTransactionsRevenue(transactionsModal.product, currentMonthKey))}</p>
-                <p className="text-xs text-zinc-500">revenue</p>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-5 space-y-5">
-              {/* Client Selection */}
-              <div className="space-y-3">
-                <p className="text-sm font-medium text-zinc-400 flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  Attribution du client
-                </p>
-
-                {/* Mode Toggle */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setClientSelectionMode('existing')}
-                    className={`flex-1 py-2.5 px-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors ${
-                      clientSelectionMode === 'existing'
-                        ? 'bg-violet-600 text-white'
-                        : 'bg-zinc-800 text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    <Search className="h-4 w-4" />
-                    Client existant
-                  </button>
-                  <button
-                    onClick={() => {
-                      setClientSelectionMode('generate');
-                      setSelectedClientId(null);
-                      setGeneratedClientPreview(generateRandomClient());
-                    }}
-                    className={`flex-1 py-2.5 px-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors ${
-                      clientSelectionMode === 'generate'
-                        ? 'bg-violet-600 text-white'
-                        : 'bg-zinc-800 text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    <Shuffle className="h-4 w-4" />
-                    Générer
-                  </button>
-                </div>
-
-                {/* Existing Client Search */}
-                {clientSelectionMode === 'existing' && (
-                  <div className="space-y-2">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-                      <input
-                        type="text"
-                        value={clientSearchQuery}
-                        onChange={(e) => setClientSearchQuery(e.target.value)}
-                        placeholder="Rechercher un client..."
-                        className="w-full pl-10 pr-4 py-2.5 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm placeholder-zinc-600 focus:border-violet-500 outline-none"
-                      />
+          <div className="h-full w-full flex items-center justify-center p-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-5xl bg-zinc-950 border border-zinc-800 flex flex-col max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header compact */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 flex-shrink-0">
+                <div className="flex items-center gap-6">
+                  <div>
+                    <h2 className="text-lg font-medium text-white">{transactionsModal.product.label}</h2>
+                    <p className="text-sm text-zinc-500">{MONTHS[selectedMonth]} {selectedYear}</p>
+                  </div>
+                  <div className="flex items-center gap-6 pl-6 border-l border-zinc-800">
+                    <div className="text-center">
+                      <p className="text-xl font-light text-white">{getTransactionsCount(transactionsModal.product, currentMonthKey)}</p>
+                      <p className="text-xs text-zinc-500">ventes</p>
                     </div>
-                    <div className="max-h-40 overflow-y-auto space-y-1 bg-zinc-800/50 rounded-lg p-2">
-                      {loadingClients ? (
-                        <div className="flex items-center justify-center py-4">
-                          <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
+                    <div className="text-center">
+                      <p className="text-xl font-light text-emerald-400">{formatCurrency(getTransactionsRevenue(transactionsModal.product, currentMonthKey))}</p>
+                      <p className="text-xs text-zinc-500">revenue</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xl font-light text-zinc-400">{formatCurrency(transactionsModal.product.price)}</p>
+                      <p className="text-xs text-zinc-500">/ unité</p>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    setTransactionsModal(null);
+                    setClientSelectionMode('generate');
+                    setSelectedClientId(null);
+                    setClientSearchQuery('');
+                    setNewClientName('');
+                    setNewClientEmail('');
+                  }}
+                  className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Content - 2 columns */}
+              <div className="flex-1 overflow-hidden flex">
+                {/* Left: Nouvelle vente */}
+                <div className="flex-1 border-r border-zinc-800 p-6 overflow-y-auto"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                  <h3 className="text-sm font-medium text-zinc-400 uppercase tracking-wider mb-6">Nouvelle vente</h3>
+
+                  {/* Client Selection */}
+                  <div className="space-y-4 pb-6 border-b border-zinc-800/50">
+                    <label className="text-sm text-zinc-300 font-medium">Client</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      <button
+                        onClick={() => setClientSelectionMode('existing')}
+                        className={`py-2.5 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
+                          clientSelectionMode === 'existing'
+                            ? 'bg-white text-zinc-950 border-white'
+                            : 'bg-transparent text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white'
+                        }`}
+                      >
+                        <Search className="h-4 w-4" />
+                        Existant
+                      </button>
+                      <button
+                        onClick={() => {
+                          setClientSelectionMode('create');
+                          setSelectedClientId(null);
+                          setNewClientName('');
+                          setNewClientEmail('');
+                        }}
+                        className={`py-2.5 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
+                          clientSelectionMode === 'create'
+                            ? 'bg-white text-zinc-950 border-white'
+                            : 'bg-transparent text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white'
+                        }`}
+                      >
+                        <UserPlus className="h-4 w-4" />
+                        Créer
+                      </button>
+                      <button
+                        onClick={() => {
+                          setClientSelectionMode('generate');
+                          setSelectedClientId(null);
+                          if (!generatedClientPreview) setGeneratedClientPreview(generateRandomClient());
+                        }}
+                        className={`py-2.5 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
+                          clientSelectionMode === 'generate'
+                            ? 'bg-white text-zinc-950 border-white'
+                            : 'bg-transparent text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white'
+                        }`}
+                      >
+                        <Shuffle className="h-4 w-4" />
+                        Générer
+                      </button>
+                    </div>
+
+                    {/* Mode content */}
+                    <div className="min-h-[120px]">
+                      {clientSelectionMode === 'existing' && (
+                        <div className="space-y-3">
+                          <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                            <input
+                              type="text"
+                              value={clientSearchQuery}
+                              onChange={(e) => setClientSearchQuery(e.target.value)}
+                              placeholder="Rechercher..."
+                              className="w-full pl-10 pr-4 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
+                            />
+                          </div>
+                          <div className="border border-zinc-800 max-h-32 overflow-y-auto">
+                            {loadingClients ? (
+                              <div className="flex items-center justify-center py-6">
+                                <Loader2 className="h-4 w-4 animate-spin text-zinc-500" />
+                              </div>
+                            ) : clients.filter(c =>
+                              !clientSearchQuery ||
+                              c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
+                              c.email.toLowerCase().includes(clientSearchQuery.toLowerCase())
+                            ).length === 0 ? (
+                              <div className="py-6 text-center text-zinc-600 text-sm">Aucun client</div>
+                            ) : (
+                              clients
+                                .filter(c =>
+                                  !clientSearchQuery ||
+                                  c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
+                                  c.email.toLowerCase().includes(clientSearchQuery.toLowerCase())
+                                )
+                                .slice(0, 10)
+                                .map((client) => (
+                                  <button
+                                    key={client.id}
+                                    onClick={() => setSelectedClientId(client.id)}
+                                    className={`w-full text-left px-3 py-2 flex items-center justify-between text-sm border-b border-zinc-800 last:border-0 transition-all ${
+                                      selectedClientId === client.id ? 'bg-zinc-900' : 'hover:bg-zinc-900/50'
+                                    }`}
+                                  >
+                                    <span className="text-white truncate">{client.name}</span>
+                                    {selectedClientId === client.id && <Check className="h-4 w-4 text-white flex-shrink-0" />}
+                                  </button>
+                                ))
+                            )}
+                          </div>
                         </div>
-                      ) : clients.filter(c =>
-                        clientSearchQuery === '' ||
-                        c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
-                        c.email.toLowerCase().includes(clientSearchQuery.toLowerCase())
-                      ).length === 0 ? (
-                        <p className="text-center py-4 text-zinc-500 text-sm">
-                          {clients.length === 0 ? 'Aucun client' : 'Aucun résultat'}
-                        </p>
-                      ) : (
-                        clients
-                          .filter(c =>
-                            clientSearchQuery === '' ||
-                            c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
-                            c.email.toLowerCase().includes(clientSearchQuery.toLowerCase())
-                          )
-                          .slice(0, 10)
-                          .map((client) => (
+                      )}
+
+                      {clientSelectionMode === 'create' && (
+                        <div className="space-y-3">
+                          <input
+                            type="text"
+                            value={newClientName}
+                            onChange={(e) => setNewClientName(e.target.value)}
+                            placeholder="Nom complet"
+                            className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
+                          />
+                          <input
+                            type="email"
+                            value={newClientEmail}
+                            onChange={(e) => setNewClientEmail(e.target.value)}
+                            placeholder="Email"
+                            className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
+                          />
+                        </div>
+                      )}
+
+                      {clientSelectionMode === 'generate' && (
+                        <div className="space-y-3">
+                          <div className="grid grid-cols-2 gap-2">
                             <button
-                              key={client.id}
-                              onClick={() => setSelectedClientId(client.id)}
-                              className={`w-full text-left px-3 py-2 rounded-lg flex items-center justify-between transition-all ${
-                                selectedClientId === client.id
-                                  ? 'bg-violet-600/20 border border-violet-500'
-                                  : 'bg-zinc-800/50 hover:bg-zinc-700/50 border border-transparent'
+                              onClick={() => setGeneratedClientPreview(generateRandomClient('individual'))}
+                              className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
+                                generatedClientPreview?.type === 'individual'
+                                  ? 'bg-zinc-900 border-zinc-600 text-white'
+                                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
                               }`}
                             >
-                              <div>
-                                <p className="text-white text-sm font-medium">{client.name}</p>
-                                <p className="text-zinc-500 text-xs">{client.email}</p>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                {client.isGenerated && (
-                                  <span className="text-xs px-1.5 py-0.5 bg-zinc-700 text-zinc-400 rounded">Auto</span>
-                                )}
-                                {selectedClientId === client.id && (
-                                  <Check className="h-4 w-4 text-violet-500" />
-                                )}
-                              </div>
+                              <Users className="h-3.5 w-3.5" />
+                              Particulier
                             </button>
-                          ))
+                            <button
+                              onClick={() => setGeneratedClientPreview(generateRandomClient('business'))}
+                              className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
+                                generatedClientPreview?.type === 'business'
+                                  ? 'bg-zinc-900 border-zinc-600 text-white'
+                                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
+                              }`}
+                            >
+                              <Package className="h-3.5 w-3.5" />
+                              Entreprise
+                            </button>
+                          </div>
+                          {generatedClientPreview && (
+                            <div className="bg-zinc-900 border border-zinc-800 p-3 flex items-center justify-between">
+                              <div className="min-w-0">
+                                <p className="text-white text-sm truncate">{generatedClientPreview.name}</p>
+                                <p className="text-zinc-500 text-xs truncate">{generatedClientPreview.email}</p>
+                              </div>
+                              <button
+                                onClick={() => setGeneratedClientPreview(generateRandomClient(generatedClientPreview.type))}
+                                className="p-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors flex-shrink-0 ml-2"
+                              >
+                                <RefreshCw className="h-4 w-4" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
-                )}
 
-                {/* Generated Client Preview */}
-                {clientSelectionMode === 'generate' && generatedClientPreview && (
-                  <div className="bg-zinc-800/50 rounded-lg p-3 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-white font-medium">{generatedClientPreview.name}</p>
-                        <p className="text-zinc-500 text-sm">{generatedClientPreview.email}</p>
-                      </div>
+                  {/* Quantity */}
+                  <div className="space-y-3 py-6 border-b border-zinc-800/50">
+                    <label className="text-sm text-zinc-300 font-medium">Quantité</label>
+                    <div className="flex items-center gap-3">
                       <button
-                        onClick={() => setGeneratedClientPreview(generateRandomClient())}
-                        className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-700 rounded-lg transition-colors"
-                        title="Régénérer"
+                        onClick={() => setTxCounter(Math.max(1, txCounter - 1))}
+                        className="w-10 h-10 border border-zinc-800 hover:border-zinc-600 text-white flex items-center justify-center transition-colors"
                       >
-                        <RefreshCw className="h-4 w-4" />
+                        <Minus className="h-4 w-4" />
                       </button>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        value={txCounter}
+                        onChange={(e) => setTxCounter(Math.max(1, Number(e.target.value.replace(/\D/g, '')) || 1))}
+                        className="w-16 text-center text-xl font-light text-white bg-transparent border-b border-zinc-700 focus:border-zinc-500 outline-none text-[16px]"
+                      />
+                      <button
+                        onClick={() => setTxCounter(txCounter + 1)}
+                        className="w-10 h-10 border border-zinc-800 hover:border-zinc-600 text-white flex items-center justify-center transition-colors"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </button>
+                      <div className="flex gap-1.5 ml-auto">
+                        {[1, 5, 10, 25].map((n) => (
+                          <button
+                            key={n}
+                            onClick={() => setTxCounter(n)}
+                            className={`w-9 h-9 text-xs border transition-all ${
+                              txCounter === n
+                                ? 'bg-zinc-800 border-zinc-600 text-white'
+                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
+                            }`}
+                          >
+                            {n}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                    <p className="text-xs text-zinc-600">
-                      Ce client sera créé automatiquement lors de l'ajout de la vente
-                    </p>
                   </div>
-                )}
-              </div>
 
-              {/* Quantity Counter */}
-              <div className="pt-2 border-t border-zinc-800">
-                <p className="text-sm font-medium text-zinc-400 mb-3">Quantité</p>
-                <div className="flex items-center justify-center gap-4">
-                  <button
-                    onClick={() => setTxCounter(Math.max(1, txCounter - 1))}
-                    className="w-11 h-11 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors"
-                  >
-                    <Minus className="h-5 w-5" />
-                  </button>
-                  <input
-                    type="number"
-                    value={txCounter}
-                    onChange={(e) => setTxCounter(Math.max(1, Number(e.target.value) || 1))}
-                    min="1"
-                    className="w-16 text-center text-3xl font-bold text-white bg-transparent outline-none"
-                  />
-                  <button
-                    onClick={() => setTxCounter(txCounter + 1)}
-                    className="w-11 h-11 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors"
-                  >
-                    <Plus className="h-5 w-5" />
-                  </button>
-                </div>
-
-                {/* Quick select */}
-                <div className="flex justify-center gap-2 mt-3">
-                  {[1, 5, 10, 20].map((n) => (
+                  {/* Custom Price */}
+                  <div className="pt-6">
                     <button
-                      key={n}
-                      onClick={() => setTxCounter(n)}
-                      className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                        txCounter === n ? 'bg-violet-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'
-                      }`}
+                      onClick={() => setOpenAccordions(prev => prev.includes('custom_price') ? prev.filter(a => a !== 'custom_price') : [...prev, 'custom_price'])}
+                      className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
                     >
-                      {n}
+                      <ChevronDown className={`h-4 w-4 transition-transform ${openAccordions.includes('custom_price') ? 'rotate-180' : ''}`} />
+                      Prix personnalisé
                     </button>
-                  ))}
+                    {openAccordions.includes('custom_price') && (
+                      <div className="flex gap-2 mt-3">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={customTxAmount}
+                          onChange={(e) => setCustomTxAmount(e.target.value.replace(/[^0-9.,]/g, ''))}
+                          placeholder="€"
+                          className="w-24 px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
+                        />
+                        <input
+                          type="text"
+                          value={customTxNote}
+                          onChange={(e) => setCustomTxNote(e.target.value)}
+                          placeholder="Note"
+                          className="flex-1 px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
+                        />
+                        <button
+                          onClick={async () => {
+                            const amount = Number(customTxAmount);
+                            if (amount <= 0) return;
+
+                            let clientInfo: { id: string; name: string; email?: string };
+
+                            if (clientSelectionMode === 'existing' && selectedClientId) {
+                              const client = clients.find(c => c.id === selectedClientId);
+                              if (!client) return;
+                              clientInfo = { id: client.id, name: client.name, email: client.email };
+                            } else if (clientSelectionMode === 'create' && newClientName && newClientEmail) {
+                              const manualClient: GeneratedClient = {
+                                id: `cli_${Date.now().toString(36)}${Math.random().toString(36).substring(2, 8)}`,
+                                name: newClientName.trim(),
+                                email: newClientEmail.trim().toLowerCase(),
+                                phone: '',
+                                type: 'individual',
+                                isGenerated: false,
+                                generatedAt: new Date().toISOString(),
+                              };
+                              const newClient = await createClientInDb(manualClient);
+                              clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
+                              setNewClientName('');
+                              setNewClientEmail('');
+                            } else if (clientSelectionMode === 'generate' && generatedClientPreview) {
+                              const newClient = await createClientInDb(generatedClientPreview);
+                              clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
+                            } else {
+                              return;
+                            }
+
+                            await addCustomTransaction(
+                              transactionsModal.catId,
+                              transactionsModal.product.id,
+                              currentMonthKey,
+                              amount,
+                              clientInfo,
+                              customTxNote || undefined
+                            );
+
+                            setTransactionsModal({
+                              ...transactionsModal,
+                              product: {
+                                ...transactionsModal.product,
+                                transactions: {
+                                  ...transactionsModal.product.transactions,
+                                  [currentMonthKey]: [
+                                    ...(transactionsModal.product.transactions?.[currentMonthKey] || []),
+                                    {
+                                      id: `tx_${Date.now()}`,
+                                      amount,
+                                      isCustom: true,
+                                      note: customTxNote || undefined,
+                                      clientId: clientInfo.id,
+                                      clientName: clientInfo.name,
+                                      clientEmail: clientInfo.email,
+                                    },
+                                  ],
+                                },
+                              },
+                            });
+                            setCustomTxAmount('');
+                            setCustomTxNote('');
+
+                            if (clientSelectionMode === 'generate') {
+                              setGeneratedClientPreview(generateRandomClient(generatedClientPreview?.type));
+                            }
+                          }}
+                          disabled={
+                            !customTxAmount ||
+                            Number(customTxAmount) <= 0 ||
+                            (clientSelectionMode === 'existing' && !selectedClientId) ||
+                            (clientSelectionMode === 'create' && (!newClientName || !newClientEmail))
+                          }
+                          className="px-4 py-2 bg-zinc-800 text-white text-sm hover:bg-zinc-700 disabled:bg-zinc-900 disabled:text-zinc-600 transition-colors"
+                        >
+                          OK
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right: Historique */}
+                <div className="w-80 flex-shrink-0 flex flex-col bg-zinc-900/30">
+                  <div className="px-5 py-4 border-b border-zinc-800 flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-zinc-400 uppercase tracking-wider">Historique</h3>
+                    <span className="text-xs text-zinc-600">{getTransactionsCount(transactionsModal.product, currentMonthKey)} tx</span>
+                  </div>
+                  <div className="flex-1 overflow-y-auto scrollbar-hide"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    {getTransactionsCount(transactionsModal.product, currentMonthKey) === 0 ? (
+                      <div className="h-full flex items-center justify-center text-zinc-600 text-sm">
+                        Aucune transaction
+                      </div>
+                    ) : (
+                      <div className="divide-y divide-zinc-800/50">
+                        {(transactionsModal.product.transactions?.[currentMonthKey] || []).map((tx, index) => (
+                          <div key={tx.id} className="px-5 py-3 flex items-center justify-between group hover:bg-zinc-900/50 transition-colors">
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-zinc-600">#{index + 1}</span>
+                                <span className={`text-sm font-medium ${tx.isCustom ? 'text-amber-400' : 'text-white'}`}>
+                                  {formatCurrency(tx.amount)}
+                                </span>
+                                {tx.isCustom && <span className="text-[10px] px-1 py-0.5 bg-amber-500/10 text-amber-500">Custom</span>}
+                              </div>
+                              <p className="text-xs text-zinc-500 truncate">{tx.clientName || 'Client inconnu'}</p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                deleteTransaction(transactionsModal.catId, transactionsModal.product.id, currentMonthKey, tx.id);
+                                setTransactionsModal({
+                                  ...transactionsModal,
+                                  product: {
+                                    ...transactionsModal.product,
+                                    transactions: {
+                                      ...transactionsModal.product.transactions,
+                                      [currentMonthKey]: (transactionsModal.product.transactions?.[currentMonthKey] || []).filter((t) => t.id !== tx.id),
+                                    },
+                                  },
+                                });
+                              }}
+                              className="p-1 text-zinc-700 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Add button */}
-              <button
-                onClick={async () => {
-                  let clientInfo: { id: string; name: string; email?: string };
-
-                  if (clientSelectionMode === 'existing' && selectedClientId) {
-                    const client = clients.find(c => c.id === selectedClientId);
-                    if (!client) return;
-                    clientInfo = { id: client.id, name: client.name, email: client.email };
-                  } else if (clientSelectionMode === 'generate' && generatedClientPreview) {
-                    // Create the generated client in Firebase
-                    const newClient = await createClientInDb(generatedClientPreview);
-                    clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
-                  } else {
-                    return;
-                  }
-
-                  await addStandardTransactions(
-                    transactionsModal.catId,
-                    transactionsModal.product.id,
-                    currentMonthKey,
-                    txCounter,
-                    clientInfo
-                  );
-
-                  // Update modal state
-                  const newTxs: Transaction[] = Array.from({ length: txCounter }, () => ({
-                    id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                    amount: transactionsModal.product.price,
-                    isCustom: false,
-                    clientId: clientInfo.id,
-                    clientName: clientInfo.name,
-                    clientEmail: clientInfo.email,
-                  }));
-                  setTransactionsModal({
-                    ...transactionsModal,
-                    product: {
-                      ...transactionsModal.product,
-                      transactions: {
-                        ...transactionsModal.product.transactions,
-                        [currentMonthKey]: [...(transactionsModal.product.transactions?.[currentMonthKey] || []), ...newTxs],
-                      },
-                    },
-                  });
-                  setTxCounter(1);
-
-                  // Generate new preview for next transaction
-                  if (clientSelectionMode === 'generate') {
-                    setGeneratedClientPreview(generateRandomClient());
-                  }
-                }}
-                disabled={clientSelectionMode === 'existing' && !selectedClientId}
-                className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-700 disabled:text-zinc-500 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
-              >
-                <UserPlus className="h-4 w-4" />
-                Ajouter {txCounter} vente{txCounter > 1 ? 's' : ''} ({formatCurrency(txCounter * transactionsModal.product.price)})
-              </button>
-
-              {/* Custom price section */}
-              <details className="group">
-                <summary className="text-sm text-zinc-500 hover:text-zinc-300 cursor-pointer list-none flex items-center gap-2">
-                  <ChevronDown className="h-4 w-4 group-open:rotate-180 transition-transform" />
-                  Prix personnalisé
-                </summary>
-                <div className="mt-3 flex gap-2">
-                  <input
-                    type="number"
-                    value={customTxAmount}
-                    onChange={(e) => setCustomTxAmount(e.target.value)}
-                    placeholder="€"
-                    className="w-24 px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm placeholder-zinc-600 focus:border-orange-500 outline-none"
-                  />
-                  <input
-                    type="text"
-                    value={customTxNote}
-                    onChange={(e) => setCustomTxNote(e.target.value)}
-                    placeholder="Note"
-                    className="flex-1 px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm placeholder-zinc-600 focus:border-orange-500 outline-none"
-                  />
+              {/* Footer */}
+              <div className="flex items-center justify-between px-6 py-4 border-t border-zinc-800 flex-shrink-0 bg-zinc-900/50">
+                <div className="text-sm">
+                  <span className="text-zinc-500">Total : </span>
+                  <span className="text-white font-medium text-lg">{formatCurrency(txCounter * transactionsModal.product.price)}</span>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      setTransactionsModal(null);
+                      setClientSelectionMode('generate');
+                      setSelectedClientId(null);
+                      setClientSearchQuery('');
+                      setNewClientName('');
+                      setNewClientEmail('');
+                    }}
+                    className="px-5 py-2.5 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors text-sm"
+                  >
+                    Annuler
+                  </button>
                   <button
                     onClick={async () => {
-                      const amount = Number(customTxAmount);
-                      if (amount <= 0) return;
+                      // Special case: generate mode with multiple transactions = multiple random clients
+                      if (clientSelectionMode === 'generate' && txCounter > 1) {
+                        const clientType = generatedClientPreview?.type;
+                        const newTxs: Transaction[] = [];
 
+                        for (let i = 0; i < txCounter; i++) {
+                          // Generate a unique random client for each transaction
+                          const randomClient = generateRandomClient(clientType);
+                          const newClient = await createClientInDb(randomClient);
+
+                          // Create transaction for this client
+                          const tx: Transaction = {
+                            id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${i}`,
+                            amount: transactionsModal.product.price,
+                            isCustom: false,
+                            clientId: newClient.id,
+                            clientName: newClient.name,
+                            clientEmail: newClient.email,
+                          };
+                          newTxs.push(tx);
+
+                          // Update client stats
+                          await updateClientStats(newClient.id, transactionsModal.product.price);
+                        }
+
+                        // Update data state with all new transactions
+                        setData((prev) => {
+                          if (!prev) return prev;
+                          return {
+                            ...prev,
+                            productCategories: prev.productCategories.map((cat) => {
+                              if (cat.id !== transactionsModal.catId) return cat;
+                              return {
+                                ...cat,
+                                products: cat.products.map((p) => {
+                                  if (p.id !== transactionsModal.product.id) return p;
+                                  const existing = p.transactions?.[currentMonthKey] || [];
+                                  return { ...p, transactions: { ...p.transactions, [currentMonthKey]: [...existing, ...newTxs] } };
+                                }),
+                              };
+                            }),
+                          };
+                        });
+                        setHasChanges(true);
+
+                        // Update modal state
+                        setTransactionsModal({
+                          ...transactionsModal,
+                          product: {
+                            ...transactionsModal.product,
+                            transactions: {
+                              ...transactionsModal.product.transactions,
+                              [currentMonthKey]: [...(transactionsModal.product.transactions?.[currentMonthKey] || []), ...newTxs],
+                            },
+                          },
+                        });
+                        setTxCounter(1);
+                        setGeneratedClientPreview(generateRandomClient(clientType));
+                        return;
+                      }
+
+                      // Standard case: single client for all transactions
                       let clientInfo: { id: string; name: string; email?: string };
 
                       if (clientSelectionMode === 'existing' && selectedClientId) {
                         const client = clients.find(c => c.id === selectedClientId);
                         if (!client) return;
                         clientInfo = { id: client.id, name: client.name, email: client.email };
+                      } else if (clientSelectionMode === 'create' && newClientName && newClientEmail) {
+                        const manualClient: GeneratedClient = {
+                          id: `cli_${Date.now().toString(36)}${Math.random().toString(36).substring(2, 8)}`,
+                          name: newClientName.trim(),
+                          email: newClientEmail.trim().toLowerCase(),
+                          phone: '',
+                          type: 'individual',
+                          isGenerated: false,
+                          generatedAt: new Date().toISOString(),
+                        };
+                        const newClient = await createClientInDb(manualClient);
+                        clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
+                        setNewClientName('');
+                        setNewClientEmail('');
                       } else if (clientSelectionMode === 'generate' && generatedClientPreview) {
                         const newClient = await createClientInDb(generatedClientPreview);
                         clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
@@ -3130,98 +3422,53 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                         return;
                       }
 
-                      await addCustomTransaction(
+                      await addStandardTransactions(
                         transactionsModal.catId,
                         transactionsModal.product.id,
                         currentMonthKey,
-                        amount,
-                        clientInfo,
-                        customTxNote || undefined
+                        txCounter,
+                        clientInfo
                       );
 
+                      const newTxs: Transaction[] = Array.from({ length: txCounter }, () => ({
+                        id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                        amount: transactionsModal.product.price,
+                        isCustom: false,
+                        clientId: clientInfo.id,
+                        clientName: clientInfo.name,
+                        clientEmail: clientInfo.email,
+                      }));
                       setTransactionsModal({
                         ...transactionsModal,
                         product: {
                           ...transactionsModal.product,
                           transactions: {
                             ...transactionsModal.product.transactions,
-                            [currentMonthKey]: [
-                              ...(transactionsModal.product.transactions?.[currentMonthKey] || []),
-                              {
-                                id: `tx_${Date.now()}`,
-                                amount,
-                                isCustom: true,
-                                note: customTxNote || undefined,
-                                clientId: clientInfo.id,
-                                clientName: clientInfo.name,
-                                clientEmail: clientInfo.email,
-                              },
-                            ],
+                            [currentMonthKey]: [...(transactionsModal.product.transactions?.[currentMonthKey] || []), ...newTxs],
                           },
                         },
                       });
-                      setCustomTxAmount('');
-                      setCustomTxNote('');
+                      setTxCounter(1);
 
                       if (clientSelectionMode === 'generate') {
-                        setGeneratedClientPreview(generateRandomClient());
+                        setGeneratedClientPreview(generateRandomClient(generatedClientPreview?.type));
                       }
                     }}
-                    disabled={!customTxAmount || Number(customTxAmount) <= 0 || (clientSelectionMode === 'existing' && !selectedClientId)}
-                    className="px-4 py-2 bg-orange-600 hover:bg-orange-500 disabled:bg-zinc-700 disabled:text-zinc-500 text-white rounded-lg text-sm font-medium transition-colors"
+                    disabled={
+                      (clientSelectionMode === 'existing' && !selectedClientId) ||
+                      (clientSelectionMode === 'create' && (!newClientName || !newClientEmail))
+                    }
+                    className="px-6 py-2.5 bg-white text-zinc-950 hover:bg-zinc-200 disabled:bg-zinc-800 disabled:text-zinc-600 transition-colors text-sm font-medium flex items-center gap-2"
                   >
-                    OK
+                    <Plus className="h-4 w-4" />
+                    Ajouter {txCounter} vente{txCounter > 1 ? 's' : ''}
                   </button>
                 </div>
-              </details>
-
-              {/* Transaction History - with client names */}
-              {getTransactionsCount(transactionsModal.product, currentMonthKey) > 0 && (
-                <div className="border-t border-zinc-800 pt-4">
-                  <p className="text-xs text-zinc-500 mb-2">Historique ({getTransactionsCount(transactionsModal.product, currentMonthKey)} ventes)</p>
-                  <div className="space-y-1 max-h-48 overflow-y-auto">
-                    {(transactionsModal.product.transactions?.[currentMonthKey] || []).map((tx, index) => (
-                      <div key={tx.id} className="group flex items-center justify-between py-2 px-2 rounded hover:bg-zinc-800/50">
-                        <div className="flex items-center gap-3 flex-1 min-w-0">
-                          <span className="text-xs text-zinc-600 w-5 flex-shrink-0">#{index + 1}</span>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-2">
-                              <span className={tx.isCustom ? 'text-orange-400 font-medium' : 'text-white font-medium'}>
-                                {formatCurrency(tx.amount)}
-                              </span>
-                              {tx.note && <span className="text-xs text-zinc-500 truncate">• {tx.note}</span>}
-                            </div>
-                            <p className="text-xs text-zinc-500 truncate">
-                              {tx.clientName || 'Client inconnu'}
-                            </p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => {
-                            deleteTransaction(transactionsModal.catId, transactionsModal.product.id, currentMonthKey, tx.id);
-                            setTransactionsModal({
-                              ...transactionsModal,
-                              product: {
-                                ...transactionsModal.product,
-                                transactions: {
-                                  ...transactionsModal.product.transactions,
-                                  [currentMonthKey]: (transactionsModal.product.transactions?.[currentMonthKey] || []).filter((t) => t.id !== tx.id),
-                                },
-                              },
-                            });
-                          }}
-                          className="opacity-0 group-hover:opacity-100 p-1.5 text-zinc-500 hover:text-red-400 hover:bg-zinc-800 rounded flex-shrink-0"
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+              </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>,
+        document.body
       )}
 
       {/* Sticky Save Bar */}

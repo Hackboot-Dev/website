@@ -86,7 +86,7 @@ export type GeneratedClient = {
   phone: string;
   company?: string;
   type: GeneratedClientType;
-  isGenerated: true;
+  isGenerated: boolean; // true = auto-generated, false = manually created
   generatedAt: string;
 };
 

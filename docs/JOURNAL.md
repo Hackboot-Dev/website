@@ -1,5 +1,236 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-13 - Session 7]
+SESSION: Amélioration des animations page Catalogue Admin
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+
+CHANGEMENTS:
+```
+1. ANIMATIONS COLONNES PLUS FLUIDES
+   - Durée augmentée de 500ms à 700ms
+   - Courbe d'easing custom: cubic-bezier(0.4, 0, 0.2, 1)
+   - Ajout transitions d'opacité (fade in/out)
+   - Effet de translation légère lors de l'apparition
+
+2. NOUVELLES CLASSES CSS
+   - .column-transition : transitions width/minWidth/flex/opacity/transform
+   - .column-visible : état visible (opacity:1, translateX:0)
+   - .column-hidden : état masqué (opacity:0, translateX:-20px)
+   - .item-transition : hover/active plus smooth sur les items
+   - .icon-transition : padding icônes (400ms)
+   - .chevron-transition : rotation chevron (400ms)
+
+3. REFACTORING COLONNES
+   - Les colonnes 2 et 3 sont toujours rendues (pas de rendu conditionnel)
+   - Visibilité gérée par CSS pour permettre les transitions smooth
+   - Contenu interne reste conditionnel pour éviter les erreurs
+```
+
+PROCHAINE ÉTAPE: Tester les animations sur différents navigateurs
+---
+
+[2025-12-12 - Session 6]
+SESSION: Intégration Firebase Public pour le Catalogue
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /apps/web/lib/catalogue/publicCatalogueLoader.ts
+FICHIERS MODIFIÉS:
+- /apps/web/lib/firebase.ts [ajout vmclpublic]
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx [publication vers Firebase public]
+
+CHANGEMENTS:
+```
+1. NOUVEAU PROJET FIREBASE : vmclpublic
+   - Projet dédié aux données publiques (catalogue produits)
+   - Les visiteurs lisent depuis ce projet (avec cache IndexedDB)
+   - Les admins écrivent via l'interface
+
+2. CONFIGURATION FIREBASE (lib/firebase.ts)
+   - vmcloud : Admin VMCloud (P&L, clients)
+   - hackboot : Admin Hackboot
+   - vmclpublic : Données publiques (catalogue)
+   - Cache persistant activé pour publicDb (IndexedDB)
+
+3. PAGE CATALOGUE ADMIN MISE À JOUR
+   - Bouton "Publier tout" → écrit dans vmclpublic
+   - Affiche statut de publication par catégorie
+   - Banner info Firebase Public
+
+4. LOADER PUBLIC (publicCatalogueLoader.ts)
+   - getAllCategories() - toutes les catégories
+   - getCategoryById(id) - une catégorie
+   - getProductsByCategory(id) - produits d'une catégorie
+   - getProductById(cat, id) - un produit
+   - Cache mémoire 5 min + fallback JSON local
+
+5. STRUCTURE FIRESTORE vmclpublic
+   - Collection: catalogue
+   - Documents: vps, gpu, webhosting, paas, loadbalancer, storage, cdn
+   - Document spécial: _manifest (métadonnées)
+```
+
+PROCHAINE ÉTAPE: Configurer les règles Firebase et tester la publication
+---
+
+[2025-12-12 - Session 5]
+SESSION: Création page Catalogue Admin
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /apps/web/app/[locale]/admin/catalogue/page.tsx
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/layout.tsx [ajout bouton Catalogue]
+
+CHANGEMENTS:
+```
+1. BOUTON CATALOGUE DANS HEADER
+   - Icône Package (lucide-react)
+   - Ajouté entre "Clients" et "P&L"
+   - Navigation desktop + mobile
+
+2. PAGE CATALOGUE (/admin/catalogue)
+   - Affiche les 7 catégories (VPS, GPU, Web, PaaS, LB, Storage, CDN)
+   - Stats: nombre de catégories, produits, sync status
+   - Indicateur vert/gris si catégorie initialisée dans Firebase
+
+3. BOUTON INIT PRODUITS
+   - Synchronise base.json vers Firebase (collection 'catalogue')
+   - Sauvegarde: id, name, displayConfig, products, productCount, timestamps
+   - Message succès/erreur après initialisation
+
+4. DÉTAIL PAR CATÉGORIE
+   - Clic sur catégorie = expansion
+   - Table: ID, Nom, Tier (badge couleur), Prix
+   - Formatage prix: mensuel, horaire, ou par GB
+
+5. PANEL INFORMATION
+   - Explique le fonctionnement
+   - Liste les fichiers source (base.json, display-config.json, etc.)
+```
+
+DONNÉES SOURCE:
+- /data/products/base.json : 7 catégories, ~40 produits total
+- /data/products/display-config.json : config affichage par catégorie
+
+PROCHAINE ÉTAPE: Améliorer la gestion du catalogue (CRUD produits)
+---
+
+[2025-12-12 - Session 4]
+SESSION: Ajout garde-fous modifications non sauvegardées
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - garde-fous navigation]
+
+CHANGEMENTS:
+```
+AMÉLIORATION DES GARDE-FOUS (lignes 404-460):
+
+1. REFRESH/FERMETURE PAGE (beforeunload)
+   - Message d'avertissement en français
+   - Empêche la perte de données accidentelle
+
+2. BOUTON RETOUR NAVIGATEUR (popstate)
+   - Détecte clic sur bouton retour/avant du navigateur
+   - Affiche confirmation avant de quitter
+   - Si refusé, repousse l'état dans l'historique
+
+3. LIENS INTERNES (click handler)
+   - Intercepte les clics sur liens <a>
+   - Vérifie si c'est un lien interne (même origine)
+   - Demande confirmation avant navigation
+   - Bloque si l'utilisateur refuse
+
+COMPORTEMENT:
+- Tous les handlers ne s'activent QUE si hasChanges === true
+- Message clair en français : "Vous avez des modifications non sauvegardées..."
+- Cleanup propre des event listeners
+```
+
+PROCHAINE ÉTAPE: Test complet en dev
+---
+
+[2025-12-12 - Session 3]
+SESSION: Fix génération clients aléatoires multiples
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - logique génération clients]
+
+CHANGEMENTS:
+```
+PROBLÈME:
+- Quand mode "Aléatoire" avec quantité > 1, toutes les transactions avaient le MÊME client
+- Exemple: 30 ventes = 30 transactions du même client Jean Dupont
+
+SOLUTION:
+- Cas spécial quand clientSelectionMode === 'generate' && txCounter > 1
+- Boucle qui génère un nouveau client aléatoire pour CHAQUE transaction
+- Chaque client est créé dans Firebase avec ses propres données
+- Chaque transaction a donc un client différent
+- Stats client mises à jour individuellement
+
+COMPORTEMENT NOUVEAU:
+- 30 ventes en mode aléatoire = 30 clients différents (Jean, Marie, Pierre, etc.)
+- Le type (Particulier/Entreprise) est respecté pour chaque génération
+```
+
+PROCHAINE ÉTAPE: Test en environnement développement
+---
+
+[2025-12-12 - Session 2]
+SESSION: Refonte Design Modal Transactions P&L
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié - refonte complète modal]
+
+CHANGEMENTS:
+```
+1. NOUVEAU DESIGN MODAL (matching Admin Design System)
+   - bg-zinc-950 (au lieu de bg-zinc-900)
+   - Animations Framer Motion (fadeIn, slideUp)
+   - Structure Header/Content/Footer séparée
+   - Blur backdrop effect
+   - Responsive design (max-h-[90vh])
+
+2. TROIS MODES DE SÉLECTION CLIENT
+   - "Existant" : Recherche parmi clients Firebase existants
+   - "Créer" : Formulaire manuel (nom + email)
+   - "Générer" : Génération automatique avec choix:
+     * Bouton "Particulier" (individual)
+     * Bouton "Entreprise" (business)
+     * Preview du client généré + bouton régénérer
+
+3. INTERFACE QUANTITÉ AMÉLIORÉE
+   - Boutons +/- avec style cohérent
+   - Input central avec border-bottom style
+   - Quick buttons [1, 5, 10, 25]
+
+4. SECTION PRIX PERSONNALISÉ
+   - Zone collapsible avec toggle
+   - Input prix unitaire avec formatage €
+
+5. HISTORIQUE TRANSACTIONS
+   - Liste scrollable des transactions existantes
+   - Badge client (nom) sur chaque transaction
+   - Boutons supprimer individuels
+   - Empty state professionnel
+
+6. FOOTER AVEC ACTIONS
+   - Total calculé en temps réel
+   - Bouton "Annuler" (secondaire)
+   - Bouton "Ajouter X vente(s)" (primaire)
+```
+
+DESIGN TOKENS UTILISÉS:
+- Colors: zinc-950, zinc-900, zinc-800, zinc-700, zinc-600, zinc-500, zinc-400
+- Typography: font-light pour grands titres, font-medium pour labels
+- Spacing: p-6, gap-4, gap-3
+- Borders: border-zinc-800, hover:border-zinc-700
+
+PROCHAINE ÉTAPE: Tester en navigateur avec Firebase
+---
+
 [2025-12-12 - Session 1]
 SESSION: Synchronisation Client ↔ P&L Transactions
 STATUT: ✅ Réussi
