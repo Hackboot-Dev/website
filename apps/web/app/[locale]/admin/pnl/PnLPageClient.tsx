@@ -3953,7 +3953,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                   Transactions avec réductions
                 </h3>
                 <p className="text-xs text-zinc-500 mt-1">
-                  {MONTH_NAMES[selectedMonth]} {selectedYear} • {getDiscountedTransactions(currentMonthKey).length} transaction(s)
+                  {MONTHS[selectedMonth]} {selectedYear} • {getDiscountedTransactions(currentMonthKey).length} transaction(s)
                 </p>
               </div>
               <button
