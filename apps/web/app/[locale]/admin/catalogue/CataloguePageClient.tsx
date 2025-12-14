@@ -307,8 +307,8 @@ export default function CataloguePageClient() {
     setIsCreateMode(false);
     setSaveError(null);
     setEditingProduct({ ...selectedProduct });
-    setEditingTranslationsFr({ ...selectedCategory.translations?.fr?.[selectedProduct.id] } || {});
-    setEditingTranslationsEn({ ...selectedCategory.translations?.en?.[selectedProduct.id] } || {});
+    setEditingTranslationsFr(selectedCategory.translations?.fr?.[selectedProduct.id] ? { ...selectedCategory.translations.fr[selectedProduct.id] } : {});
+    setEditingTranslationsEn(selectedCategory.translations?.en?.[selectedProduct.id] ? { ...selectedCategory.translations.en[selectedProduct.id] } : {});
 
     // Initialize sections from product or fallback to category config
     const categoryConfig = (displayConfig as Record<string, any>)[selectedCategory.id] || {};

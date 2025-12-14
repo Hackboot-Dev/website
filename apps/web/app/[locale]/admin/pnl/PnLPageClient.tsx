@@ -30,8 +30,6 @@ import {
   FolderPlus,
   Pencil,
   Settings,
-  Link,
-  ChevronDown,
   Receipt,
   Sparkles,
   Download,
@@ -39,9 +37,6 @@ import {
   Calendar,
   BarChart3,
   RefreshCw,
-  Search,
-  UserPlus,
-  Shuffle,
 } from 'lucide-react';
 import { getCompanyDb, getPublicDb } from '../../../../lib/firebase';
 import { doc, setDoc, getDoc, collection, getDocs, query, orderBy } from 'firebase/firestore';
@@ -60,10 +55,10 @@ import type {
   ExpenseItem,
   ExpenseCategory,
   PnLData,
-  ClientSelectionMode,
 } from './types';
 import { MONTHS, MONTH_KEYS, COMPANY_CONFIG, formatCurrency } from './types';
 import type { CompanyId } from './types';
+import { RulesModal, TransactionsModal } from './components';
 
 // Helper: Generate transactions from client count and price (with generated clients)
 const generateTransactions = (counts: Record<string, number>, price: number): Record<string, Transaction[]> => {
@@ -201,39 +196,15 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   const [editValue, setEditValue] = useState('');
   const [rulesModal, setRulesModal] = useState<{ catId: string; product: Product } | null>(null);
   const [transactionsModal, setTransactionsModal] = useState<{ catId: string; product: Product } | null>(null);
-  const [openAccordions, setOpenAccordions] = useState<string[]>([]);
-  const [txCounter, setTxCounter] = useState(1);
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
   const [syncing, setSyncing] = useState(false);
 
-  // Client selection for transactions
+  // Client list for transactions modal
   const [clients, setClients] = useState<Client[]>([]);
   const [loadingClients, setLoadingClients] = useState(false);
-  const [clientSelectionMode, setClientSelectionMode] = useState<ClientSelectionMode>('generate');
-  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
-  const [clientSearchQuery, setClientSearchQuery] = useState('');
-  const [generatedClientPreview, setGeneratedClientPreview] = useState<GeneratedClient | null>(null);
-  // Manual client creation
-  const [newClientName, setNewClientName] = useState('');
-  const [newClientEmail, setNewClientEmail] = useState('');
-  const [newClientPhone, setNewClientPhone] = useState('');
-  const [newClientCountry, setNewClientCountry] = useState('FR');
-  const [newClientType, setNewClientType] = useState<'individual' | 'business'>('individual');
-  const [emailError, setEmailError] = useState<string | null>(null);
-  // Discount for transaction (active discount applies to next sales)
-  const [discountAmount, setDiscountAmount] = useState('');
-  const [discountNote, setDiscountNote] = useState('');
-  const [activeDiscount, setActiveDiscount] = useState<{ amount: number; note: string } | null>(null);
   const [showDiscountTransactions, setShowDiscountTransactions] = useState(false);
 
   const currentMonthKey = MONTH_KEYS[selectedMonth];
-
-  // Toggle accordion
-  const toggleAccordion = (id: string) => {
-    setOpenAccordions((prev) =>
-      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
-    );
-  };
 
   // Catalogue cache (shared across P&L)
   const catalogueCacheKey = 'catalogue_cache';
@@ -655,8 +626,6 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   useEffect(() => {
     if (transactionsModal) {
       loadClients();
-      // Generate a preview client
-      setGeneratedClientPreview(generateRandomClient());
     }
   }, [transactionsModal, loadClients]);
 
@@ -704,109 +673,6 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     return txs.reduce((sum, tx) => sum + tx.amount, 0);
   };
 
-  // Add standard transaction(s) with client info
-  const addStandardTransactions = async (
-    catId: string,
-    productId: string,
-    month: string,
-    count: number,
-    clientInfo: { id: string; name: string; email?: string }
-  ) => {
-    if (!data) return;
-    const product = data.productCategories.find((c) => c.id === catId)?.products.find((p) => p.id === productId);
-    if (!product) return;
-
-    const newTransactions: Transaction[] = Array.from({ length: count }, () => ({
-      id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
-      amount: product.price,
-      isCustom: false,
-      clientId: clientInfo.id,
-      clientName: clientInfo.name,
-      clientEmail: clientInfo.email,
-    }));
-
-    setData((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        productCategories: prev.productCategories.map((cat) => {
-          if (cat.id !== catId) return cat;
-          return {
-            ...cat,
-            products: cat.products.map((p) => {
-              if (p.id !== productId) return p;
-              const existing = p.transactions?.[month] || [];
-              return { ...p, transactions: { ...p.transactions, [month]: [...existing, ...newTransactions] } };
-            }),
-          };
-        }),
-      };
-    });
-    setHasChanges(true);
-
-    // Update client stats
-    const totalAmount = product.price * count;
-    await updateClientStats(clientInfo.id, totalAmount);
-  };
-
-  // Add custom transaction with client info (and optional discount linked to COGS)
-  const addCustomTransaction = async (
-    catId: string,
-    productId: string,
-    month: string,
-    amount: number,
-    clientInfo: { id: string; name: string; email?: string },
-    note?: string,
-    discount?: number
-  ) => {
-    if (!data) return;
-
-    const newTransaction: Transaction = {
-      id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
-      amount,
-      isCustom: discount ? false : true, // If discount applied, it's based on product price
-      note,
-      discount: discount || undefined,
-      clientId: clientInfo.id,
-      clientName: clientInfo.name,
-      clientEmail: clientInfo.email,
-    };
-
-    setData((prev) => {
-      if (!prev) return prev;
-      // Update salesDiscounts in reductions if discount is applied
-      const updatedReductions = discount && discount > 0
-        ? {
-            ...prev.reductions,
-            salesDiscounts: {
-              ...prev.reductions.salesDiscounts,
-              [month]: (prev.reductions.salesDiscounts[month] || 0) + discount,
-            },
-          }
-        : prev.reductions;
-
-      return {
-        ...prev,
-        reductions: updatedReductions,
-        productCategories: prev.productCategories.map((cat) => {
-          if (cat.id !== catId) return cat;
-          return {
-            ...cat,
-            products: cat.products.map((p) => {
-              if (p.id !== productId) return p;
-              const existing = p.transactions?.[month] || [];
-              return { ...p, transactions: { ...p.transactions, [month]: [...existing, newTransaction] } };
-            }),
-          };
-        }),
-      };
-    });
-    setHasChanges(true);
-
-    // Update client stats
-    await updateClientStats(clientInfo.id, amount);
-  };
-
   // Delete transaction
   const deleteTransaction = (catId: string, productId: string, month: string, txId: string) => {
     if (!data) return;
@@ -822,6 +688,45 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
               if (p.id !== productId) return p;
               const existing = p.transactions?.[month] || [];
               return { ...p, transactions: { ...p.transactions, [month]: existing.filter((tx) => tx.id !== txId) } };
+            }),
+          };
+        }),
+      };
+    });
+    setHasChanges(true);
+  };
+
+  // Add transactions (batch add for TransactionsModal)
+  const addTransactions = (catId: string, productId: string, month: string, newTxs: Transaction[]) => {
+    if (!data || newTxs.length === 0) return;
+
+    // Calculate total discount for reductions tracking
+    const totalDiscount = newTxs.reduce((sum, tx) => sum + (tx.discount || 0), 0);
+
+    setData((prev) => {
+      if (!prev) return prev;
+      // Update salesDiscounts if any discounts applied
+      const updatedReductions = totalDiscount > 0
+        ? {
+            ...prev.reductions,
+            salesDiscounts: {
+              ...prev.reductions.salesDiscounts,
+              [month]: (prev.reductions.salesDiscounts[month] || 0) + totalDiscount,
+            },
+          }
+        : prev.reductions;
+
+      return {
+        ...prev,
+        reductions: updatedReductions,
+        productCategories: prev.productCategories.map((cat) => {
+          if (cat.id !== catId) return cat;
+          return {
+            ...cat,
+            products: cat.products.map((p) => {
+              if (p.id !== productId) return p;
+              const existing = p.transactions?.[month] || [];
+              return { ...p, transactions: { ...p.transactions, [month]: [...existing, ...newTxs] } };
             }),
           };
         }),
@@ -2740,1021 +2645,72 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
         </motion.div>
       )}
 
-      {/* Rules Modal - Redesigned */}
-      {rulesModal && (
-        <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onClick={(e) => e.target === e.currentTarget && setRulesModal(null)}
-        >
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-2xl shadow-2xl shadow-violet-500/10">
-            {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-zinc-800">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-violet-500/20 rounded-xl flex items-center justify-center">
-                    <Settings className="h-5 w-5 text-violet-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white text-lg">Règles automatiques</h3>
-                    <p className="text-sm text-zinc-500">{rulesModal.product.label}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setRulesModal(null)}
-                  className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-6 space-y-5">
-              {/* Info */}
-              <div className="bg-zinc-800/50 rounded-xl px-4 py-3 border border-zinc-700/50">
-                <p className="text-sm text-zinc-400">
-                  <span className="text-violet-400 font-medium">Par client ajouté</span>, multiplie le prix unitaire de la dépense par le facteur défini.
-                </p>
-              </div>
-
-              {/* Rules List */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Règles actives</span>
-                  <span className="text-xs text-zinc-600">{rulesModal.product.rules?.length || 0} règle(s)</span>
-                </div>
-
-                {(rulesModal.product.rules?.length || 0) === 0 ? (
-                  <div className="text-center py-8 border-2 border-dashed border-zinc-800 rounded-xl">
-                    <Link className="h-8 w-8 text-zinc-700 mx-auto mb-2" />
-                    <p className="text-sm text-zinc-600">Aucune règle configurée</p>
-                    <p className="text-xs text-zinc-700 mt-1">Sélectionnez une dépense ci-dessous</p>
-                  </div>
-                ) : (
-                  <div className="space-y-2 max-h-[180px] overflow-y-auto pr-1">
-                    {rulesModal.product.rules?.map((rule, index) => {
-                      const expItem = getExpenseItem(rule.expenseCategoryId, rule.expenseItemId);
-                      const unitPrice = expItem?.unitPrice || 0;
-                      const editMultKey = `mult_${rule.id}`;
-
-                      return (
-                        <div
-                          key={rule.id}
-                          className="group flex items-center gap-3 bg-zinc-800/70 hover:bg-zinc-800 rounded-xl px-4 py-3 transition-colors"
-                        >
-                          <div className="flex-shrink-0 w-6 h-6 bg-violet-500/20 rounded-lg flex items-center justify-center">
-                            <span className="text-xs font-medium text-violet-400">{index + 1}</span>
-                          </div>
-                          <div className="flex-grow min-w-0">
-                            <p className="text-sm text-white truncate">
-                              {getExpenseItemLabel(rule.expenseCategoryId, rule.expenseItemId)}
-                            </p>
-                            <p className="text-[10px] text-zinc-500">
-                              Prix unitaire: {formatCurrency(unitPrice)}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 flex-shrink-0">
-                            {/* Multiplier - editable inline */}
-                            {editingCell === editMultKey ? (
-                              <div className="flex items-center gap-1">
-                                <input
-                                  type="number"
-                                  value={editValue}
-                                  onChange={(e) => setEditValue(e.target.value)}
-                                  autoFocus
-                                  min="0"
-                                  step="1"
-                                  className="w-14 bg-zinc-700 border border-violet-500 rounded px-2 py-1 text-center text-white text-sm"
-                                  onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                      updateRuleMultiplier(rulesModal.catId, rulesModal.product.id, rule.id, Number(editValue) || 1);
-                                      // Update modal state
-                                      setRulesModal({
-                                        ...rulesModal,
-                                        product: {
-                                          ...rulesModal.product,
-                                          rules: rulesModal.product.rules?.map((r) =>
-                                            r.id === rule.id ? { ...r, multiplier: Number(editValue) || 1 } : r
-                                          ),
-                                        },
-                                      });
-                                      cancelEdit();
-                                    }
-                                    if (e.key === 'Escape') cancelEdit();
-                                  }}
-                                />
-                                <button
-                                  onClick={() => {
-                                    updateRuleMultiplier(rulesModal.catId, rulesModal.product.id, rule.id, Number(editValue) || 1);
-                                    setRulesModal({
-                                      ...rulesModal,
-                                      product: {
-                                        ...rulesModal.product,
-                                        rules: rulesModal.product.rules?.map((r) =>
-                                          r.id === rule.id ? { ...r, multiplier: Number(editValue) || 1 } : r
-                                        ),
-                                      },
-                                    });
-                                    cancelEdit();
-                                  }}
-                                  className="text-emerald-400"
-                                >
-                                  <Check className="h-4 w-4" />
-                                </button>
-                              </div>
-                            ) : (
-                              <button
-                                onClick={() => startEdit(editMultKey, rule.multiplier || 1)}
-                                className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs font-medium rounded-lg hover:bg-blue-500/30 transition-colors"
-                              >
-                                ×{rule.multiplier || 1}
-                              </button>
-                            )}
-                            <span className="text-zinc-600">=</span>
-                            <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-medium rounded-lg min-w-[70px] text-center">
-                              {formatCurrency((rule.multiplier || 1) * unitPrice)}
-                            </span>
-                            <button
-                              onClick={() => {
-                                deleteProductRule(rulesModal.catId, rulesModal.product.id, rule.id);
-                                setRulesModal({
-                                  ...rulesModal,
-                                  product: {
-                                    ...rulesModal.product,
-                                    rules: rulesModal.product.rules?.filter((r) => r.id !== rule.id),
-                                  },
-                                });
-                              }}
-                              className="opacity-0 group-hover:opacity-100 p-1.5 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              {/* Add Rule - Accordion Selector */}
-              <div className="pt-4 border-t border-zinc-800">
-                <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-3 block">Ajouter une règle</span>
-                <div className="space-y-2 max-h-[280px] overflow-y-auto pr-1">
-                  {data?.expenseCategories.map((cat) => {
-                    const isOpen = openAccordions.includes(cat.id);
-                    const itemsWithRules = cat.items.filter((item) =>
-                      rulesModal.product.rules?.some((r) => r.expenseCategoryId === cat.id && r.expenseItemId === item.id)
-                    ).length;
-
-                    return (
-                      <div key={cat.id} className="border border-zinc-800 rounded-xl overflow-hidden">
-                        <button
-                          onClick={() => toggleAccordion(cat.id)}
-                          className="w-full px-4 py-3 flex items-center justify-between bg-zinc-800/50 hover:bg-zinc-800 transition-colors"
-                        >
-                          <div className="flex items-center gap-2">
-                            <ChevronDown className={`h-4 w-4 text-zinc-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-                            <span className="text-white font-medium">{cat.label}</span>
-                            <span className="text-xs text-zinc-600">({cat.items.length})</span>
-                          </div>
-                          {itemsWithRules > 0 && (
-                            <span className="text-xs text-emerald-400">{itemsWithRules} lié(s)</span>
-                          )}
-                        </button>
-                        {isOpen && (
-                          <div className="p-2 space-y-1 bg-zinc-900/50">
-                            {cat.items.map((item) => {
-                              const hasRule = rulesModal.product.rules?.some(
-                                (r) => r.expenseCategoryId === cat.id && r.expenseItemId === item.id
-                              );
-                              return (
-                                <button
-                                  key={item.id}
-                                  disabled={hasRule}
-                                  onClick={() => {
-                                    const newRule: ProductRule = {
-                                      id: `rule_${Date.now()}`,
-                                      expenseCategoryId: cat.id,
-                                      expenseItemId: item.id,
-                                      multiplier: 1,
-                                    };
-                                    addProductRule(rulesModal.catId, rulesModal.product.id, {
-                                      expenseCategoryId: cat.id,
-                                      expenseItemId: item.id,
-                                      multiplier: 1,
-                                    });
-                                    setRulesModal({
-                                      ...rulesModal,
-                                      product: {
-                                        ...rulesModal.product,
-                                        rules: [...(rulesModal.product.rules || []), newRule],
-                                      },
-                                    });
-                                  }}
-                                  className={`w-full text-left px-3 py-2 rounded-lg flex items-center justify-between transition-all ${
-                                    hasRule
-                                      ? 'bg-emerald-500/10 border border-emerald-500/30'
-                                      : 'bg-zinc-800/50 hover:bg-zinc-800 border border-transparent hover:border-violet-500'
-                                  }`}
-                                >
-                                  <span className={hasRule ? 'text-emerald-400' : 'text-zinc-300'}>{item.label}</span>
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-xs text-zinc-500">{formatCurrency(item.unitPrice || 0)}</span>
-                                    {hasRule && <Check className="h-4 w-4 text-emerald-500" />}
-                                  </div>
-                                </button>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="px-6 py-4 border-t border-zinc-800 bg-zinc-900/50">
-              <button
-                onClick={() => setRulesModal(null)}
-                className="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-sm font-medium transition-colors"
-              >
-                Fermer
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* Rules Modal - Using extracted component */}
+      {rulesModal && data && (
+        <RulesModal
+          isOpen={!!rulesModal}
+          catId={rulesModal.catId}
+          product={rulesModal.product}
+          expenseCategories={data.expenseCategories}
+          onClose={() => setRulesModal(null)}
+          onAddRule={(catId, productId, rule) => {
+            addProductRule(catId, productId, rule);
+            // Sync modal state with new rule
+            const newRule: ProductRule = { id: `rule_${Date.now()}`, ...rule };
+            setRulesModal({
+              ...rulesModal,
+              product: {
+                ...rulesModal.product,
+                rules: [...(rulesModal.product.rules || []), newRule],
+              },
+            });
+          }}
+          onDeleteRule={(catId, productId, ruleId) => {
+            deleteProductRule(catId, productId, ruleId);
+            setRulesModal({
+              ...rulesModal,
+              product: {
+                ...rulesModal.product,
+                rules: rulesModal.product.rules?.filter((r) => r.id !== ruleId),
+              },
+            });
+          }}
+          onUpdateRuleMultiplier={(catId, productId, ruleId, multiplier) => {
+            updateRuleMultiplier(catId, productId, ruleId, multiplier);
+            setRulesModal({
+              ...rulesModal,
+              product: {
+                ...rulesModal.product,
+                rules: rulesModal.product.rules?.map((r) =>
+                  r.id === ruleId ? { ...r, multiplier } : r
+                ),
+              },
+            });
+          }}
+          getExpenseItem={getExpenseItem}
+          getExpenseItemLabel={getExpenseItemLabel}
+        />
       )}
 
-      {/* Transactions Modal - Professional Design (Portal to escape stacking context) */}
-      {transactionsModal && typeof window !== 'undefined' && createPortal(
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm"
-          onClick={() => {
-            setTransactionsModal(null);
-            setClientSelectionMode('generate');
-            setSelectedClientId(null);
-            setClientSearchQuery('');
-            setNewClientName('');
-            setNewClientEmail('');
-            setNewClientPhone('');
-            setNewClientCountry('FR');
-            setNewClientType('individual');
-            setEmailError(null);
-            setDiscountAmount('');
-            setDiscountNote('');
-            setActiveDiscount(null);
-          }}
-        >
-          <div className="h-full w-full flex items-stretch">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full h-full bg-zinc-950 flex flex-col"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header compact */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 flex-shrink-0">
-                <div className="flex items-center gap-6">
-                  <div>
-                    <h2 className="text-lg font-medium text-white">{transactionsModal.product.label}</h2>
-                    <p className="text-sm text-zinc-500">{MONTHS[selectedMonth]} {selectedYear}</p>
-                  </div>
-                  <div className="flex items-center gap-6 pl-6 border-l border-zinc-800">
-                    <div className="text-center">
-                      <p className="text-xl font-light text-white">{getTransactionsCount(transactionsModal.product, currentMonthKey)}</p>
-                      <p className="text-xs text-zinc-500">ventes</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-xl font-light text-emerald-400">{formatCurrency(getTransactionsRevenue(transactionsModal.product, currentMonthKey))}</p>
-                      <p className="text-xs text-zinc-500">revenue</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-xl font-light text-zinc-400">{formatCurrency(transactionsModal.product.price)}</p>
-                      <p className="text-xs text-zinc-500">/ unité</p>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={() => {
-                    setTransactionsModal(null);
-                    setClientSelectionMode('generate');
-                    setSelectedClientId(null);
-                    setClientSearchQuery('');
-                    setNewClientName('');
-                    setNewClientEmail('');
-                    setNewClientPhone('');
-                    setNewClientCountry('FR');
-                    setNewClientType('individual');
-                    setEmailError(null);
-                    setDiscountAmount('');
-                    setDiscountNote('');
-                    setActiveDiscount(null);
-                  }}
-                  className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-
-              {/* Content - 2 columns */}
-              <div className="flex-1 overflow-hidden flex">
-                {/* Left: Nouvelle vente */}
-                <div className="flex-1 border-r border-zinc-800 p-6 overflow-y-auto"
-                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                  <h3 className="text-sm font-medium text-zinc-400 uppercase tracking-wider mb-6">Nouvelle vente</h3>
-
-                  {/* Client Selection */}
-                  <div className="space-y-4 pb-6 border-b border-zinc-800/50">
-                    <label className="text-sm text-zinc-300 font-medium">Client</label>
-                    <div className="grid grid-cols-3 gap-2">
-                      <button
-                        onClick={() => setClientSelectionMode('existing')}
-                        className={`py-2.5 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
-                          clientSelectionMode === 'existing'
-                            ? 'bg-white text-zinc-950 border-white'
-                            : 'bg-transparent text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white'
-                        }`}
-                      >
-                        <Search className="h-4 w-4" />
-                        Existant
-                      </button>
-                      <button
-                        onClick={() => {
-                          setClientSelectionMode('create');
-                          setSelectedClientId(null);
-                          setNewClientName('');
-                          setNewClientEmail('');
-                        }}
-                        className={`py-2.5 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
-                          clientSelectionMode === 'create'
-                            ? 'bg-white text-zinc-950 border-white'
-                            : 'bg-transparent text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white'
-                        }`}
-                      >
-                        <UserPlus className="h-4 w-4" />
-                        Créer
-                      </button>
-                      <button
-                        onClick={() => {
-                          setClientSelectionMode('generate');
-                          setSelectedClientId(null);
-                          if (!generatedClientPreview) setGeneratedClientPreview(generateRandomClient());
-                        }}
-                        className={`py-2.5 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
-                          clientSelectionMode === 'generate'
-                            ? 'bg-white text-zinc-950 border-white'
-                            : 'bg-transparent text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white'
-                        }`}
-                      >
-                        <Shuffle className="h-4 w-4" />
-                        Générer
-                      </button>
-                    </div>
-
-                    {/* Mode content */}
-                    <div className="min-h-[120px]">
-                      {clientSelectionMode === 'existing' && (
-                        <div className="space-y-3">
-                          <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-                            <input
-                              type="text"
-                              value={clientSearchQuery}
-                              onChange={(e) => setClientSearchQuery(e.target.value)}
-                              placeholder="Rechercher..."
-                              className="w-full pl-10 pr-4 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
-                            />
-                          </div>
-                          <div className="border border-zinc-800 max-h-32 overflow-y-auto">
-                            {loadingClients ? (
-                              <div className="flex items-center justify-center py-6">
-                                <Loader2 className="h-4 w-4 animate-spin text-zinc-500" />
-                              </div>
-                            ) : clients.filter(c =>
-                              !clientSearchQuery ||
-                              c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
-                              c.email.toLowerCase().includes(clientSearchQuery.toLowerCase())
-                            ).length === 0 ? (
-                              <div className="py-6 text-center text-zinc-600 text-sm">Aucun client</div>
-                            ) : (
-                              clients
-                                .filter(c =>
-                                  !clientSearchQuery ||
-                                  c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
-                                  c.email.toLowerCase().includes(clientSearchQuery.toLowerCase())
-                                )
-                                .slice(0, 10)
-                                .map((client) => (
-                                  <button
-                                    key={client.id}
-                                    onClick={() => setSelectedClientId(client.id)}
-                                    className={`w-full text-left px-3 py-2 flex items-center justify-between text-sm border-b border-zinc-800 last:border-0 transition-all ${
-                                      selectedClientId === client.id ? 'bg-zinc-900' : 'hover:bg-zinc-900/50'
-                                    }`}
-                                  >
-                                    <span className="text-white truncate">{client.name}</span>
-                                    {selectedClientId === client.id && <Check className="h-4 w-4 text-white flex-shrink-0" />}
-                                  </button>
-                                ))
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      {clientSelectionMode === 'create' && (
-                        <div className="space-y-3">
-                          {/* Type selection */}
-                          <div className="grid grid-cols-2 gap-2">
-                            <button
-                              type="button"
-                              onClick={() => setNewClientType('individual')}
-                              className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
-                                newClientType === 'individual'
-                                  ? 'bg-zinc-900 border-zinc-600 text-white'
-                                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
-                              }`}
-                            >
-                              <Users className="h-3.5 w-3.5" />
-                              Particulier
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setNewClientType('business')}
-                              className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
-                                newClientType === 'business'
-                                  ? 'bg-zinc-900 border-zinc-600 text-white'
-                                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
-                              }`}
-                            >
-                              <Package className="h-3.5 w-3.5" />
-                              Entreprise
-                            </button>
-                          </div>
-                          <input
-                            type="text"
-                            value={newClientName}
-                            onChange={(e) => setNewClientName(e.target.value)}
-                            placeholder={newClientType === 'business' ? "Nom de l'entreprise" : "Nom complet"}
-                            className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
-                          />
-                          <div>
-                            <input
-                              type="email"
-                              value={newClientEmail}
-                              onChange={(e) => {
-                                const email = e.target.value.toLowerCase();
-                                setNewClientEmail(email);
-                                // Check if email exists
-                                if (email && clients.some(c => c.email?.toLowerCase() === email)) {
-                                  setEmailError('Cet email existe déjà');
-                                } else {
-                                  setEmailError(null);
-                                }
-                              }}
-                              placeholder="Email"
-                              className={`w-full px-3 py-2 bg-zinc-900 border text-white text-[16px] placeholder-zinc-600 focus:outline-none ${
-                                emailError ? 'border-red-500 focus:border-red-500' : 'border-zinc-800 focus:border-zinc-600'
-                              }`}
-                            />
-                            {emailError && (
-                              <p className="text-red-400 text-xs mt-1">{emailError}</p>
-                            )}
-                          </div>
-                          <div className="grid grid-cols-2 gap-2">
-                            <input
-                              type="tel"
-                              value={newClientPhone || ''}
-                              onChange={(e) => setNewClientPhone(e.target.value)}
-                              placeholder="Téléphone"
-                              className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
-                            />
-                            <select
-                              value={newClientCountry}
-                              onChange={(e) => setNewClientCountry(e.target.value)}
-                              className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] focus:border-zinc-600 focus:outline-none"
-                            >
-                              <option value="FR">France</option>
-                              <option value="BE">Belgique</option>
-                              <option value="CH">Suisse</option>
-                              <option value="CA">Canada</option>
-                              <option value="LU">Luxembourg</option>
-                              <option value="DE">Allemagne</option>
-                              <option value="ES">Espagne</option>
-                              <option value="IT">Italie</option>
-                              <option value="UK">Royaume-Uni</option>
-                              <option value="US">États-Unis</option>
-                              <option value="MA">Maroc</option>
-                              <option value="TN">Tunisie</option>
-                              <option value="DZ">Algérie</option>
-                              <option value="SN">Sénégal</option>
-                              <option value="CI">Côte d'Ivoire</option>
-                              <option value="OTHER">Autre</option>
-                            </select>
-                          </div>
-                        </div>
-                      )}
-
-                      {clientSelectionMode === 'generate' && (
-                        <div className="space-y-3">
-                          {/* Type selection */}
-                          <div className="grid grid-cols-2 gap-2">
-                            <button
-                              onClick={() => setGeneratedClientPreview(generateRandomClient('individual'))}
-                              className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
-                                generatedClientPreview?.type === 'individual'
-                                  ? 'bg-zinc-900 border-zinc-600 text-white'
-                                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
-                              }`}
-                            >
-                              <Users className="h-3.5 w-3.5" />
-                              Particulier
-                            </button>
-                            <button
-                              onClick={() => setGeneratedClientPreview(generateRandomClient('business'))}
-                              className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
-                                generatedClientPreview?.type === 'business'
-                                  ? 'bg-zinc-900 border-zinc-600 text-white'
-                                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
-                              }`}
-                            >
-                              <Package className="h-3.5 w-3.5" />
-                              Entreprise
-                            </button>
-                          </div>
-                          {/* Generated client preview */}
-                          {generatedClientPreview && (
-                            <div className="bg-zinc-900 border border-zinc-800 p-4">
-                              <div className="flex items-start justify-between mb-3">
-                                <div className="flex items-center gap-2">
-                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                                    generatedClientPreview.type === 'business' ? 'bg-violet-500/20 text-violet-400' : 'bg-emerald-500/20 text-emerald-400'
-                                  }`}>
-                                    {generatedClientPreview.type === 'business' ? (
-                                      <Package className="h-4 w-4" />
-                                    ) : (
-                                      <Users className="h-4 w-4" />
-                                    )}
-                                  </div>
-                                  <div>
-                                    <p className="text-white text-sm font-medium">{generatedClientPreview.name}</p>
-                                    {generatedClientPreview.company && (
-                                      <p className="text-zinc-500 text-xs">{generatedClientPreview.company}</p>
-                                    )}
-                                  </div>
-                                </div>
-                                <button
-                                  onClick={() => setGeneratedClientPreview(generateRandomClient(generatedClientPreview.type))}
-                                  className="p-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors"
-                                  title="Régénérer"
-                                >
-                                  <Shuffle className="h-4 w-4" />
-                                </button>
-                              </div>
-                              <div className="space-y-1.5 text-xs">
-                                <div className="flex items-center gap-2 text-zinc-400">
-                                  <span className="text-zinc-600 w-14">Email</span>
-                                  <span className="truncate">{generatedClientPreview.email}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-zinc-400">
-                                  <span className="text-zinc-600 w-14">Tél</span>
-                                  <span>{generatedClientPreview.phone}</span>
-                                </div>
-                                {generatedClientPreview.origin && (
-                                  <div className="flex items-center gap-2 text-zinc-500">
-                                    <span className="text-zinc-600 w-14">Origine</span>
-                                    <span className="capitalize">{generatedClientPreview.origin}</span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Quantity */}
-                  <div className="space-y-3 py-6 border-b border-zinc-800/50">
-                    <label className="text-sm text-zinc-300 font-medium">Quantité</label>
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => setTxCounter(Math.max(1, txCounter - 1))}
-                        className="w-10 h-10 border border-zinc-800 hover:border-zinc-600 text-white flex items-center justify-center transition-colors"
-                      >
-                        <Minus className="h-4 w-4" />
-                      </button>
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        value={txCounter}
-                        onChange={(e) => setTxCounter(Math.max(1, Number(e.target.value.replace(/\D/g, '')) || 1))}
-                        className="w-16 text-center text-xl font-light text-white bg-transparent border-b border-zinc-700 focus:border-zinc-500 outline-none text-[16px]"
-                      />
-                      <button
-                        onClick={() => setTxCounter(txCounter + 1)}
-                        className="w-10 h-10 border border-zinc-800 hover:border-zinc-600 text-white flex items-center justify-center transition-colors"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </button>
-                      <div className="flex gap-1.5 ml-auto">
-                        {[1, 5, 10, 25].map((n) => (
-                          <button
-                            key={n}
-                            onClick={() => setTxCounter(n)}
-                            className={`w-9 h-9 text-xs border transition-all ${
-                              txCounter === n
-                                ? 'bg-zinc-800 border-zinc-600 text-white'
-                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
-                            }`}
-                          >
-                            {n}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Discount Section - Linked to COGS */}
-                  <div className="pt-6">
-                    <button
-                      onClick={() => setOpenAccordions(prev => prev.includes('discount') ? prev.filter(a => a !== 'discount') : [...prev, 'discount'])}
-                      className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
-                    >
-                      <ChevronDown className={`h-4 w-4 transition-transform ${openAccordions.includes('discount') ? 'rotate-180' : ''}`} />
-                      <Percent className="h-4 w-4" />
-                      Appliquer une réduction
-                    </button>
-                    {openAccordions.includes('discount') && (
-                      <div className="mt-3 space-y-3">
-                        <div className="flex items-center gap-3">
-                          <div className="relative">
-                            <input
-                              type="text"
-                              inputMode="decimal"
-                              value={discountAmount}
-                              onChange={(e) => setDiscountAmount(e.target.value.replace(/[^0-9.,]/g, ''))}
-                              placeholder="0"
-                              className="w-24 px-3 py-2 bg-zinc-900 border border-zinc-700 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-500 focus:outline-none"
-                            />
-                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">€</span>
-                          </div>
-                          <div className="flex-1 text-sm">
-                            {Number(discountAmount) > 0 && (
-                              <div className="flex items-center gap-2">
-                                <span className="text-zinc-500">Prix final:</span>
-                                <span className="text-emerald-400 font-medium">
-                                  {formatCurrency(Math.max(0, transactionsModal.product.price - Number(discountAmount)))}
-                                </span>
-                                <span className="text-zinc-600 line-through text-xs">
-                                  {formatCurrency(transactionsModal.product.price)}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        <input
-                          type="text"
-                          value={discountNote}
-                          onChange={(e) => setDiscountNote(e.target.value)}
-                          placeholder="Raison (ex: Fidélité, Promo...)"
-                          className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
-                        />
-                        <div className="flex items-center justify-between">
-                          <div className="text-xs text-zinc-600 flex items-center gap-1">
-                            <Minus className="h-3 w-3 text-zinc-500" />
-                            S'applique aux prochaines ventes
-                          </div>
-                          <button
-                            onClick={() => {
-                              const discount = Number(discountAmount);
-                              if (discount <= 0 || discount > transactionsModal.product.price) return;
-                              setActiveDiscount({
-                                amount: discount,
-                                note: discountNote || `Réduction de ${formatCurrency(discount)}`
-                              });
-                              setDiscountAmount('');
-                              setDiscountNote('');
-                              // Close accordion
-                              setOpenAccordions(prev => prev.filter(a => a !== 'discount'));
-                            }}
-                            disabled={
-                              !discountAmount ||
-                              Number(discountAmount) <= 0 ||
-                              Number(discountAmount) > transactionsModal.product.price
-                            }
-                            className="px-4 py-2 bg-zinc-800 text-white text-sm hover:bg-zinc-700 disabled:bg-zinc-900 disabled:text-zinc-600 transition-colors border border-zinc-700"
-                          >
-                            Activer
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    {/* Active discount indicator */}
-                    {activeDiscount && (
-                      <div className="mt-3 p-3 bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Percent className="h-4 w-4 text-emerald-400" />
-                          <div>
-                            <span className="text-emerald-400 text-sm font-medium">-{formatCurrency(activeDiscount.amount)}</span>
-                            <span className="text-zinc-500 text-xs ml-2">{activeDiscount.note}</span>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => setActiveDiscount(null)}
-                          className="p-1 text-zinc-500 hover:text-red-400 transition-colors"
-                          title="Désactiver la réduction"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Right: Historique */}
-                <div className="w-80 flex-shrink-0 flex flex-col bg-zinc-900/30">
-                  <div className="px-5 py-4 border-b border-zinc-800 flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-zinc-400 uppercase tracking-wider">Historique</h3>
-                    <span className="text-xs text-zinc-600">{getTransactionsCount(transactionsModal.product, currentMonthKey)} tx</span>
-                  </div>
-                  <div className="flex-1 overflow-y-auto scrollbar-hide"
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    {getTransactionsCount(transactionsModal.product, currentMonthKey) === 0 ? (
-                      <div className="h-full flex items-center justify-center text-zinc-600 text-sm">
-                        Aucune transaction
-                      </div>
-                    ) : (
-                      <div className="divide-y divide-zinc-800/50">
-                        {(transactionsModal.product.transactions?.[currentMonthKey] || []).map((tx, index) => (
-                          <div key={tx.id} className="px-5 py-3 flex items-center justify-between group hover:bg-zinc-900/50 transition-colors">
-                            <div className="min-w-0 flex-1">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs text-zinc-600">#{index + 1}</span>
-                                <span className={`text-sm font-medium ${tx.discount ? 'text-emerald-400' : tx.isCustom ? 'text-amber-400' : 'text-white'}`}>
-                                  {formatCurrency(tx.amount)}
-                                </span>
-                                {tx.discount && (
-                                  <span className="text-[10px] px-1.5 py-0.5 bg-zinc-800 text-zinc-400 flex items-center gap-0.5">
-                                    <Minus className="h-2.5 w-2.5" />
-                                    {formatCurrency(tx.discount)}
-                                  </span>
-                                )}
-                                {tx.isCustom && !tx.discount && <span className="text-[10px] px-1 py-0.5 bg-amber-500/10 text-amber-500">Custom</span>}
-                              </div>
-                              <p className="text-xs text-zinc-500 truncate">{tx.clientName || 'Client inconnu'}</p>
-                              {tx.note && <p className="text-[10px] text-zinc-600 truncate">{tx.note}</p>}
-                            </div>
-                            <button
-                              onClick={() => {
-                                deleteTransaction(transactionsModal.catId, transactionsModal.product.id, currentMonthKey, tx.id);
-                                setTransactionsModal({
-                                  ...transactionsModal,
-                                  product: {
-                                    ...transactionsModal.product,
-                                    transactions: {
-                                      ...transactionsModal.product.transactions,
-                                      [currentMonthKey]: (transactionsModal.product.transactions?.[currentMonthKey] || []).filter((t) => t.id !== tx.id),
-                                    },
-                                  },
-                                });
-                              }}
-                              className="p-1 text-zinc-700 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div className="flex items-center justify-between px-6 py-4 border-t border-zinc-800 flex-shrink-0 bg-zinc-900/50">
-                <div className="text-sm">
-                  <span className="text-zinc-500">Total : </span>
-                  {activeDiscount ? (
-                    <>
-                      <span className="text-emerald-400 font-medium text-lg">
-                        {formatCurrency(txCounter * (transactionsModal.product.price - activeDiscount.amount))}
-                      </span>
-                      <span className="text-zinc-600 line-through text-sm ml-2">
-                        {formatCurrency(txCounter * transactionsModal.product.price)}
-                      </span>
-                    </>
-                  ) : (
-                    <span className="text-white font-medium text-lg">{formatCurrency(txCounter * transactionsModal.product.price)}</span>
-                  )}
-                </div>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => {
-                      setTransactionsModal(null);
-                      setClientSelectionMode('generate');
-                      setSelectedClientId(null);
-                      setClientSearchQuery('');
-                      setNewClientName('');
-                      setNewClientEmail('');
-                      setNewClientPhone('');
-                      setNewClientCountry('FR');
-                      setNewClientType('individual');
-                      setEmailError(null);
-                      setDiscountAmount('');
-                      setDiscountNote('');
-                      setActiveDiscount(null);
-                    }}
-                    className="px-5 py-2.5 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors text-sm"
-                  >
-                    Annuler
-                  </button>
-                  <button
-                    onClick={async () => {
-                      const finalPrice = activeDiscount
-                        ? transactionsModal.product.price - activeDiscount.amount
-                        : transactionsModal.product.price;
-                      const totalDiscount = activeDiscount ? activeDiscount.amount * txCounter : 0;
-
-                      // Special case: generate mode with multiple transactions = multiple random clients
-                      if (clientSelectionMode === 'generate' && txCounter > 1) {
-                        const clientType = generatedClientPreview?.type;
-                        const newTxs: Transaction[] = [];
-
-                        for (let i = 0; i < txCounter; i++) {
-                          // Generate a unique random client for each transaction
-                          const randomClient = generateRandomClient(clientType);
-                          const newClient = await createClientInDb(randomClient);
-
-                          // Create transaction for this client
-                          const tx: Transaction = {
-                            id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 11)}_${i}`,
-                            amount: finalPrice,
-                            isCustom: false,
-                            discount: activeDiscount?.amount,
-                            note: activeDiscount?.note,
-                            clientId: newClient.id,
-                            clientName: newClient.name,
-                            clientEmail: newClient.email,
-                          };
-                          newTxs.push(tx);
-
-                          // Update client stats
-                          await updateClientStats(newClient.id, finalPrice);
-                        }
-
-                        // Update data state with all new transactions
-                        setData((prev) => {
-                          if (!prev) return prev;
-                          // Update salesDiscounts if discount is applied
-                          const updatedReductions = activeDiscount
-                            ? {
-                                ...prev.reductions,
-                                salesDiscounts: {
-                                  ...prev.reductions.salesDiscounts,
-                                  [currentMonthKey]: (prev.reductions.salesDiscounts[currentMonthKey] || 0) + totalDiscount,
-                                },
-                              }
-                            : prev.reductions;
-                          return {
-                            ...prev,
-                            reductions: updatedReductions,
-                            productCategories: prev.productCategories.map((cat) => {
-                              if (cat.id !== transactionsModal.catId) return cat;
-                              return {
-                                ...cat,
-                                products: cat.products.map((p) => {
-                                  if (p.id !== transactionsModal.product.id) return p;
-                                  const existing = p.transactions?.[currentMonthKey] || [];
-                                  return { ...p, transactions: { ...p.transactions, [currentMonthKey]: [...existing, ...newTxs] } };
-                                }),
-                              };
-                            }),
-                          };
-                        });
-                        setHasChanges(true);
-
-                        // Update modal state
-                        setTransactionsModal({
-                          ...transactionsModal,
-                          product: {
-                            ...transactionsModal.product,
-                            transactions: {
-                              ...transactionsModal.product.transactions,
-                              [currentMonthKey]: [...(transactionsModal.product.transactions?.[currentMonthKey] || []), ...newTxs],
-                            },
-                          },
-                        });
-                        setTxCounter(1);
-                        setGeneratedClientPreview(generateRandomClient(clientType));
-                        return;
-                      }
-
-                      // Standard case: single client for all transactions
-                      let clientInfo: { id: string; name: string; email?: string };
-
-                      if (clientSelectionMode === 'existing' && selectedClientId) {
-                        const client = clients.find(c => c.id === selectedClientId);
-                        if (!client) return;
-                        clientInfo = { id: client.id, name: client.name, email: client.email };
-                      } else if (clientSelectionMode === 'create' && newClientName && newClientEmail) {
-                        const manualClient: GeneratedClient = {
-                          id: `cli_${Date.now().toString(36)}${Math.random().toString(36).substring(2, 8)}`,
-                          name: newClientName.trim(),
-                          email: newClientEmail.trim().toLowerCase(),
-                          phone: newClientPhone?.trim() || '',
-                          type: newClientType,
-                          isGenerated: false,
-                          generatedAt: new Date().toISOString(),
-                          country: newClientCountry,
-                        };
-                        const newClient = await createClientInDb(manualClient);
-                        clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
-                        setNewClientName('');
-                        setNewClientEmail('');
-                        setNewClientPhone('');
-                        setNewClientCountry('FR');
-                        setNewClientType('individual');
-                      } else if (clientSelectionMode === 'generate' && generatedClientPreview) {
-                        const newClient = await createClientInDb(generatedClientPreview);
-                        clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
-                      } else {
-                        return;
-                      }
-
-                      // If discount is active, use addCustomTransaction for each
-                      if (activeDiscount) {
-                        for (let i = 0; i < txCounter; i++) {
-                          await addCustomTransaction(
-                            transactionsModal.catId,
-                            transactionsModal.product.id,
-                            currentMonthKey,
-                            finalPrice,
-                            clientInfo,
-                            activeDiscount.note,
-                            activeDiscount.amount
-                          );
-                        }
-                      } else {
-                        await addStandardTransactions(
-                          transactionsModal.catId,
-                          transactionsModal.product.id,
-                          currentMonthKey,
-                          txCounter,
-                          clientInfo
-                        );
-                      }
-
-                      const newTxs: Transaction[] = Array.from({ length: txCounter }, () => ({
-                        id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
-                        amount: finalPrice,
-                        isCustom: false,
-                        discount: activeDiscount?.amount,
-                        note: activeDiscount?.note,
-                        clientId: clientInfo.id,
-                        clientName: clientInfo.name,
-                        clientEmail: clientInfo.email,
-                      }));
-                      setTransactionsModal({
-                        ...transactionsModal,
-                        product: {
-                          ...transactionsModal.product,
-                          transactions: {
-                            ...transactionsModal.product.transactions,
-                            [currentMonthKey]: [...(transactionsModal.product.transactions?.[currentMonthKey] || []), ...newTxs],
-                          },
-                        },
-                      });
-                      setTxCounter(1);
-
-                      if (clientSelectionMode === 'generate') {
-                        setGeneratedClientPreview(generateRandomClient(generatedClientPreview?.type));
-                      }
-                    }}
-                    disabled={
-                      (clientSelectionMode === 'existing' && !selectedClientId) ||
-                      (clientSelectionMode === 'create' && (!newClientName || !newClientEmail || emailError !== null))
-                    }
-                    className="px-6 py-2.5 bg-white text-zinc-950 hover:bg-zinc-200 disabled:bg-zinc-800 disabled:text-zinc-600 transition-colors text-sm font-medium flex items-center gap-2"
-                  >
-                    <Plus className="h-4 w-4" />
-                    Ajouter {txCounter} vente{txCounter > 1 ? 's' : ''}
-                    {activeDiscount && <span className="text-emerald-600 text-xs">(-{formatCurrency(activeDiscount.amount)}/u)</span>}
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>,
-        document.body
+      {/* Transactions Modal */}
+      {transactionsModal && (
+        <TransactionsModal
+          isOpen={!!transactionsModal}
+          catId={transactionsModal.catId}
+          product={transactionsModal.product}
+          selectedMonth={selectedMonth}
+          selectedYear={selectedYear}
+          currentMonthKey={currentMonthKey}
+          clients={clients}
+          loadingClients={loadingClients}
+          onClose={() => setTransactionsModal(null)}
+          onAddTransaction={addTransactions}
+          onDeleteTransaction={deleteTransaction}
+          onCreateClient={createClientInDb}
+          onUpdateClientStats={updateClientStats}
+          getTransactionsCount={getTransactionsCount}
+          getTransactionsRevenue={getTransactionsRevenue}
+        />
       )}
 
       {/* Sticky Save Bar */}

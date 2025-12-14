@@ -235,6 +235,7 @@ function ClientModal({
   saving: boolean;
 }) {
   const [formData, setFormData] = useState<CreateClient>({
+    companyId: client?.companyId || 'vmcloud',
     name: client?.name || '',
     email: client?.email || '',
     phone: client?.phone || '',
