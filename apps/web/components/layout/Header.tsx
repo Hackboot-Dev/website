@@ -12,7 +12,13 @@ import ProductsDropdown from '../ui/ProductsDropdown';
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const scrollProgress = useScrollProgress();
+
+  // Prevent SSR hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   // Check if LanguageContext is available
   const context = useContext(LanguageContext);
   const t = context ? context.t : (key: string) => key;
@@ -26,15 +32,19 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Use safe values during SSR to prevent hydration mismatch
+  const safeScrollProgress = isMounted ? scrollProgress : 0;
+  const safeIsScrolled = isMounted ? isScrolled : false;
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      isScrolled 
-        ? 'bg-zinc-950/95 backdrop-blur-lg border-zinc-700/60' 
+      safeIsScrolled
+        ? 'bg-zinc-950/95 backdrop-blur-lg border-zinc-700/60'
         : 'bg-zinc-950/80 backdrop-blur-md border-zinc-800/50'
     } border-b`}>
       <div className="container mx-auto px-8">
         <div className="flex items-center justify-between h-20">
-          
+
           {/* Logo avec micro-animation */}
           <LocalizedLink href="/" className="flex items-center group">
             <span className="text-white font-light text-lg tracking-wide group-hover:tracking-widest transition-all duration-300">
@@ -43,7 +53,7 @@ export default function Header() {
           </LocalizedLink>
 
           {/* Scroll progress bar */}
-          <div className="absolute bottom-0 left-0 h-px bg-zinc-700 transition-all duration-300" style={{ width: `${scrollProgress * 100}%` }}></div>
+          <div className="absolute bottom-0 left-0 h-px bg-zinc-700 transition-all duration-300" style={{ width: `${safeScrollProgress * 100}%` }}></div>
 
           {/* Desktop Navigation avec micro-interactions */}
           <nav className="hidden md:flex items-center space-x-12">
