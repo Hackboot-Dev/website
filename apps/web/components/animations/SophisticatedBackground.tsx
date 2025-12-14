@@ -1,20 +1,28 @@
 'use client';
 // /workspaces/website/apps/web/components/animations/SophisticatedBackground.tsx
 // Description: Background animé sophistiqué et minimal style Awwwards
-// Last modified: 2025-08-16
+// Last modified: 2025-12-14
 // Related docs: /docs/JOURNAL.md
 
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMousePosition } from '../../hooks/useAwwardsAnimation';
 
 export default function SophisticatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const mousePosition = useMousePosition();
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Prevent SSR hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
+    if (!isMounted) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -119,7 +127,12 @@ export default function SophisticatedBackground() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [mousePosition]);
+  }, [isMounted, mousePosition]);
+
+  // Don't render anything on server
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <canvas
