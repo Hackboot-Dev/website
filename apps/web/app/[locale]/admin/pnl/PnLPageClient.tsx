@@ -51,87 +51,19 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-// Types
-type ProductRule = {
-  id: string;
-  expenseCategoryId: string;
-  expenseItemId: string;
-  multiplier: number; // Nombre d'unités ajoutées par client (ex: 1 = +1 employé)
-};
-
-type Transaction = {
-  id: string;
-  amount: number; // Montant réel de cette transaction
-  isCustom: boolean; // false = prix standard, true = prix spécial
-  note?: string; // Note optionnelle (ex: "Réduction fidélité")
-  discount?: number; // Montant de la réduction appliquée (si > 0, lié à COGS salesDiscounts)
-  // Client info (required)
-  clientId: string; // Reference to client document
-  clientName: string; // Snapshot for quick display
-  clientEmail?: string; // Snapshot of email
-};
-
-// Client selection mode in transaction modal
-type ClientSelectionMode = 'existing' | 'create' | 'generate';
-
-type Product = {
-  id: string;
-  label: string;
-  price: number; // Prix unitaire de base
-  transactions: Record<string, Transaction[]>; // month -> liste de transactions
-  rules?: ProductRule[]; // Règles de coûts auto
-};
-
-type ProductCategory = {
-  id: string;
-  label: string;
-  products: Product[];
-  isFromCatalogue?: boolean; // true = from catalogue, cannot be deleted
-};
-
-type ExpenseItem = {
-  id: string;
-  label: string;
-  type?: string;       // NEW: Type badge (e.g., "Freelance", "sub constant")
-  note?: string;       // NEW: Note badge (e.g., "t3.large", "90/user")
-  unitPrice: number; // Prix unitaire (ex: salaire mensuel)
-  quantity: Record<string, number>; // Quantité manuelle par mois
-  adjustments: Record<string, number>; // Ajustements manuels par mois (€)
-};
-
-// NEW: Reductions data (COGS)
-type ReductionData = {
-  salesReturns: Record<string, number>;
-  salesDiscounts: Record<string, number>;
-  costOfGoodsSold: Record<string, number>;
-};
-
-// NEW: Taxes data (separate from expenses)
-type TaxesData = {
-  tva: Record<string, number>;
-  corporateTax: Record<string, number>;  // Impôt sur les sociétés
-  otherTaxes: Record<string, number>;
-};
-
-type ExpenseCategory = {
-  id: string;
-  label: string;
-  items: ExpenseItem[];
-  isProtected?: boolean; // Catégories qu'on ne peut pas supprimer
-};
-
-type PnLData = {
-  year: number;
-  productCategories: ProductCategory[];
-  reductions: ReductionData;  // COGS section
-  expenseCategories: ExpenseCategory[];
-  taxes: TaxesData;  // Taxes section (separate from expenses)
-  updatedAt: string;
-};
-
-// Months
-const MONTHS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
-const MONTH_KEYS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+// Import types from extracted module
+import type {
+  ProductRule,
+  Transaction,
+  Product,
+  ProductCategory,
+  ExpenseItem,
+  ExpenseCategory,
+  PnLData,
+  ClientSelectionMode,
+} from './types';
+import { MONTHS, MONTH_KEYS, COMPANY_CONFIG, formatCurrency } from './types';
+import type { CompanyId } from './types';
 
 // Helper: Generate transactions from client count and price (with generated clients)
 const generateTransactions = (counts: Record<string, number>, price: number): Record<string, Transaction[]> => {
@@ -249,38 +181,12 @@ const getDefaultData = (year: number): PnLData => ({
   },
 });
 
-// Format
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
-};
-
-// Company configurations
-const companyConfig = {
-  hackboot: {
-    name: 'Hackboot',
-    collection: 'pnl_data', // Each company has its own Firebase DB
-    color: 'violet',
-  },
-  vmcloud: {
-    name: 'VMCloud',
-    collection: 'pnl_data', // Each company has its own Firebase DB
-    color: 'emerald',
-  },
-};
-
-type CompanyId = keyof typeof companyConfig;
-
 type PnLPageClientProps = {
   company: CompanyId;
 };
 
 export default function PnLPageClient({ company }: PnLPageClientProps) {
-  const config = companyConfig[company];
+  const config = COMPANY_CONFIG[company];
   const db = getCompanyDb(company);
 
   const [data, setData] = useState<PnLData | null>(null);
