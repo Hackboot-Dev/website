@@ -45,6 +45,7 @@ export type Client = {
   name: string;                  // Display name (person or company name)
   email: string;                 // Primary email
   phone?: string;                // Primary phone
+  country?: string;              // Country code (FR, US, etc.)
 
   // Business info (for B2B)
   company?: string;              // Company name if different from name

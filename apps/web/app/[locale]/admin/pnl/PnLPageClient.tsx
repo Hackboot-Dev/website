@@ -297,8 +297,6 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   const [transactionsModal, setTransactionsModal] = useState<{ catId: string; product: Product } | null>(null);
   const [openAccordions, setOpenAccordions] = useState<string[]>([]);
   const [txCounter, setTxCounter] = useState(1);
-  const [customTxAmount, setCustomTxAmount] = useState('');
-  const [customTxNote, setCustomTxNote] = useState('');
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
   const [syncing, setSyncing] = useState(false);
 
@@ -314,7 +312,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   const [newClientEmail, setNewClientEmail] = useState('');
   const [newClientPhone, setNewClientPhone] = useState('');
   const [newClientCountry, setNewClientCountry] = useState('FR');
-  const [newClientType, setNewClientType] = useState<'individual' | 'company'>('individual');
+  const [newClientType, setNewClientType] = useState<'individual' | 'business'>('individual');
   const [emailError, setEmailError] = useState<string | null>(null);
   // Discount for transaction (active discount applies to next sales)
   const [discountAmount, setDiscountAmount] = useState('');
@@ -473,7 +471,6 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
         // Merge catalogue categories with existing P&L categories
         const mergedCategories: ProductCategory[] = [];
-        const existingCatIds = new Set(newData.productCategories.map(c => c.id));
 
         // First, add catalogue categories (with existing transactions if any)
         for (const catCat of catalogueCategories) {
@@ -482,7 +479,6 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
           if (existingCat) {
             // Category exists in P&L - merge products keeping transactions
             const mergedProducts: Product[] = [];
-            const existingProductIds = new Set(existingCat.products.map(p => p.id));
 
             // Add catalogue products with existing transactions
             for (const catProd of catCat.products) {
@@ -784,9 +780,9 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
           if (tx.discount && tx.discount > 0) {
             result.push({
               catId: cat.id,
-              catName: cat.name,
+              catName: cat.label,
               productId: product.id,
-              productName: product.name,
+              productName: product.label,
               transaction: tx,
             });
           }
@@ -815,7 +811,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     if (!product) return;
 
     const newTransactions: Transaction[] = Array.from({ length: count }, () => ({
-      id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
       amount: product.price,
       isCustom: false,
       clientId: clientInfo.id,
@@ -860,7 +856,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     if (!data) return;
 
     const newTransaction: Transaction = {
-      id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
       amount,
       isCustom: discount ? false : true, // If discount applied, it's based on product price
       note,
@@ -920,35 +916,6 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
               if (p.id !== productId) return p;
               const existing = p.transactions?.[month] || [];
               return { ...p, transactions: { ...p.transactions, [month]: existing.filter((tx) => tx.id !== txId) } };
-            }),
-          };
-        }),
-      };
-    });
-    setHasChanges(true);
-  };
-
-  // Update transaction amount
-  const updateTransactionAmount = (catId: string, productId: string, month: string, txId: string, amount: number) => {
-    if (!data) return;
-    setData((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        productCategories: prev.productCategories.map((cat) => {
-          if (cat.id !== catId) return cat;
-          return {
-            ...cat,
-            products: cat.products.map((p) => {
-              if (p.id !== productId) return p;
-              const existing = p.transactions?.[month] || [];
-              return {
-                ...p,
-                transactions: {
-                  ...p.transactions,
-                  [month]: existing.map((tx) => (tx.id === txId ? { ...tx, amount, isCustom: true } : tx)),
-                },
-              };
             }),
           };
         }),
@@ -1428,13 +1395,6 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
   const getTotalExpenses = (month: string) => {
     return data?.expenseCategories.reduce((sum, cat) => sum + getExpenseCategoryTotal(cat, month), 0) || 0;
-  };
-
-  // Get auto cost for display (auto qty × unit price)
-  const getAutoCostForItem = (catId: string, itemId: string, month: string) => {
-    const item = getExpenseItem(catId, itemId);
-    const autoQty = getAutoQuantity(catId, itemId, month);
-    return autoQty * (item?.unitPrice || 0);
   };
 
   const getYTDRevenue = () => MONTH_KEYS.reduce((sum, m) => sum + getTotalRevenue(m), 0);
@@ -3730,7 +3690,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
                           // Create transaction for this client
                           const tx: Transaction = {
-                            id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${i}`,
+                            id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 11)}_${i}`,
                             amount: finalPrice,
                             isCustom: false,
                             discount: activeDiscount?.amount,
@@ -3848,7 +3808,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                       }
 
                       const newTxs: Transaction[] = Array.from({ length: txCounter }, () => ({
-                        id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                        id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
                         amount: finalPrice,
                         isCustom: false,
                         discount: activeDiscount?.amount,
