@@ -1,5 +1,33 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-14 - Session 20]
+SESSION: Correction des erreurs d'hydratation React SSR (Erreurs 418/423)
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/components/layout/Header.tsx [modifié]
+- /apps/web/components/animations/SophisticatedBackground.tsx [déjà corrigé]
+
+CHANGEMENTS:
+```
+1. HEADER.tsx
+   - Ajout du state isMounted pour détecter le côté client
+   - Création de safeScrollProgress (0 pendant SSR, valeur réelle après mount)
+   - Création de safeIsScrolled (false pendant SSR, valeur réelle après mount)
+   - Utilisation des valeurs safe dans le rendu pour éviter les mismatches
+
+2. SOPHISTICATEDBACKGROUND.tsx (déjà corrigé sur cette branche)
+   - Pattern isMounted avec return null pendant SSR
+   - Guard dans useEffect pour éviter l'accès à window/document pendant SSR
+```
+
+DÉTAILS:
+- Les erreurs React 418 et 423 étaient causées par des différences entre le rendu serveur et client
+- Les hooks useScrollProgress et useMousePosition accèdent à window, ce qui cause des valeurs différentes
+- Solution: utiliser des valeurs par défaut pendant SSR, puis les vraies valeurs après hydratation
+
+PROCHAINE ÉTAPE: Merge les corrections vers la branche de déploiement si nécessaire
+---
+
 [2025-12-14 - Session 19]
 SESSION: Amélioration responsive admin panel - Style app mobile
 STATUT: ✅ Réussi
