@@ -1,5 +1,40 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-14 - Session 20]
+SESSION: Refactoring P&L module - Extraction composants et hooks
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /apps/web/app/[locale]/admin/pnl/types/index.ts
+- /apps/web/app/[locale]/admin/pnl/hooks/usePnLData.ts
+- /apps/web/app/[locale]/admin/pnl/hooks/useClients.ts
+- /apps/web/app/[locale]/admin/pnl/hooks/index.ts
+- /apps/web/app/[locale]/admin/pnl/components/TransactionsModal.tsx
+- /apps/web/app/[locale]/admin/pnl/components/RulesModal.tsx
+- /apps/web/app/[locale]/admin/pnl/components/index.ts
+
+CHANGEMENTS:
+```
+1. TYPES EXTRAITS (types/index.ts)
+   - Transaction, Product, ProductCategory, ProductRule
+   - ExpenseItem, ExpenseCategory, ReductionData, TaxesData
+   - PnLData, ClientSelectionMode, CompanyId, CompanyConfig
+   - Constants: MONTHS, MONTH_KEYS, COMPANY_CONFIG
+   - Helper: formatCurrency()
+
+2. HOOKS CRÉÉS
+   - usePnLData: Chargement/sauvegarde données, cache localStorage, sync Firebase
+   - useClients: Gestion clients, création, mise à jour stats
+
+3. COMPOSANTS MODAUX EXTRAITS
+   - TransactionsModal (~550 lignes): Modal ventes complet
+   - RulesModal (~280 lignes): Modal règles produits
+```
+
+NOTE: Composants prêts mais PnLPageClient non modifié (migration progressive)
+
+PROCHAINE ÉTAPE: Intégrer progressivement les nouveaux composants
+---
+
 [2025-12-14 - Session 19]
 SESSION: Analyse et correction des modules admin (P&L, Catalogue, Clients)
 STATUT: ✅ Réussi
