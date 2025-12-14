@@ -1,5 +1,433 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-14 - Session 18]
+SESSION: Amélioration modal "Nouvelle vente" + Système de réductions COGS
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/lib/utils/clientGenerator.ts
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx
+
+CHANGEMENTS:
+```
+1. GÉNÉRATEUR DE NOMS MULTI-PROVIDERS (clientGenerator.ts)
+   - Réécriture complète avec 8 providers ethniques
+   - Distribution pondérée: FR 40%, EN 15%, ES 10%, DE 8%, IT 8%, PT 7%, AR 7%, Asian 5%
+   - Noms réalistes par région (prénoms, noms de famille)
+   - Domaines email adaptés par région
+
+2. MODAL PLEINE PAGE (100% viewport)
+   - w-full h-full au lieu de max-w-5xl
+   - Meilleure utilisation de l'espace
+
+3. VÉRIFICATION EMAIL À LA CRÉATION
+   - État emailError pour afficher les erreurs
+   - Vérification en temps réel si l'email existe déjà
+   - Blocage du bouton si email dupliqué
+
+4. SECTION RÉDUCTION LIÉE À COGS
+   - Remplacement de "Prix personnalisé" par "Appliquer une réduction"
+   - Champ réduction en € avec preview du prix final
+   - Note optionnelle pour la raison de la réduction
+   - Lié automatiquement à salesDiscounts (COGS)
+
+5. TRANSACTIONS AVEC RÉDUCTIONS
+   - Type Transaction étendu avec discount?: number
+   - addCustomTransaction() gère le discount et met à jour salesDiscounts
+   - Affichage dans l'historique avec badge orange %-discount
+   - Icône Receipt cliquable sur "Remises" pour voir la liste
+   - Remises non-éditables manuellement (calculées automatiquement)
+```
+
+PROCHAINE ÉTAPE: Tests utilisateur des nouvelles fonctionnalités
+---
+
+[2025-12-13 - Session 17]
+SESSION: Corrections catalogue + P&L
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx
+
+CHANGEMENTS:
+```
+1. CORRECTION CACHE CATALOGUE (saveAllChanges)
+   - Après sauvegarde, invalide le cache localStorage
+   - Recharge les données depuis Firebase
+   - Garantit que l'UI reflète exactement ce qui est en base
+
+2. CORRECTION CHARGEMENT P&L
+   - Restructuration de loadData() pour toujours faire le merge catalogue
+   - Même si données chargées depuis cache P&L, on merge avec catalogue
+   - Cache P&L ne stocke PAS les catégories catalogue (évite désync)
+   - dataToCache filtre les catégories isFromCatalogue
+
+3. LOGIQUE MERGE AMÉLIORÉE
+   - Catégories manuelles (jamais dans catalogue) → toujours gardées
+   - Catégories ex-catalogue supprimées → gardées avec "(archivé)" si ont transactions
+   - Distinction via isFromCatalogue pour savoir l'origine
+```
+
+PROCHAINE ÉTAPE: Tester que les catégories du catalogue apparaissent dans P&L VMCloud
+---
+
+[2025-12-13 - Session 16]
+SESSION: Intégration Catalogue ↔ P&L VMCloud
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx
+
+CHANGEMENTS:
+```
+1. IMPORT getPublicDb
+   - Ajout de getPublicDb depuis firebase.ts pour accéder au catalogue
+
+2. TYPE ProductCategory ÉTENDU
+   - Ajout de isFromCatalogue?: boolean pour identifier les catégories du catalogue
+
+3. FONCTION loadCatalogue()
+   - Charge les catégories depuis vmclpublic (collection 'catalogue')
+   - Utilise le cache localStorage (5min TTL, clé partagée avec admin catalogue)
+   - Convertit les produits catalogue en format P&L (Product type)
+
+4. MERGE CATALOGUE + P&L (dans loadData)
+   - Pour VMCloud uniquement (company === 'vmcloud')
+   - Fusionne les catégories du catalogue avec les données P&L existantes
+   - Préserve les transactions existantes
+   - Produits supprimés du catalogue mais avec transactions → gardés avec "(archivé)"
+   - Catégories supprimées du catalogue mais avec transactions → gardées avec "(archivé)"
+
+5. PROTECTION SUPPRESSION
+   - deleteProductCategory(): bloqué si isFromCatalogue
+   - deleteProduct(): bloqué si la catégorie est du catalogue
+   - UI: badge "catalogue" affiché, boutons edit/delete cachés pour catégories catalogue
+```
+
+ARCHITECTURE:
+```
+vmclpublic (catalogue) ──→ Lecture seule pour P&L
+       ↓
+vmcloud (P&L) ──→ Stocke les transactions, référence les produits
+```
+
+PROCHAINE ÉTAPE: Tester l'intégration, voir si les produits apparaissent dans la modale transaction
+---
+
+[2025-12-13 - Session 15]
+SESSION: Système de sauvegarde batch + ordre catégories catalogue
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+
+CHANGEMENTS:
+```
+1. ÉTATS PENDING CHANGES
+   - hasChanges: boolean
+   - pendingProducts: Map<key, {product, translations, isNew}>
+   - pendingDeletions: Set<key>
+
+2. FONCTION addToPendingChanges()
+   - Ajoute les modifications au pending au lieu de sauvegarder directement
+   - Met à jour l'état local immédiatement pour l'UI
+   - Marque hasChanges = true
+
+3. FONCTION saveAllChanges()
+   - Sauvegarde toutes les modifications en batch
+   - Groupe les changements par catégorie
+   - Applique additions, modifications et suppressions en une fois
+
+4. FONCTION discardChanges()
+   - Annule toutes les modifications
+   - Recharge depuis Firebase
+
+5. BANDEAU DE SAUVEGARDE (bottom fixed)
+   - Apparaît quand hasChanges = true
+   - Affiche le nombre de produits modifiés / suppressions
+   - Boutons: Annuler + Sauvegarder
+   - Animation d'apparition smooth
+
+6. ORDRE DES CATÉGORIES
+   - CATEGORY_ORDER = ['vps', 'gpu', 'webhosting', 'paas', 'loadbalancer', 'storage', 'cdn']
+   - Appliqué au chargement (cache et Firebase)
+```
+
+PROCHAINE ÉTAPE: Intégration catalogue ↔ P&L
+---
+
+[2025-12-13 - Session 14]
+SESSION: Bouton suppression produit dans colonne Détails
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+
+CHANGEMENTS:
+```
+1. REMPLACEMENT BOUTON X PAR BOUTON POUBELLE
+   - Icône X remplacée par icône Trash2
+   - Hover rouge pour indiquer action destructive
+
+2. CONFIRMATION INLINE
+   - Clic poubelle → affiche "Supprimer ?" + boutons
+   - Bouton confirmer (poubelle rouge)
+   - Bouton annuler (X)
+   - Reset automatique quand on change de produit
+
+3. FONCTION deleteProduct()
+   - Supprime le produit du tableau products
+   - Supprime les traductions FR et EN associées
+   - Met à jour Firebase
+   - Met à jour le state local
+   - Désélectionne le produit après suppression
+   - Loader pendant la suppression
+```
+
+PROCHAINE ÉTAPE: Paramètres avancés (historique prix, etc.)
+---
+
+[2025-12-13 - Session 13]
+SESSION: Sauvegarde Firebase pour création/modification produits
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+
+CHANGEMENTS:
+```
+1. NOUVEAUX ÉTATS
+   - isSaving: boolean pour le loader
+   - saveError: string pour les erreurs de sauvegarde
+
+2. FONCTION saveProduct()
+   - Récupère le document catégorie depuis Firebase
+   - Construit l'objet produit (sans traductions)
+   - Ajoute les specs personnalisées
+   - Ajoute les sections (technicalSections, benchmarks, etc.) si différentes du template
+   - Mode création: vérifie que l'ID n'existe pas déjà
+   - Mode édition: met à jour le produit existant
+   - Sauvegarde les traductions FR et EN (nettoyées des champs vides)
+   - Met à jour Firebase avec updateDoc
+   - Met à jour le state local après succès
+   - Sélectionne le produit créé/modifié
+   - Ferme la modale
+
+3. BOUTON SAUVEGARDE AMÉLIORÉ
+   - Loader spinner pendant l'enregistrement
+   - Texte "Enregistrement..." pendant la sauvegarde
+   - Affichage de l'erreur si échec
+   - Bouton Annuler désactivé pendant la sauvegarde
+```
+
+STRUCTURE FIREBASE:
+```
+catalogue/{categoryId}
+  ├── products: Product[]
+  ├── translations: { fr: {...}, en: {...} }
+  └── updatedAt: ISO string
+```
+
+PROCHAINE ÉTAPE: Paramètres avancés (historique prix, etc.)
+---
+
+[2025-12-13 - Session 12]
+SESSION: Validation formulaire création + filtrage produits par langue
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+- /apps/web/lib/catalogue/publicCatalogueLoader.ts
+
+CHANGEMENTS:
+```
+1. VALIDATION FORMULAIRE CRÉATION/ÉDITION
+   - ID obligatoire (format: minuscules, chiffres, tirets)
+   - Nom obligatoire
+   - Au moins un tarif requis (monthly/hourly/annual/price_per_gb_month)
+   - Au moins une traduction (FR ou EN) avec usage ou description
+
+2. AFFICHAGE ERREURS EN TEMPS RÉEL
+   - Badges rouges listant les erreurs manquantes
+   - Bouton Créer/Sauvegarder grisé si erreurs
+   - Bouton blanc actif quand formulaire valide
+   - Message "Prêt à créer" quand tout est OK
+
+3. FILTRAGE PRODUITS PAR LANGUE (PUBLIC)
+   - getEnrichedProductData() filtre maintenant par langue
+   - getEnrichedCategoryProducts() idem
+   - Logique: produit visible SI traduction dans la langue OU si aucune traduction du tout
+   - Exemple: produit FR only → invisible en /en/products
+```
+
+LOGIQUE VISIBILITÉ PRODUIT:
+```
+SI traduction[langue].usage OU traduction[langue].description
+  → Produit VISIBLE dans cette langue
+SINON SI aucune traduction dans AUCUNE langue
+  → Produit VISIBLE partout (legacy)
+SINON
+  → Produit INVISIBLE dans cette langue
+```
+
+PROCHAINE ÉTAPE: Implémenter la sauvegarde Firebase
+---
+
+[2025-12-13 - Session 11]
+SESSION: Bouton création de nouveau produit dans catalogue admin
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+
+CHANGEMENTS:
+```
+1. NOUVEL ÉTAT isCreateMode
+   - Distingue mode création vs mode édition
+
+2. BOUTON "NOUVEAU" DANS COLONNE PRODUITS
+   - Apparaît à côté du compteur de produits
+   - Ouvre la modale en mode création
+
+3. FONCTION openCreateModal()
+   - Crée un produit vide avec la catégorie sélectionnée
+   - Pré-remplit les sections depuis le template de la catégorie
+   - Initialise le tier à "starter"
+
+4. MODALE ADAPTÉE POUR CRÉATION
+   - Titre: "Nouveau produit" au lieu de "Modifier le produit"
+   - Sous-titre: affiche la catégorie
+   - Champ ID modifiable (minuscules, chiffres, tirets)
+   - Bouton "Créer" au lieu de "Sauvegarder"
+   - Message d'aide pour le format de l'ID
+```
+
+PROCHAINE ÉTAPE: Implémenter la sauvegarde Firebase (création + modification)
+---
+
+[2025-12-13 - Session 10]
+SESSION: Affichage Benchmarks/Sécurité/Features dans colonne Détails admin
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+
+CHANGEMENTS:
+```
+1. NOUVELLE SECTION BENCHMARKS DANS DÉTAILS
+   - Affiche les 4 premières métriques en grille 2x2
+   - Badge "catégorie" si données viennent du fallback
+   - Indicateur "+X autres métriques" si plus de 4
+
+2. NOUVELLE SECTION SÉCURITÉ & CONFORMITÉ
+   - Liste avec puces vertes (emerald)
+   - Affiche les 6 premiers items
+   - Badge "catégorie" si fallback
+
+3. NOUVELLE SECTION FONCTIONNALITÉS
+   - Liste avec puces bleues
+   - Affiche les 6 premiers items
+   - Badge "catégorie" si fallback
+
+4. LOGIQUE DE FALLBACK
+   - Cherche d'abord product.benchmarks/security/features
+   - Si null → utilise displayConfig[category].X
+   - Badge indique si données sont personnalisées ou héritées
+```
+
+PROCHAINE ÉTAPE: Implémenter la sauvegarde Firebase
+---
+
+[2025-12-13 - Session 9]
+SESSION: Sections page produit éditables par produit (pas par catégorie)
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+- /apps/web/app/[locale]/products/_components/UniversalProductPage.tsx
+
+CHANGEMENTS:
+```
+1. NOUVEAU SYSTÈME DE DONNÉES PAR PRODUIT
+   - Avant: technicalSections, benchmarks, security, features définis par catégorie (display-config.json)
+   - Après: Ces données peuvent être définies par produit avec fallback vers la catégorie
+
+2. NOUVEAUX TYPES AJOUTÉS
+   - TechnicalSpec, TechnicalSection
+   - BenchmarkMetric, BenchmarksData
+   - SecurityData, FeaturesData
+   - Product étendu avec ces nouveaux champs optionnels
+
+3. NOUVEL ONGLET "SECTIONS PAGE" DANS LA MODALE
+   - 4 sous-onglets: Specs techniques, Benchmarks, Sécurité, Features
+   - Éditeur complet pour chaque section
+   - Support bilingue EN/FR pour tous les champs
+
+4. ÉDITEUR SPECS TECHNIQUES
+   - Ajout/suppression de sections (Calcul, Mémoire, etc.)
+   - Ajout/suppression de specs par section
+   - 4 champs par spec: nom EN, nom FR, valeur EN, valeur FR
+
+5. ÉDITEUR BENCHMARKS
+   - Titres et sous-titres EN/FR
+   - Métriques: nom, valeur, unité, comparaison
+
+6. ÉDITEUR SÉCURITÉ & FEATURES
+   - Titres EN/FR
+   - Liste d'items bilingue EN/FR
+
+7. UNIVERSALPRODUCTPAGE MODIFIÉ
+   - Lit d'abord product.X, puis fallback vers config.X
+```
+
+LOGIQUE FALLBACK:
+```
+product.technicalSections  →  si null  →  config.technicalSections
+product.benchmarks         →  si null  →  config.benchmarks
+product.security           →  si null  →  config.security
+product.features           →  si null  →  config.features
+```
+
+PROCHAINE ÉTAPE: Implémenter la sauvegarde Firebase des modifications
+---
+
+[2025-12-13 - Session 8]
+SESSION: Modale d'édition produit pour le Catalogue Admin
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx
+
+CHANGEMENTS:
+```
+1. BOUTON ÉDITION
+   - Icône crayon ajoutée dans le header "Détails"
+   - À côté du bouton fermeture (X)
+   - Ouvre la modale d'édition au clic
+
+2. MODALE D'ÉDITION COMPLÈTE
+   - Grande modale (90vw, max 5xl) avec 3 onglets
+   - Style cohérent avec le reste de l'interface
+   - Animation d'apparition smooth (scale + translate)
+   - Scrollbar custom (fine, zinc)
+
+3. ONGLET "GÉNÉRAL"
+   - Nom du produit (modifiable)
+   - ID et Catégorie (lecture seule)
+   - Tier (sélecteur custom sans style navigateur)
+   - 4 cartes prix colorées (mensuel/horaire/annuel/GB)
+   - Inputs sans spinners navigateur
+
+4. ONGLET "SPÉCIFICATIONS"
+   - Liste key:value éditable
+   - Ajout/suppression de specs
+   - Renommage des clés possible
+   - Conversion automatique types (bool, number, string)
+
+5. ONGLET "TRADUCTIONS"
+   - Switch FR/EN
+   - Champs: usage, description, public cible, highlight
+   - Listes éditables: features, cas d'usage
+   - Ajout/suppression d'items
+
+6. NOTE IMPORTANTE
+   - Bouton "Sauvegarder" désactivé (logique à implémenter)
+   - Modifications locales uniquement pour l'instant
+```
+
+PROCHAINE ÉTAPE: Implémenter la logique de sauvegarde avec gestion prix historiques
+---
+
 [2025-12-13 - Session 7]
 SESSION: Amélioration des animations page Catalogue Admin
 STATUT: ✅ Réussi

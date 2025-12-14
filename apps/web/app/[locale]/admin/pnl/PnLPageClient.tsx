@@ -43,7 +43,7 @@ import {
   UserPlus,
   Shuffle,
 } from 'lucide-react';
-import { getCompanyDb } from '../../../../lib/firebase';
+import { getCompanyDb, getPublicDb } from '../../../../lib/firebase';
 import { doc, setDoc, getDoc, collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { generateRandomClient, type GeneratedClient } from '../../../../lib/utils/clientGenerator';
 import type { Client } from '../../../../lib/types/database';
@@ -64,6 +64,7 @@ type Transaction = {
   amount: number; // Montant réel de cette transaction
   isCustom: boolean; // false = prix standard, true = prix spécial
   note?: string; // Note optionnelle (ex: "Réduction fidélité")
+  discount?: number; // Montant de la réduction appliquée (si > 0, lié à COGS salesDiscounts)
   // Client info (required)
   clientId: string; // Reference to client document
   clientName: string; // Snapshot for quick display
@@ -85,6 +86,7 @@ type ProductCategory = {
   id: string;
   label: string;
   products: Product[];
+  isFromCatalogue?: boolean; // true = from catalogue, cannot be deleted
 };
 
 type ExpenseItem = {
@@ -310,6 +312,15 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   // Manual client creation
   const [newClientName, setNewClientName] = useState('');
   const [newClientEmail, setNewClientEmail] = useState('');
+  const [newClientPhone, setNewClientPhone] = useState('');
+  const [newClientCountry, setNewClientCountry] = useState('FR');
+  const [newClientType, setNewClientType] = useState<'individual' | 'company'>('individual');
+  const [emailError, setEmailError] = useState<string | null>(null);
+  // Discount for transaction (active discount applies to next sales)
+  const [discountAmount, setDiscountAmount] = useState('');
+  const [discountNote, setDiscountNote] = useState('');
+  const [activeDiscount, setActiveDiscount] = useState<{ amount: number; note: string } | null>(null);
+  const [showDiscountTransactions, setShowDiscountTransactions] = useState(false);
 
   const currentMonthKey = MONTH_KEYS[selectedMonth];
 
@@ -319,6 +330,66 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
       prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
     );
   };
+
+  // Catalogue cache (shared across P&L)
+  const catalogueCacheKey = 'catalogue_cache';
+  const CATALOGUE_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+  // Load catalogue from vmclpublic
+  const loadCatalogue = useCallback(async (): Promise<ProductCategory[]> => {
+    // Check cache first
+    const cached = localStorage.getItem(catalogueCacheKey);
+    if (cached) {
+      try {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - new Date(timestamp).getTime() < CATALOGUE_CACHE_TTL) {
+          // Convert catalogue categories to ProductCategory format
+          return data.map((cat: { id: string; name: string; products: Array<{ id: string; name: string; monthly?: number; hourly?: number; annual?: number; price_per_gb_month?: number }> }) => ({
+            id: cat.id,
+            label: cat.name || cat.id,
+            isFromCatalogue: true,
+            products: (cat.products || []).map((p: { id: string; name: string; monthly?: number; hourly?: number; annual?: number; price_per_gb_month?: number }) => ({
+              id: p.id,
+              label: p.name || p.id,
+              price: p.monthly || p.hourly || p.annual || p.price_per_gb_month || 0,
+              transactions: {},
+            })),
+          }));
+        }
+      } catch { /* Invalid cache */ }
+    }
+
+    // Load from Firebase
+    const publicDb = getPublicDb();
+    if (!publicDb) return [];
+
+    try {
+      const snapshot = await getDocs(collection(publicDb, 'catalogue'));
+      const categories: ProductCategory[] = [];
+
+      snapshot.forEach((docSnap) => {
+        if (docSnap.id !== '_manifest') {
+          const catData = docSnap.data();
+          categories.push({
+            id: catData.id || docSnap.id,
+            label: catData.name || catData.displayName || docSnap.id,
+            isFromCatalogue: true,
+            products: (catData.products || []).map((p: { id: string; name: string; monthly?: number; hourly?: number; annual?: number; price_per_gb_month?: number }) => ({
+              id: p.id,
+              label: p.name || p.id,
+              price: p.monthly || p.hourly || p.annual || p.price_per_gb_month || 0,
+              transactions: {},
+            })),
+          });
+        }
+      });
+
+      return categories;
+    } catch (err) {
+      console.error('Error loading catalogue:', err);
+      return [];
+    }
+  }, []);
 
   // Cache key for localStorage (per company)
   const cacheKey = `pnl_cache_${company}_${selectedYear}`;
@@ -331,37 +402,54 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     }
 
     // Try cache first (unless forcing sync)
+    let pnlData: PnLData | null = null;
+    let fromCache = false;
+
     if (!forceSync) {
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
         try {
           const { data: cachedData, timestamp } = JSON.parse(cached);
-          setData(cachedData);
+          pnlData = cachedData;
+          fromCache = true;
           setLastSynced(new Date(timestamp));
-          setLoading(false);
-          setHasChanges(false);
-          return;
         } catch {
           // Invalid cache, continue to Firebase
         }
       }
     }
 
-    if (!db) {
-      setError('Firebase not configured');
-      setLoading(false);
-      return;
+    // If not from cache, load from Firebase
+    if (!pnlData) {
+      if (!db) {
+        setError('Firebase not configured');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        if (forceSync) setSyncing(true);
+        const docRef = doc(db, config.collection, `year_${selectedYear}`);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          pnlData = docSnap.data() as PnLData;
+        }
+      } catch (err) {
+        console.error('Error loading:', err);
+        setError('Erreur de chargement');
+        setData(getDefaultData(selectedYear));
+        setLoading(false);
+        setSyncing(false);
+        return;
+      }
     }
 
     try {
-      setLoading(true);
-      if (forceSync) setSyncing(true);
-      const docRef = doc(db, config.collection, `year_${selectedYear}`);
-      const docSnap = await getDoc(docRef);
-
       let newData: PnLData;
-      if (docSnap.exists()) {
-        newData = docSnap.data() as PnLData;
+      if (pnlData) {
+        newData = pnlData;
       } else {
         // DB is empty - use default data only for Hackboot, empty structure for others
         if (company === 'hackboot') {
@@ -379,14 +467,104 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
         }
       }
 
+      // For VMCloud, merge with catalogue categories
+      if (company === 'vmcloud') {
+        const catalogueCategories = await loadCatalogue();
+
+        // Merge catalogue categories with existing P&L categories
+        const mergedCategories: ProductCategory[] = [];
+        const existingCatIds = new Set(newData.productCategories.map(c => c.id));
+
+        // First, add catalogue categories (with existing transactions if any)
+        for (const catCat of catalogueCategories) {
+          const existingCat = newData.productCategories.find(c => c.id === catCat.id);
+
+          if (existingCat) {
+            // Category exists in P&L - merge products keeping transactions
+            const mergedProducts: Product[] = [];
+            const existingProductIds = new Set(existingCat.products.map(p => p.id));
+
+            // Add catalogue products with existing transactions
+            for (const catProd of catCat.products) {
+              const existingProd = existingCat.products.find(p => p.id === catProd.id);
+              if (existingProd) {
+                // Keep existing product with its transactions, update price from catalogue
+                mergedProducts.push({
+                  ...existingProd,
+                  label: catProd.label, // Update label from catalogue
+                  price: catProd.price, // Update price from catalogue
+                });
+              } else {
+                // New product from catalogue
+                mergedProducts.push(catProd);
+              }
+            }
+
+            // Keep products that have transactions but are no longer in catalogue
+            for (const existingProd of existingCat.products) {
+              if (!catCat.products.find(p => p.id === existingProd.id)) {
+                // Product removed from catalogue but has transactions - keep it
+                const hasTransactions = Object.values(existingProd.transactions).some(t => t.length > 0);
+                if (hasTransactions) {
+                  mergedProducts.push({
+                    ...existingProd,
+                    label: `${existingProd.label} (archivé)`,
+                  });
+                }
+              }
+            }
+
+            mergedCategories.push({
+              ...catCat,
+              products: mergedProducts,
+            });
+          } else {
+            // New category from catalogue
+            mergedCategories.push(catCat);
+          }
+        }
+
+        // Keep categories that are not in catalogue
+        for (const existingCat of newData.productCategories) {
+          if (!catalogueCategories.find(c => c.id === existingCat.id)) {
+            // Check if this was previously a catalogue category (now removed)
+            if (existingCat.isFromCatalogue) {
+              // Was from catalogue but removed - only keep if has transactions
+              const hasTransactions = existingCat.products.some(p =>
+                Object.values(p.transactions).some(t => t.length > 0)
+              );
+              if (hasTransactions) {
+                mergedCategories.push({
+                  ...existingCat,
+                  label: existingCat.label.includes('(archivé)') ? existingCat.label : `${existingCat.label} (archivé)`,
+                  isFromCatalogue: false, // No longer protected
+                });
+              }
+            } else {
+              // Manual category - always keep it
+              mergedCategories.push(existingCat);
+            }
+          }
+        }
+
+        newData.productCategories = mergedCategories;
+      }
+
       setData(newData);
       setError(null);
       setHasChanges(false);
 
-      // Update cache
-      const now = new Date();
-      localStorage.setItem(cacheKey, JSON.stringify({ data: newData, timestamp: now.toISOString() }));
-      setLastSynced(now);
+      // Update cache - but don't cache catalogue categories (they're loaded fresh each time)
+      // Only cache if we loaded from Firebase (not from cache)
+      if (!fromCache) {
+        const now = new Date();
+        // For VMCloud, save without catalogue categories (they're merged on load)
+        const dataToCache = company === 'vmcloud'
+          ? { ...newData, productCategories: newData.productCategories.filter(c => !c.isFromCatalogue) }
+          : newData;
+        localStorage.setItem(cacheKey, JSON.stringify({ data: dataToCache, timestamp: now.toISOString() }));
+        setLastSynced(now);
+      }
     } catch (err) {
       console.error('Error loading:', err);
       setError('Erreur de chargement');
@@ -395,7 +573,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
       setLoading(false);
       setSyncing(false);
     }
-  }, [selectedYear, cacheKey, db, config, company]);
+  }, [selectedYear, cacheKey, db, config, company, loadCatalogue]);
 
   useEffect(() => {
     loadData();
@@ -527,18 +705,21 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
       companyId: company,
       name: clientData.name,
       email: clientData.email,
-      phone: clientData.phone,
-      company: clientData.company,
+      phone: clientData.phone || '',
       type: clientData.type,
       status: 'active',
       currency: 'EUR',
-      isGenerated: true,
+      isGenerated: clientData.isGenerated ?? true,
       generatedAt: clientData.generatedAt,
       createdAt: now,
       updatedAt: now,
       totalRevenue: 0,
       totalTransactions: 0,
     };
+
+    // Add optional fields only if defined (Firestore rejects undefined)
+    if (clientData.company) client.company = clientData.company;
+    if (clientData.country) client.country = clientData.country;
 
     await setDoc(doc(db, 'clients', client.id), client);
     setClients((prev) => [client, ...prev]);
@@ -583,6 +764,36 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   // Get transactions count for a product/month
   const getTransactionsCount = (product: Product, month: string) => {
     return product.transactions?.[month]?.length || 0;
+  };
+
+  // Get all transactions with discounts for a month (across all products)
+  const getDiscountedTransactions = (month: string) => {
+    if (!data?.productCategories) return [];
+    const result: Array<{
+      catId: string;
+      catName: string;
+      productId: string;
+      productName: string;
+      transaction: Transaction;
+    }> = [];
+
+    data.productCategories.forEach((cat) => {
+      cat.products.forEach((product) => {
+        const txs = product.transactions?.[month] || [];
+        txs.forEach((tx) => {
+          if (tx.discount && tx.discount > 0) {
+            result.push({
+              catId: cat.id,
+              catName: cat.name,
+              productId: product.id,
+              productName: product.name,
+              transaction: tx,
+            });
+          }
+        });
+      });
+    });
+    return result;
   };
 
   // Get transactions revenue for a product/month
@@ -636,22 +847,24 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     await updateClientStats(clientInfo.id, totalAmount);
   };
 
-  // Add custom transaction with client info
+  // Add custom transaction with client info (and optional discount linked to COGS)
   const addCustomTransaction = async (
     catId: string,
     productId: string,
     month: string,
     amount: number,
     clientInfo: { id: string; name: string; email?: string },
-    note?: string
+    note?: string,
+    discount?: number
   ) => {
     if (!data) return;
 
     const newTransaction: Transaction = {
       id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       amount,
-      isCustom: true,
+      isCustom: discount ? false : true, // If discount applied, it's based on product price
       note,
+      discount: discount || undefined,
       clientId: clientInfo.id,
       clientName: clientInfo.name,
       clientEmail: clientInfo.email,
@@ -659,8 +872,20 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
     setData((prev) => {
       if (!prev) return prev;
+      // Update salesDiscounts in reductions if discount is applied
+      const updatedReductions = discount && discount > 0
+        ? {
+            ...prev.reductions,
+            salesDiscounts: {
+              ...prev.reductions.salesDiscounts,
+              [month]: (prev.reductions.salesDiscounts[month] || 0) + discount,
+            },
+          }
+        : prev.reductions;
+
       return {
         ...prev,
+        reductions: updatedReductions,
         productCategories: prev.productCategories.map((cat) => {
           if (cat.id !== catId) return cat;
           return {
@@ -823,7 +1048,16 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
   // Delete product
   const deleteProduct = (catId: string, productId: string) => {
-    if (!confirm('Supprimer ce produit ?') || !data) return;
+    if (!data) return;
+
+    // Check if category is from catalogue
+    const category = data.productCategories.find(c => c.id === catId);
+    if (category?.isFromCatalogue) {
+      alert('Ce produit provient du catalogue et ne peut pas être supprimé.\nModifiez le catalogue pour supprimer ce produit.');
+      return;
+    }
+
+    if (!confirm('Supprimer ce produit ?')) return;
     setData((prev) => {
       if (!prev) return prev;
       return {
@@ -984,7 +1218,16 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
   // Delete product category
   const deleteProductCategory = (catId: string) => {
-    if (!confirm('Supprimer cette catégorie et tous ses produits ?') || !data) return;
+    if (!data) return;
+
+    // Check if category is from catalogue
+    const category = data.productCategories.find(c => c.id === catId);
+    if (category?.isFromCatalogue) {
+      alert('Cette catégorie provient du catalogue et ne peut pas être supprimée.\nModifiez le catalogue pour supprimer cette catégorie.');
+      return;
+    }
+
+    if (!confirm('Supprimer cette catégorie et tous ses produits ?')) return;
     setData((prev) => {
       if (!prev) return prev;
       return {
@@ -1753,37 +1996,21 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                     </button>
                   )}
                 </div>
-                {/* Sales Discounts */}
+                {/* Sales Discounts - Auto-calculated from transactions */}
                 <div className="px-5 py-3 flex justify-between items-center group">
                   <span className="text-zinc-400">Remises</span>
-                  {editingCell === 'red_discounts' ? (
-                    <div className="flex items-center gap-1">
-                      <input
-                        type="number"
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        autoFocus
-                        className="w-24 bg-zinc-800 border border-orange-500 rounded px-2 py-1 text-right text-white text-sm"
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            updateReduction('salesDiscounts', currentMonthKey, Number(editValue) || 0);
-                            cancelEdit();
-                          }
-                          if (e.key === 'Escape') cancelEdit();
-                        }}
-                      />
-                      <button onClick={() => { updateReduction('salesDiscounts', currentMonthKey, Number(editValue) || 0); cancelEdit(); }} className="text-emerald-400"><Check className="h-4 w-4" /></button>
-                      <button onClick={cancelEdit} className="text-zinc-400"><X className="h-4 w-4" /></button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => startEdit('red_discounts', data?.reductions?.salesDiscounts[currentMonthKey] || 0)}
-                      className="text-orange-400 hover:text-orange-300 flex items-center gap-1"
-                    >
-                      {formatCurrency(data?.reductions?.salesDiscounts[currentMonthKey] || 0)}
-                      <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-100" />
-                    </button>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {getDiscountedTransactions(currentMonthKey).length > 0 && (
+                      <button
+                        onClick={() => setShowDiscountTransactions(true)}
+                        className="p-1 rounded transition-colors text-zinc-600 hover:text-zinc-300 hover:bg-zinc-800"
+                        title="Voir les transactions"
+                      >
+                        <Receipt className="h-4 w-4" />
+                      </button>
+                    )}
+                    <span className="text-orange-400">{formatCurrency(data?.reductions?.salesDiscounts[currentMonthKey] || 0)}</span>
+                  </div>
                 </div>
                 {/* COGS */}
                 <div className="px-5 py-3 flex justify-between items-center group">
@@ -2012,18 +2239,27 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                 ) : (
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-white">{cat.label}</h3>
-                    <button
-                      onClick={() => startEdit(catNameKey, cat.label)}
-                      className="opacity-0 group-hover/header:opacity-100 p-1 text-zinc-500 hover:text-violet-400"
-                    >
-                      <Pencil className="h-3 w-3" />
-                    </button>
-                    <button
-                      onClick={() => deleteProductCategory(cat.id)}
-                      className="opacity-0 group-hover/header:opacity-100 p-1 text-zinc-500 hover:text-red-400"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </button>
+                    {cat.isFromCatalogue && (
+                      <span className="text-[10px] text-violet-400 bg-violet-400/10 px-1.5 py-0.5 rounded">
+                        catalogue
+                      </span>
+                    )}
+                    {!cat.isFromCatalogue && (
+                      <button
+                        onClick={() => startEdit(catNameKey, cat.label)}
+                        className="opacity-0 group-hover/header:opacity-100 p-1 text-zinc-500 hover:text-violet-400"
+                      >
+                        <Pencil className="h-3 w-3" />
+                      </button>
+                    )}
+                    {!cat.isFromCatalogue && (
+                      <button
+                        onClick={() => deleteProductCategory(cat.id)}
+                        className="opacity-0 group-hover/header:opacity-100 p-1 text-zinc-500 hover:text-red-400"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </button>
+                    )}
                   </div>
                 )}
                 <div className="flex items-center gap-4">
@@ -2052,7 +2288,10 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                     <div key={product.id} className="grid grid-cols-12 gap-2 px-4 py-3 items-center group">
                       {/* Product name - editable */}
                       <div className="col-span-4">
-                        {editingCell === nameKey ? (
+                        {cat.isFromCatalogue ? (
+                          // Catalogue products: name is read-only
+                          <span className="text-zinc-300">{product.label}</span>
+                        ) : editingCell === nameKey ? (
                           <div className="flex items-center gap-1">
                             <input
                               type="text"
@@ -2084,7 +2323,10 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
                       {/* Price */}
                       <div className="col-span-2 text-right">
-                        {editingCell === priceKey ? (
+                        {cat.isFromCatalogue ? (
+                          // Catalogue products: price is read-only
+                          <span className="text-zinc-400">{formatCurrency(product.price)}</span>
+                        ) : editingCell === priceKey ? (
                           <div className="flex items-center justify-end gap-1">
                             <input
                               type="number"
@@ -2144,27 +2386,31 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                             </span>
                           )}
                         </button>
-                        <button
-                          onClick={() => deleteProduct(cat.id, product.id)}
-                          className="opacity-0 group-hover:opacity-100 p-1 text-zinc-500 hover:text-red-400"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
+                        {!cat.isFromCatalogue && (
+                          <button
+                            onClick={() => deleteProduct(cat.id, product.id)}
+                            className="opacity-0 group-hover:opacity-100 p-1 text-zinc-500 hover:text-red-400"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        )}
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              {/* Add product */}
-              <div className="px-4 py-2 border-t border-zinc-800">
-                <button
-                  onClick={() => addProduct(cat.id)}
-                  className="flex items-center gap-1 text-xs text-zinc-500 hover:text-violet-400"
-                >
-                  <Plus className="h-3 w-3" /> Ajouter un produit
-                </button>
-              </div>
+              {/* Add product - hidden for catalogue categories */}
+              {!cat.isFromCatalogue && (
+                <div className="px-4 py-2 border-t border-zinc-800">
+                  <button
+                    onClick={() => addProduct(cat.id)}
+                    className="flex items-center gap-1 text-xs text-zinc-500 hover:text-violet-400"
+                  >
+                    <Plus className="h-3 w-3" /> Ajouter un produit
+                  </button>
+                </div>
+              )}
             </div>
           );
           })}
@@ -2890,15 +3136,22 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
             setClientSearchQuery('');
             setNewClientName('');
             setNewClientEmail('');
+            setNewClientPhone('');
+            setNewClientCountry('FR');
+            setNewClientType('individual');
+            setEmailError(null);
+            setDiscountAmount('');
+            setDiscountNote('');
+            setActiveDiscount(null);
           }}
         >
-          <div className="h-full w-full flex items-center justify-center p-6">
+          <div className="h-full w-full flex items-stretch">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-5xl bg-zinc-950 border border-zinc-800 flex flex-col max-h-[90vh]"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full h-full bg-zinc-950 flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header compact */}
@@ -2931,6 +3184,13 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                     setClientSearchQuery('');
                     setNewClientName('');
                     setNewClientEmail('');
+                    setNewClientPhone('');
+                    setNewClientCountry('FR');
+                    setNewClientType('individual');
+                    setEmailError(null);
+                    setDiscountAmount('');
+                    setDiscountNote('');
+                    setActiveDiscount(null);
                   }}
                   className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors"
                 >
@@ -3045,25 +3305,100 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
 
                       {clientSelectionMode === 'create' && (
                         <div className="space-y-3">
+                          {/* Type selection */}
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setNewClientType('individual')}
+                              className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
+                                newClientType === 'individual'
+                                  ? 'bg-zinc-900 border-zinc-600 text-white'
+                                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
+                              }`}
+                            >
+                              <Users className="h-3.5 w-3.5" />
+                              Particulier
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setNewClientType('company')}
+                              className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
+                                newClientType === 'company'
+                                  ? 'bg-zinc-900 border-zinc-600 text-white'
+                                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
+                              }`}
+                            >
+                              <Package className="h-3.5 w-3.5" />
+                              Entreprise
+                            </button>
+                          </div>
                           <input
                             type="text"
                             value={newClientName}
                             onChange={(e) => setNewClientName(e.target.value)}
-                            placeholder="Nom complet"
+                            placeholder={newClientType === 'company' ? "Nom de l'entreprise" : "Nom complet"}
                             className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
                           />
-                          <input
-                            type="email"
-                            value={newClientEmail}
-                            onChange={(e) => setNewClientEmail(e.target.value)}
-                            placeholder="Email"
-                            className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
-                          />
+                          <div>
+                            <input
+                              type="email"
+                              value={newClientEmail}
+                              onChange={(e) => {
+                                const email = e.target.value.toLowerCase();
+                                setNewClientEmail(email);
+                                // Check if email exists
+                                if (email && clients.some(c => c.email?.toLowerCase() === email)) {
+                                  setEmailError('Cet email existe déjà');
+                                } else {
+                                  setEmailError(null);
+                                }
+                              }}
+                              placeholder="Email"
+                              className={`w-full px-3 py-2 bg-zinc-900 border text-white text-[16px] placeholder-zinc-600 focus:outline-none ${
+                                emailError ? 'border-red-500 focus:border-red-500' : 'border-zinc-800 focus:border-zinc-600'
+                              }`}
+                            />
+                            {emailError && (
+                              <p className="text-red-400 text-xs mt-1">{emailError}</p>
+                            )}
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <input
+                              type="tel"
+                              value={newClientPhone || ''}
+                              onChange={(e) => setNewClientPhone(e.target.value)}
+                              placeholder="Téléphone"
+                              className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
+                            />
+                            <select
+                              value={newClientCountry}
+                              onChange={(e) => setNewClientCountry(e.target.value)}
+                              className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] focus:border-zinc-600 focus:outline-none"
+                            >
+                              <option value="FR">France</option>
+                              <option value="BE">Belgique</option>
+                              <option value="CH">Suisse</option>
+                              <option value="CA">Canada</option>
+                              <option value="LU">Luxembourg</option>
+                              <option value="DE">Allemagne</option>
+                              <option value="ES">Espagne</option>
+                              <option value="IT">Italie</option>
+                              <option value="UK">Royaume-Uni</option>
+                              <option value="US">États-Unis</option>
+                              <option value="MA">Maroc</option>
+                              <option value="TN">Tunisie</option>
+                              <option value="DZ">Algérie</option>
+                              <option value="SN">Sénégal</option>
+                              <option value="CI">Côte d'Ivoire</option>
+                              <option value="OTHER">Autre</option>
+                            </select>
+                          </div>
                         </div>
                       )}
 
                       {clientSelectionMode === 'generate' && (
                         <div className="space-y-3">
+                          {/* Type selection */}
                           <div className="grid grid-cols-2 gap-2">
                             <button
                               onClick={() => setGeneratedClientPreview(generateRandomClient('individual'))}
@@ -3088,18 +3423,51 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                               Entreprise
                             </button>
                           </div>
+                          {/* Generated client preview */}
                           {generatedClientPreview && (
-                            <div className="bg-zinc-900 border border-zinc-800 p-3 flex items-center justify-between">
-                              <div className="min-w-0">
-                                <p className="text-white text-sm truncate">{generatedClientPreview.name}</p>
-                                <p className="text-zinc-500 text-xs truncate">{generatedClientPreview.email}</p>
+                            <div className="bg-zinc-900 border border-zinc-800 p-4">
+                              <div className="flex items-start justify-between mb-3">
+                                <div className="flex items-center gap-2">
+                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                    generatedClientPreview.type === 'business' ? 'bg-violet-500/20 text-violet-400' : 'bg-emerald-500/20 text-emerald-400'
+                                  }`}>
+                                    {generatedClientPreview.type === 'business' ? (
+                                      <Package className="h-4 w-4" />
+                                    ) : (
+                                      <Users className="h-4 w-4" />
+                                    )}
+                                  </div>
+                                  <div>
+                                    <p className="text-white text-sm font-medium">{generatedClientPreview.name}</p>
+                                    {generatedClientPreview.company && (
+                                      <p className="text-zinc-500 text-xs">{generatedClientPreview.company}</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => setGeneratedClientPreview(generateRandomClient(generatedClientPreview.type))}
+                                  className="p-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors"
+                                  title="Régénérer"
+                                >
+                                  <Shuffle className="h-4 w-4" />
+                                </button>
                               </div>
-                              <button
-                                onClick={() => setGeneratedClientPreview(generateRandomClient(generatedClientPreview.type))}
-                                className="p-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-colors flex-shrink-0 ml-2"
-                              >
-                                <RefreshCw className="h-4 w-4" />
-                              </button>
+                              <div className="space-y-1.5 text-xs">
+                                <div className="flex items-center gap-2 text-zinc-400">
+                                  <span className="text-zinc-600 w-14">Email</span>
+                                  <span className="truncate">{generatedClientPreview.email}</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-zinc-400">
+                                  <span className="text-zinc-600 w-14">Tél</span>
+                                  <span>{generatedClientPreview.phone}</span>
+                                </div>
+                                {generatedClientPreview.origin && (
+                                  <div className="flex items-center gap-2 text-zinc-500">
+                                    <span className="text-zinc-600 w-14">Origine</span>
+                                    <span className="capitalize">{generatedClientPreview.origin}</span>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           )}
                         </div>
@@ -3149,110 +3517,97 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                     </div>
                   </div>
 
-                  {/* Custom Price */}
+                  {/* Discount Section - Linked to COGS */}
                   <div className="pt-6">
                     <button
-                      onClick={() => setOpenAccordions(prev => prev.includes('custom_price') ? prev.filter(a => a !== 'custom_price') : [...prev, 'custom_price'])}
-                      className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
+                      onClick={() => setOpenAccordions(prev => prev.includes('discount') ? prev.filter(a => a !== 'discount') : [...prev, 'discount'])}
+                      className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
                     >
-                      <ChevronDown className={`h-4 w-4 transition-transform ${openAccordions.includes('custom_price') ? 'rotate-180' : ''}`} />
-                      Prix personnalisé
+                      <ChevronDown className={`h-4 w-4 transition-transform ${openAccordions.includes('discount') ? 'rotate-180' : ''}`} />
+                      <Percent className="h-4 w-4" />
+                      Appliquer une réduction
                     </button>
-                    {openAccordions.includes('custom_price') && (
-                      <div className="flex gap-2 mt-3">
+                    {openAccordions.includes('discount') && (
+                      <div className="mt-3 space-y-3">
+                        <div className="flex items-center gap-3">
+                          <div className="relative">
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              value={discountAmount}
+                              onChange={(e) => setDiscountAmount(e.target.value.replace(/[^0-9.,]/g, ''))}
+                              placeholder="0"
+                              className="w-24 px-3 py-2 bg-zinc-900 border border-zinc-700 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-500 focus:outline-none"
+                            />
+                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">€</span>
+                          </div>
+                          <div className="flex-1 text-sm">
+                            {Number(discountAmount) > 0 && (
+                              <div className="flex items-center gap-2">
+                                <span className="text-zinc-500">Prix final:</span>
+                                <span className="text-emerald-400 font-medium">
+                                  {formatCurrency(Math.max(0, transactionsModal.product.price - Number(discountAmount)))}
+                                </span>
+                                <span className="text-zinc-600 line-through text-xs">
+                                  {formatCurrency(transactionsModal.product.price)}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                         <input
                           type="text"
-                          inputMode="decimal"
-                          value={customTxAmount}
-                          onChange={(e) => setCustomTxAmount(e.target.value.replace(/[^0-9.,]/g, ''))}
-                          placeholder="€"
-                          className="w-24 px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
+                          value={discountNote}
+                          onChange={(e) => setDiscountNote(e.target.value)}
+                          placeholder="Raison (ex: Fidélité, Promo...)"
+                          className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
                         />
-                        <input
-                          type="text"
-                          value={customTxNote}
-                          onChange={(e) => setCustomTxNote(e.target.value)}
-                          placeholder="Note"
-                          className="flex-1 px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
-                        />
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs text-zinc-600 flex items-center gap-1">
+                            <Minus className="h-3 w-3 text-zinc-500" />
+                            S'applique aux prochaines ventes
+                          </div>
+                          <button
+                            onClick={() => {
+                              const discount = Number(discountAmount);
+                              if (discount <= 0 || discount > transactionsModal.product.price) return;
+                              setActiveDiscount({
+                                amount: discount,
+                                note: discountNote || `Réduction de ${formatCurrency(discount)}`
+                              });
+                              setDiscountAmount('');
+                              setDiscountNote('');
+                              // Close accordion
+                              setOpenAccordions(prev => prev.filter(a => a !== 'discount'));
+                            }}
+                            disabled={
+                              !discountAmount ||
+                              Number(discountAmount) <= 0 ||
+                              Number(discountAmount) > transactionsModal.product.price
+                            }
+                            className="px-4 py-2 bg-zinc-800 text-white text-sm hover:bg-zinc-700 disabled:bg-zinc-900 disabled:text-zinc-600 transition-colors border border-zinc-700"
+                          >
+                            Activer
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {/* Active discount indicator */}
+                    {activeDiscount && (
+                      <div className="mt-3 p-3 bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Percent className="h-4 w-4 text-emerald-400" />
+                          <div>
+                            <span className="text-emerald-400 text-sm font-medium">-{formatCurrency(activeDiscount.amount)}</span>
+                            <span className="text-zinc-500 text-xs ml-2">{activeDiscount.note}</span>
+                          </div>
+                        </div>
                         <button
-                          onClick={async () => {
-                            const amount = Number(customTxAmount);
-                            if (amount <= 0) return;
-
-                            let clientInfo: { id: string; name: string; email?: string };
-
-                            if (clientSelectionMode === 'existing' && selectedClientId) {
-                              const client = clients.find(c => c.id === selectedClientId);
-                              if (!client) return;
-                              clientInfo = { id: client.id, name: client.name, email: client.email };
-                            } else if (clientSelectionMode === 'create' && newClientName && newClientEmail) {
-                              const manualClient: GeneratedClient = {
-                                id: `cli_${Date.now().toString(36)}${Math.random().toString(36).substring(2, 8)}`,
-                                name: newClientName.trim(),
-                                email: newClientEmail.trim().toLowerCase(),
-                                phone: '',
-                                type: 'individual',
-                                isGenerated: false,
-                                generatedAt: new Date().toISOString(),
-                              };
-                              const newClient = await createClientInDb(manualClient);
-                              clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
-                              setNewClientName('');
-                              setNewClientEmail('');
-                            } else if (clientSelectionMode === 'generate' && generatedClientPreview) {
-                              const newClient = await createClientInDb(generatedClientPreview);
-                              clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
-                            } else {
-                              return;
-                            }
-
-                            await addCustomTransaction(
-                              transactionsModal.catId,
-                              transactionsModal.product.id,
-                              currentMonthKey,
-                              amount,
-                              clientInfo,
-                              customTxNote || undefined
-                            );
-
-                            setTransactionsModal({
-                              ...transactionsModal,
-                              product: {
-                                ...transactionsModal.product,
-                                transactions: {
-                                  ...transactionsModal.product.transactions,
-                                  [currentMonthKey]: [
-                                    ...(transactionsModal.product.transactions?.[currentMonthKey] || []),
-                                    {
-                                      id: `tx_${Date.now()}`,
-                                      amount,
-                                      isCustom: true,
-                                      note: customTxNote || undefined,
-                                      clientId: clientInfo.id,
-                                      clientName: clientInfo.name,
-                                      clientEmail: clientInfo.email,
-                                    },
-                                  ],
-                                },
-                              },
-                            });
-                            setCustomTxAmount('');
-                            setCustomTxNote('');
-
-                            if (clientSelectionMode === 'generate') {
-                              setGeneratedClientPreview(generateRandomClient(generatedClientPreview?.type));
-                            }
-                          }}
-                          disabled={
-                            !customTxAmount ||
-                            Number(customTxAmount) <= 0 ||
-                            (clientSelectionMode === 'existing' && !selectedClientId) ||
-                            (clientSelectionMode === 'create' && (!newClientName || !newClientEmail))
-                          }
-                          className="px-4 py-2 bg-zinc-800 text-white text-sm hover:bg-zinc-700 disabled:bg-zinc-900 disabled:text-zinc-600 transition-colors"
+                          onClick={() => setActiveDiscount(null)}
+                          className="p-1 text-zinc-500 hover:text-red-400 transition-colors"
+                          title="Désactiver la réduction"
                         >
-                          OK
+                          <X className="h-4 w-4" />
                         </button>
                       </div>
                     )}
@@ -3278,12 +3633,19 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                             <div className="min-w-0 flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-zinc-600">#{index + 1}</span>
-                                <span className={`text-sm font-medium ${tx.isCustom ? 'text-amber-400' : 'text-white'}`}>
+                                <span className={`text-sm font-medium ${tx.discount ? 'text-emerald-400' : tx.isCustom ? 'text-amber-400' : 'text-white'}`}>
                                   {formatCurrency(tx.amount)}
                                 </span>
-                                {tx.isCustom && <span className="text-[10px] px-1 py-0.5 bg-amber-500/10 text-amber-500">Custom</span>}
+                                {tx.discount && (
+                                  <span className="text-[10px] px-1.5 py-0.5 bg-zinc-800 text-zinc-400 flex items-center gap-0.5">
+                                    <Minus className="h-2.5 w-2.5" />
+                                    {formatCurrency(tx.discount)}
+                                  </span>
+                                )}
+                                {tx.isCustom && !tx.discount && <span className="text-[10px] px-1 py-0.5 bg-amber-500/10 text-amber-500">Custom</span>}
                               </div>
                               <p className="text-xs text-zinc-500 truncate">{tx.clientName || 'Client inconnu'}</p>
+                              {tx.note && <p className="text-[10px] text-zinc-600 truncate">{tx.note}</p>}
                             </div>
                             <button
                               onClick={() => {
@@ -3315,7 +3677,18 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
               <div className="flex items-center justify-between px-6 py-4 border-t border-zinc-800 flex-shrink-0 bg-zinc-900/50">
                 <div className="text-sm">
                   <span className="text-zinc-500">Total : </span>
-                  <span className="text-white font-medium text-lg">{formatCurrency(txCounter * transactionsModal.product.price)}</span>
+                  {activeDiscount ? (
+                    <>
+                      <span className="text-emerald-400 font-medium text-lg">
+                        {formatCurrency(txCounter * (transactionsModal.product.price - activeDiscount.amount))}
+                      </span>
+                      <span className="text-zinc-600 line-through text-sm ml-2">
+                        {formatCurrency(txCounter * transactionsModal.product.price)}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-white font-medium text-lg">{formatCurrency(txCounter * transactionsModal.product.price)}</span>
+                  )}
                 </div>
                 <div className="flex gap-3">
                   <button
@@ -3326,6 +3699,13 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                       setClientSearchQuery('');
                       setNewClientName('');
                       setNewClientEmail('');
+                      setNewClientPhone('');
+                      setNewClientCountry('FR');
+                      setNewClientType('individual');
+                      setEmailError(null);
+                      setDiscountAmount('');
+                      setDiscountNote('');
+                      setActiveDiscount(null);
                     }}
                     className="px-5 py-2.5 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors text-sm"
                   >
@@ -3333,6 +3713,11 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                   </button>
                   <button
                     onClick={async () => {
+                      const finalPrice = activeDiscount
+                        ? transactionsModal.product.price - activeDiscount.amount
+                        : transactionsModal.product.price;
+                      const totalDiscount = activeDiscount ? activeDiscount.amount * txCounter : 0;
+
                       // Special case: generate mode with multiple transactions = multiple random clients
                       if (clientSelectionMode === 'generate' && txCounter > 1) {
                         const clientType = generatedClientPreview?.type;
@@ -3346,8 +3731,10 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                           // Create transaction for this client
                           const tx: Transaction = {
                             id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${i}`,
-                            amount: transactionsModal.product.price,
+                            amount: finalPrice,
                             isCustom: false,
+                            discount: activeDiscount?.amount,
+                            note: activeDiscount?.note,
                             clientId: newClient.id,
                             clientName: newClient.name,
                             clientEmail: newClient.email,
@@ -3355,14 +3742,25 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                           newTxs.push(tx);
 
                           // Update client stats
-                          await updateClientStats(newClient.id, transactionsModal.product.price);
+                          await updateClientStats(newClient.id, finalPrice);
                         }
 
                         // Update data state with all new transactions
                         setData((prev) => {
                           if (!prev) return prev;
+                          // Update salesDiscounts if discount is applied
+                          const updatedReductions = activeDiscount
+                            ? {
+                                ...prev.reductions,
+                                salesDiscounts: {
+                                  ...prev.reductions.salesDiscounts,
+                                  [currentMonthKey]: (prev.reductions.salesDiscounts[currentMonthKey] || 0) + totalDiscount,
+                                },
+                              }
+                            : prev.reductions;
                           return {
                             ...prev,
+                            reductions: updatedReductions,
                             productCategories: prev.productCategories.map((cat) => {
                               if (cat.id !== transactionsModal.catId) return cat;
                               return {
@@ -3406,15 +3804,19 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                           id: `cli_${Date.now().toString(36)}${Math.random().toString(36).substring(2, 8)}`,
                           name: newClientName.trim(),
                           email: newClientEmail.trim().toLowerCase(),
-                          phone: '',
-                          type: 'individual',
+                          phone: newClientPhone?.trim() || '',
+                          type: newClientType,
                           isGenerated: false,
                           generatedAt: new Date().toISOString(),
+                          country: newClientCountry,
                         };
                         const newClient = await createClientInDb(manualClient);
                         clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
                         setNewClientName('');
                         setNewClientEmail('');
+                        setNewClientPhone('');
+                        setNewClientCountry('FR');
+                        setNewClientType('individual');
                       } else if (clientSelectionMode === 'generate' && generatedClientPreview) {
                         const newClient = await createClientInDb(generatedClientPreview);
                         clientInfo = { id: newClient.id, name: newClient.name, email: newClient.email };
@@ -3422,18 +3824,35 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                         return;
                       }
 
-                      await addStandardTransactions(
-                        transactionsModal.catId,
-                        transactionsModal.product.id,
-                        currentMonthKey,
-                        txCounter,
-                        clientInfo
-                      );
+                      // If discount is active, use addCustomTransaction for each
+                      if (activeDiscount) {
+                        for (let i = 0; i < txCounter; i++) {
+                          await addCustomTransaction(
+                            transactionsModal.catId,
+                            transactionsModal.product.id,
+                            currentMonthKey,
+                            finalPrice,
+                            clientInfo,
+                            activeDiscount.note,
+                            activeDiscount.amount
+                          );
+                        }
+                      } else {
+                        await addStandardTransactions(
+                          transactionsModal.catId,
+                          transactionsModal.product.id,
+                          currentMonthKey,
+                          txCounter,
+                          clientInfo
+                        );
+                      }
 
                       const newTxs: Transaction[] = Array.from({ length: txCounter }, () => ({
                         id: `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                        amount: transactionsModal.product.price,
+                        amount: finalPrice,
                         isCustom: false,
+                        discount: activeDiscount?.amount,
+                        note: activeDiscount?.note,
                         clientId: clientInfo.id,
                         clientName: clientInfo.name,
                         clientEmail: clientInfo.email,
@@ -3456,12 +3875,13 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                     }}
                     disabled={
                       (clientSelectionMode === 'existing' && !selectedClientId) ||
-                      (clientSelectionMode === 'create' && (!newClientName || !newClientEmail))
+                      (clientSelectionMode === 'create' && (!newClientName || !newClientEmail || emailError !== null))
                     }
                     className="px-6 py-2.5 bg-white text-zinc-950 hover:bg-zinc-200 disabled:bg-zinc-800 disabled:text-zinc-600 transition-colors text-sm font-medium flex items-center gap-2"
                   >
                     <Plus className="h-4 w-4" />
                     Ajouter {txCounter} vente{txCounter > 1 ? 's' : ''}
+                    {activeDiscount && <span className="text-emerald-600 text-xs">(-{formatCurrency(activeDiscount.amount)}/u)</span>}
                   </button>
                 </div>
               </div>
@@ -3507,6 +3927,101 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
             </div>
           </div>
         </motion.div>
+      )}
+
+      {/* Modal: Discounted Transactions */}
+      {showDiscountTransactions && createPortal(
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setShowDiscountTransactions(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            className="bg-zinc-950 border border-zinc-800 w-full max-w-lg max-h-[80vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="px-5 py-4 border-b border-zinc-800 flex items-center justify-between">
+              <div>
+                <h3 className="text-white font-medium flex items-center gap-2">
+                  <Receipt className="h-4 w-4 text-zinc-400" />
+                  Transactions avec réductions
+                </h3>
+                <p className="text-xs text-zinc-500 mt-1">
+                  {MONTH_NAMES[selectedMonth]} {selectedYear} • {getDiscountedTransactions(currentMonthKey).length} transaction(s)
+                </p>
+              </div>
+              <button
+                onClick={() => setShowDiscountTransactions(false)}
+                className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto">
+              {getDiscountedTransactions(currentMonthKey).length === 0 ? (
+                <div className="h-40 flex items-center justify-center text-zinc-600 text-sm">
+                  Aucune transaction avec réduction
+                </div>
+              ) : (
+                <div className="divide-y divide-zinc-800/50">
+                  {getDiscountedTransactions(currentMonthKey).map((item) => (
+                    <div
+                      key={item.transaction.id}
+                      className="px-5 py-3 hover:bg-zinc-900/50 transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-white font-medium">{item.productName}</span>
+                            <span className="text-[10px] px-1.5 py-0.5 bg-zinc-800 text-zinc-400 rounded">
+                              {item.catName}
+                            </span>
+                          </div>
+                          <p className="text-xs text-zinc-500 mt-1">
+                            {item.transaction.clientName}
+                          </p>
+                          {item.transaction.note && (
+                            <p className="text-xs text-zinc-600 mt-0.5 italic">
+                              {item.transaction.note}
+                            </p>
+                          )}
+                        </div>
+                        <div className="text-right ml-4">
+                          <div className="text-sm text-white font-medium">
+                            {formatCurrency(item.transaction.amount)}
+                          </div>
+                          <div className="text-xs text-red-400 flex items-center justify-end gap-1">
+                            <Minus className="h-3 w-3" />
+                            {formatCurrency(item.transaction.discount || 0)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="px-5 py-4 border-t border-zinc-800 bg-zinc-900/50">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-zinc-400">Total des réductions</span>
+                <span className="text-lg font-medium text-red-400">
+                  -{formatCurrency(getDiscountedTransactions(currentMonthKey).reduce((sum, item) => sum + (item.transaction.discount || 0), 0))}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>,
+        document.body
       )}
     </div>
   );
