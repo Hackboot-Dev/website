@@ -673,6 +673,23 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     return txs.reduce((sum, tx) => sum + tx.amount, 0);
   };
 
+  // Calculate actual discounts from transactions (source of truth)
+  const getCalculatedDiscounts = (month: string) => {
+    if (!data?.productCategories) return 0;
+    let total = 0;
+    data.productCategories.forEach((cat) => {
+      cat.products.forEach((product) => {
+        const txs = product.transactions?.[month] || [];
+        txs.forEach((tx) => {
+          if (tx.discount && tx.discount > 0) {
+            total += tx.discount;
+          }
+        });
+      });
+    });
+    return total;
+  };
+
   // Delete transaction (also updates reductions if transaction had a discount)
   const deleteTransaction = (catId: string, productId: string, month: string, txId: string) => {
     if (!data) return;
@@ -1231,12 +1248,12 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
   const getYTDExpenses = () => MONTH_KEYS.reduce((sum, m) => sum + getTotalExpenses(m), 0);
   const getYTDClients = () => MONTH_KEYS.reduce((sum, m) => sum + getTotalClients(m), 0);
 
-  // NEW: Reductions calculations
+  // NEW: Reductions calculations (using calculated discounts from transactions)
   const getTotalReductions = (month: string) => {
     if (!data?.reductions) return 0;
     return (
       (data.reductions.salesReturns[month] || 0) +
-      (data.reductions.salesDiscounts[month] || 0) +
+      getCalculatedDiscounts(month) + // Use calculated value from transactions, not stored value
       (data.reductions.costOfGoodsSold[month] || 0)
     );
   };
@@ -1341,7 +1358,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     rows.push(['']);
     rows.push(['REDUCTIONS (COGS)']);
     rows.push(['Sales Returns', ...MONTH_KEYS.map((m) => String(data.reductions?.salesReturns[m] || 0)), String(MONTH_KEYS.reduce((s, m) => s + (data.reductions?.salesReturns[m] || 0), 0))]);
-    rows.push(['Sales Discounts', ...MONTH_KEYS.map((m) => String(data.reductions?.salesDiscounts[m] || 0)), String(MONTH_KEYS.reduce((s, m) => s + (data.reductions?.salesDiscounts[m] || 0), 0))]);
+    rows.push(['Sales Discounts', ...MONTH_KEYS.map((m) => String(getCalculatedDiscounts(m))), String(MONTH_KEYS.reduce((s, m) => s + getCalculatedDiscounts(m), 0))]);
     rows.push(['COGS', ...MONTH_KEYS.map((m) => String(data.reductions?.costOfGoodsSold[m] || 0)), String(MONTH_KEYS.reduce((s, m) => s + (data.reductions?.costOfGoodsSold[m] || 0), 0))]);
     rows.push(['Total Reductions', ...MONTH_KEYS.map((m) => String(getTotalReductions(m))), String(getYTDReductions())]);
     rows.push(['GROSS PROFIT', ...MONTH_KEYS.map((m) => String(getGrossProfit(m))), String(getYTDGrossProfit())]);
@@ -1799,7 +1816,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                         <Receipt className="h-4 w-4" />
                       </button>
                     )}
-                    <span className="text-orange-400">{formatCurrency(data?.reductions?.salesDiscounts[currentMonthKey] || 0)}</span>
+                    <span className="text-orange-400">{formatCurrency(getCalculatedDiscounts(currentMonthKey))}</span>
                   </div>
                 </div>
                 {/* COGS */}
@@ -2539,9 +2556,9 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                 <tr className="border-b border-zinc-800/50">
                   <td className="px-4 py-2 text-zinc-500 text-xs pl-8 sticky left-0 bg-zinc-900/20">Remises</td>
                   {MONTH_KEYS.map((month) => (
-                    <td key={month} className="text-right px-3 py-2 text-zinc-500 text-xs">{formatCurrency(data?.reductions?.salesDiscounts[month] || 0)}</td>
+                    <td key={month} className="text-right px-3 py-2 text-zinc-500 text-xs">{formatCurrency(getCalculatedDiscounts(month))}</td>
                   ))}
-                  <td className="text-right px-4 py-2 text-zinc-400 text-xs bg-zinc-700/30">{formatCurrency(MONTH_KEYS.reduce((s, m) => s + (data?.reductions?.salesDiscounts[m] || 0), 0))}</td>
+                  <td className="text-right px-4 py-2 text-zinc-400 text-xs bg-zinc-700/30">{formatCurrency(MONTH_KEYS.reduce((s, m) => s + getCalculatedDiscounts(m), 0))}</td>
                 </tr>
                 <tr className="border-b border-zinc-800/50">
                   <td className="px-4 py-2 text-zinc-500 text-xs pl-8 sticky left-0 bg-zinc-900/20">COGS</td>
