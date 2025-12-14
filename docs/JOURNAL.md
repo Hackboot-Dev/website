@@ -1,5 +1,54 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-14 - Session 21]
+SESSION: Intégration complète des composants extraits dans PnLPageClient
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [major refactor]
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx [fix]
+- /apps/web/app/[locale]/admin/clients/ClientsPageClient.tsx [fix]
+
+CHANGEMENTS:
+```
+1. INTÉGRATION TRANSACTIONSMODAL (~765 lignes supprimées)
+   - Remplacement du code inline par <TransactionsModal />
+   - Props: isOpen, catId, product, selectedMonth/Year, clients
+   - Callbacks: onAddTransaction, onDeleteTransaction, onCreateClient, onUpdateClientStats
+   - Création de addTransactions() pour batch add avec tracking discounts
+
+2. INTÉGRATION RULESMODAL (~200 lignes supprimées)
+   - Déjà intégré dans la session précédente
+   - Props: catId, product, expenseCategories, callbacks CRUD
+
+3. NETTOYAGE DU CODE
+   États supprimés (gérés par modals):
+   - txCounter, clientSelectionMode, selectedClientId
+   - clientSearchQuery, generatedClientPreview
+   - newClient* (Name, Email, Phone, Country, Type)
+   - emailError, discountAmount, discountNote, activeDiscount
+   - openAccordions
+
+   Fonctions supprimées (remplacées):
+   - toggleAccordion()
+   - addStandardTransactions()
+   - addCustomTransaction()
+
+   Imports nettoyés:
+   - ChevronDown, Search, UserPlus, Shuffle, Link
+   - ClientSelectionMode type
+
+4. CORRECTIONS TYPESCRIPT
+   - CataloguePageClient: Expression "always truthy" corrigée
+   - ClientsPageClient: Ajout companyId manquant dans formData
+
+MÉTRIQUES:
+- PnLPageClient: 4028 → 2850 lignes (-1178, -29%)
+- Total: 81 insertions, 1124 deletions
+```
+
+PROCHAINE ÉTAPE: Considérer l'intégration des hooks extraits (usePnLData, useClients) pour réduire encore
+---
+
 [2025-12-14 - Session 20]
 SESSION: Refactoring P&L module - Extraction composants et hooks
 STATUT: ✅ Réussi
