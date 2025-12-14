@@ -673,13 +673,32 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
     return txs.reduce((sum, tx) => sum + tx.amount, 0);
   };
 
-  // Delete transaction
+  // Delete transaction (also updates reductions if transaction had a discount)
   const deleteTransaction = (catId: string, productId: string, month: string, txId: string) => {
     if (!data) return;
     setData((prev) => {
       if (!prev) return prev;
+
+      // Find the transaction to get its discount amount
+      const category = prev.productCategories.find((c) => c.id === catId);
+      const product = category?.products.find((p) => p.id === productId);
+      const transaction = product?.transactions?.[month]?.find((tx) => tx.id === txId);
+      const discountToRemove = transaction?.discount || 0;
+
+      // Update reductions if the transaction had a discount
+      const updatedReductions = discountToRemove > 0
+        ? {
+            ...prev.reductions,
+            salesDiscounts: {
+              ...prev.reductions.salesDiscounts,
+              [month]: Math.max(0, (prev.reductions.salesDiscounts[month] || 0) - discountToRemove),
+            },
+          }
+        : prev.reductions;
+
       return {
         ...prev,
+        reductions: updatedReductions,
         productCategories: prev.productCategories.map((cat) => {
           if (cat.id !== catId) return cat;
           return {
