@@ -3281,9 +3281,9 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                             </button>
                             <button
                               type="button"
-                              onClick={() => setNewClientType('company')}
+                              onClick={() => setNewClientType('business')}
                               className={`py-2 px-3 border text-sm flex items-center justify-center gap-2 transition-all ${
-                                newClientType === 'company'
+                                newClientType === 'business'
                                   ? 'bg-zinc-900 border-zinc-600 text-white'
                                   : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-white'
                               }`}
@@ -3296,7 +3296,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
                             type="text"
                             value={newClientName}
                             onChange={(e) => setNewClientName(e.target.value)}
-                            placeholder={newClientType === 'company' ? "Nom de l'entreprise" : "Nom complet"}
+                            placeholder={newClientType === 'business' ? "Nom de l'entreprise" : "Nom complet"}
                             className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 text-white text-[16px] placeholder-zinc-600 focus:border-zinc-600 focus:outline-none"
                           />
                           <div>
