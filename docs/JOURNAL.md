@@ -1,5 +1,42 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-14 - Session 19]
+SESSION: Analyse et correction des modules admin (P&L, Catalogue, Clients)
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx
+- /apps/web/lib/types/database.ts
+
+CHANGEMENTS:
+```
+1. ANALYSE COMPLÈTE DES MODULES ADMIN
+   - Cartographie de l'architecture (P&L 4028L, Catalogue 2329L, Clients 865L)
+   - Identification des problèmes de types incohérents
+   - Analyse des interactions entre modules
+
+2. CORRECTIONS TYPESCRIPT
+   - Type mismatch: .name → .label pour ProductCategory et Product
+   - Ajout champ 'country' au type Client dans database.ts
+   - Fix GeneratedClientType: 'company' → 'business'
+
+3. NETTOYAGE CODE MORT
+   - Suppression variables inutilisées: customTxAmount, customTxNote
+   - Suppression variables inutilisées: existingCatIds, existingProductIds
+   - Suppression fonctions inutilisées: updateTransactionAmount, getAutoCostForItem
+
+4. MODERNISATION
+   - Remplacement .substr() déprécié par .slice() (4 occurrences)
+```
+
+PROBLÈMES IDENTIFIÉS À TRAITER:
+- Fichiers trop volumineux (PnLPageClient = 4028 lignes)
+- Duplication de types entre modules
+- Absence de tests automatisés
+- Cache non unifié entre modules
+
+PROCHAINE ÉTAPE: Refactoring en composants + hooks dédiés
+---
+
 [2025-12-14 - Session 18]
 SESSION: Amélioration modal "Nouvelle vente" + Système de réductions COGS
 STATUT: ✅ Réussi
