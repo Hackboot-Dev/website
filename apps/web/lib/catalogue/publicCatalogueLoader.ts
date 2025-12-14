@@ -155,6 +155,9 @@ export async function getProductById(categoryId: string, productId: string): Pro
 /**
  * Get enriched product data with translations
  * This is the main function for product pages
+ *
+ * IMPORTANT: Products without translation in the requested language are filtered out
+ * A product needs at least 'usage' OR 'description' to be visible in a language
  */
 export async function getEnrichedProductData(language: string = 'fr'): Promise<Record<string, EnrichedProduct[]>> {
   const categories = await getAllCategories();
@@ -162,20 +165,36 @@ export async function getEnrichedProductData(language: string = 'fr'): Promise<R
 
   for (const category of categories) {
     const langTranslations = category.translations?.[language as 'fr' | 'en'] || {};
+    const otherLang = language === 'fr' ? 'en' : 'fr';
+    const otherLangTranslations = category.translations?.[otherLang as 'fr' | 'en'] || {};
 
-    enrichedData[category.id] = category.products.map((product) => {
-      const translation = langTranslations[product.id] || {};
+    enrichedData[category.id] = category.products
+      .filter((product) => {
+        const translation = langTranslations[product.id];
+        const otherTranslation = otherLangTranslations[product.id];
 
-      return {
-        ...product,
-        usage: translation.usage || 'N/A',
-        description: translation.description || 'N/A',
-        use_cases: translation.use_cases || ['N/A'],
-        features: translation.features || ['N/A'],
-        target_audience: translation.target_audience || 'N/A',
-        highlight: translation.highlight || 'N/A',
-      };
-    });
+        // Product is visible if it has translation in current language
+        const hasCurrentLangTranslation = translation?.usage || translation?.description;
+
+        // OR if it has no translation in any language (legacy/default behavior)
+        const hasNoTranslationAtAll = !otherTranslation?.usage && !otherTranslation?.description &&
+                                       !translation?.usage && !translation?.description;
+
+        return hasCurrentLangTranslation || hasNoTranslationAtAll;
+      })
+      .map((product) => {
+        const translation = langTranslations[product.id] || {};
+
+        return {
+          ...product,
+          usage: translation.usage || 'N/A',
+          description: translation.description || 'N/A',
+          use_cases: translation.use_cases || [],
+          features: translation.features || [],
+          target_audience: translation.target_audience || '',
+          highlight: translation.highlight || '',
+        };
+      });
   }
 
   return enrichedData;
@@ -183,6 +202,7 @@ export async function getEnrichedProductData(language: string = 'fr'): Promise<R
 
 /**
  * Get enriched products for a single category
+ * Products without translation in the requested language are filtered out
  */
 export async function getEnrichedCategoryProducts(
   categoryId: string,
@@ -192,20 +212,36 @@ export async function getEnrichedCategoryProducts(
   if (!category) return [];
 
   const langTranslations = category.translations?.[language as 'fr' | 'en'] || {};
+  const otherLang = language === 'fr' ? 'en' : 'fr';
+  const otherLangTranslations = category.translations?.[otherLang as 'fr' | 'en'] || {};
 
-  return category.products.map((product) => {
-    const translation = langTranslations[product.id] || {};
+  return category.products
+    .filter((product) => {
+      const translation = langTranslations[product.id];
+      const otherTranslation = otherLangTranslations[product.id];
 
-    return {
-      ...product,
-      usage: translation.usage || 'N/A',
-      description: translation.description || 'N/A',
-      use_cases: translation.use_cases || ['N/A'],
-      features: translation.features || ['N/A'],
-      target_audience: translation.target_audience || 'N/A',
-      highlight: translation.highlight || 'N/A',
-    };
-  });
+      // Product is visible if it has translation in current language
+      const hasCurrentLangTranslation = translation?.usage || translation?.description;
+
+      // OR if it has no translation in any language (legacy/default behavior)
+      const hasNoTranslationAtAll = !otherTranslation?.usage && !otherTranslation?.description &&
+                                     !translation?.usage && !translation?.description;
+
+      return hasCurrentLangTranslation || hasNoTranslationAtAll;
+    })
+    .map((product) => {
+      const translation = langTranslations[product.id] || {};
+
+      return {
+        ...product,
+        usage: translation.usage || 'N/A',
+        description: translation.description || 'N/A',
+        use_cases: translation.use_cases || [],
+        features: translation.features || [],
+        target_audience: translation.target_audience || '',
+        highlight: translation.highlight || '',
+      };
+    });
 }
 
 /**
