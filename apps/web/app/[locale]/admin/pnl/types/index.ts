@@ -1,6 +1,9 @@
 // /workspaces/website/apps/web/app/[locale]/admin/pnl/types/index.ts
 // Description: P&L module types - extracted from PnLPageClient for better modularity
-// Last modified: 2025-12-14
+// Last modified: 2024-12-14
+
+// Re-export subscription types
+export * from './subscription';
 
 // ============================================================
 // TRANSACTION TYPES
@@ -15,6 +18,10 @@ export type Transaction = {
   clientId: string;
   clientName: string;
   clientEmail?: string;
+  // Subscription reference (if this transaction came from a subscription renewal)
+  subscriptionId?: string;
+  renewalDate?: string;
+  isRecurring?: boolean;
 };
 
 // ============================================================
@@ -86,6 +93,7 @@ export type TaxesData = {
 
 export type PnLData = {
   year: number;
+  companyId?: CompanyId;
   productCategories: ProductCategory[];
   reductions: ReductionData;
   expenseCategories: ExpenseCategory[];
@@ -108,34 +116,13 @@ export type CompanyConfig = {
 };
 
 // ============================================================
-// CONSTANTS
+// CONSTANTS (re-exported from constants module for backwards compatibility)
 // ============================================================
 
-export const MONTHS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
-export const MONTH_KEYS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-export const COMPANY_CONFIG: Record<CompanyId, CompanyConfig> = {
-  hackboot: {
-    name: 'Hackboot',
-    collection: 'pnl_data',
-    color: 'violet',
-  },
-  vmcloud: {
-    name: 'VMCloud',
-    collection: 'pnl_data',
-    color: 'emerald',
-  },
-};
+export { MONTHS, MONTH_KEYS, COMPANY_CONFIG } from '../constants';
 
 // ============================================================
-// HELPERS
+// HELPERS (re-exported from shared utils for backwards compatibility)
 // ============================================================
 
-export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
-};
+export { formatCurrency } from '../../_shared/utils/formatters';

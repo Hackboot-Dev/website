@@ -1,5 +1,550 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-19 - Session 33]
+SESSION: Activation des fichiers refactorisés et correction des types
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+
+**Activation des fichiers refactorisés:**
+- /apps/web/app/[locale]/admin/pnl/PnLPageClientNew.tsx → PnLPageClient.tsx [renommé]
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClientNew.tsx → CataloguePageClient.tsx [renommé]
+- Suppression des anciens fichiers volumineux
+
+**Corrections de types:**
+- /apps/web/app/[locale]/admin/pnl/components/SubscriptionsModal.tsx [ajout prop optionnelle onUpdate]
+- /apps/web/app/[locale]/admin/pnl/components/ClientsModal.tsx [props rendues optionnelles + clientsList fallback]
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx:
+  - Correction prop onAddTransaction (vs onAddTransactions)
+  - Ajout props manquantes: onUpdateClientStats, getTransactionsCount, getTransactionsRevenue
+  - Ajout fonction updateClientStats avec note sur trigger PostgreSQL auto
+  - Correction noms de champs: totalTransactions (vs transactionCount), lastPurchaseAt (vs lastTransaction)
+
+ERREURS CORRIGÉES:
+- TS2322: Property 'onAddTransactions' does not exist → renommé en onAddTransaction
+- TS2739: Missing properties onUpdateClientStats, getTransactionsCount, getTransactionsRevenue → ajoutées
+- TS18048: 'clients' is possibly 'undefined' → fallback avec clientsList = clients ?? []
+- TS2339: Property 'transactionCount' does not exist on type 'Client' → corrigé en totalTransactions
+
+BUILD: ✅ Tous les fichiers admin compilent sans erreur
+---
+
+[2025-12-19 - Session 32]
+SESSION: Refactoring complet des modules Admin (PnL, Catalogue, Clients)
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+
+**Structure partagée (_shared/):**
+- /apps/web/app/[locale]/admin/_shared/utils/formatters.ts [formatCurrency, formatDate, etc.]
+- /apps/web/app/[locale]/admin/_shared/utils/index.ts
+- /apps/web/app/[locale]/admin/_shared/components/EditableCell.tsx
+- /apps/web/app/[locale]/admin/_shared/components/index.ts
+
+**Module PnL refactoré:**
+- /apps/web/app/[locale]/admin/pnl/constants/index.ts [MONTHS, COMPANY_CONFIG, etc.]
+- /apps/web/app/[locale]/admin/pnl/utils/calculations.ts [fonctions pures de calcul]
+- /apps/web/app/[locale]/admin/pnl/utils/defaultData.ts
+- /apps/web/app/[locale]/admin/pnl/utils/index.ts
+- /apps/web/app/[locale]/admin/pnl/hooks/usePnLCalculations.ts
+- /apps/web/app/[locale]/admin/pnl/components/layout/PnLHeader.tsx
+- /apps/web/app/[locale]/admin/pnl/components/layout/MonthNavigator.tsx
+- /apps/web/app/[locale]/admin/pnl/components/layout/PnLTabs.tsx
+- /apps/web/app/[locale]/admin/pnl/components/kpi/KPIGrid.tsx
+- /apps/web/app/[locale]/admin/pnl/components/kpi/MRRCards.tsx
+- /apps/web/app/[locale]/admin/pnl/components/charts/TrendChart.tsx
+- /apps/web/app/[locale]/admin/pnl/components/tabs/OverviewTab.tsx
+- /apps/web/app/[locale]/admin/pnl/components/tabs/ProductsTab.tsx
+- /apps/web/app/[locale]/admin/pnl/components/tabs/ExpensesTab.tsx
+- /apps/web/app/[locale]/admin/pnl/components/tabs/AnnualTab.tsx
+- /apps/web/app/[locale]/admin/pnl/PnLPageClientNew.tsx [~500 lignes vs 2840 original]
+
+**Module Catalogue refactoré:**
+- /apps/web/app/[locale]/admin/catalogue/types/index.ts
+- /apps/web/app/[locale]/admin/catalogue/constants/index.ts
+- /apps/web/app/[locale]/admin/catalogue/utils/helpers.ts
+- /apps/web/app/[locale]/admin/catalogue/hooks/useCatalogue.ts
+- /apps/web/app/[locale]/admin/catalogue/hooks/useProductEdit.ts
+- /apps/web/app/[locale]/admin/catalogue/components/layout/CatalogueHeader.tsx
+- /apps/web/app/[locale]/admin/catalogue/components/CategoryColumn.tsx
+- /apps/web/app/[locale]/admin/catalogue/components/ProductColumn.tsx
+- /apps/web/app/[locale]/admin/catalogue/components/ProductDetail.tsx
+- /apps/web/app/[locale]/admin/catalogue/components/modals/ProductEditModal.tsx
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClientNew.tsx [~200 lignes vs 2242 original]
+
+**Module Clients refactoré:**
+- /apps/web/app/[locale]/admin/clients/types/index.ts
+- /apps/web/app/[locale]/admin/clients/constants/index.ts
+- /apps/web/app/[locale]/admin/clients/components/ClientModal.tsx
+- /apps/web/app/[locale]/admin/clients/hooks/useClients.ts
+
+OBJECTIFS ATTEINTS:
+- ✅ Fichiers de max 200 lignes (sauf quelques composants complexes)
+- ✅ Séparation des responsabilités (types, constants, hooks, components)
+- ✅ Hooks réutilisables pour la logique métier
+- ✅ Composants modulaires avec props typées
+- ✅ Barrel exports (index.ts) pour imports simplifiés
+- ✅ Fonctions pures pour les calculs (testabilité)
+
+RÉDUCTION DE COMPLEXITÉ:
+- PnLPageClient: 2840 → ~500 lignes (-82%)
+- CataloguePageClient: 2242 → ~200 lignes (-91%)
+- ClientsPageClient: 899 lignes (modules extraits, prêt pour simplification)
+
+BUILD: ✅ Tous les nouveaux fichiers compilent sans erreur
+PROCHAINE ÉTAPE: Renommer les fichiers *New.tsx en *.tsx pour remplacer les originaux
+---
+
+[2025-12-19 - Session 31]
+SESSION: Fix stats clients non mises à jour sur page Clients
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/lib/services/database-supabase.ts [ajout champs totalRevenue, totalTransactions, firstPurchaseAt, lastPurchaseAt dans updateClient]
+- /supabase/migrations/20251217_fix_rls_policies.sql [créé - fix policies RLS]
+
+PROBLÈME:
+Les clients affichaient 0€ de CA et 0 transactions sur la page Clients alors que les transactions
+étaient bien enregistrées dans les données PnL.
+
+CAUSE:
+La fonction `updateClient` du service Supabase ne gérait pas les champs de stats :
+- total_revenue, total_transactions, first_purchase_at, last_purchase_at
+Ces champs étaient ignorés lors de la mise à jour.
+
+SOLUTION:
+Ajout des champs stats dans la fonction updateClient :
+```typescript
+if (data.totalRevenue !== undefined) updateData.total_revenue = data.totalRevenue;
+if (data.totalTransactions !== undefined) updateData.total_transactions = data.totalTransactions;
+if (data.firstPurchaseAt !== undefined) updateData.first_purchase_at = data.firstPurchaseAt;
+if (data.lastPurchaseAt !== undefined) updateData.last_purchase_at = data.lastPurchaseAt;
+```
+
+VÉRIFICATION VIA API SUPABASE:
+- Client "Susanne Müller" : total_revenue passé de 0 à 38€, total_transactions de 0 à 2
+- Les updates fonctionnent avec la clé anon
+
+BUILD: ✅ Passé avec succès
+---
+
+[2025-12-17 - Session 30]
+SESSION: Migration PnLPageClient de Firebase vers Supabase
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [migration complète vers Supabase]
+- /apps/web/app/[locale]/admin/pnl/types/index.ts [ajout companyId optionnel au type PnLData]
+
+CONTEXTE:
+La page PnL utilisait encore Firebase directement via getCompanyDb() pour :
+- Charger/sauvegarder les données P&L (getPnLData/savePnLData)
+- Charger les clients (getClients)
+- Créer des clients (createClient)
+- Mettre à jour les stats clients (updateClient)
+
+Les données n'étaient pas persistées car Firebase n'est plus utilisé pour l'admin (seulement vmclPublic pour le catalogue).
+
+CHANGEMENTS:
+```
+AVANT:
+- import { getCompanyDb, getPublicDb } from '../../../../lib/firebase';
+- import { doc, setDoc, getDoc, collection, getDocs, query, orderBy } from 'firebase/firestore';
+- const db = getCompanyDb(company);
+- Appels directs Firebase pour tout
+
+APRÈS:
+- import { getPublicDb } from '../../../../lib/firebase'; (uniquement pour catalogue)
+- import { getDatabase } from '../../../../lib/services/database';
+- const dbService = getDatabase(company);
+- dbService.getPnLData(), dbService.savePnLData(), dbService.getClients(), etc.
+```
+
+RÉSULTAT:
+- Les transactions sont maintenant sauvegardées dans Supabase
+- Les clients sont créés et mis à jour dans Supabase
+- Les données P&L sont persistées correctement
+- Le catalogue reste sur Firebase (vmclPublic) comme prévu
+
+BUILD: ✅ Passé avec succès
+---
+
+[2025-12-16 - Session 29]
+SESSION: Suppression des boutons de synchronisation
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/catalogue/CataloguePageClient.tsx [supprimé bouton sync, états syncing/lastSynced, logique cache]
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [supprimé bouton sync, états syncing/lastSynced/lastSyncResult, handleSyncSubscriptions, logique cache]
+- /apps/web/app/[locale]/admin/pnl/components/SubscriptionsModal.tsx [supprimé bouton sync, props syncing/onSync/lastSyncResult]
+- /apps/web/app/[locale]/admin/pnl/components/ClientsModal.tsx [supprimé bouton refresh, props onRefresh, état refreshing]
+- /apps/web/app/[locale]/admin/pnl/components/TransactionsModal.tsx [remplacé icônes RefreshCw par Calendar pour abonnements]
+- /apps/web/app/[locale]/admin/clients/ClientsPageClient.tsx [supprimé bouton refresh, état refreshing, handleRefresh]
+
+CONTEXTE:
+Avec PostgreSQL/Supabase, les données sont toujours en temps réel.
+Plus besoin de cache localStorage ni de boutons "Synchroniser".
+Les utilisateurs voyaient des boutons de sync inutiles qui suggéraient un délai qui n'existe plus.
+
+CHANGEMENTS:
+```
+AVANT:
+- Boutons "Sync" sur Catalogue, P&L, Clients
+- Cache localStorage avec timestamps
+- États syncing/lastSynced pour afficher l'heure de dernière sync
+- Logique forceSync pour bypass cache
+
+APRÈS:
+- Données toujours fraîches (requêtes SQL directes)
+- Pas de cache localStorage
+- Interface simplifiée sans boutons de sync
+- Icônes Calendar pour les abonnements (au lieu de RefreshCw)
+```
+
+BUILD: ✅ Passé avec succès
+---
+
+[2025-12-16 - Session 28]
+SESSION: Migration Firebase → Supabase
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /apps/web/lib/supabase.ts [client Supabase]
+- /apps/web/lib/types/supabase.ts [types TypeScript]
+- /apps/web/lib/services/database-supabase.ts [nouveau DatabaseService]
+- /supabase/migrations/20251216_init_schema.sql [schéma SQL]
+- /scripts/migrate-firebase-to-supabase.ts [script de migration]
+
+FICHIERS MODIFIÉS:
+- /apps/web/.env.local [+variables Supabase]
+- /apps/web/lib/services/database.ts [switch vers Supabase]
+- /apps/web/lib/services/database-firebase.ts [renommé, legacy]
+
+CONTEXTE:
+Firebase limitait à 20K lectures/jour (gratuit).
+Avec 34K clients, un seul refresh dépassait le quota.
+Migration vers Supabase (lectures illimitées sur tier gratuit).
+
+ARCHITECTURE:
+```
+AVANT (Firebase):
+- 34K clients = 34K lectures par refresh
+- Quota épuisé en 1 opération
+
+APRÈS (Supabase):
+- PostgreSQL avec requêtes SQL
+- ILIKE pour recherche full-text
+- COUNT avec head:true pour stats
+- Lectures illimitées
+```
+
+SCHÉMA SQL:
+```sql
+Tables créées:
+- clients (id, name, email, type, status, total_revenue, ...)
+- products (id, name, unit_price, ...)
+- transactions (id, client_id, total, year, month, ...)
+- subscriptions (id, client_id, billing_period, ...)
+- invoices (id, client_id, total, status, ...)
+- pnl_data (year, data JSONB)
+- stats_cache (key, data JSONB)
+
+Index pour performance:
+- idx_clients_search (full-text sur name, email, company)
+- idx_clients_total_revenue (DESC pour top client)
+- idx_transactions_year_month
+```
+
+POUR MIGRER LES DONNÉES:
+```bash
+cd /workspaces/website
+npx ts-node scripts/migrate-firebase-to-supabase.ts
+```
+
+PROCHAINE ÉTAPE: Exécuter la migration des données
+---
+
+[2025-12-16 - Session 27]
+SESSION: Optimisation Firebase - Stats clients pré-calculées
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/lib/types/database.ts [+AggregatedClientStats type]
+- /apps/web/lib/services/database.ts [+getAggregatedClientStats, +refreshAggregatedClientStats, +incrementClientStats, +searchClients]
+- /apps/web/app/[locale]/admin/clients/ClientsPageClient.tsx [optimisation Firebase]
+
+CONTEXTE:
+L'ancienne implémentation chargeait TOUS les clients à chaque visite (N lectures Firebase).
+Maintenant, on utilise un document stats pré-calculé pour réduire drastiquement les lectures.
+
+ARCHITECTURE IMPLÉMENTÉE:
+```
+AVANT: Visite page → getClients() → N lectures Firebase
+APRÈS: Visite page → getAggregatedClientStats() → 1 lecture Firebase
+
+Document: /stats/clients
+{
+  total, active, inactive, leads, churned,
+  business, individual,
+  totalRevenue, avgRevenue, newThisMonth,
+  topClient: { id, name, email, type, totalRevenue, totalTransactions },
+  updatedAt, lastFullRefreshAt
+}
+```
+
+MÉTHODES AJOUTÉES À DatabaseService:
+```typescript
+// Lecture des stats (1 doc)
+getAggregatedClientStats(): Promise<AggregatedClientStats | null>
+
+// Recalcul complet (N lectures, à utiliser rarement)
+refreshAggregatedClientStats(): Promise<AggregatedClientStats>
+
+// Mise à jour incrémentale (pour CRUD - pas encore utilisé)
+incrementClientStats(change: {...}): Promise<void>
+
+// Recherche optimisée (max 100 docs chargés)
+searchClients(query, limit): Promise<Client[]>
+```
+
+COMPORTEMENT:
+- Chargement page: 1 lecture (stats) au lieu de N (tous les clients)
+- Recherche: max 100 lectures avec debounce 300ms
+- CRUD: Déclenche refreshAggregatedClientStats() pour recalculer
+- Bouton refresh: Force le recalcul complet
+
+ÉCONOMIES ESTIMÉES:
+- 1000 clients → 1 lecture au lieu de 1000 (99.9% d'économie)
+- Recherche → max 100 lectures au lieu de 1000
+
+PROCHAINE ÉTAPE: Implémenter mise à jour incrémentale (incrementClientStats) pour éviter refresh complet après CRUD
+---
+
+[2025-12-16 - Session 26]
+SESSION: Refonte page Clients (/admin/clients) avec interface stats-first
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/clients/ClientsPageClient.tsx [REFONTE COMPLÈTE]
+
+CONTEXTE:
+L'utilisateur avait demandé une nouvelle interface clients avec stats par défaut et barre de recherche animée.
+La session 25 avait créé ClientsModal pour le P&L, mais la page /admin/clients n'avait pas été mise à jour.
+
+FONCTIONNALITÉS IMPLÉMENTÉES:
+```
+1. INTERFACE STATS-FIRST (pas de liste par défaut)
+   - 4 stats principales: Total clients, Revenu total (vert), Revenu moyen, Nouveaux ce mois
+   - 2 stats secondaires: Entreprises vs Particuliers
+   - Meilleur client mis en avant (carte violette cliquable)
+
+2. BARRE DE RECHERCHE ANIMÉE
+   - Au repos: centrée (w-2/3), py-4, bordure zinc-700
+   - Au focus: pleine largeur (w-full), py-5 text-lg, bordure violet-500
+   - Shadow violet-500/10 pendant le focus
+   - Hint affiché: "Tapez pour rechercher • Échap pour annuler"
+
+3. TRANSITIONS FLUIDES
+   - Stats disparaissent avec animation exit (opacity: 0, y: -20, height: 0)
+   - Résultats apparaissent avec animation entrée
+   - Framer Motion pour toutes les transitions
+
+4. RÉSULTATS DE RECHERCHE
+   - Recherche: nom, email, entreprise, ID
+   - Max 10 résultats
+   - Carte: avatar type, nom + badge statut, email, téléphone, CA, nb transactions
+   - Actions au hover: Voir, Modifier, Supprimer
+
+5. MODAL CLIENT (conservée)
+   - Modes: create, edit, view
+   - Formulaire complet avec tags
+   - Stats en mode view
+```
+
+PROCHAINE ÉTAPE: Tester la nouvelle interface sur /admin/clients
+---
+
+[2025-12-16 - Session 25]
+SESSION: Nouvelle modal Clients avec stats et recherche animée
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /apps/web/app/[locale]/admin/pnl/components/ClientsModal.tsx
+
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/components/index.ts [+export ClientsModal]
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [+clientsModal state, button, modal]
+
+FONCTIONNALITÉS:
+```
+1. INTERFACE STATS-FIRST
+   - Pas de liste par défaut
+   - 4 stats principales: Total clients, Revenu total, Revenu moyen, Nouveaux ce mois
+   - 2 stats secondaires: Entreprises vs Particuliers
+   - Meilleur client mis en avant
+
+2. BARRE DE RECHERCHE ANIMÉE
+   - Centrée par défaut (w-2/3)
+   - Au focus: s'élargit (w-full), grandit, bordure violette
+   - Stats disparaissent avec animation
+   - Hint "Tapez pour rechercher • Échap pour annuler"
+
+3. RÉSULTATS DE RECHERCHE
+   - Recherche par nom, email, entreprise
+   - Max 10 résultats affichés
+   - Affiche: avatar type, nom, email, téléphone, revenu, nb achats
+
+4. INTERACTIONS
+   - Carte "Clients" cliquable dans Overview (hover bleu)
+   - Bouton refresh dans la modal
+   - Échap pour fermer ou effacer la recherche
+```
+
+PROCHAINE ÉTAPE: Tests de l'interface
+---
+
+[2025-12-16 - Session 24]
+SESSION: Pagination Firebase + Suppression batch optimisée pour abonnements
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/hooks/useSubscriptions.ts [+pagination Firebase, +batch delete]
+- /apps/web/app/[locale]/admin/pnl/components/SubscriptionsModal.tsx [simplified UI]
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [+nouvelles props]
+
+FONCTIONNALITÉS IMPLÉMENTÉES:
+```
+1. PAGINATION FIREBASE (économise les lectures)
+   - PAGE_SIZE = 50 documents par requête
+   - getCountFromServer() pour le total sans charger tous les docs
+   - loadMore() avec startAfter() pour pagination cursor-based
+   - hasMore flag pour savoir s'il reste des données
+
+2. SUPPRESSION EN MASSE OPTIMISÉE
+   - deleteAllSubscriptions() supprime directement depuis Firebase
+   - writeBatch() avec batches de 500 (limite Firebase)
+   - Progress tracking: deleteProgress { current, total }
+   - Pas besoin de charger tous les docs en mémoire
+
+3. NOUVELLES VALEURS RETOURNÉES PAR LE HOOK
+   - totalCount: nombre total (via getCountFromServer)
+   - hasMore: boolean pour pagination
+   - deleting: état de suppression en cours
+   - deleteProgress: { current, total }
+   - loadMore(): charger la page suivante
+   - deleteAllSubscriptions(): suppression batch
+
+4. UI SIMPLIFIÉE
+   - Affiche "X chargés sur Y total"
+   - Bouton "Charger plus" pour pagination
+   - Bouton "Supprimer tout (X)" rouge
+   - Barre de progression pendant suppression
+```
+
+AVANTAGES:
+- Avec 3548 abonnements: seulement 50 lectures au lieu de 3548
+- Suppression batch: ~7 requêtes batch au lieu de 3548 delete individuels
+- Modal ne crash plus avec beaucoup d'items
+- Progress bar pour feedback utilisateur
+
+AMÉLIORATION SYNC (ajoutée):
+- loadAllForSync() charge TOUS les abonnements pour la sync (bypass pagination)
+- handleSyncSubscriptions() utilise maintenant loadAllForSync()
+- La sync traite tous les abonnements, pas seulement les 50 chargés
+
+PROCHAINE ÉTAPE: Tester la suppression des 3548 abonnements
+---
+
+[2025-12-16 - Session 23]
+SESSION: Amélioration UX - Spinner de chargement avec progression
+STATUT: ✅ Réussi
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/components/TransactionsModal.tsx [+loading states]
+
+FONCTIONNALITÉS IMPLÉMENTÉES:
+```
+1. ÉTATS DE CHARGEMENT
+   - isSubmitting: booléen indiquant si une soumission est en cours
+   - submitProgress: { current: number, total: number } pour le tracking
+
+2. BOUTON AVEC PROGRESSION
+   - Spinner animé (Loader2) pendant la soumission
+   - Pourcentage affiché (ex: "75%") pour les opérations en masse
+   - Compteur détaillé (ex: "(3/4)") pour voir la progression
+   - "En cours..." pour les opérations simples
+   - Bouton désactivé pendant le chargement (empêche double-clic)
+
+3. PROTECTION DOUBLE-CLIC
+   - Vérification `if (isSubmitting) return` en début de fonction
+   - Reset garanti via try/finally
+```
+
+DÉTAILS TECHNIQUES:
+- Le progress est mis à jour dans la boucle de création en masse
+- min-w-[180px] sur le bouton pour éviter le redimensionnement
+- Affichage conditionnel selon submitProgress.total > 1
+
+PROCHAINE ÉTAPE: Tests et validation de la fonctionnalité
+---
+
+[2025-12-16 - Session 22]
+SESSION: Implémentation complète du système d'abonnements récurrents (P&L)
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /apps/web/app/[locale]/admin/pnl/types/subscription.ts [NEW - 220 lignes]
+- /apps/web/app/[locale]/admin/pnl/hooks/useSubscriptions.ts [NEW - 280 lignes]
+- /apps/web/app/[locale]/admin/pnl/utils/renewalEngine.ts [NEW - 270 lignes]
+- /apps/web/app/[locale]/admin/pnl/components/SubscriptionsModal.tsx [NEW - 530 lignes]
+
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [+subscriptions integration]
+- /apps/web/app/[locale]/admin/pnl/components/TransactionsModal.tsx [+subscription UI]
+- /apps/web/app/[locale]/admin/pnl/components/index.ts [+exports]
+- /apps/web/app/[locale]/admin/pnl/types/index.ts [+Transaction fields]
+
+FONCTIONNALITÉS IMPLÉMENTÉES:
+```
+1. TYPES D'ABONNEMENT (subscription.ts)
+   - Subscription: id, client, product, amount, cycle, status, renewal dates
+   - CreateSubscriptionData, UpdateSubscriptionData
+   - SubscriptionStats: total, active, paused, cancelled, mrr, arr
+   - RenewalResult, SyncResult pour tracking des renouvellements
+   - Helpers: generateId, calculateNextRenewalDate, getMonthKeyFromDate
+
+2. HOOK useSubscriptions (useSubscriptions.ts)
+   - CRUD complet via Firebase (collection 'subscriptions')
+   - Stats temps réel: MRR (mensuel), ARR (annuel)
+   - Actions: create, pause, resume, cancel, update
+   - Queries: byClient, byProduct, active, dueForRenewal
+
+3. MOTEUR DE RENOUVELLEMENT (renewalEngine.ts)
+   - processRenewals(): Crée les transactions à partir des abonnements
+   - getPendingRenewals(): Liste les renouvellements en attente
+   - previewRenewals(): Prévisualisation avant sync
+   - Gestion des limites et erreurs
+
+4. MODAL GESTION ABONNEMENTS (SubscriptionsModal.tsx)
+   - Liste avec filtres (statut, recherche) et tri
+   - Stats MRR/ARR en haut
+   - Actions: pause/resume, cancel, sync
+   - Affichage résultats de sync
+
+5. UI TRANSACTION MODAL (TransactionsModal.tsx)
+   - Section "Créer un abonnement récurrent"
+   - Toggle activation + sélection cycle (mensuel/annuel)
+   - Bouton CTA devient violet avec icône refresh
+   - Réduction appliquée à chaque renouvellement
+
+6. INTÉGRATION PnLPageClient
+   - Bouton "Abonnements" dans header avec badge count
+   - Section MRR/ARR dans Overview (si abonnements existent)
+   - handleCreateSubscription, handleSyncSubscriptions
+```
+
+ARCHITECTURE:
+```
+Création abonnement:
+  TransactionsModal → onCreateSubscription → useSubscriptions.createSubscription → Firebase
+
+Synchronisation (génération transactions):
+  SubscriptionsModal.onSync → handleSyncSubscriptions → processRenewals()
+    → Met à jour PnL data localement + setHasChanges(true)
+    → Met à jour subscription metadata dans Firebase
+```
+
+PROCHAINE ÉTAPE: Tester le flux complet, ajouter la collection Firebase 'subscriptions'
+---
+
 [2025-12-14 - Session 21]
 SESSION: Intégration complète des composants extraits dans PnLPageClient
 STATUT: ✅ Réussi

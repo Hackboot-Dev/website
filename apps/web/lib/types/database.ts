@@ -99,6 +99,44 @@ export type Client = {
 };
 
 // ============================================================
+// AGGREGATED CLIENT STATS (pre-calculated for performance)
+// ============================================================
+
+export type AggregatedClientStats = {
+  // Counts
+  total: number;
+  active: number;
+  inactive: number;
+  leads: number;
+  churned: number;
+
+  // Types
+  business: number;       // business + enterprise
+  individual: number;
+
+  // Revenue
+  totalRevenue: number;
+  avgRevenue: number;
+
+  // Time-based
+  newThisMonth: number;
+
+  // Top client info (cached)
+  topClient: {
+    id: string;
+    name: string;
+    email: string;
+    type: ClientType;
+    totalRevenue: number;
+    totalTransactions: number;
+  } | null;
+
+  // Metadata
+  updatedAt: Timestamp;
+  lastFullRefreshAt: Timestamp;
+};
+
+// ============================================================
 // PRODUCTS (Catalog)
 // ============================================================
 
