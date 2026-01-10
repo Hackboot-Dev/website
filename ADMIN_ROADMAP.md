@@ -3,7 +3,10 @@
 > Roadmap pour une suite de gestion d'entreprise cohérente et interconnectée
 
 **Dernière mise à jour :** 2026-01-10
-**Score actuel :** 6/10 (Phase 1 complète, modules connectés)
+**Score actuel :** 8/10 (Phase 2 complète + Objectifs v2 avec wizard et cohérence)
+
+**Spécifications en cours :**
+- [OBJECTIVES_ANALYSIS.md](/docs/features/OBJECTIVES_ANALYSIS.md) - Module Objectifs Analyse & Plans d'actions
 
 ---
 
@@ -11,13 +14,16 @@
 
 | Module | URL | État | Score | Détails |
 |--------|-----|------|-------|---------|
-| **Dashboard** | `/admin` | ✅ Fonctionnel | 7/10 | KPIs temps réel depuis Supabase (Revenue MTD, Clients, MRR) |
+| **Dashboard** | `/admin` | ✅ Riche | 9/10 | KPIs, YoY/MoM, Forecasting MRR, Alertes summary |
 | **Login** | `/admin/login` | ✅ Fonctionnel | 8/10 | Session admin OK |
 | **Clients** | `/admin/clients` | ✅ Connecté | 8/10 | CRUD + stats auto-màj via trigger P&L |
 | **Catalogue** | `/admin/catalogue` | ✅ Fonctionnel | 7/10 | Produits, édition, hooks - complet |
 | **P&L Hackboot** | `/admin/pnl/hackboot` | ✅ Riche | 8/10 | Transactions Supabase, MRR, graphiques |
 | **P&L VMCloud** | `/admin/pnl/vmcloud` | ✅ Riche | 8/10 | Même système que Hackboot |
 | **Subscriptions** | `/admin/pnl/*/subscriptions` | ✅ Intégré | 7/10 | Intégré au P&L, Supabase unique |
+| **Objectifs** | `/admin/objectives` | ✅ v2 | 9/10 | Wizard 5 étapes, 20+ types, cohérence, granularité (produit/client/segment) |
+| **Alertes** | `/admin/objectives` | ✅ Complet | 8/10 | Alertes auto, severity, acknowledge, panel intégré |
+| **Objectifs Analyse** | `/admin/objectives/[id]` | 🚧 Planifié | - | Page détail, plans d'actions, graphiques ([spec](/docs/features/OBJECTIVES_ANALYSIS.md)) |
 | **Settings** | `/admin/settings` | ✅ Basique | 5/10 | Page fonctionnelle, config DB affichée |
 
 ### Technologies
@@ -52,12 +58,13 @@ Clients ←──→ P&L ←──→ Subscriptions
 - ✅ Revenue MTD, Clients actifs, Abonnements, MRR
 - ✅ Calcul des variations % vs mois précédent
 
-### 4. Fonctionnalités Business Manquantes (Phase 2+)
-- ❌ Pas d'objectifs (targets mensuels/annuels)
-- ❌ Pas d'alertes automatiques
-- ❌ Pas de forecasting
-- ❌ Pas de facturation
-- ❌ Pas de reporting/export
+### 4. ~~Fonctionnalités Business Manquantes~~ → Phase 2 COMPLÈTE
+- ✅ Objectifs (targets mensuels/trimestriels/annuels) - Module complet
+- ✅ Alertes automatiques (critical/warning/info, acknowledge, panel)
+- ✅ Forecasting MRR (3/6/12 mois avec taux de croissance)
+- ✅ Comparaisons YoY/MoM sur Dashboard
+- ❌ Pas de facturation (Phase 3)
+- ❌ Pas de reporting/export (Phase 4)
 
 ---
 
@@ -107,8 +114,11 @@ Clients ←──→ P&L ←──→ Subscriptions
 
 - [x] ~~Finaliser et commiter le module Subscriptions~~ → Intégré au P&L
 - [x] ~~Tester l'intégration avec Supabase~~ → Fonctionnel
-- [ ] Phase 2 : Module Objectifs (targets mensuels/annuels)
-- [ ] Phase 2 : Système d'alertes automatiques
+- [x] ~~Phase 2 : Module Objectifs (targets mensuels/annuels)~~ → ✅ Complet
+- [x] ~~Phase 2 : Système d'alertes automatiques~~ → ✅ Complet
+- [x] ~~Phase 2 : Forecasting MRR~~ → ✅ Complet
+- [x] ~~Phase 2 : Comparaisons YoY/MoM~~ → ✅ Complet
+- [ ] Phase 3 : Module Facturation
 
 ---
 
@@ -133,43 +143,71 @@ Clients ←──→ P&L ←──→ Subscriptions
 ✅ /supabase/migrations/20251219_restructure_transactions.sql  # Trigger client stats
 ```
 
-### Phase 2 : Visibility Business ⏱️ 2-3 semaines
+### Phase 2 : Visibility Business ✅ COMPLÈTE
 
 **Objectif :** Avoir une vision claire de la performance
 
-| Tâche | Priorité | Impact |
-|-------|----------|--------|
-| Module Objectifs (targets mensuels/annuels) | P1 | Comparer réel vs cible |
-| Système d'alertes automatiques | P1 | Réagir avant problèmes |
-| Forecasting simple (projections MRR) | P2 | Planification |
-| Comparaisons YoY/MoM | P2 | Tendances |
+| Tâche | État | Impact |
+|-------|------|--------|
+| Module Objectifs (targets mensuels/trimestriels/annuels) | ✅ | Comparer réel vs cible |
+| Système d'alertes automatiques | ✅ | Réagir avant problèmes |
+| Forecasting MRR (3/6/12 mois) | ✅ | Planification |
+| Comparaisons YoY/MoM | ✅ | Tendances |
 
-**Tables Supabase à créer :**
-```sql
--- Objectifs
-CREATE TABLE objectives (
-  id TEXT PRIMARY KEY,
-  company_id TEXT NOT NULL,
-  type TEXT NOT NULL,              -- 'revenue', 'expense', 'mrr', 'clients'
-  period TEXT NOT NULL,            -- 'monthly', 'quarterly', 'yearly'
-  year INTEGER NOT NULL,
-  month INTEGER,                   -- NULL si yearly
-  target_amount DECIMAL(15,2) NOT NULL,
-  actual_amount DECIMAL(15,2) DEFAULT 0,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Alertes
-CREATE TABLE alerts (
-  id TEXT PRIMARY KEY,
-  company_id TEXT NOT NULL,
-  severity TEXT NOT NULL,          -- 'critical', 'warning', 'info'
-  type TEXT NOT NULL,              -- 'revenue_miss', 'churn_spike', 'expense_overrun'
-  message TEXT NOT NULL,
-  is_acknowledged BOOLEAN DEFAULT false,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
+**Fichiers créés/modifiés :**
 ```
+✅ /supabase/migrations/20260110_phase2_objectives_alerts.sql  # Tables objectives, alerts, alert_rules
+✅ /admin/objectives/page.tsx                    # Page server
+✅ /admin/objectives/ObjectivesPageClient.tsx   # Page client
+✅ /admin/objectives/types.ts                    # Types Objective, Alert, AlertRule
+✅ /admin/objectives/hooks/useObjectives.ts     # Hook CRUD objectifs + progress
+✅ /admin/objectives/hooks/useAlerts.ts         # Hook CRUD alertes
+✅ /admin/objectives/components/ObjectiveCard.tsx       # Carte objectif avec progress
+✅ /admin/objectives/components/AlertsPanel.tsx         # Panel alertes
+✅ /admin/hooks/useDashboardStats.ts            # Enrichi avec YoY/MoM + Forecasting
+✅ /admin/AdminDashboardClient.tsx              # Dashboard avec YoY, Forecasting, Alertes
+✅ /admin/layout.tsx                            # Navigation + lien Objectifs
+```
+
+### Phase 2.5 : Objectifs v2 ✅ COMPLÈTE + 🚧 EN COURS
+
+**Objectif :** Transformer les objectifs en véritable outil de pilotage business
+
+**Spécifications détaillées :** [OBJECTIVES_ANALYSIS.md](/docs/features/OBJECTIVES_ANALYSIS.md)
+
+#### ✅ Implémenté (Session 40)
+
+| Tâche | État | Description |
+|-------|------|-------------|
+| Wizard création 5 étapes | ✅ | category → type → details → target → review |
+| 20+ types d'objectifs | ✅ | revenue_total, revenue_product, expenses_category, gross_profit, net_profit, mrr_total, churn_rate, etc. |
+| Filtres granulaires | ✅ | Par produit, catégorie produit, client, segment client, catégorie dépense |
+| Validation cohérence | ✅ | Détecte si Revenue - Expenses ≠ Net Profit, marges incohérentes |
+| Suggestions correction | ✅ | Propose corrections automatiques si incohérence |
+| Composant Select custom | ✅ | Remplace selects natifs moches |
+
+**Fichiers créés/modifiés :**
+```
+✅ /supabase/migrations/20260112_objectives_v2.sql     # Nouveaux champs: category, priority, product_id, client_id, etc.
+✅ /admin/objectives/components/CreateObjectiveWizard.tsx  # Nouveau wizard 5 étapes
+✅ /admin/objectives/utils/coherenceChecker.ts          # Validation cohérence
+✅ /admin/objectives/types.ts                           # 20+ types, helpers, constantes
+✅ /components/ui/Select.tsx                            # Composant Select custom
+✅ /lib/services/database-supabase.ts                  # Support nouveaux champs
+```
+
+#### 🚧 Prochaine étape : Module Objectifs Full Features
+
+**Objectif :** Transformer les objectifs en véritable outil de pilotage business avec :
+- Page détail par objectif avec métriques et graphiques
+- Forecasting avancé (linéaire, saisonnier, Monte Carlo)
+- Plans d'actions intelligents générés automatiquement
+- Système de budgets avec suivi consommation
+- Dashboard global avec scorecard, heatmap, treemap
+
+**7 phases d'implémentation** (~2-3 semaines total)
+
+**📄 Spécifications complètes :** [MODULE_OBJECTIVES.md](/docs/features/MODULE_OBJECTIVES.md)
 
 ### Phase 3 : Facturation ⏱️ 2-3 semaines
 
@@ -267,13 +305,15 @@ CREATE TABLE alerts (
 
 ## 📈 Métriques de Succès
 
-| Métrique | Phase 1 (Actuel) | Cible Phase 2 | Cible Final |
-|----------|------------------|---------------|-------------|
-| Score global | ✅ 6/10 | 7/10 | 8/10 |
-| Modules connectés | ✅ 100% | 100% | 100% |
-| Dashboard fonctionnel | ✅ | ✅ | ✅ |
-| Objectifs/Targets | ❌ | ✅ | ✅ |
-| Alertes | ❌ | ❌ | ✅ |
+| Métrique | Phase 1 | Phase 2 (Actuel) | Cible Final |
+|----------|---------|------------------|-------------|
+| Score global | ✅ 6/10 | ✅ 7.5/10 | 8/10 |
+| Modules connectés | ✅ 100% | ✅ 100% | 100% |
+| Dashboard fonctionnel | ✅ | ✅ Enrichi | ✅ |
+| Objectifs/Targets | ❌ | ✅ Module complet | ✅ |
+| Alertes | ❌ | ✅ Module complet | ✅ |
+| Forecasting | ❌ | ✅ MRR 3/6/12 mois | ✅ |
+| Comparaisons YoY/MoM | ❌ | ✅ Dashboard | ✅ |
 | Facturation | ❌ | ❌ | ✅ |
 
 ---

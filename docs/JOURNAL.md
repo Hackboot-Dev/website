@@ -1,5 +1,236 @@
 # Journal de Développement - VMCloud Platform
 
+[2026-01-10 - Session 41]
+SESSION: Planification Module Objectifs Full Features - Documentation complète
+STATUT: ✅ Réussi
+
+OBJECTIF:
+- Définir toutes les fonctionnalités du module Objectifs (catégorie Financier)
+- Créer documentation complète des spécifications
+- Réorganiser les fichiers roadmap (supprimer doublons)
+- Préparer l'implémentation en 7 phases
+
+DISCUSSION AVEC L'UTILISATEUR:
+- 16 catégories de fonctionnalités validées via questions interactives
+- CA: segmentations par produit/catégorie/client/segment
+- Revenus: MRR, one-shot, upsells, renouvellements
+- Dépenses: catégories fixes/personnalisées, fournisseurs, fixes/variables
+- Profitabilité: marge brute, opérationnelle, bénéfice net, EBITDA
+- Ratios: marge brute %, nette %, dépenses/CA, Rule of 40
+- Forecasting: linéaire, saisonnier, scénarios, Monte Carlo
+- Graphiques: courbes, barres, jauge, waterfall
+- Dashboards: scorecard, heatmap, treemap, funnel
+- Drill-down: Année→Mois→Semaines→Transactions→Clients
+- Auto-insights: anomalies, top/flop, tendances, recommandations
+- Alertes: à risque, seuil, anomalie, milestone
+- Actions: tâches, leads, upsells, réductions coûts
+- Budgets: global, par catégorie, vs réel, alertes
+
+DÉCISIONS TECHNIQUES:
+- Librairie charts: Recharts
+- Export PDF: jsPDF
+- Monte Carlo: 1000 simulations
+
+FICHIERS CRÉÉS:
+- /docs/features/MODULE_OBJECTIVES.md [créé]
+  - Spécifications complètes du module (300+ lignes)
+  - Architecture technique détaillée
+  - Plan d'implémentation en 7 phases
+  - Schémas SQL pour budgets, actions, insights
+
+FICHIERS MODIFIÉS:
+- /ADMIN_ROADMAP.md [modifié]
+  - Simplifié: référence vers MODULE_OBJECTIVES.md
+  - Supprimé les détails inline
+
+- /docs/DOCUMENTATION_FEATURES.md [modifié]
+  - Mis à jour référence vers MODULE_OBJECTIVES.md
+  - Statut: Approuvé - Prêt pour implémentation
+
+FICHIERS SUPPRIMÉS:
+- /ROADMAP_ADMIN.md [supprimé] - Doublon obsolète (décembre 2024)
+- /docs/features/OBJECTIVES_ANALYSIS.md [supprimé] - Remplacé par MODULE_OBJECTIVES.md
+
+PROCHAINE ÉTAPE: Implémenter Phase 1 - Page détail objectif /admin/objectives/[id]
+---
+
+[2026-01-10 - Session 40]
+SESSION: Refonte complète système d'objectifs v2 - Wizard, cohérence, granularité
+STATUT: ✅ Réussi
+
+OBJECTIF:
+- Transformer le système d'objectifs en outil de planification business complet
+- Ajouter objectifs granulaires (par produit, catégorie, client, segment)
+- Ajouter validation de cohérence (Revenue - Expenses = Net Profit)
+- Créer wizard multi-étapes pour création intuitive
+
+FICHIERS CRÉÉS:
+- /supabase/migrations/20260112_objectives_v2.sql [créé]
+  - Nouveaux champs: category, target_unit, priority
+  - Champs granulaires: product_id, product_name, product_category_id, client_id, client_segment, expense_category
+  - Nouveaux types: 20+ types d'objectifs (revenue_total, revenue_product, expenses_category, gross_profit, net_profit, etc.)
+  - Table budget_plans pour grouper objectifs
+  - Contraintes pour category, priority, target_unit, client_segment
+
+- /apps/web/app/[locale]/admin/objectives/components/CreateObjectiveWizard.tsx [créé]
+  - Wizard 5 étapes: category → type → details → target → review
+  - Sélection catégorie avec icônes (Financier, Clients, Abonnements, Produits)
+  - Types dynamiques selon catégorie sélectionnée
+  - Filtres granulaires (produit, client, segment, catégorie dépense)
+  - Période et montant cible avec unité automatique (€, %, nombre)
+  - Validation cohérence à l'étape review avec avertissements
+
+- /apps/web/app/[locale]/admin/objectives/utils/coherenceChecker.ts [créé]
+  - Fonction checkObjectivesCoherence()
+  - Détection incohérences:
+    - Profit mismatch (Revenue - Expenses ≠ Net Profit)
+    - Marge calculée ≠ Objectif marge
+    - Marge brute > Marge nette impossible
+    - Somme des parties ≠ Total
+    - Cibles impossibles (ex: >100% rétention)
+  - Suggestions de correction automatiques
+
+- /apps/web/components/ui/Select.tsx [créé]
+  - Composant Select custom avec dropdown stylé
+  - Remplace les selects natifs moches (style Mac/iPhone)
+  - Thème dark, animations, variantes de taille
+  - Utilisé dans tout le module objectifs
+
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/objectives/types.ts [majeure refonte]
+  - 4 catégories: financial, clients, subscriptions, products
+  - 20+ types d'objectifs avec descriptions et unités
+  - Types cohérence: CoherenceIssue, CoherenceSuggestion, CoherenceCorrectionOption
+  - Helpers: formatObjectiveValue, getCategoryForType, requiresProductSelection, etc.
+  - Constantes: MONTHS_FR, QUARTERS_FR, CLIENT_SEGMENTS, EXPENSE_CATEGORIES
+
+- /apps/web/app/[locale]/admin/objectives/ObjectivesPageClient.tsx [modifié]
+  - Utilise CreateObjectiveWizard au lieu de CreateObjectiveModal
+  - handleCreateObjective supporte tous les nouveaux champs
+  - Passe existingObjectives au wizard pour cohérence
+
+- /apps/web/app/[locale]/admin/objectives/hooks/useObjectives.ts [modifié]
+  - CreateObjectiveData supporte tous les nouveaux champs
+  - Import des nouveaux types
+
+- /apps/web/app/[locale]/admin/objectives/components/ObjectiveCard.tsx [modifié]
+  - TYPE_ICONS pour les 20+ nouveaux types
+  - Utilise formatObjectiveValue pour formater selon l'unité
+
+- /apps/web/lib/services/database-supabase.ts [modifié]
+  - createObjective() supporte tous les nouveaux champs
+  - getObjectives() retourne tous les nouveaux champs
+
+FICHIERS SUPPRIMÉS:
+- /apps/web/app/[locale]/admin/objectives/components/CreateObjectiveModal.tsx [supprimé]
+  - Remplacé par CreateObjectiveWizard
+
+DÉTAILS TECHNIQUES:
+- Wizard multi-étapes avec animations Framer Motion
+- Coherence check automatique à l'étape review
+- Affichage avertissements si incohérences détectées
+- L'utilisateur peut quand même créer l'objectif malgré avertissements
+- Suggestions de correction proposées pour chaque incohérence
+
+PROCHAINE ÉTAPE: Ajouter hooks pour récupérer produits/clients depuis Supabase
+---
+
+[2026-01-10 - Session 39]
+SESSION: Phase 2 complète - Objectifs, Alertes, Forecasting, YoY/MoM
+STATUT: ✅ Réussi
+
+OBJECTIF:
+- Implémenter la Phase 2 de ADMIN_ROADMAP.md: Visibility Business
+- Ajouter module Objectifs avec targets mensuels/trimestriels/annuels
+- Ajouter système d'alertes automatiques
+- Ajouter Forecasting MRR (projections 3/6/12 mois)
+- Ajouter comparaisons YoY/MoM sur le Dashboard
+
+FICHIERS CRÉÉS:
+- /supabase/migrations/20260110_phase2_objectives_alerts.sql [créé]
+  - Table `objectives` (type, period, year, month, quarter, target_amount)
+  - Table `alerts` (severity, type, title, message, is_read, is_acknowledged)
+  - Table `alert_rules` (metric, condition, threshold, severity)
+  - Fonction `get_objective_progress()` pour calcul automatique
+  - Fonction `get_unread_alerts_count()`
+  - Règles d'alerte par défaut insérées
+
+- /apps/web/app/[locale]/admin/objectives/page.tsx [créé]
+  - Page server component
+
+- /apps/web/app/[locale]/admin/objectives/ObjectivesPageClient.tsx [créé]
+  - Page client avec gestion objectifs + alertes
+  - Filtres par type et période
+  - Navigation par année
+  - Stats overview (total, atteints, en bonne voie, à risque, en retard)
+
+- /apps/web/app/[locale]/admin/objectives/types.ts [créé]
+  - Types: Objective, ObjectiveWithProgress, Alert, AlertRule, AlertCounts
+  - Labels pour types et périodes
+
+- /apps/web/app/[locale]/admin/objectives/hooks/useObjectives.ts [créé]
+  - Hook CRUD pour objectifs
+  - Calcul automatique du progress basé sur pnl_transactions
+  - Stats par status (achieved, on_track, at_risk, behind)
+
+- /apps/web/app/[locale]/admin/objectives/hooks/useAlerts.ts [créé]
+  - Hook CRUD pour alertes
+  - Mark as read, acknowledge, delete
+  - Auto-refresh toutes les 30s
+
+- /apps/web/app/[locale]/admin/objectives/components/ObjectiveCard.tsx [créé]
+  - Carte affichant un objectif avec barre de progression
+  - Couleur selon status (vert/bleu/orange/rouge)
+  - Actions edit/delete
+
+- /apps/web/app/[locale]/admin/objectives/components/CreateObjectiveModal.tsx [créé]
+  - Modal création/édition objectif
+  - Sélection type, période, année, mois/trimestre
+  - Validation des champs
+
+- /apps/web/app/[locale]/admin/objectives/components/AlertsPanel.tsx [créé]
+  - Panel latéral affichant les alertes
+  - Icônes par sévérité (critical/warning/info)
+  - Actions: marquer lu, acquitter, supprimer
+  - Badge compteur sur icône
+
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/hooks/useDashboardStats.ts [modifié]
+  - Ajout YoY: revenueYTD, revenueYTDLastYear, revenueYoYChange
+  - Ajout MoM: revenueChange amélioré
+  - Ajout Forecasting: mrrForecast3Months/6Months/12Months, mrrGrowthRate
+  - Ajout monthlyRevenue array pour graphiques
+  - Ajout alertsCritical, alertsWarning, objectivesAchieved, objectivesTotal
+
+- /apps/web/app/[locale]/admin/AdminDashboardClient.tsx [modifié]
+  - Nouvelle section YoY Comparison Card
+  - Nouvelle section MRR Forecast Card (3/6/12 mois)
+  - Nouvelle section Alerts Summary Card
+  - Lien vers Objectifs dans quick links
+  - Note mise à jour (YoY/MoM + Forecasting)
+
+- /apps/web/app/[locale]/admin/layout.tsx [modifié]
+  - Import Target icon
+  - Ajout lien "Objectifs" dans navigation desktop et mobile
+
+- /ADMIN_ROADMAP.md [modifié]
+  - Score mis à jour: 6/10 → 7.5/10
+  - Phase 2 marquée comme complète
+  - Modules Objectifs et Alertes ajoutés au tableau
+  - Métriques de succès mises à jour
+
+DÉTAILS TECHNIQUES:
+- Forecasting MRR: Basé sur taux de croissance moyen des 3 derniers mois
+- Formule: MRR * (1 + growthRate)^n mois
+- Progress objectif: Comparaison actual/target avec statuts
+  - achieved: progress >= 100%
+  - on_track: progress >= expected (prorata temporel)
+  - at_risk: progress >= expected * 0.8
+  - behind: progress < expected * 0.8
+
+PROCHAINE ÉTAPE: Phase 3 - Module Facturation
+---
+
 [2026-01-10 - Session 38]
 SESSION: Fix PNL - Transactions disparaissent après rafraîchissement
 STATUT: ✅ Réussi

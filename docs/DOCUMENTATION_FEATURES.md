@@ -92,6 +92,38 @@ Chaque fonctionnalité complexe du projet a sa documentation détaillée.
 
 ---
 
+### Module Objectifs - Full Features
+**Fichier** : [features/MODULE_OBJECTIVES.md](./features/MODULE_OBJECTIVES.md)
+
+**Description** : Spécifications complètes du module Objectifs avec toutes les fonctionnalités financières : page détail, graphiques, forecasting, plans d'actions, budgets.
+
+**Contenu** :
+- Vue d'ensemble et décisions techniques (Recharts, jsPDF)
+- 16 catégories de fonctionnalités validées
+- Chiffre d'affaires : segmentations, types revenus, comparaisons
+- Dépenses : catégories, fournisseurs, fixes/variables
+- Profitabilité : marges, EBITDA, ratios financiers
+- Forecasting : linéaire, saisonnier, Monte Carlo
+- Visualisations : graphiques, dashboards, drill-down
+- Auto-insights et alertes automatiques
+- Plans d'actions intelligents
+- Système de budgets
+- Architecture technique complète
+- Plan d'implémentation en 7 phases
+
+**Fichiers concernés** :
+- `/apps/web/app/[locale]/admin/objectives/` - Module principal
+- `/apps/web/app/[locale]/admin/objectives/[id]/` - Page détail
+- `/apps/web/app/[locale]/admin/objectives/dashboard/` - Dashboard global
+- `/apps/web/app/[locale]/admin/objectives/budgets/` - Gestion budgets
+- `/apps/web/app/[locale]/admin/objectives/components/` - Composants
+- `/apps/web/app/[locale]/admin/objectives/hooks/` - Hooks
+- `/apps/web/app/[locale]/admin/objectives/utils/` - Utilitaires
+
+**Statut** : ✅ Approuvé - Prêt pour implémentation
+
+---
+
 ## Comment ajouter une nouvelle documentation
 
 1. Créer un fichier dans `/docs/features/FEATURE_NAME.md`

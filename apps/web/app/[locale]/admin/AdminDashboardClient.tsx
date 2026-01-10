@@ -1,6 +1,6 @@
 // /workspaces/website/apps/web/app/[locale]/admin/AdminDashboardClient.tsx
-// Description: Admin dashboard client component with overview cards - Refined design
-// Last modified: 2025-01-10
+// Description: Admin dashboard client component with overview cards, forecasting, YoY/MoM comparisons
+// Last modified: 2026-01-10
 // Related docs: /docs/features/ADMIN_PANEL.md
 
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
@@ -8,7 +8,22 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, DollarSign, Users, Server, ArrowUpRight, Sparkles, Building2, UserPlus, RefreshCw } from 'lucide-react';
+import {
+  TrendingUp,
+  DollarSign,
+  Users,
+  Server,
+  ArrowUpRight,
+  Sparkles,
+  Building2,
+  UserPlus,
+  RefreshCw,
+  Target,
+  AlertTriangle,
+  AlertCircle,
+  Calendar,
+  LineChart,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useDashboardStats } from './hooks/useDashboardStats';
@@ -37,6 +52,13 @@ const quickLinks = [
     description: 'Gérer les clients et prospects VMCloud',
     icon: UserPlus,
     color: 'blue',
+  },
+  {
+    href: '/admin/objectives',
+    title: 'Objectifs',
+    description: 'Suivre les objectifs et gérer les alertes',
+    icon: Target,
+    color: 'emerald',
   },
   {
     href: '/admin/settings',
@@ -192,6 +214,110 @@ export default function AdminDashboardClient() {
         })}
       </motion.div>
 
+      {/* YoY Comparison + Alerts Summary Row */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+      >
+        {/* YoY Comparison Card */}
+        <motion.div
+          variants={itemVariants}
+          className="p-6 bg-zinc-900/20 border border-zinc-900 hover:border-zinc-800 hover:bg-zinc-900/40 transition-all duration-300"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-10 h-10 flex items-center justify-center rounded-lg border bg-zinc-900/50 border-blue-900/30 text-blue-500">
+              <Calendar className="h-5 w-5" />
+            </div>
+            {!stats.loading && stats.revenueYoYChange !== 0 && (
+              <span className={`text-xs font-medium ${stats.revenueYoYChange > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                {stats.revenueYoYChange > 0 ? '+' : ''}{stats.revenueYoYChange.toFixed(1)}% YoY
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-zinc-500 uppercase tracking-wider mb-2">Revenue YTD</p>
+          <p className="text-3xl font-extralight text-white mb-2">
+            {stats.loading ? '...' : formatCurrency(stats.revenueYTD)}
+          </p>
+          <p className="text-xs text-zinc-500">
+            vs {stats.loading ? '...' : formatCurrency(stats.revenueYTDLastYear)} l'an dernier
+          </p>
+        </motion.div>
+
+        {/* MRR Forecast Card */}
+        <motion.div
+          variants={itemVariants}
+          className="p-6 bg-zinc-900/20 border border-zinc-900 hover:border-zinc-800 hover:bg-zinc-900/40 transition-all duration-300"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-10 h-10 flex items-center justify-center rounded-lg border bg-zinc-900/50 border-violet-900/30 text-violet-500">
+              <LineChart className="h-5 w-5" />
+            </div>
+            {!stats.loading && stats.mrrGrowthRate !== 0 && (
+              <span className={`text-xs font-medium ${stats.mrrGrowthRate > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                {stats.mrrGrowthRate > 0 ? '+' : ''}{stats.mrrGrowthRate.toFixed(1)}%/mois
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-zinc-500 uppercase tracking-wider mb-2">MRR Forecast (12 mois)</p>
+          <p className="text-3xl font-extralight text-white mb-2">
+            {stats.loading ? '...' : formatCurrency(stats.mrrForecast12Months)}
+          </p>
+          <div className="flex items-center gap-4 text-xs text-zinc-500">
+            <span>3m: {stats.loading ? '...' : formatCurrency(stats.mrrForecast3Months)}</span>
+            <span>6m: {stats.loading ? '...' : formatCurrency(stats.mrrForecast6Months)}</span>
+          </div>
+        </motion.div>
+
+        {/* Alerts Summary Card */}
+        <motion.div
+          variants={itemVariants}
+          className="p-6 bg-zinc-900/20 border border-zinc-900 hover:border-zinc-800 hover:bg-zinc-900/40 transition-all duration-300"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-10 h-10 flex items-center justify-center rounded-lg border bg-zinc-900/50 border-amber-900/30 text-amber-500">
+              <AlertTriangle className="h-5 w-5" />
+            </div>
+            <Link
+              href={`/${locale}/admin/objectives`}
+              className="text-xs text-zinc-500 hover:text-white transition-colors"
+            >
+              Voir tout
+            </Link>
+          </div>
+          <p className="text-xs text-zinc-500 uppercase tracking-wider mb-2">Alertes</p>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-red-400" />
+              <span className="text-2xl font-extralight text-white">
+                {stats.loading ? '...' : stats.alertsCritical}
+              </span>
+              <span className="text-xs text-zinc-500">critiques</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-4 w-4 text-amber-400" />
+              <span className="text-2xl font-extralight text-white">
+                {stats.loading ? '...' : stats.alertsWarning}
+              </span>
+              <span className="text-xs text-zinc-500">attention</span>
+            </div>
+          </div>
+          {/* Objectives summary */}
+          <div className="mt-4 pt-4 border-t border-zinc-800">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Target className="h-4 w-4 text-emerald-400" />
+                <span className="text-xs text-zinc-500">Objectifs atteints</span>
+              </div>
+              <span className="text-sm text-white">
+                {stats.loading ? '...' : `${stats.objectivesAchieved}/${stats.objectivesTotal}`}
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+
       {/* P&L by Company */}
       <div className="space-y-6">
         <motion.div
@@ -267,7 +393,7 @@ export default function AdminDashboardClient() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
           {quickLinks.map((link) => {
             const Icon = link.icon;
@@ -275,11 +401,18 @@ export default function AdminDashboardClient() {
               <motion.div key={link.href} variants={itemVariants}>
                 <Link
                   href={`/${locale}${link.href}`}
-                  className="group block p-6 bg-zinc-900/20 border border-zinc-900 hover:border-zinc-800 hover:bg-zinc-900/40 transition-all duration-300"
+                  className={`
+                    group block p-6 bg-zinc-900/20 border border-zinc-900 hover:border-zinc-800 hover:bg-zinc-900/40 transition-all duration-300
+                    ${link.color === 'emerald' ? 'hover:border-emerald-900/50' : ''}
+                  `}
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 bg-white/5 border border-zinc-800 rounded-lg flex items-center justify-center group-hover:border-zinc-700 transition-colors">
-                      <Icon className="h-5 w-5 text-white" />
+                    <div className={`
+                      w-12 h-12 border rounded-lg flex items-center justify-center group-hover:border-zinc-700 transition-colors
+                      ${link.color === 'emerald' ? 'bg-emerald-500/10 border-emerald-900/30 text-emerald-400' : 'bg-white/5 border-zinc-800 text-white'}
+                      ${link.color === 'blue' ? 'bg-blue-500/10 border-blue-900/30 text-blue-400' : ''}
+                    `}>
+                      <Icon className="h-5 w-5" />
                     </div>
                     <ArrowUpRight className="w-5 h-5 text-zinc-600 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </div>
@@ -304,8 +437,8 @@ export default function AdminDashboardClient() {
         className="p-6 bg-emerald-500/5 border border-emerald-900/30"
       >
         <p className="text-emerald-400/80 text-sm font-light">
-          <strong className="font-medium">Données temps réel :</strong> Les KPIs sont calculés depuis Supabase.
-          Revenue = transactions du mois, MRR = abonnements actifs.
+          <strong className="font-medium">Données temps réel :</strong> KPIs depuis Supabase avec comparaisons YoY/MoM.
+          Forecasting MRR basé sur le taux de croissance mensuel moyen des 3 derniers mois.
         </p>
       </motion.div>
     </div>

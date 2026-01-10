@@ -20,6 +20,7 @@ import {
   Users,
   Package,
   CreditCard,
+  Target,
 } from 'lucide-react';
 
 type AdminUser = {
@@ -273,6 +274,22 @@ export default function AdminLayout({ children, params }: AdminLayoutProps) {
                   )}
                 </div>
 
+                {/* Objectifs */}
+                <Link
+                  href={`/${locale}/admin/objectives`}
+                  className={`
+                    flex items-center gap-2 px-4 py-2 text-sm font-medium
+                    transition-all duration-200
+                    ${pathname.includes('/admin/objectives')
+                      ? 'bg-white text-zinc-950'
+                      : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
+                    }
+                  `}
+                >
+                  <Target className="h-4 w-4" />
+                  Objectifs
+                </Link>
+
                 {/* Settings */}
                 <Link
                   href={`/${locale}/admin/settings`}
@@ -393,6 +410,22 @@ export default function AdminLayout({ children, params }: AdminLayoutProps) {
                 P&L {company.label}
               </Link>
             ))}
+
+            {/* Objectifs */}
+            <Link
+              href={`/${locale}/admin/objectives`}
+              className={`
+                flex items-center gap-2 px-3 py-1.5 text-xs font-medium whitespace-nowrap
+                transition-all duration-200
+                ${pathname.includes('/admin/objectives')
+                  ? 'bg-white text-zinc-950'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
+                }
+              `}
+            >
+              <Target className="h-3.5 w-3.5" />
+              Objectifs
+            </Link>
 
             {/* Settings */}
             <Link

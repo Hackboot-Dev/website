@@ -801,6 +801,471 @@ export class SupabaseDatabaseService {
   // ============================================================
   // Note: Client stats are automatically updated when pnl_transactions are inserted/deleted
   // via the trigger_update_client_stats trigger. No need to call updateClientStats manually.
+
+  // ============================================================
+  // OBJECTIVES
+  // ============================================================
+
+  async getObjectives(year?: number): Promise<{
+    id: string;
+    companyId: string;
+    type: string;
+    period: string;
+    year: number;
+    month?: number;
+    quarter?: number;
+    targetAmount: number;
+    name?: string;
+    description?: string;
+    createdAt: string;
+    updatedAt: string;
+    // New v2 fields
+    category?: string;
+    targetUnit?: string;
+    priority?: string;
+    productId?: string;
+    productName?: string;
+    productCategoryId?: string;
+    productCategoryName?: string;
+    clientId?: string;
+    clientName?: string;
+    clientSegment?: string;
+    expenseCategory?: string;
+  }[]> {
+    let query = supabase
+      .from('objectives')
+      .select('*')
+      .eq('company_id', this.companyId)
+      .order('year', { ascending: false })
+      .order('month', { ascending: true });
+
+    if (year) {
+      query = query.eq('year', year);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+
+    return (data || []).map(row => ({
+      id: row.id,
+      companyId: row.company_id,
+      type: row.type,
+      period: row.period,
+      year: row.year,
+      month: row.month || undefined,
+      quarter: row.quarter || undefined,
+      targetAmount: Number(row.target_amount),
+      name: row.name || undefined,
+      description: row.description || undefined,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      // New v2 fields
+      category: row.category || 'financial',
+      targetUnit: row.target_unit || 'currency',
+      priority: row.priority || 'medium',
+      productId: row.product_id || undefined,
+      productName: row.product_name || undefined,
+      productCategoryId: row.product_category_id || undefined,
+      productCategoryName: row.product_category_name || undefined,
+      clientId: row.client_id || undefined,
+      clientName: row.client_name || undefined,
+      clientSegment: row.client_segment || undefined,
+      expenseCategory: row.expense_category || undefined,
+    }));
+  }
+
+  async createObjective(data: {
+    type: string;
+    period: string;
+    year: number;
+    month?: number;
+    quarter?: number;
+    targetAmount: number;
+    name?: string;
+    description?: string;
+    // New v2 fields
+    category?: string;
+    targetUnit?: string;
+    priority?: string;
+    productId?: string;
+    productName?: string;
+    productCategoryId?: string;
+    productCategoryName?: string;
+    clientId?: string;
+    clientName?: string;
+    clientSegment?: string;
+    expenseCategory?: string;
+  }): Promise<{ id: string }> {
+    const id = generateId('obj');
+
+    const { error } = await supabase
+      .from('objectives')
+      .insert({
+        id,
+        company_id: this.companyId,
+        type: data.type,
+        period: data.period,
+        year: data.year,
+        month: data.month || null,
+        quarter: data.quarter || null,
+        target_amount: data.targetAmount,
+        name: data.name || null,
+        description: data.description || null,
+        // New v2 fields
+        category: data.category || 'financial',
+        target_unit: data.targetUnit || 'currency',
+        priority: data.priority || 'medium',
+        product_id: data.productId || null,
+        product_name: data.productName || null,
+        product_category_id: data.productCategoryId || null,
+        product_category_name: data.productCategoryName || null,
+        client_id: data.clientId || null,
+        client_name: data.clientName || null,
+        client_segment: data.clientSegment || null,
+        expense_category: data.expenseCategory || null,
+      });
+
+    if (error) throw error;
+    return { id };
+  }
+
+  async updateObjective(objectiveId: string, data: {
+    targetAmount?: number;
+    name?: string;
+    description?: string;
+  }): Promise<void> {
+    const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() };
+
+    if (data.targetAmount !== undefined) updateData.target_amount = data.targetAmount;
+    if (data.name !== undefined) updateData.name = data.name || null;
+    if (data.description !== undefined) updateData.description = data.description || null;
+
+    const { error } = await supabase
+      .from('objectives')
+      .update(updateData)
+      .eq('id', objectiveId);
+
+    if (error) throw error;
+  }
+
+  async deleteObjective(objectiveId: string): Promise<void> {
+    const { error } = await supabase
+      .from('objectives')
+      .delete()
+      .eq('id', objectiveId);
+
+    if (error) throw error;
+  }
+
+  async getObjectivesWithProgress(year: number): Promise<{
+    id: string;
+    type: string;
+    period: string;
+    month?: number;
+    quarter?: number;
+    targetAmount: number;
+    actualAmount: number;
+    progressPercent: number;
+    status: string;
+  }[]> {
+    const { data, error } = await supabase.rpc('get_objective_progress', {
+      p_company_id: this.companyId,
+      p_year: year,
+    });
+
+    if (error) {
+      console.error('Error getting objective progress:', error);
+      // Fallback to manual calculation if RPC doesn't exist yet
+      return [];
+    }
+
+    return (data || []).map((row: {
+      objective_id: string;
+      type: string;
+      period: string;
+      month: number | null;
+      quarter: number | null;
+      target_amount: number;
+      actual_amount: number;
+      progress_percent: number;
+      status: string;
+    }) => ({
+      id: row.objective_id,
+      type: row.type,
+      period: row.period,
+      month: row.month || undefined,
+      quarter: row.quarter || undefined,
+      targetAmount: Number(row.target_amount),
+      actualAmount: Number(row.actual_amount),
+      progressPercent: Number(row.progress_percent),
+      status: row.status,
+    }));
+  }
+
+  // ============================================================
+  // ALERTS
+  // ============================================================
+
+  async getAlerts(options?: {
+    unreadOnly?: boolean;
+    severity?: string;
+    limit?: number;
+  }): Promise<{
+    id: string;
+    companyId: string;
+    severity: string;
+    type: string;
+    title: string;
+    message: string;
+    relatedEntityType?: string;
+    relatedEntityId?: string;
+    metadata?: Record<string, unknown>;
+    isRead: boolean;
+    isAcknowledged: boolean;
+    acknowledgedAt?: string;
+    createdAt: string;
+  }[]> {
+    let query = supabase
+      .from('alerts')
+      .select('*')
+      .eq('company_id', this.companyId)
+      .order('created_at', { ascending: false });
+
+    if (options?.unreadOnly) {
+      query = query.eq('is_read', false);
+    }
+    if (options?.severity) {
+      query = query.eq('severity', options.severity);
+    }
+    if (options?.limit) {
+      query = query.limit(options.limit);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+
+    return (data || []).map(row => ({
+      id: row.id,
+      companyId: row.company_id,
+      severity: row.severity,
+      type: row.type,
+      title: row.title,
+      message: row.message,
+      relatedEntityType: row.related_entity_type || undefined,
+      relatedEntityId: row.related_entity_id || undefined,
+      metadata: row.metadata as Record<string, unknown> || undefined,
+      isRead: row.is_read,
+      isAcknowledged: row.is_acknowledged,
+      acknowledgedAt: row.acknowledged_at || undefined,
+      createdAt: row.created_at,
+    }));
+  }
+
+  async getAlertCounts(): Promise<{
+    total: number;
+    critical: number;
+    warning: number;
+    info: number;
+  }> {
+    const { data, error } = await supabase.rpc('get_unread_alerts_count', {
+      p_company_id: this.companyId,
+    });
+
+    if (error) {
+      console.error('Error getting alert counts:', error);
+      // Fallback
+      return { total: 0, critical: 0, warning: 0, info: 0 };
+    }
+
+    const row = data?.[0] || { total: 0, critical: 0, warning: 0, info: 0 };
+    return {
+      total: row.total || 0,
+      critical: row.critical || 0,
+      warning: row.warning || 0,
+      info: row.info || 0,
+    };
+  }
+
+  async createAlert(data: {
+    severity: string;
+    type: string;
+    title: string;
+    message: string;
+    relatedEntityType?: string;
+    relatedEntityId?: string;
+    metadata?: Record<string, unknown>;
+    autoDismissAt?: string;
+  }): Promise<{ id: string }> {
+    const id = generateId('alert');
+
+    const { error } = await supabase
+      .from('alerts')
+      .insert({
+        id,
+        company_id: this.companyId,
+        severity: data.severity,
+        type: data.type,
+        title: data.title,
+        message: data.message,
+        related_entity_type: data.relatedEntityType || null,
+        related_entity_id: data.relatedEntityId || null,
+        metadata: data.metadata || {},
+        auto_dismiss_at: data.autoDismissAt || null,
+      });
+
+    if (error) throw error;
+    return { id };
+  }
+
+  async markAlertAsRead(alertId: string): Promise<void> {
+    const { error } = await supabase
+      .from('alerts')
+      .update({ is_read: true })
+      .eq('id', alertId);
+
+    if (error) throw error;
+  }
+
+  async markAllAlertsAsRead(): Promise<void> {
+    const { error } = await supabase
+      .from('alerts')
+      .update({ is_read: true })
+      .eq('company_id', this.companyId)
+      .eq('is_read', false);
+
+    if (error) throw error;
+  }
+
+  async acknowledgeAlert(alertId: string): Promise<void> {
+    const { error } = await supabase
+      .from('alerts')
+      .update({
+        is_acknowledged: true,
+        acknowledged_at: new Date().toISOString(),
+      })
+      .eq('id', alertId);
+
+    if (error) throw error;
+  }
+
+  async deleteAlert(alertId: string): Promise<void> {
+    const { error } = await supabase
+      .from('alerts')
+      .delete()
+      .eq('id', alertId);
+
+    if (error) throw error;
+  }
+
+  // ============================================================
+  // METRICS FOR DASHBOARD
+  // ============================================================
+
+  async getRevenueByMonth(year: number): Promise<{ month: string; revenue: number }[]> {
+    const { data, error } = await supabase
+      .from('pnl_transactions')
+      .select('month, amount, discount')
+      .eq('company_id', this.companyId)
+      .eq('year', year);
+
+    if (error) throw error;
+
+    const monthlyRevenue: Record<string, number> = {};
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+    // Initialize all months
+    months.forEach(m => { monthlyRevenue[m] = 0; });
+
+    // Sum revenue by month
+    (data || []).forEach(tx => {
+      const netAmount = Number(tx.amount) - Number(tx.discount || 0);
+      monthlyRevenue[tx.month] = (monthlyRevenue[tx.month] || 0) + netAmount;
+    });
+
+    return months.map(month => ({
+      month,
+      revenue: monthlyRevenue[month],
+    }));
+  }
+
+  async getYoYComparison(currentYear: number): Promise<{
+    currentYearRevenue: number;
+    previousYearRevenue: number;
+    changePercent: number;
+  }> {
+    const [currentData, previousData] = await Promise.all([
+      supabase
+        .from('pnl_transactions')
+        .select('amount, discount')
+        .eq('company_id', this.companyId)
+        .eq('year', currentYear),
+      supabase
+        .from('pnl_transactions')
+        .select('amount, discount')
+        .eq('company_id', this.companyId)
+        .eq('year', currentYear - 1),
+    ]);
+
+    const currentYearRevenue = (currentData.data || []).reduce(
+      (sum, tx) => sum + Number(tx.amount) - Number(tx.discount || 0), 0
+    );
+    const previousYearRevenue = (previousData.data || []).reduce(
+      (sum, tx) => sum + Number(tx.amount) - Number(tx.discount || 0), 0
+    );
+
+    const changePercent = previousYearRevenue > 0
+      ? ((currentYearRevenue - previousYearRevenue) / previousYearRevenue) * 100
+      : 0;
+
+    return {
+      currentYearRevenue,
+      previousYearRevenue,
+      changePercent: Math.round(changePercent * 10) / 10,
+    };
+  }
+
+  async getMoMComparison(year: number, month: number): Promise<{
+    currentMonthRevenue: number;
+    previousMonthRevenue: number;
+    changePercent: number;
+  }> {
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    const currentMonthKey = months[month - 1];
+    const previousMonthKey = month === 1 ? 'dec' : months[month - 2];
+    const previousYear = month === 1 ? year - 1 : year;
+
+    const [currentData, previousData] = await Promise.all([
+      supabase
+        .from('pnl_transactions')
+        .select('amount, discount')
+        .eq('company_id', this.companyId)
+        .eq('year', year)
+        .eq('month', currentMonthKey),
+      supabase
+        .from('pnl_transactions')
+        .select('amount, discount')
+        .eq('company_id', this.companyId)
+        .eq('year', previousYear)
+        .eq('month', previousMonthKey),
+    ]);
+
+    const currentMonthRevenue = (currentData.data || []).reduce(
+      (sum, tx) => sum + Number(tx.amount) - Number(tx.discount || 0), 0
+    );
+    const previousMonthRevenue = (previousData.data || []).reduce(
+      (sum, tx) => sum + Number(tx.amount) - Number(tx.discount || 0), 0
+    );
+
+    const changePercent = previousMonthRevenue > 0
+      ? ((currentMonthRevenue - previousMonthRevenue) / previousMonthRevenue) * 100
+      : 0;
+
+    return {
+      currentMonthRevenue,
+      previousMonthRevenue,
+      changePercent: Math.round(changePercent * 10) / 10,
+    };
+  }
 }
 
 // ============================================================
