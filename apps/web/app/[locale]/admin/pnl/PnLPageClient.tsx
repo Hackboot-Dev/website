@@ -11,10 +11,9 @@ import { Loader2 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-// Firebase & Database
-import { getPublicDb } from '../../../../lib/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+// Database
 import { getDatabase } from '../../../../lib/services/database';
+import { supabase } from '../../../../lib/supabase';
 import { generateRandomClient, type GeneratedClient } from '../../../../lib/utils/clientGenerator';
 import type { Client } from '../../../../lib/types/database';
 
@@ -120,29 +119,51 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
       } catch { /* Invalid cache */ }
     }
 
-    const publicDb = getPublicDb();
-    if (!publicDb) return [];
-
     try {
-      const snapshot = await getDocs(collection(publicDb, 'catalogue'));
-      const categories: ProductCategory[] = [];
+      // Load categories from Supabase
+      const { data: categoriesData, error: catError } = await supabase
+        .from('product_categories')
+        .select('*')
+        .eq('company_id', 'vmcloud')
+        .order('sort_order');
 
-      snapshot.forEach((docSnap) => {
-        if (docSnap.id !== '_manifest') {
-          const catData = docSnap.data();
-          categories.push({
-            id: catData.id || docSnap.id,
-            label: catData.name || catData.displayName || docSnap.id,
-            isFromCatalogue: true,
-            products: (catData.products || []).map((p: { id: string; name: string; monthly?: number; hourly?: number; annual?: number; price_per_gb_month?: number }) => ({
-              id: p.id,
-              label: p.name || p.id,
-              price: p.monthly || p.hourly || p.annual || p.price_per_gb_month || 0,
-              transactions: {},
-            })),
-          });
-        }
-      });
+      if (catError) throw catError;
+
+      // Load products from Supabase
+      const { data: productsData, error: prodError } = await supabase
+        .from('products')
+        .select('*')
+        .eq('company_id', 'vmcloud')
+        .eq('status', 'active');
+
+      if (prodError) throw prodError;
+
+      // Group products by category
+      type CategoryRow = { id: string; name: string; sort_order: number };
+      type ProductRow = { id: string; name: string; category_id: string | null; unit_price: number };
+      const categories: ProductCategory[] = (categoriesData || []).map((cat: CategoryRow) => ({
+        id: cat.id,
+        label: cat.name,
+        isFromCatalogue: true,
+        products: (productsData || [])
+          .filter((p: ProductRow) => p.category_id === cat.id)
+          .map((p: ProductRow) => ({
+            id: p.id,
+            label: p.name,
+            price: p.unit_price || 0,
+            transactions: {},
+          })),
+      }));
+
+      // Cache the result
+      localStorage.setItem('catalogue_cache', JSON.stringify({
+        data: categories.map(c => ({
+          id: c.id,
+          name: c.label,
+          products: c.products.map(p => ({ id: p.id, name: p.label, monthly: p.price })),
+        })),
+        timestamp: new Date().toISOString(),
+      }));
 
       return categories;
     } catch (err) {

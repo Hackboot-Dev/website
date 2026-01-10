@@ -1,30 +1,14 @@
 // /workspaces/website/apps/web/app/[locale]/admin/pnl/hooks/useSubscriptions.ts
-// Description: Hook for managing subscriptions (CRUD operations + stats)
-// Last modified: 2024-12-14
+// Description: Hook for managing subscriptions (CRUD operations + stats) - Supabase version
+// Last modified: 2025-01-10
+// Migrated from Firebase to Supabase
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { getCompanyDb } from '../../../../../lib/firebase';
-import {
-  collection,
-  doc,
-  setDoc,
-  getDocs,
-  deleteDoc,
-  query,
-  orderBy,
-  limit,
-  startAfter,
-  getCountFromServer,
-  QueryDocumentSnapshot,
-  DocumentData,
-  writeBatch,
-} from 'firebase/firestore';
+import { supabase } from '../../../../../lib/supabase';
 import type {
   Subscription,
   CreateSubscriptionData,
   UpdateSubscriptionData,
-  SubscriptionStatus,
-  SubscriptionCycle,
   SubscriptionStats,
 } from '../types/subscription';
 import {
@@ -80,6 +64,92 @@ type UseSubscriptionsReturn = {
 };
 
 // ============================================================
+// HELPER: Map DB row to Subscription type
+// ============================================================
+
+interface SubscriptionRow {
+  id: string;
+  company_id: string;
+  client_id: string | null;
+  product_id: string | null;
+  name: string;
+  unit_price: number;
+  quantity: number;
+  billing_period: 'hourly' | 'daily' | 'monthly' | 'yearly';
+  status: 'active' | 'paused' | 'cancelled' | 'expired';
+  start_date: string;
+  end_date: string | null;
+  next_billing_date: string | null;
+  last_billed_date: string | null;
+  created_at: string;
+  updated_at: string;
+  metadata: Record<string, unknown> | null;
+}
+
+const mapRowToSubscription = (row: SubscriptionRow): Subscription => {
+  const metadata = row.metadata || {};
+  return {
+    id: row.id,
+    companyId: row.company_id as 'vmcloud' | 'hackboot',
+    clientId: row.client_id || '',
+    clientName: (metadata.clientName as string) || '',
+    clientEmail: (metadata.clientEmail as string) || undefined,
+    productCategoryId: (metadata.productCategoryId as string) || '',
+    productCategoryLabel: (metadata.productCategoryLabel as string) || '',
+    productId: row.product_id || '',
+    productLabel: row.name,
+    amount: row.unit_price * row.quantity,
+    discount: (metadata.discount as number) || undefined,
+    finalAmount: row.unit_price * row.quantity - ((metadata.discount as number) || 0),
+    cycle: row.billing_period === 'yearly' ? 'annual' : 'monthly',
+    startDate: row.start_date,
+    endDate: row.end_date || undefined,
+    dayOfMonth: (metadata.dayOfMonth as number) || new Date(row.start_date).getDate(),
+    status: row.status,
+    pausedAt: (metadata.pausedAt as string) || undefined,
+    cancelledAt: (metadata.cancelledAt as string) || undefined,
+    cancelReason: (metadata.cancelReason as string) || undefined,
+    lastRenewalDate: row.last_billed_date || row.start_date,
+    nextRenewalDate: row.next_billing_date || row.start_date,
+    renewalCount: (metadata.renewalCount as number) || 1,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    note: (metadata.note as string) || undefined,
+  };
+};
+
+const mapSubscriptionToRow = (sub: Subscription): Partial<SubscriptionRow> => {
+  return {
+    id: sub.id,
+    company_id: sub.companyId,
+    client_id: sub.clientId || null,
+    product_id: sub.productId || null,
+    name: sub.productLabel,
+    unit_price: sub.amount,
+    quantity: 1,
+    billing_period: sub.cycle === 'annual' ? 'yearly' : 'monthly',
+    status: sub.status,
+    start_date: sub.startDate,
+    end_date: sub.endDate || null,
+    next_billing_date: sub.nextRenewalDate,
+    last_billed_date: sub.lastRenewalDate,
+    metadata: {
+      clientName: sub.clientName,
+      clientEmail: sub.clientEmail,
+      productCategoryId: sub.productCategoryId,
+      productCategoryLabel: sub.productCategoryLabel,
+      discount: sub.discount,
+      dayOfMonth: sub.dayOfMonth,
+      pausedAt: sub.pausedAt,
+      cancelledAt: sub.cancelledAt,
+      cancelReason: sub.cancelReason,
+      renewalCount: sub.renewalCount,
+      note: sub.note,
+    },
+  };
+};
+
+// ============================================================
 // HOOK
 // ============================================================
 
@@ -93,44 +163,41 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
   const [deleting, setDeleting] = useState(false);
   const [deleteProgress, setDeleteProgress] = useState({ current: 0, total: 0 });
 
-  // Pagination cursor
-  const lastDocRef = useRef<QueryDocumentSnapshot<DocumentData> | null>(null);
+  // Pagination
+  const offsetRef = useRef(0);
   const [hasMore, setHasMore] = useState(true);
 
   // --------------------------------------------------------
-  // REFRESH COUNT (without loading all docs)
+  // REFRESH COUNT
   // --------------------------------------------------------
   const refreshCount = useCallback(async () => {
     try {
-      const db = getCompanyDb(companyId);
-      if (!db) return;
+      const { count, error: countError } = await supabase
+        .from('subscriptions')
+        .select('*', { count: 'exact', head: true })
+        .eq('company_id', companyId);
 
-      const subsRef = collection(db, 'subscriptions');
-      const countSnapshot = await getCountFromServer(query(subsRef));
-      setTotalCount(countSnapshot.data().count);
+      if (countError) throw countError;
+      setTotalCount(count || 0);
     } catch (err) {
       console.error('Error getting count:', err);
     }
   }, [companyId]);
 
   // --------------------------------------------------------
-  // LOAD ALL FOR SYNC (bypasses pagination, for sync only)
+  // LOAD ALL FOR SYNC
   // --------------------------------------------------------
   const loadAllForSync = useCallback(async (): Promise<Subscription[]> => {
-    const db = getCompanyDb(companyId);
-    if (!db) return [];
-
     try {
-      const subsRef = collection(db, 'subscriptions');
-      const q = query(subsRef, orderBy('createdAt', 'desc'));
-      const snapshot = await getDocs(q);
+      const { data, error: loadError } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false });
 
-      const allSubs: Subscription[] = [];
-      snapshot.forEach((docSnap) => {
-        allSubs.push({ id: docSnap.id, ...docSnap.data() } as Subscription);
-      });
+      if (loadError) throw loadError;
 
-      return allSubs;
+      return (data || []).map(row => mapRowToSubscription(row as SubscriptionRow));
     } catch (err) {
       console.error('Error loading all subscriptions for sync:', err);
       return [];
@@ -143,32 +210,31 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
   const loadSubscriptions = useCallback(async () => {
     setLoading(true);
     setError(null);
+    offsetRef.current = 0;
 
     try {
-      const db = getCompanyDb(companyId);
-      if (!db) {
-        throw new Error(`Database not available for ${companyId}`);
-      }
+      // Get total count
+      const { count, error: countError } = await supabase
+        .from('subscriptions')
+        .select('*', { count: 'exact', head: true })
+        .eq('company_id', companyId);
 
-      const subsRef = collection(db, 'subscriptions');
-
-      // Get total count first
-      const countSnapshot = await getCountFromServer(query(subsRef));
-      setTotalCount(countSnapshot.data().count);
+      if (countError) throw countError;
+      setTotalCount(count || 0);
 
       // Load first page
-      const q = query(subsRef, orderBy('createdAt', 'desc'), limit(PAGE_SIZE));
-      const snapshot = await getDocs(q);
+      const { data, error: loadError } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false })
+        .range(0, PAGE_SIZE - 1);
 
-      const subs: Subscription[] = [];
-      snapshot.forEach((docSnap) => {
-        subs.push({ id: docSnap.id, ...docSnap.data() } as Subscription);
-      });
+      if (loadError) throw loadError;
 
-      // Store last doc for pagination
-      lastDocRef.current = snapshot.docs[snapshot.docs.length - 1] || null;
-      setHasMore(snapshot.docs.length === PAGE_SIZE);
-
+      const subs = (data || []).map(row => mapRowToSubscription(row as SubscriptionRow));
+      offsetRef.current = subs.length;
+      setHasMore(subs.length === PAGE_SIZE);
       setSubscriptions(subs);
     } catch (err) {
       console.error('Error loading subscriptions:', err);
@@ -182,31 +248,23 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
   // LOAD MORE (pagination)
   // --------------------------------------------------------
   const loadMore = useCallback(async () => {
-    if (!hasMore || loading || !lastDocRef.current) return;
+    if (!hasMore || loading) return;
 
     setLoading(true);
 
     try {
-      const db = getCompanyDb(companyId);
-      if (!db) return;
+      const { data, error: loadError } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false })
+        .range(offsetRef.current, offsetRef.current + PAGE_SIZE - 1);
 
-      const subsRef = collection(db, 'subscriptions');
-      const q = query(
-        subsRef,
-        orderBy('createdAt', 'desc'),
-        startAfter(lastDocRef.current),
-        limit(PAGE_SIZE)
-      );
-      const snapshot = await getDocs(q);
+      if (loadError) throw loadError;
 
-      const newSubs: Subscription[] = [];
-      snapshot.forEach((docSnap) => {
-        newSubs.push({ id: docSnap.id, ...docSnap.data() } as Subscription);
-      });
-
-      lastDocRef.current = snapshot.docs[snapshot.docs.length - 1] || null;
-      setHasMore(snapshot.docs.length === PAGE_SIZE);
-
+      const newSubs = (data || []).map(row => mapRowToSubscription(row as SubscriptionRow));
+      offsetRef.current += newSubs.length;
+      setHasMore(newSubs.length === PAGE_SIZE);
       setSubscriptions((prev) => [...prev, ...newSubs]);
     } catch (err) {
       console.error('Error loading more:', err);
@@ -226,11 +284,6 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
   // CREATE SUBSCRIPTION
   // --------------------------------------------------------
   const createSubscription = useCallback(async (data: CreateSubscriptionData): Promise<Subscription> => {
-    const db = getCompanyDb(companyId);
-    if (!db) {
-      throw new Error(`Database not available for ${companyId}`);
-    }
-
     const now = new Date().toISOString();
     const startDate = new Date(data.startDate);
     const dayOfMonth = getSafeDayOfMonth(startDate);
@@ -254,32 +307,41 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
       status: 'active',
       lastRenewalDate: data.startDate,
       nextRenewalDate: nextRenewalDate.toISOString().split('T')[0],
-      renewalCount: 1, // Initial transaction counts as first renewal
+      renewalCount: 1,
       createdAt: now,
       updatedAt: now,
     };
 
-    // Add optional fields only if they have values (Firebase doesn't accept undefined)
+    // Add optional fields
     if (data.clientEmail) subscription.clientEmail = data.clientEmail;
     if (data.discount !== undefined && data.discount > 0) subscription.discount = data.discount;
     if (data.endDate) subscription.endDate = data.endDate;
     if (data.note) subscription.note = data.note;
 
-    const docRef = doc(db, 'subscriptions', subscription.id);
-    await setDoc(docRef, subscription);
+    const row = mapSubscriptionToRow(subscription);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: insertError } = await (supabase as any)
+      .from('subscriptions')
+      .insert({
+        ...row,
+        created_at: now,
+        updated_at: now,
+      });
+
+    if (insertError) throw insertError;
 
     setSubscriptions((prev) => [subscription, ...prev]);
+    setTotalCount((prev) => prev + 1);
     return subscription;
-  }, [companyId]);
+  }, []);
 
   // --------------------------------------------------------
   // UPDATE SUBSCRIPTION
   // --------------------------------------------------------
   const updateSubscription = useCallback(async (id: string, data: UpdateSubscriptionData): Promise<void> => {
-    const db = getCompanyDb(companyId);
-    if (!db) {
-      throw new Error(`Database not available for ${companyId}`);
-    }
+    const current = subscriptions.find((s) => s.id === id);
+    if (!current) return;
 
     const updates: Partial<Subscription> = {
       ...data,
@@ -288,75 +350,65 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
 
     // Recalculate finalAmount if amount or discount changed
     if (data.amount !== undefined || data.discount !== undefined) {
-      const current = subscriptions.find((s) => s.id === id);
-      if (current) {
-        const newAmount = data.amount ?? current.amount;
-        const newDiscount = data.discount ?? current.discount;
-        updates.finalAmount = calculateFinalAmount(newAmount, newDiscount);
-      }
+      const newAmount = data.amount ?? current.amount;
+      const newDiscount = data.discount ?? current.discount;
+      updates.finalAmount = calculateFinalAmount(newAmount, newDiscount);
     }
 
-    const docRef = doc(db, 'subscriptions', id);
-    await setDoc(docRef, updates, { merge: true });
+    const updatedSub = { ...current, ...updates };
+    const row = mapSubscriptionToRow(updatedSub);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: updateError } = await (supabase as any)
+      .from('subscriptions')
+      .update({
+        ...row,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+
+    if (updateError) throw updateError;
 
     setSubscriptions((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, ...updates } : s))
+      prev.map((s) => (s.id === id ? updatedSub : s))
     );
-  }, [companyId, subscriptions]);
+  }, [subscriptions]);
 
   // --------------------------------------------------------
   // DELETE SUBSCRIPTION
   // --------------------------------------------------------
   const deleteSubscription = useCallback(async (id: string): Promise<void> => {
-    const db = getCompanyDb(companyId);
-    if (!db) {
-      throw new Error(`Database not available for ${companyId}`);
-    }
+    const { error: deleteError } = await supabase
+      .from('subscriptions')
+      .delete()
+      .eq('id', id);
 
-    const docRef = doc(db, 'subscriptions', id);
-    await deleteDoc(docRef);
+    if (deleteError) throw deleteError;
 
     setSubscriptions((prev) => prev.filter((s) => s.id !== id));
     setTotalCount((prev) => Math.max(0, prev - 1));
-  }, [companyId]);
+  }, []);
 
   // --------------------------------------------------------
-  // DELETE ALL SUBSCRIPTIONS (batch delete without loading all in memory)
+  // DELETE ALL SUBSCRIPTIONS
   // --------------------------------------------------------
   const deleteAllSubscriptions = useCallback(async (): Promise<void> => {
-    const db = getCompanyDb(companyId);
-    if (!db) {
-      throw new Error(`Database not available for ${companyId}`);
-    }
-
     setDeleting(true);
     setDeleteProgress({ current: 0, total: totalCount });
 
     try {
-      const subsRef = collection(db, 'subscriptions');
-      let deleted = 0;
+      const { error: deleteError } = await supabase
+        .from('subscriptions')
+        .delete()
+        .eq('company_id', companyId);
 
-      // Delete in batches of 500 (Firebase limit)
-      while (true) {
-        const q = query(subsRef, limit(500));
-        const snapshot = await getDocs(q);
-
-        if (snapshot.empty) break;
-
-        const batch = writeBatch(db);
-        snapshot.docs.forEach((docSnap) => {
-          batch.delete(docSnap.ref);
-        });
-
-        await batch.commit();
-        deleted += snapshot.docs.length;
-        setDeleteProgress({ current: deleted, total: totalCount });
-      }
+      if (deleteError) throw deleteError;
 
       setSubscriptions([]);
       setTotalCount(0);
       setHasMore(false);
-      lastDocRef.current = null;
+      offsetRef.current = 0;
+      setDeleteProgress({ current: totalCount, total: totalCount });
     } catch (err) {
       console.error('Error deleting all subscriptions:', err);
       throw err;
@@ -387,26 +439,31 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
     const today = new Date();
     const nextRenewalDate = calculateNextRenewalDate(today, sub.cycle, sub.dayOfMonth);
 
-    await updateSubscription(id, {
-      status: 'active',
+    const updatedSub = {
+      ...sub,
+      status: 'active' as const,
       pausedAt: undefined,
-    });
+      nextRenewalDate: nextRenewalDate.toISOString().split('T')[0],
+      updatedAt: new Date().toISOString(),
+    };
 
-    // Also update nextRenewalDate
-    const db = getCompanyDb(companyId);
-    if (db) {
-      const docRef = doc(db, 'subscriptions', id);
-      await setDoc(docRef, { nextRenewalDate: nextRenewalDate.toISOString().split('T')[0] }, { merge: true });
+    const row = mapSubscriptionToRow(updatedSub);
 
-      setSubscriptions((prev) =>
-        prev.map((s) =>
-          s.id === id
-            ? { ...s, status: 'active', pausedAt: undefined, nextRenewalDate: nextRenewalDate.toISOString().split('T')[0] }
-            : s
-        )
-      );
-    }
-  }, [companyId, subscriptions, updateSubscription]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: updateError } = await (supabase as any)
+      .from('subscriptions')
+      .update({
+        ...row,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+
+    if (updateError) throw updateError;
+
+    setSubscriptions((prev) =>
+      prev.map((s) => (s.id === id ? updatedSub : s))
+    );
+  }, [subscriptions]);
 
   // --------------------------------------------------------
   // CANCEL SUBSCRIPTION
@@ -447,10 +504,10 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
   }, [subscriptions]);
 
   // --------------------------------------------------------
-  // STATS (based on loaded subscriptions, not total)
+  // STATS
   // --------------------------------------------------------
   const stats: SubscriptionStats = {
-    total: totalCount, // Use server count for total
+    total: totalCount,
     active: subscriptions.filter((s) => s.status === 'active').length,
     paused: subscriptions.filter((s) => s.status === 'paused').length,
     cancelled: subscriptions.filter((s) => s.status === 'cancelled').length,
@@ -462,7 +519,7 @@ export function useSubscriptions(options: UseSubscriptionsOptions): UseSubscript
         if (s.cycle === 'annual') return sum + s.finalAmount / 12;
         return sum;
       }, 0),
-    arr: 0, // Will be calculated below
+    arr: 0,
   };
   stats.arr = stats.mrr * 12;
 

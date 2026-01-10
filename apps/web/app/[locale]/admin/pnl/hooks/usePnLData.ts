@@ -1,10 +1,10 @@
 // /workspaces/website/apps/web/app/[locale]/admin/pnl/hooks/usePnLData.ts
-// Description: Hook for P&L data loading, saving, and caching
-// Last modified: 2025-12-14
+// Description: Hook for P&L data loading, saving, and caching - Supabase version
+// Last modified: 2025-01-10
+// Migrated from Firebase to Supabase
 
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
-import { getCompanyDb, getPublicDb } from '../../../../../lib/firebase';
+import { useState, useCallback, useEffect } from 'react';
+import { supabase } from '../../../../../lib/supabase';
 import type {
   PnLData,
   ProductCategory,
@@ -182,7 +182,6 @@ type UsePnLDataReturn = {
 
 export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataReturn {
   const config = COMPANY_CONFIG[company];
-  const db = getCompanyDb(company);
   const cacheKey = `pnl_cache_${company}_${year}`;
 
   // State
@@ -194,14 +193,15 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
   const [hasChanges, setHasChanges] = useState(false);
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
 
-  // Load catalogue from public DB (for VMCloud)
+  // Load catalogue from Supabase (for VMCloud)
   const loadCatalogue = useCallback(async (): Promise<ProductCategory[]> => {
+    // Check cache first
     const cached = localStorage.getItem(CATALOGUE_CACHE_KEY);
     if (cached) {
       try {
-        const { data, timestamp } = JSON.parse(cached);
+        const { data: cachedData, timestamp } = JSON.parse(cached);
         if (Date.now() - new Date(timestamp).getTime() < CATALOGUE_CACHE_TTL) {
-          return data.map((cat: { id: string; name: string; products: Array<{ id: string; name: string; monthly?: number; hourly?: number; annual?: number; price_per_gb_month?: number }> }) => ({
+          return cachedData.map((cat: { id: string; name: string; products: Array<{ id: string; name: string; monthly?: number; hourly?: number; annual?: number; price_per_gb_month?: number }> }) => ({
             id: cat.id,
             label: cat.name || cat.id,
             isFromCatalogue: true,
@@ -216,31 +216,53 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
       } catch { /* Invalid cache */ }
     }
 
-    const publicDb = getPublicDb();
-    if (!publicDb) return [];
-
     try {
-      const snapshot = await getDocs(collection(publicDb, 'catalogue'));
-      const categories: ProductCategory[] = [];
+      // Load categories from Supabase
+      const { data: categories, error: catError } = await supabase
+        .from('product_categories')
+        .select('*')
+        .eq('company_id', 'vmcloud')
+        .order('sort_order');
 
-      snapshot.forEach((docSnap) => {
-        if (docSnap.id !== '_manifest') {
-          const catData = docSnap.data();
-          categories.push({
-            id: catData.id || docSnap.id,
-            label: catData.name || catData.displayName || docSnap.id,
-            isFromCatalogue: true,
-            products: (catData.products || []).map((p: { id: string; name: string; monthly?: number; hourly?: number; annual?: number; price_per_gb_month?: number }) => ({
-              id: p.id,
-              label: p.name || p.id,
-              price: p.monthly || p.hourly || p.annual || p.price_per_gb_month || 0,
-              transactions: {},
-            })),
-          });
-        }
-      });
+      if (catError) throw catError;
 
-      return categories;
+      // Load products from Supabase
+      const { data: products, error: prodError } = await supabase
+        .from('products')
+        .select('*')
+        .eq('company_id', 'vmcloud')
+        .eq('status', 'active');
+
+      if (prodError) throw prodError;
+
+      // Group products by category
+      type CategoryRow = { id: string; name: string; sort_order: number };
+      type ProductRow = { id: string; name: string; category_id: string | null; unit_price: number };
+      const result: ProductCategory[] = (categories || []).map((cat: CategoryRow) => ({
+        id: cat.id,
+        label: cat.name,
+        isFromCatalogue: true,
+        products: (products || [])
+          .filter((p: ProductRow) => p.category_id === cat.id)
+          .map((p: ProductRow) => ({
+            id: p.id,
+            label: p.name,
+            price: p.unit_price || 0,
+            transactions: {},
+          })),
+      }));
+
+      // Cache the result
+      localStorage.setItem(CATALOGUE_CACHE_KEY, JSON.stringify({
+        data: result.map(c => ({
+          id: c.id,
+          name: c.label,
+          products: c.products.map(p => ({ id: p.id, name: p.label, monthly: p.price })),
+        })),
+        timestamp: new Date().toISOString(),
+      }));
+
+      return result;
     } catch (err) {
       console.error('Error loading catalogue:', err);
       return [];
@@ -313,7 +335,7 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
     []
   );
 
-  // Load data
+  // Load data from Supabase
   const loadData = useCallback(
     async (forceSync = false) => {
       if (forceSync) {
@@ -323,6 +345,7 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
       let pnlData: PnLData | null = null;
       let fromCache = false;
 
+      // Try cache first (if not forcing sync)
       if (!forceSync) {
         const cached = localStorage.getItem(cacheKey);
         if (cached) {
@@ -335,24 +358,29 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
         }
       }
 
+      // Load from Supabase if no cache
       if (!pnlData) {
-        if (!db) {
-          setError('Firebase not configured');
-          setLoading(false);
-          return;
-        }
-
         try {
           setLoading(true);
           if (forceSync) setSyncing(true);
-          const docRef = doc(db, config.collection, `year_${year}`);
-          const docSnap = await getDoc(docRef);
 
-          if (docSnap.exists()) {
-            pnlData = docSnap.data() as PnLData;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const { data: dbData, error: dbError } = await (supabase as any)
+            .from('pnl_data')
+            .select('*')
+            .eq('company_id', company)
+            .eq('year', year)
+            .single();
+
+          if (dbError && dbError.code !== 'PGRST116') { // PGRST116 = no rows returned
+            throw dbError;
+          }
+
+          if (dbData?.data) {
+            pnlData = dbData.data as PnLData;
           }
         } catch (err) {
-          console.error('Error loading:', err);
+          console.error('Error loading from Supabase:', err);
           setError('Erreur de chargement');
           setData(company === 'hackboot' ? getDefaultData(year) : getEmptyData(year));
           setLoading(false);
@@ -369,6 +397,7 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
           newData = company === 'hackboot' ? getDefaultData(year) : getEmptyData(year);
         }
 
+        // For VMCloud, merge with catalogue
         if (company === 'vmcloud') {
           const catalogueCategories = await loadCatalogue();
           newData = mergeCatalogueWithPnL(newData, catalogueCategories);
@@ -378,6 +407,7 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
         setError(null);
         setHasChanges(false);
 
+        // Cache the data
         if (!fromCache) {
           const now = new Date();
           const dataToCache =
@@ -396,20 +426,36 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
         setSyncing(false);
       }
     },
-    [year, cacheKey, db, config, company, loadCatalogue, mergeCatalogueWithPnL]
+    [year, cacheKey, company, loadCatalogue, mergeCatalogueWithPnL]
   );
 
-  // Save data
+  // Save data to Supabase
   const saveData = useCallback(async () => {
-    if (!db || !data) return;
+    if (!data) return;
 
     try {
       setSaving(true);
       const updatedData = { ...data, updatedAt: new Date().toISOString() };
-      const docRef = doc(db, config.collection, `year_${year}`);
-      await setDoc(docRef, updatedData);
+      const docId = `${company}_${year}`;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: upsertError } = await (supabase as any)
+        .from('pnl_data')
+        .upsert({
+          id: docId,
+          company_id: company,
+          year: year,
+          data: updatedData,
+          updated_at: new Date().toISOString(),
+        }, {
+          onConflict: 'company_id,year',
+        });
+
+      if (upsertError) throw upsertError;
+
       setHasChanges(false);
 
+      // Update cache
       const now = new Date();
       localStorage.setItem(cacheKey, JSON.stringify({ data: updatedData, timestamp: now.toISOString() }));
       setLastSynced(now);
@@ -419,7 +465,7 @@ export function usePnLData({ company, year }: UsePnLDataOptions): UsePnLDataRetu
     } finally {
       setSaving(false);
     }
-  }, [db, data, config.collection, year, cacheKey]);
+  }, [data, company, year, cacheKey]);
 
   // Sync data (force refresh)
   const syncData = useCallback(() => loadData(true), [loadData]);

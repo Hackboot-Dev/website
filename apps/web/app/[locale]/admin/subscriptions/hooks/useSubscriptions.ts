@@ -241,7 +241,8 @@ export function useSubscriptions(companyId: CompanyId = 'vmcloud') {
       metadata: data.metadata || {},
     };
 
-    const { data: result, error: insertError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: result, error: insertError } = await (supabase as any)
       .from('subscriptions')
       .insert(insertData)
       .select()
@@ -289,7 +290,8 @@ export function useSubscriptions(companyId: CompanyId = 'vmcloud') {
     if (data.pauseReason !== undefined) updateData.pause_reason = data.pauseReason;
     if (data.notes !== undefined) updateData.notes = data.notes;
 
-    const { error: updateError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: updateError } = await (supabase as any)
       .from('subscriptions')
       .update(updateData)
       .eq('id', id);
@@ -398,7 +400,8 @@ export function useSubscriptions(companyId: CompanyId = 'vmcloud') {
       metadata: data.metadata || {},
     };
 
-    const { data: result, error: insertError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: result, error: insertError } = await (supabase as any)
       .from('subscription_plans')
       .insert(insertData)
       .select()
@@ -428,7 +431,8 @@ export function useSubscriptions(companyId: CompanyId = 'vmcloud') {
     if (data.isActive !== undefined) updateData.is_active = data.isActive;
     if (data.sortOrder !== undefined) updateData.sort_order = data.sortOrder;
 
-    const { error: updateError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: updateError } = await (supabase as any)
       .from('subscription_plans')
       .update(updateData)
       .eq('id', id);
@@ -459,7 +463,8 @@ export function useSubscriptions(companyId: CompanyId = 'vmcloud') {
     const id = `evt_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 9)}`;
 
     try {
-      await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase as any)
         .from('subscription_events')
         .insert({
           id,

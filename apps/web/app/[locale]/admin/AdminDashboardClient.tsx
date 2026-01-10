@@ -1,6 +1,6 @@
 // /workspaces/website/apps/web/app/[locale]/admin/AdminDashboardClient.tsx
 // Description: Admin dashboard client component with overview cards - Refined design
-// Last modified: 2025-12-11
+// Last modified: 2025-01-10
 // Related docs: /docs/features/ADMIN_PANEL.md
 
 // DÉBUT DU FICHIER COMPLET - Peut être copié/collé directement
@@ -8,9 +8,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, DollarSign, Users, Server, ArrowUpRight, Sparkles, Building2, UserPlus } from 'lucide-react';
+import { TrendingUp, DollarSign, Users, Server, ArrowUpRight, Sparkles, Building2, UserPlus, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useDashboardStats } from './hooks/useDashboardStats';
 
 const companies = [
   {
@@ -46,32 +47,7 @@ const quickLinks = [
   },
 ];
 
-const statsPlaceholder = [
-  {
-    label: 'Revenue (MTD)',
-    value: '—',
-    icon: DollarSign,
-    color: 'emerald',
-  },
-  {
-    label: 'Active Clients',
-    value: '—',
-    icon: Users,
-    color: 'blue',
-  },
-  {
-    label: 'Active Servers',
-    value: '—',
-    icon: Server,
-    color: 'violet',
-  },
-  {
-    label: 'Net Profit',
-    value: '—',
-    icon: TrendingUp,
-    color: 'amber',
-  },
-];
+// Stats are now fetched from Supabase via useDashboardStats hook
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -95,9 +71,53 @@ const itemVariants = {
   },
 } as const;
 
+// Format currency
+const formatCurrency = (amount: number): string => {
+  if (amount >= 1000000) {
+    return `${(amount / 1000000).toFixed(1)}M€`;
+  }
+  if (amount >= 1000) {
+    return `${(amount / 1000).toFixed(1)}k€`;
+  }
+  return `${amount.toFixed(0)}€`;
+};
+
 export default function AdminDashboardClient() {
   const params = useParams();
   const locale = params.locale as string;
+  const stats = useDashboardStats();
+
+  // Build stats array from real data
+  const statsData = [
+    {
+      label: 'Revenue (MTD)',
+      value: stats.loading ? '...' : formatCurrency(stats.revenueMTD),
+      change: stats.revenueChange,
+      icon: DollarSign,
+      color: 'emerald',
+    },
+    {
+      label: 'Clients actifs',
+      value: stats.loading ? '...' : stats.activeClients.toString(),
+      change: stats.clientsChange,
+      icon: Users,
+      color: 'blue',
+    },
+    {
+      label: 'Abonnements',
+      value: stats.loading ? '...' : stats.activeSubscriptions.toString(),
+      change: stats.subscriptionsChange,
+      icon: Server,
+      color: 'violet',
+    },
+    {
+      label: 'MRR',
+      value: stats.loading ? '...' : formatCurrency(stats.mrr),
+      change: stats.mrrChange,
+      icon: TrendingUp,
+      color: 'amber',
+    },
+  ];
 
   return (
     <div className="space-y-12">
@@ -137,7 +157,7 @@ export default function AdminDashboardClient() {
         animate="visible"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
       >
-        {statsPlaceholder.map((stat) => {
+        {statsData.map((stat) => {
           const Icon = stat.icon;
           return (
             <motion.div
@@ -153,8 +173,17 @@ export default function AdminDashboardClient() {
                   ${stat.color === 'violet' ? 'border-violet-900/30 text-violet-500' : ''}
                   ${stat.color === 'amber' ? 'border-amber-900/30 text-amber-500' : ''}
                 `}>
-                  <Icon className="h-5 w-5" />
+                  {stats.loading ? (
+                    <RefreshCw className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <Icon className="h-5 w-5" />
+                  )}
                 </div>
+                {stat.change !== 0 && !stats.loading && (
+                  <span className={`text-xs font-medium ${stat.change > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {stat.change > 0 ? '+' : ''}{stat.change.toFixed(1)}%
+                  </span>
+                )}
               </div>
               <p className="text-xs text-zinc-500 uppercase tracking-wider mb-2">{stat.label}</p>
               <p className="text-3xl font-extralight text-white">{stat.value}</p>
@@ -272,11 +301,11 @@ export default function AdminDashboardClient() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className="p-6 bg-amber-500/5 border border-amber-900/30"
+        className="p-6 bg-emerald-500/5 border border-emerald-900/30"
       >
-        <p className="text-amber-400/80 text-sm font-light">
-          <strong className="font-medium">Note :</strong> Chaque société dispose de sa propre base de données Firebase.
-          Les données P&L sont isolées par entreprise.
+        <p className="text-emerald-400/80 text-sm font-light">
+          <strong className="font-medium">Données temps réel :</strong> Les KPIs sont calculés depuis Supabase.
+          Revenue = transactions du mois, MRR = abonnements actifs.
         </p>
       </motion.div>
     </div>
