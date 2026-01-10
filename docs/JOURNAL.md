@@ -1,5 +1,87 @@
 # Journal de Développement - VMCloud Platform
 
+[2025-12-19 - Session 35]
+SESSION: Correction configuration TypeScript racine
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+- /tsconfig.json [créé]
+  - Fichier de configuration TypeScript racine manquant
+  - Nécessaire car apps/web/tsconfig.json étend ../../tsconfig.json
+  - Configuration de base pour monorepo Turborepo
+
+DÉTAILS:
+- Le serveur de développement échouait avec l'erreur TS5083: Cannot read file '/workspaces/website/tsconfig.json'
+- apps/web/tsconfig.json essayait d'étendre un fichier inexistant
+- Création d'un tsconfig.json racine avec les options de base (ES2022, ESNext, bundler)
+- Serveur de développement fonctionne maintenant correctement
+- Module abonnements compile sans erreur (HTTP 200 sur /fr/admin/subscriptions)
+
+PROCHAINE ÉTAPE: Exécuter la migration Supabase pour les tables d'abonnements
+---
+
+[2025-12-19 - Session 34]
+SESSION: Création du module Abonnements complet
+STATUT: ✅ Réussi
+FICHIERS CRÉÉS:
+
+**Migration Supabase:**
+- /supabase/migrations/20251219_subscriptions.sql [créé]
+  - Table subscription_plans (offres d'abonnement)
+  - Extension de la table subscriptions (nouvelles colonnes)
+  - Table subscription_events (historique des changements)
+  - Fonctions PostgreSQL: get_mrr(), get_subscription_metrics(), get_mrr_history()
+  - Données de seed: 4 plans VPS par défaut
+
+**Types TypeScript:**
+- /apps/web/app/[locale]/admin/subscriptions/types/index.ts [créé]
+  - Types: Subscription, SubscriptionPlan, SubscriptionEvent, SubscriptionMetrics
+  - Types: CreateSubscription, UpdateSubscription, CreateSubscriptionPlan
+  - Helpers: formatStatus, getStatusColor, calculateMonthlyPrice, daysUntilRenewal
+
+**Hook React:**
+- /apps/web/app/[locale]/admin/subscriptions/hooks/useSubscriptions.ts [créé]
+  - CRUD complet pour subscriptions et plans
+  - Actions: pause, resume, cancel, reactivate
+  - Calcul des métriques (MRR, ARR, churn)
+  - Gestion des événements (historique)
+
+**Pages:**
+- /apps/web/app/[locale]/admin/subscriptions/page.tsx [créé]
+- /apps/web/app/[locale]/admin/subscriptions/SubscriptionsPageClient.tsx [créé]
+  - Liste des abonnements avec filtres et recherche
+  - KPIs (MRR, abonnements actifs, en pause, résiliés)
+  - Actions rapides (pause, resume, cancel)
+- /apps/web/app/[locale]/admin/subscriptions/plans/page.tsx [créé]
+  - Gestion des plans d'abonnement (CRUD)
+  - Configuration des prix, périodes, fonctionnalités
+- /apps/web/app/[locale]/admin/subscriptions/metrics/page.tsx [créé]
+  - Dashboard métriques SaaS
+  - MRR, ARR, ARPU, Churn Rate
+  - Répartition par statut et période de facturation
+
+**Composants:**
+- /apps/web/app/[locale]/admin/subscriptions/components/SubscriptionModal.tsx [créé]
+  - Création d'abonnement en 3 étapes (client, plan, détails)
+  - Recherche client, prix personnalisé, remise
+- /apps/web/app/[locale]/admin/subscriptions/components/SubscriptionDetailModal.tsx [créé]
+  - Détails complet de l'abonnement
+  - Actions (pause, resume, cancel, reactivate)
+  - Historique des événements
+
+**Navigation:**
+- /apps/web/app/[locale]/admin/layout.tsx [modifié]
+  - Ajout du lien "Abonnements" dans le header (desktop + mobile)
+
+DÉTAILS:
+- Module complet avec CRUD, filtres, recherche, et métriques SaaS
+- Design cohérent avec le reste de l'admin (zinc/white theme)
+- Animations Framer Motion
+- Gestion multi-entreprise (vmcloud/hackboot)
+- Calcul MRR/ARR temps réel
+
+PROCHAINE ÉTAPE: Exécuter la migration Supabase, tester le module en local
+---
+
 [2025-12-19 - Session 33]
 SESSION: Activation des fichiers refactorisés et correction des types
 STATUT: ✅ Réussi
@@ -4322,3 +4404,45 @@ MÉTRIQUES:
 ERREURS: Aucune - Système refactorisé avec succès
 PROCHAINE ÉTAPE: Tester la page changelog en dev, vérifier que toutes les traductions s'affichent correctement
 ---
+
+---
+
+[2025-01-10 - SESSION]
+SESSION: Restructuration complète de la roadmap admin
+STATUT: ✅ Réussi
+FICHIERS:
+- /ADMIN_ROADMAP.md [restructuré entièrement]
+DÉTAILS:
+ANALYSE EFFECTUÉE:
+- Audit complet de l'écosystème admin (40 fichiers)
+- Identification des problèmes critiques (modules en silo, double système subscriptions)
+- Score global calculé : 3.6/10
+
+PROBLÈMES IDENTIFIÉS:
+1. Modules en silo (Clients, P&L, Subscriptions ne communiquent pas)
+2. Double système de subscriptions (Firebase P&L + Supabase autonome)
+3. Dashboard vide (KPIs placeholder)
+4. Absence d'objectifs, alertes, forecasting, facturation
+
+RESTRUCTURATION DU FICHIER:
+- Supprimé : Détails techniques excessifs (SQL détaillé pour chaque module)
+- Supprimé : Sections RH, Projets, Comptabilité avancée (optionnelles P3)
+- Conservé : État actuel des modules avec scores
+- Ajouté : Problèmes critiques identifiés
+- Ajouté : Ce qui est FAIT vs À FAIRE
+- Ajouté : Roadmap en 6 phases avec priorités claires
+- Ajouté : Architecture cible simplifiée
+- Ajouté : Métriques de succès
+
+ROADMAP DÉFINIE:
+- Phase 1: Unification (URGENT) - Connecter les modules
+- Phase 2: Visibility Business - Objectifs, alertes
+- Phase 3: Facturation
+- Phase 4: Analytics & Reporting
+- Phase 5: CRM Avancé (optionnel)
+- Phase 6: Opérations (optionnel)
+
+ERREURS: Aucune
+PROCHAINE ÉTAPE: Commencer Phase 1 - Unifier les subscriptions et connecter les modules
+---
+
