@@ -2,57 +2,57 @@
 
 > Roadmap pour une suite de gestion d'entreprise cohérente et interconnectée
 
-**Dernière mise à jour :** 2025-01-10
-**Score actuel :** 3.6/10 (modules isolés, pas de vue business globale)
+**Dernière mise à jour :** 2026-01-10
+**Score actuel :** 6/10 (Phase 1 complète, modules connectés)
 
 ---
 
 ## 📊 État Actuel des Modules
 
-| Module | URL | État | Score | Problèmes |
-|--------|-----|------|-------|-----------|
-| **Dashboard** | `/admin` | 🟡 Placeholder | 3/10 | KPIs vides ("—"), pas de données réelles |
+| Module | URL | État | Score | Détails |
+|--------|-----|------|-------|---------|
+| **Dashboard** | `/admin` | ✅ Fonctionnel | 7/10 | KPIs temps réel depuis Supabase (Revenue MTD, Clients, MRR) |
 | **Login** | `/admin/login` | ✅ Fonctionnel | 8/10 | Session admin OK |
-| **Clients** | `/admin/clients` | ✅ Fonctionnel | 6/10 | CRUD OK mais **isolé** du P&L et Subscriptions |
+| **Clients** | `/admin/clients` | ✅ Connecté | 8/10 | CRUD + stats auto-màj via trigger P&L |
 | **Catalogue** | `/admin/catalogue` | ✅ Fonctionnel | 7/10 | Produits, édition, hooks - complet |
-| **P&L Hackboot** | `/admin/pnl/hackboot` | ✅ Riche | 8/10 | Transactions, MRR, graphiques |
+| **P&L Hackboot** | `/admin/pnl/hackboot` | ✅ Riche | 8/10 | Transactions Supabase, MRR, graphiques |
 | **P&L VMCloud** | `/admin/pnl/vmcloud` | ✅ Riche | 8/10 | Même système que Hackboot |
-| **Subscriptions** | `/admin/subscriptions` | 🟡 En cours | 4/10 | **Non commité**, doublon avec P&L |
-| **Settings** | `/admin/settings` | ❌ Vide | 0/10 | Lien mort (404) |
+| **Subscriptions** | `/admin/pnl/*/subscriptions` | ✅ Intégré | 7/10 | Intégré au P&L, Supabase unique |
+| **Settings** | `/admin/settings` | ✅ Basique | 5/10 | Page fonctionnelle, config DB affichée |
 
 ### Technologies
 - **Frontend:** Next.js 14, React, TypeScript, Tailwind CSS, Framer Motion
-- **Backend:** Supabase (PostgreSQL) + Firebase (P&L legacy)
+- **Backend:** Supabase (PostgreSQL) - **100% migré depuis Firebase**
 - **Auth:** Sessions admin custom
 - **Multi-tenant:** Par companyId (vmcloud, hackboot)
 
 ---
 
-## 🔴 Problèmes Critiques Identifiés
+## ✅ Problèmes Résolus (Phase 1)
 
-### 1. Modules en Silo (CRITIQUE)
+### 1. ~~Modules en Silo~~ → CONNECTÉS
 ```
-Clients ←✗→ P&L ←✗→ Subscriptions
+Clients ←──→ P&L ←──→ Subscriptions
    ↓           ↓            ↓
- Isolé      Isolé        Isolé
+ Supabase   Supabase    Supabase (unifié)
 ```
-- Les modules ne communiquent pas entre eux
-- Pas de vue client 360° (transactions + subscriptions)
-- Impossible de voir quel client génère quel revenu
+- ✅ Les modules communiquent via Supabase
+- ✅ Vue client 360° (transactions + stats auto-màj)
+- ✅ Trigger PostgreSQL met à jour les stats clients automatiquement
 
-### 2. Double Système de Subscriptions (CRITIQUE)
-| Système | Localisation | Base | Utilisé pour |
-|---------|--------------|------|--------------|
-| P&L Subscriptions | `/admin/pnl/hooks/useSubscriptions.ts` | Firebase | Transactions récurrentes |
-| Module Subscriptions | `/admin/subscriptions/` | Supabase | Gestion autonome |
+### 2. ~~Double Système de Subscriptions~~ → UNIFIÉ
+| Système | Localisation | Base | État |
+|---------|--------------|------|------|
+| P&L Subscriptions | `/admin/pnl/hooks/useSubscriptions.ts` | Supabase | ✅ Unique |
 
-**Impact :** Données dupliquées, incohérences garanties, MRR/ARR non fiables
+**Résolu :** Un seul système de subscriptions dans Supabase
 
-### 3. Dashboard Vide
-- Affiche des placeholders "—" au lieu de vraies métriques
-- Pas de consolidation des données des autres modules
+### 3. ~~Dashboard Vide~~ → FONCTIONNEL
+- ✅ KPIs temps réel depuis Supabase
+- ✅ Revenue MTD, Clients actifs, Abonnements, MRR
+- ✅ Calcul des variations % vs mois précédent
 
-### 4. Absence de Fonctionnalités Business
+### 4. Fonctionnalités Business Manquantes (Phase 2+)
 - ❌ Pas d'objectifs (targets mensuels/annuels)
 - ❌ Pas d'alertes automatiques
 - ❌ Pas de forecasting
@@ -105,29 +105,32 @@ Clients ←✗→ P&L ←✗→ Subscriptions
 
 ## 🚧 En Cours
 
-- [ ] Finaliser et commiter le module Subscriptions
-- [ ] Tester l'intégration avec Supabase
+- [x] ~~Finaliser et commiter le module Subscriptions~~ → Intégré au P&L
+- [x] ~~Tester l'intégration avec Supabase~~ → Fonctionnel
+- [ ] Phase 2 : Module Objectifs (targets mensuels/annuels)
+- [ ] Phase 2 : Système d'alertes automatiques
 
 ---
 
 ## 📋 À Faire - Roadmap
 
-### Phase 1 : Unification (URGENT) ⏱️ 1-2 semaines
+### Phase 1 : Unification ✅ COMPLÈTE
 
 **Objectif :** Connecter les modules entre eux pour avoir une vue cohérente
 
-| Tâche | Priorité | Impact |
-|-------|----------|--------|
-| Unifier les 2 systèmes Subscriptions → Supabase unique | P0 | Élimine la duplication |
-| Lier Clients ↔ P&L (transactions créent/màj clients) | P0 | Vue client 360° |
-| Dashboard avec vraies KPIs consolidées | P1 | Vision business temps réel |
-| Créer page Settings basique | P1 | Éliminer le 404 |
+| Tâche | État | Détails |
+|-------|------|---------|
+| Unifier les 2 systèmes Subscriptions → Supabase unique | ✅ | `database-supabase.ts` utilisé partout |
+| Lier Clients ↔ P&L (transactions créent/màj clients) | ✅ | Trigger `trigger_update_client_stats` |
+| Dashboard avec vraies KPIs consolidées | ✅ | Hook `useDashboardStats.ts` |
+| Créer page Settings basique | ✅ | `SettingsPageClient.tsx` |
 
-**Fichiers à créer/modifier :**
+**Fichiers créés/modifiés :**
 ```
-/lib/services/subscriptions.ts     # Service unifié
-/lib/services/metrics.ts           # KPIs consolidés
-/admin/settings/page.tsx           # Page settings
+✅ /lib/services/database-supabase.ts  # Service unifié Supabase
+✅ /admin/hooks/useDashboardStats.ts   # KPIs consolidés
+✅ /admin/settings/page.tsx            # Page settings
+✅ /supabase/migrations/20251219_restructure_transactions.sql  # Trigger client stats
 ```
 
 ### Phase 2 : Visibility Business ⏱️ 2-3 semaines
@@ -264,11 +267,11 @@ CREATE TABLE alerts (
 
 ## 📈 Métriques de Succès
 
-| Métrique | Actuel | Cible Phase 1 | Cible Final |
-|----------|--------|---------------|-------------|
-| Score global | 3.6/10 | 6/10 | 8/10 |
-| Modules connectés | 0% | 50% | 100% |
-| Dashboard fonctionnel | ❌ | ✅ | ✅ |
+| Métrique | Phase 1 (Actuel) | Cible Phase 2 | Cible Final |
+|----------|------------------|---------------|-------------|
+| Score global | ✅ 6/10 | 7/10 | 8/10 |
+| Modules connectés | ✅ 100% | 100% | 100% |
+| Dashboard fonctionnel | ✅ | ✅ | ✅ |
 | Objectifs/Targets | ❌ | ✅ | ✅ |
 | Alertes | ❌ | ❌ | ✅ |
 | Facturation | ❌ | ❌ | ✅ |

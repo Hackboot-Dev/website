@@ -207,6 +207,89 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
         newData.productCategories = mergedCategories;
       }
 
+      // Load transactions from pnl_transactions table and merge with pnl_data
+      // This ensures consistency even if auto-save hasn't completed yet
+      try {
+        const dbTransactions = await dbService.getPnLTransactions(selectedYear);
+        if (dbTransactions && dbTransactions.length > 0) {
+          // Collect all unique client IDs to load their names
+          const clientIds = new Set<string>();
+          for (const dbTx of dbTransactions) {
+            if (dbTx.client_id) clientIds.add(dbTx.client_id);
+          }
+
+          // Load client names from clients table
+          const clientNameMap = new Map<string, string>();
+          if (clientIds.size > 0) {
+            try {
+              const { data: clientsData } = await supabase
+                .from('clients')
+                .select('id, name')
+                .in('id', Array.from(clientIds)) as { data: { id: string; name: string }[] | null };
+              if (clientsData) {
+                for (const client of clientsData) {
+                  clientNameMap.set(client.id, client.name);
+                }
+              }
+            } catch (clientErr) {
+              console.error('Error loading client names:', clientErr);
+            }
+          }
+
+          // Group transactions by category, product, and month
+          const txMap: Record<string, Record<string, Record<string, Transaction[]>>> = {};
+
+          for (const dbTx of dbTransactions) {
+            const catId = dbTx.category_id;
+            const prodId = dbTx.product_id;
+            const month = dbTx.month;
+
+            if (!txMap[catId]) txMap[catId] = {};
+            if (!txMap[catId][prodId]) txMap[catId][prodId] = {};
+            if (!txMap[catId][prodId][month]) txMap[catId][prodId][month] = [];
+
+            // Get client name from: 1) stored in tx, 2) clients table, 3) empty
+            const storedClientName = (dbTx as { client_name?: string }).client_name;
+            const clientName = storedClientName || (dbTx.client_id ? clientNameMap.get(dbTx.client_id) : '') || '';
+
+            txMap[catId][prodId][month].push({
+              id: dbTx.id,
+              amount: dbTx.amount,
+              isCustom: (dbTx.discount || 0) > 0,
+              discount: dbTx.discount || undefined,
+              note: dbTx.note || undefined,
+              clientId: dbTx.client_id || '',
+              clientName,
+              isRecurring: dbTx.is_recurring || false,
+            });
+          }
+
+          // Merge transactions into newData
+          newData = {
+            ...newData,
+            productCategories: newData.productCategories.map((cat) => ({
+              ...cat,
+              products: cat.products.map((prod) => {
+                const prodTxs = txMap[cat.id]?.[prod.id] || {};
+                // Use DB transactions as source of truth
+                const mergedTxs: Record<string, Transaction[]> = {};
+                for (const month of MONTH_KEYS) {
+                  mergedTxs[month] = prodTxs[month] || [];
+                }
+
+                return {
+                  ...prod,
+                  transactions: mergedTxs,
+                };
+              }),
+            })),
+          };
+        }
+      } catch (txErr) {
+        console.error('Error loading transactions from pnl_transactions:', txErr);
+        // Continue with pnl_data transactions as fallback
+      }
+
       setData(newData);
       setError(null);
       setHasChanges(false);
@@ -554,6 +637,7 @@ export default function PnLPageClient({ company }: PnLPageClientProps) {
         await dbService.createPnLTransaction({
           id: tx.id,
           clientId: tx.clientId || null,
+          clientName: tx.clientName || undefined,
           productId,
           productLabel,
           categoryId: catId,

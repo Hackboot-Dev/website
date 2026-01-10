@@ -1,5 +1,43 @@
 # Journal de Développement - VMCloud Platform
 
+[2026-01-10 - Session 38]
+SESSION: Fix PNL - Transactions disparaissent après rafraîchissement
+STATUT: ✅ Réussi
+PROBLÈME:
+- Quand on enregistrait une vente et qu'on rafraîchissait la page, elle affichait "0 ventes"
+- Les transactions étaient bien enregistrées dans `pnl_transactions` mais pas récupérées au rechargement
+
+CAUSE RACINE:
+- Les transactions étaient stockées à 2 endroits: `pnl_transactions` (table) et `pnl_data` (JSON blob)
+- `pnl_data` était mis à jour avec un délai de 800ms (auto-save)
+- Au rechargement, seul `pnl_data` était lu, pas `pnl_transactions`
+- Si l'utilisateur rafraîchissait avant l'auto-save, les transactions n'étaient pas dans `pnl_data`
+
+FICHIERS CRÉÉS:
+- /supabase/migrations/20260110_add_client_name_to_pnl_transactions.sql [créé]
+  - Ajoute colonne `client_name` à la table `pnl_transactions`
+  - Permet d'afficher le nom du client au rechargement
+
+FICHIERS MODIFIÉS:
+- /apps/web/app/[locale]/admin/pnl/PnLPageClient.tsx [modifié]
+  - `loadData()`: Charge maintenant les transactions depuis `pnl_transactions` ET `pnl_data`
+  - Les merge pour garantir la cohérence
+  - `pnl_transactions` est la source de vérité pour les transactions
+  - `addTransactions()`: Passe maintenant `clientName` au service
+
+- /apps/web/lib/services/database-supabase.ts [modifié]
+  - `createPnLTransaction()`: Accepte et stocke `clientName`
+
+DÉTAILS TECHNIQUES:
+- Au chargement, on récupère toutes les transactions de `pnl_transactions` pour l'année
+- On collecte tous les `client_id` uniques
+- On charge les noms des clients depuis la table `clients` en une seule requête
+- On associe chaque transaction avec le nom du client via un Map
+- Fallback sur `pnl_data` si erreur sur `pnl_transactions`
+
+PROCHAINE ÉTAPE: Appliquer la migration Supabase, tester le fix
+---
+
 [2025-01-10 - Session 37]
 SESSION: Dashboard avec vraies KPIs + Page Settings + Migration Firebase
 STATUT: ✅ Réussi

@@ -675,6 +675,7 @@ export class SupabaseDatabaseService {
   async createPnLTransaction(data: {
     id?: string; // Optional: use provided ID or generate new one
     clientId: string | null;
+    clientName?: string; // Client name for display purposes
     productId: string;
     productLabel: string;
     categoryId: string;
@@ -694,6 +695,7 @@ export class SupabaseDatabaseService {
         id,
         company_id: this.companyId,
         client_id: data.clientId,
+        client_name: data.clientName || null,
         product_id: data.productId,
         product_label: data.productLabel,
         category_id: data.categoryId,
