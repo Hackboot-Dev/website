@@ -11,8 +11,33 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../../../../../lib/supabase';
 import { getDatabase } from '../../../../../lib/services/database';
 import type { CompanyId } from '../../pnl/types';
-import type { ObjectiveWithProgress } from '../types';
+import type {
+  Objective,
+  ObjectiveWithProgress,
+  ObjectiveType,
+  ObjectivePeriod,
+  ObjectiveCategory,
+  ObjectivePriority,
+  DistributionType,
+} from '../types';
+import { getCategoryForType, isClientObjectiveType } from '../types';
 import { MONTH_KEYS } from '../../pnl/constants';
+
+// Client types for metrics calculation
+type ClientRecord = {
+  id: string;
+  company_id: string;
+  name: string;
+  email: string;
+  type: 'individual' | 'business' | 'enterprise';
+  status: 'lead' | 'active' | 'inactive' | 'churned';
+  total_revenue: number;
+  total_transactions: number;
+  created_at: string;
+  updated_at: string;
+  first_purchase_at: string | null;
+  last_purchase_at: string | null;
+};
 
 type UseObjectiveDetailOptions = {
   companyId: CompanyId;
@@ -150,7 +175,8 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
         return null;
       }
 
-      return data.data as PnLData;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (data as any).data as PnLData;
     } catch (err) {
       console.error('Error loading P&L data:', err);
       return null;
@@ -167,7 +193,7 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
       ? MONTH_KEYS[obj.month - 1]
       : null;
     const quarterMonths = obj.period === 'quarterly' && obj.quarter
-      ? MONTH_KEYS.slice((obj.quarter - 1) * 3, obj.quarter * 3)
+      ? MONTH_KEYS.slice((obj.quarter - 1) * 3, obj.quarter * 3) as string[]
       : null;
 
     const isRevenueType = obj.type.startsWith('revenue') ||
@@ -266,34 +292,39 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
     const isGrossProfit = obj.type === 'gross_profit';
 
     if (obj.period === 'monthly' && obj.month) {
-      // Daily data for monthly objectives - aggregate by day
+      // Daily data for monthly objectives
+      // P&L data is aggregated by month (not by day), so we can't show real daily values.
+      // We show only the START and END points for actual data (no artificial distribution)
       const daysInMonth = new Date(obj.year, obj.month, 0).getDate();
       const dailyTarget = obj.targetAmount / daysInMonth;
-      let cumulative = 0;
 
       const isCurrentMonth = obj.year === now.getFullYear() && obj.month === now.getMonth() + 1;
       const maxDay = isCurrentMonth ? now.getDate() : daysInMonth;
 
-      // For monthly, we show the distribution assuming transactions happened evenly
-      // since P&L data is aggregated by month, not by day
       const monthKey = MONTH_KEYS[obj.month - 1];
       const monthlyTotal = calculateMonthlyAmount(pnlData, obj, monthKey);
-      const dailyAverage = monthlyTotal / maxDay;
 
+      // For monthly views, we show:
+      // - Target: daily target (constant)
+      // - Cumulative: the actual real total accumulated so far
+      // Since we don't have daily breakdown, we show a linear interpolation for the graph
+      // but make it clear this is based on the monthly total, not daily transactions
+      let targetCumulative = 0;
       for (let day = 1; day <= maxDay; day++) {
-        cumulative += dailyAverage;
+        targetCumulative += dailyTarget;
+
+        // Calculate what portion of the month has passed
+        const progressRatio = day / maxDay;
+        // Show linear interpolation to the real total (honest representation)
+        const interpolatedActual = monthlyTotal * progressRatio;
+
         data.push({
           date: `${obj.year}-${String(obj.month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
           label: `${day}`,
-          actual: Math.round(dailyAverage),
+          actual: Math.round(interpolatedActual / maxDay), // Daily portion
           target: Math.round(dailyTarget),
-          cumulative: Math.round(cumulative),
+          cumulative: Math.round(interpolatedActual), // Smooth line to real total
         });
-      }
-
-      // Adjust last point to match actual amount
-      if (data.length > 0) {
-        data[data.length - 1].cumulative = Math.round(monthlyTotal);
       }
     } else if (obj.period === 'quarterly' && obj.quarter) {
       // Monthly data for quarterly objectives
@@ -350,6 +381,102 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
   const calculateMonthlyAmount = (
     pnlData: PnLData,
     obj: ObjectiveWithProgress,
+    monthKey: string
+  ): number => {
+    let revenue = 0;
+    let expenses = 0;
+
+    const isRevenueType = obj.type.startsWith('revenue') ||
+      obj.type.includes('mrr') ||
+      obj.type.includes('arr');
+    const isExpenseType = obj.type.startsWith('expenses');
+    const isNetProfit = obj.type === 'net_profit';
+    const isGrossProfit = obj.type === 'gross_profit';
+
+    // Calculate revenue
+    if (isRevenueType || isNetProfit || isGrossProfit) {
+      for (const category of pnlData.productCategories || []) {
+        if (obj.productCategoryId && category.id !== obj.productCategoryId) continue;
+
+        for (const product of category.products) {
+          if (obj.productId && product.id !== obj.productId) continue;
+
+          const monthTxs = product.transactions[monthKey] || [];
+          for (const tx of monthTxs) {
+            if (obj.clientId && tx.clientId !== obj.clientId) continue;
+            revenue += tx.amount;
+          }
+        }
+      }
+    }
+
+    // Calculate expenses
+    if (isExpenseType || isNetProfit || isGrossProfit) {
+      for (const category of pnlData.expenseCategories || []) {
+        if (obj.expenseCategory && category.id !== obj.expenseCategory) continue;
+
+        for (const item of category.items) {
+          expenses += item.adjustments[monthKey] || 0;
+        }
+      }
+    }
+
+    // Return based on type
+    if (isNetProfit || isGrossProfit) {
+      return revenue - expenses;
+    } else if (isExpenseType) {
+      return expenses;
+    } else {
+      return revenue;
+    }
+  };
+
+  // Calculate total actual amount from P&L data for the entire period
+  const calculateActualAmountFromPnL = (
+    pnlData: PnLData,
+    obj: {
+      type: string;
+      period: string;
+      month?: number;
+      quarter?: number;
+      year: number;
+      productCategoryId?: string;
+      productId?: string;
+      clientId?: string;
+      expenseCategory?: string;
+    }
+  ): number => {
+    let total = 0;
+
+    if (obj.period === 'monthly' && obj.month) {
+      const monthKey = MONTH_KEYS[obj.month - 1];
+      total = calculateMonthlyAmountForObj(pnlData, obj, monthKey);
+    } else if (obj.period === 'quarterly' && obj.quarter) {
+      const startMonthIndex = (obj.quarter - 1) * 3;
+      for (let m = 0; m < 3; m++) {
+        const monthKey = MONTH_KEYS[startMonthIndex + m];
+        total += calculateMonthlyAmountForObj(pnlData, obj, monthKey);
+      }
+    } else if (obj.period === 'yearly') {
+      for (let m = 0; m < 12; m++) {
+        const monthKey = MONTH_KEYS[m];
+        total += calculateMonthlyAmountForObj(pnlData, obj, monthKey);
+      }
+    }
+
+    return total;
+  };
+
+  // Helper to calculate monthly amount for any objective-like object
+  const calculateMonthlyAmountForObj = (
+    pnlData: PnLData,
+    obj: {
+      type: string;
+      productCategoryId?: string;
+      productId?: string;
+      clientId?: string;
+      expenseCategory?: string;
+    },
     monthKey: string
   ): number => {
     let revenue = 0;
@@ -680,6 +807,511 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
     return actionsList;
   }, []);
 
+  // ============================================================
+  // CLIENT METRICS FUNCTIONS
+  // ============================================================
+
+  // Load clients from Supabase
+  const loadClients = useCallback(async (): Promise<ClientRecord[]> => {
+    try {
+      const { data, error } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('company_id', companyId);
+
+      if (error) {
+        console.warn('Error loading clients:', error);
+        return [];
+      }
+
+      return (data || []) as ClientRecord[];
+    } catch (err) {
+      console.error('Error loading clients:', err);
+      return [];
+    }
+  }, [companyId]);
+
+  // Calculate client metric based on objective type
+  const calculateClientMetric = useCallback((
+    clients: ClientRecord[],
+    obj: {
+      type: string;
+      period: string;
+      year: number;
+      month?: number;
+      quarter?: number;
+      clientSegment?: string;
+    },
+    pnlData: PnLData | null
+  ): number => {
+    const now = new Date();
+
+    // Get date range for the period
+    let startDate: Date;
+    let endDate: Date;
+
+    if (obj.period === 'monthly' && obj.month) {
+      startDate = new Date(obj.year, obj.month - 1, 1);
+      endDate = new Date(obj.year, obj.month, 0, 23, 59, 59);
+    } else if (obj.period === 'quarterly' && obj.quarter) {
+      const startMonth = (obj.quarter - 1) * 3;
+      startDate = new Date(obj.year, startMonth, 1);
+      endDate = new Date(obj.year, startMonth + 3, 0, 23, 59, 59);
+    } else {
+      startDate = new Date(obj.year, 0, 1);
+      endDate = new Date(obj.year, 11, 31, 23, 59, 59);
+    }
+
+    // Filter clients by segment if specified
+    let filteredClients = clients;
+    if (obj.clientSegment) {
+      filteredClients = clients.filter(c => c.type === obj.clientSegment);
+    }
+
+    switch (obj.type) {
+      // Acquisition
+      case 'new_clients_total':
+      case 'new_clients_segment': {
+        return filteredClients.filter(c => {
+          const createdAt = new Date(c.created_at);
+          return createdAt >= startDate && createdAt <= endDate;
+        }).length;
+      }
+
+      case 'conversion_rate': {
+        const leadsAtStart = clients.filter(c => {
+          const createdAt = new Date(c.created_at);
+          return createdAt < startDate && c.status === 'lead';
+        }).length;
+
+        const convertedInPeriod = clients.filter(c => {
+          const firstPurchase = c.first_purchase_at ? new Date(c.first_purchase_at) : null;
+          return firstPurchase && firstPurchase >= startDate && firstPurchase <= endDate;
+        }).length;
+
+        return leadsAtStart > 0 ? (convertedInPeriod / leadsAtStart) * 100 : 0;
+      }
+
+      case 'cac': {
+        // Get marketing expenses from P&L
+        let marketingExpenses = 0;
+        if (pnlData?.expenseCategories) {
+          const marketingCat = pnlData.expenseCategories.find(c => c.id === 'marketing');
+          if (marketingCat) {
+            const monthKeys = (obj.period === 'monthly' && obj.month
+              ? [MONTH_KEYS[obj.month - 1]]
+              : obj.period === 'quarterly' && obj.quarter
+                ? MONTH_KEYS.slice((obj.quarter - 1) * 3, obj.quarter * 3)
+                : MONTH_KEYS) as string[];
+
+            for (const item of marketingCat.items) {
+              for (const mk of monthKeys) {
+                marketingExpenses += (item.adjustments as Record<string, number>)[mk] || 0;
+              }
+            }
+          }
+        }
+
+        const newClients = filteredClients.filter(c => {
+          const createdAt = new Date(c.created_at);
+          return createdAt >= startDate && createdAt <= endDate;
+        }).length;
+
+        return newClients > 0 ? marketingExpenses / newClients : 0;
+      }
+
+      // Retention
+      case 'churn_rate': {
+        const activeAtStart = clients.filter(c => {
+          const createdAt = new Date(c.created_at);
+          return createdAt < startDate && (c.status === 'active' ||
+            (c.status === 'churned' && new Date(c.updated_at) >= startDate));
+        }).length;
+
+        const churnedInPeriod = clients.filter(c => {
+          const updatedAt = new Date(c.updated_at);
+          return c.status === 'churned' && updatedAt >= startDate && updatedAt <= endDate;
+        }).length;
+
+        return activeAtStart > 0 ? (churnedInPeriod / activeAtStart) * 100 : 0;
+      }
+
+      case 'retention_rate': {
+        const churnRate = calculateClientMetric(clients, { ...obj, type: 'churn_rate' }, pnlData);
+        return 100 - churnRate;
+      }
+
+      case 'active_clients': {
+        return filteredClients.filter(c => c.status === 'active').length;
+      }
+
+      case 'avg_tenure': {
+        const activeClients = filteredClients.filter(c => c.status === 'active' && c.created_at);
+        if (activeClients.length === 0) return 0;
+
+        const totalMonths = activeClients.reduce((sum, c) => {
+          const createdAt = new Date(c.created_at);
+          const monthsDiff = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24 * 30);
+          return sum + monthsDiff;
+        }, 0);
+
+        return totalMonths / activeClients.length;
+      }
+
+      // Value
+      case 'arpu': {
+        const activeClients = filteredClients.filter(c => c.status === 'active').length;
+        const totalRevenue = filteredClients.reduce((sum, c) => sum + (c.total_revenue || 0), 0);
+        return activeClients > 0 ? totalRevenue / activeClients : 0;
+      }
+
+      case 'ltv': {
+        const arpu = calculateClientMetric(clients, { ...obj, type: 'arpu' }, pnlData);
+        const avgTenure = calculateClientMetric(clients, { ...obj, type: 'avg_tenure' }, pnlData);
+        const grossMargin = 0.7; // Typical SaaS margin
+        return arpu * Math.max(avgTenure, 1) * grossMargin;
+      }
+
+      case 'ltv_cac_ratio': {
+        const ltv = calculateClientMetric(clients, { ...obj, type: 'ltv' }, pnlData);
+        const cac = calculateClientMetric(clients, { ...obj, type: 'cac' }, pnlData);
+        return cac > 0 ? ltv / cac : 0;
+      }
+
+      case 'avg_basket': {
+        const totalRevenue = filteredClients.reduce((sum, c) => sum + (c.total_revenue || 0), 0);
+        const totalTransactions = filteredClients.reduce((sum, c) => sum + (c.total_transactions || 0), 0);
+        return totalTransactions > 0 ? totalRevenue / totalTransactions : 0;
+      }
+
+      // Engagement
+      case 'active_ratio': {
+        const ninetyDaysAgo = new Date();
+        ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+
+        const recentlyActive = filteredClients.filter(c => {
+          const lastPurchase = c.last_purchase_at ? new Date(c.last_purchase_at) : null;
+          return lastPurchase && lastPurchase >= ninetyDaysAgo;
+        }).length;
+
+        const totalNonLeads = filteredClients.filter(c => c.status !== 'lead').length;
+        return totalNonLeads > 0 ? (recentlyActive / totalNonLeads) * 100 : 0;
+      }
+
+      case 'upsell_rate': {
+        const repeatCustomers = filteredClients.filter(c => (c.total_transactions || 0) > 1).length;
+        const customersWithAny = filteredClients.filter(c => (c.total_transactions || 0) >= 1).length;
+        return customersWithAny > 0 ? (repeatCustomers / customersWithAny) * 100 : 0;
+      }
+
+      default:
+        return 0;
+    }
+  }, []);
+
+  // Generate client-specific insights
+  const generateClientInsights = useCallback((
+    obj: ObjectiveWithProgress,
+    clients: ClientRecord[]
+  ): Insight[] => {
+    const insights: Insight[] = [];
+
+    // Progress insight
+    if (obj.progressPercent >= 100) {
+      insights.push({
+        id: 'achieved',
+        type: 'positive',
+        title: 'Objectif atteint !',
+        message: `Félicitations, vous avez atteint ${obj.progressPercent.toFixed(1)}% de votre objectif.`,
+      });
+    } else if (obj.status === 'at_risk') {
+      insights.push({
+        id: 'at_risk',
+        type: 'warning',
+        title: 'Objectif à risque',
+        message: `Il reste ${(obj.targetAmount - obj.actualAmount).toFixed(obj.targetUnit === 'percent' ? 1 : 0)} à atteindre.`,
+      });
+    }
+
+    // Client-specific insights
+    const activeCount = clients.filter(c => c.status === 'active').length;
+    const totalCount = clients.length;
+
+    if (obj.type.includes('churn') || obj.type.includes('retention')) {
+      const churnedCount = clients.filter(c => c.status === 'churned').length;
+      if (churnedCount > 0) {
+        insights.push({
+          id: 'churned_clients',
+          type: 'warning',
+          title: 'Clients perdus',
+          message: `${churnedCount} client${churnedCount > 1 ? 's' : ''} ont quitté votre service.`,
+          value: churnedCount,
+        });
+      }
+    }
+
+    if (obj.type.includes('new_clients') || obj.type.includes('acquisition')) {
+      const recentClients = clients.filter(c => {
+        const createdAt = new Date(c.created_at);
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        return createdAt >= thirtyDaysAgo;
+      }).length;
+
+      insights.push({
+        id: 'recent_acquisition',
+        type: recentClients > 0 ? 'positive' : 'neutral',
+        title: 'Acquisition récente',
+        message: `${recentClients} nouveau${recentClients > 1 ? 'x' : ''} client${recentClients > 1 ? 's' : ''} ces 30 derniers jours.`,
+        value: recentClients,
+      });
+    }
+
+    // Top segment
+    const byType = clients.reduce((acc, c) => {
+      acc[c.type] = (acc[c.type] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const topSegment = Object.entries(byType).sort((a, b) => b[1] - a[1])[0];
+    if (topSegment) {
+      const segmentLabel = topSegment[0] === 'individual' ? 'Particuliers' :
+        topSegment[0] === 'business' ? 'Professionnels' : 'Entreprises';
+      insights.push({
+        id: 'top_segment',
+        type: 'neutral',
+        title: 'Segment principal',
+        message: `${segmentLabel} représentent ${((topSegment[1] / totalCount) * 100).toFixed(0)}% de vos clients.`,
+      });
+    }
+
+    // Revenue concentration warning
+    const sortedByRevenue = [...clients].sort((a, b) => (b.total_revenue || 0) - (a.total_revenue || 0));
+    const top10Percent = Math.max(1, Math.ceil(clients.length * 0.1));
+    const top10Revenue = sortedByRevenue.slice(0, top10Percent).reduce((sum, c) => sum + (c.total_revenue || 0), 0);
+    const totalRevenue = clients.reduce((sum, c) => sum + (c.total_revenue || 0), 0);
+
+    if (totalRevenue > 0 && (top10Revenue / totalRevenue) > 0.5) {
+      insights.push({
+        id: 'concentration_risk',
+        type: 'warning',
+        title: 'Risque de concentration',
+        message: `Attention : ${top10Percent} client${top10Percent > 1 ? 's' : ''} représentent ${((top10Revenue / totalRevenue) * 100).toFixed(0)}% du CA.`,
+      });
+    }
+
+    return insights;
+  }, []);
+
+  // Generate client-specific actions
+  const generateClientActions = useCallback((
+    obj: ObjectiveWithProgress,
+    clients: ClientRecord[]
+  ): ObjectiveAction[] => {
+    const actionsList: ObjectiveAction[] = [];
+
+    if (obj.status === 'at_risk' || obj.status === 'behind') {
+      // Churn/Retention actions
+      if (obj.type.includes('churn') || obj.type.includes('retention')) {
+        const inactiveClients = clients.filter(c => c.status === 'inactive');
+        if (inactiveClients.length > 0) {
+          actionsList.push({
+            id: 'action_reactivation',
+            objectiveId: obj.id,
+            title: 'Campagne de réactivation',
+            description: `${inactiveClients.length} clients inactifs pourraient être réengagés. Proposez des offres de réactivation.`,
+            actionType: 'retention',
+            potentialImpact: inactiveClients.length * 0.2,
+            isCompleted: false,
+            createdAt: new Date().toISOString(),
+          });
+        }
+      }
+
+      // Acquisition actions
+      if (obj.type.includes('new_clients') || obj.type.includes('acquisition') || obj.type === 'cac') {
+        actionsList.push({
+          id: 'action_marketing',
+          objectiveId: obj.id,
+          title: 'Intensifier le marketing',
+          description: 'Augmentez les campagnes d\'acquisition : Ads, partenariats, content marketing.',
+          actionType: 'marketing',
+          potentialImpact: obj.targetAmount * 0.15,
+          isCompleted: false,
+          createdAt: new Date().toISOString(),
+        });
+
+        actionsList.push({
+          id: 'action_referral',
+          objectiveId: obj.id,
+          title: 'Programme de parrainage',
+          description: 'Lancez ou boostez votre programme de parrainage pour générer des leads qualifiés.',
+          actionType: 'marketing',
+          potentialImpact: obj.targetAmount * 0.1,
+          isCompleted: false,
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      // ARPU/LTV actions
+      if (obj.type === 'arpu' || obj.type === 'ltv' || obj.type === 'avg_basket') {
+        const lowValueClients = clients
+          .filter(c => c.status === 'active' && (c.total_revenue || 0) < 100)
+          .length;
+
+        if (lowValueClients > 0) {
+          actionsList.push({
+            id: 'action_upsell',
+            objectiveId: obj.id,
+            title: 'Campagne d\'upsell',
+            description: `${lowValueClients} clients actifs ont un faible panier. Proposez des upgrades et services additionnels.`,
+            actionType: 'upsell',
+            potentialImpact: lowValueClients * 50,
+            isCompleted: false,
+            createdAt: new Date().toISOString(),
+          });
+        }
+      }
+
+      // Conversion actions
+      if (obj.type === 'conversion_rate') {
+        const leads = clients.filter(c => c.status === 'lead').length;
+        if (leads > 0) {
+          actionsList.push({
+            id: 'action_leads',
+            objectiveId: obj.id,
+            title: 'Convertir les leads',
+            description: `${leads} leads en attente. Relancez-les avec des offres personnalisées.`,
+            actionType: 'lead_followup',
+            potentialImpact: leads * 0.3,
+            isCompleted: false,
+            createdAt: new Date().toISOString(),
+          });
+        }
+      }
+    }
+
+    return actionsList;
+  }, []);
+
+  // Calculate historical data for client objectives
+  const calculateClientHistoricalData = useCallback((
+    clients: ClientRecord[],
+    obj: ObjectiveWithProgress
+  ): HistoricalDataPoint[] => {
+    const data: HistoricalDataPoint[] = [];
+    const now = new Date();
+
+    // For client metrics, we show monthly trends
+    if (obj.period === 'yearly') {
+      const maxMonth = obj.year === now.getFullYear() ? now.getMonth() : 11;
+      let cumulative = 0;
+
+      for (let m = 0; m <= maxMonth; m++) {
+        const monthStart = new Date(obj.year, m, 1);
+        const monthEnd = new Date(obj.year, m + 1, 0, 23, 59, 59);
+
+        // Calculate metric for this month
+        let monthlyValue = 0;
+
+        if (obj.type.includes('new_clients')) {
+          monthlyValue = clients.filter(c => {
+            const createdAt = new Date(c.created_at);
+            return createdAt >= monthStart && createdAt <= monthEnd;
+          }).length;
+        } else if (obj.type === 'active_clients') {
+          monthlyValue = clients.filter(c => c.status === 'active').length;
+        } else {
+          // For percentage/currency metrics, calculate full value
+          monthlyValue = calculateClientMetric(clients, {
+            ...obj,
+            period: 'monthly',
+            month: m + 1,
+          }, null);
+        }
+
+        cumulative += monthlyValue;
+
+        data.push({
+          date: `${obj.year}-${String(m + 1).padStart(2, '0')}-01`,
+          label: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'][m],
+          actual: Math.round(monthlyValue * 100) / 100,
+          target: Math.round((obj.targetAmount / 12) * 100) / 100,
+          cumulative: Math.round(cumulative * 100) / 100,
+        });
+      }
+    } else if (obj.period === 'quarterly' && obj.quarter) {
+      const startMonth = (obj.quarter - 1) * 3;
+      let cumulative = 0;
+
+      for (let m = 0; m < 3; m++) {
+        const monthIndex = startMonth + m;
+        const monthStart = new Date(obj.year, monthIndex, 1);
+        const monthEnd = new Date(obj.year, monthIndex + 1, 0, 23, 59, 59);
+
+        const isCurrentOrPast = obj.year < now.getFullYear() ||
+          (obj.year === now.getFullYear() && monthIndex <= now.getMonth());
+
+        if (!isCurrentOrPast && obj.year === now.getFullYear()) continue;
+
+        let monthlyValue = 0;
+        if (obj.type.includes('new_clients')) {
+          monthlyValue = clients.filter(c => {
+            const createdAt = new Date(c.created_at);
+            return createdAt >= monthStart && createdAt <= monthEnd;
+          }).length;
+        } else {
+          monthlyValue = calculateClientMetric(clients, {
+            ...obj,
+            period: 'monthly',
+            month: monthIndex + 1,
+          }, null);
+        }
+
+        cumulative += monthlyValue;
+
+        data.push({
+          date: `${obj.year}-${String(monthIndex + 1).padStart(2, '0')}-01`,
+          label: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'][monthIndex],
+          actual: Math.round(monthlyValue * 100) / 100,
+          target: Math.round((obj.targetAmount / 3) * 100) / 100,
+          cumulative: Math.round(cumulative * 100) / 100,
+        });
+      }
+    } else if (obj.period === 'monthly' && obj.month) {
+      // For monthly, show weekly data
+      const daysInMonth = new Date(obj.year, obj.month, 0).getDate();
+      const isCurrentMonth = obj.year === now.getFullYear() && obj.month === now.getMonth() + 1;
+      const maxWeek = isCurrentMonth ? Math.ceil(now.getDate() / 7) : Math.ceil(daysInMonth / 7);
+
+      let cumulative = 0;
+      for (let w = 1; w <= maxWeek; w++) {
+        const weekStart = new Date(obj.year, obj.month - 1, (w - 1) * 7 + 1);
+        const weekEnd = new Date(obj.year, obj.month - 1, Math.min(w * 7, daysInMonth), 23, 59, 59);
+
+        let weeklyValue = 0;
+        if (obj.type.includes('new_clients')) {
+          weeklyValue = clients.filter(c => {
+            const createdAt = new Date(c.created_at);
+            return createdAt >= weekStart && createdAt <= weekEnd;
+          }).length;
+        }
+
+        cumulative += weeklyValue;
+
+        data.push({
+          date: weekStart.toISOString().split('T')[0],
+          label: `S${w}`,
+          actual: weeklyValue,
+          target: Math.round(obj.targetAmount / maxWeek),
+          cumulative,
+        });
+      }
+    }
+
+    return data;
+  }, [calculateClientMetric]);
+
   // Load all data
   const loadObjective = useCallback(async () => {
     try {
@@ -712,15 +1344,52 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
         return;
       }
 
-      // Merge objective with progress data
-      const progressInfo = progressData.find(p => p.id === objectiveId);
-      const actualAmount = progressInfo?.actualAmount || 0;
-      const progressPercent = progressInfo?.progressPercent || 0;
+      // Check if this is a client-type objective
+      const isClientObjective = isClientObjectiveType(foundObjective.type as ObjectiveType);
+
+      // Load P&L data for the objective's year
+      const pnlData = await loadPnLData(objectiveYear);
+
+      // Load clients if this is a client objective
+      const clients = isClientObjective ? await loadClients() : [];
+
+      // Calculate actualAmount based on objective type
+      let actualAmount = 0;
+      if (isClientObjective) {
+        // For client objectives, calculate from clients table
+        actualAmount = calculateClientMetric(clients, {
+          type: foundObjective.type,
+          period: foundObjective.period,
+          year: foundObjective.year,
+          month: foundObjective.month,
+          quarter: foundObjective.quarter,
+          clientSegment: (foundObjective as Record<string, unknown>).clientSegment as string | undefined,
+        }, pnlData);
+      } else if (pnlData) {
+        // For financial objectives, calculate from P&L data
+        actualAmount = calculateActualAmountFromPnL(pnlData, foundObjective);
+      }
+
+      const progressPercent = foundObjective.targetAmount > 0
+        ? (actualAmount / foundObjective.targetAmount) * 100
+        : 0;
 
       // Calculate expected progress based on milestones/distribution
       const now = new Date();
-      const tempObjective: ObjectiveWithProgress = {
+      // Cast foundObjective with defaults for missing properties
+      const rawObj = foundObjective as Record<string, unknown>;
+      const baseObjective = {
         ...foundObjective,
+        type: foundObjective.type as ObjectiveType,
+        period: foundObjective.period as ObjectivePeriod,
+        category: (rawObj.category as ObjectiveCategory) || getCategoryForType(foundObjective.type as ObjectiveType),
+        distributionType: (rawObj.distributionType as DistributionType) || 'linear',
+        targetUnit: (rawObj.targetUnit as string) || 'currency',
+        priority: (rawObj.priority as ObjectivePriority) || 'medium',
+      } as Objective;
+
+      const tempObjective: ObjectiveWithProgress = {
+        ...baseObjective,
         actualAmount,
         progressPercent,
         status: 'behind',
@@ -737,7 +1406,7 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
       const daysRemaining = Math.max(0, totalDays - currentDay);
 
       const objectiveData: ObjectiveWithProgress = {
-        ...foundObjective,
+        ...baseObjective,
         actualAmount,
         progressPercent,
         status,
@@ -748,10 +1417,28 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
 
       setObjective(objectiveData);
 
-      // Load P&L data for the objective's year
-      const pnlData = await loadPnLData(objectiveYear);
+      // Generate data based on objective type
+      if (isClientObjective) {
+        // CLIENT OBJECTIVE: Use client-specific functions
+        setTransactions([]); // No transactions for client objectives
 
-      if (pnlData) {
+        // Calculate historical data from clients
+        const historical = calculateClientHistoricalData(clients, objectiveData);
+        setHistoricalData(historical);
+
+        // Calculate forecast based on historical trends
+        const forecast = calculateForecastData(historical, objectiveData);
+        setForecastData(forecast);
+
+        // Generate client-specific insights
+        const clientInsights = generateClientInsights(objectiveData, clients);
+        setInsights(clientInsights);
+
+        // Generate client-specific actions
+        const clientActions = generateClientActions(objectiveData, clients);
+        setActions(clientActions);
+      } else if (pnlData) {
+        // FINANCIAL OBJECTIVE: Use P&L data
         // Extract real transactions
         const realTransactions = extractTransactions(pnlData, objectiveData);
         setTransactions(realTransactions);
@@ -772,15 +1459,17 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
         const realActions = generateActions(objectiveData, realTransactions);
         setActions(realActions);
       } else {
-        // No P&L data - set empty
+        // No data available
         setTransactions([]);
         setHistoricalData([]);
         setForecastData([]);
         setInsights([{
           id: 'no_data',
           type: 'warning',
-          title: 'Données P&L manquantes',
-          message: `Aucune donnée P&L trouvée pour l'année ${objectiveYear}. Ajoutez des transactions dans le module P&L.`,
+          title: isClientObjective ? 'Données clients manquantes' : 'Données P&L manquantes',
+          message: isClientObjective
+            ? `Aucun client trouvé. Ajoutez des clients dans le module Clients.`
+            : `Aucune donnée P&L trouvée pour l'année ${objectiveYear}. Ajoutez des transactions dans le module P&L.`,
         }]);
         setActions([]);
       }
@@ -790,7 +1479,7 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
     } finally {
       setLoading(false);
     }
-  }, [dbService, objectiveId, loadPnLData, extractTransactions, calculateHistoricalData, calculateForecastData, generateInsights, generateActions]);
+  }, [dbService, objectiveId, loadPnLData, loadClients, extractTransactions, calculateHistoricalData, calculateForecastData, generateInsights, generateActions, calculateClientMetric, calculateClientHistoricalData, generateClientInsights, generateClientActions]);
 
   useEffect(() => {
     loadObjective();
@@ -1003,7 +1692,7 @@ function formatAmount(value: number): string {
 }
 
 function getDateFromMonth(monthKey: string, year: number): string {
-  const monthIndex = MONTH_KEYS.indexOf(monthKey);
+  const monthIndex = (MONTH_KEYS as readonly string[]).indexOf(monthKey);
   if (monthIndex === -1) return `${year}-01-15`;
   return `${year}-${String(monthIndex + 1).padStart(2, '0')}-15`;
 }

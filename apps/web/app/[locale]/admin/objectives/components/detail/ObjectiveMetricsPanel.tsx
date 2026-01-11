@@ -67,15 +67,19 @@ export function ObjectiveMetricsPanel({ objective }: ObjectiveMetricsPanelProps)
       bgColor: requiredDailyRate > dailyAverage * 1.2 ? 'bg-amber-500/20' : 'bg-emerald-500/20',
     });
 
-    // Velocity (trend-based)
-    const velocityChange = calculateVelocityChange(objective);
+    // Écart vs attendu (basé sur progression linéaire)
+    const totalDays = calculateTotalDays(objective);
+    const expectedProgress = totalDays > 0 ? (daysElapsed / totalDays) * 100 : 0;
+    const actualProgress = objective.progressPercent;
+    const variance = actualProgress - expectedProgress;
+
     metrics.push({
-      label: 'Vélocité',
-      value: `${velocityChange > 0 ? '+' : ''}${velocityChange.toFixed(1)}%`,
-      subValue: 'vs période précédente',
-      icon: velocityChange > 0 ? <TrendingUp className="h-5 w-5" /> : velocityChange < 0 ? <TrendingDown className="h-5 w-5" /> : <Minus className="h-5 w-5" />,
-      color: velocityChange > 0 ? 'text-emerald-400' : velocityChange < 0 ? 'text-red-400' : 'text-zinc-400',
-      bgColor: velocityChange > 0 ? 'bg-emerald-500/20' : velocityChange < 0 ? 'bg-red-500/20' : 'bg-zinc-500/20',
+      label: 'Écart vs attendu',
+      value: `${variance > 0 ? '+' : ''}${variance.toFixed(1)}%`,
+      subValue: variance >= 0 ? 'en avance' : 'en retard',
+      icon: variance > 0 ? <TrendingUp className="h-5 w-5" /> : variance < 0 ? <TrendingDown className="h-5 w-5" /> : <Minus className="h-5 w-5" />,
+      color: variance > 0 ? 'text-emerald-400' : variance < 0 ? 'text-red-400' : 'text-zinc-400',
+      bgColor: variance > 0 ? 'bg-emerald-500/20' : variance < 0 ? 'bg-red-500/20' : 'bg-zinc-500/20',
     });
 
     // Projected completion
@@ -200,9 +204,3 @@ function calculateTotalDays(obj: ObjectiveWithProgress): number {
   return 0;
 }
 
-function calculateVelocityChange(obj: ObjectiveWithProgress): number {
-  // Simulated velocity change - in production, this would come from historical data
-  if (obj.trend === 'up') return 5 + Math.random() * 10;
-  if (obj.trend === 'down') return -5 - Math.random() * 10;
-  return (Math.random() - 0.5) * 4;
-}

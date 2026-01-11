@@ -35,7 +35,7 @@ export function ObjectivesScorecard({ objectives }: ObjectivesScorecardProps) {
   const validObjectives = (objectives || []).filter(obj => obj && obj.status && obj.type);
 
   // Get key objectives (revenue_total, expenses_total, net_profit, etc.)
-  const keyTypes = ['revenue_total', 'expenses_total', 'net_profit', 'mrr_total', 'clients_new', 'churn_rate'];
+  const keyTypes = ['revenue_total', 'expenses_total', 'net_profit', 'mrr_total', 'new_clients_total', 'churn_rate'];
 
   const keyObjectives = keyTypes
     .map(type => validObjectives.find(o => o.type === type && o.period === 'yearly'))

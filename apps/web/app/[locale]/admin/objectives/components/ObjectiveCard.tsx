@@ -18,6 +18,7 @@ import {
   Edit2,
   Target,
   ExternalLink,
+  DollarSign,
 } from 'lucide-react';
 import type { ObjectiveWithProgress, ObjectiveType } from '../types';
 import {
@@ -50,17 +51,28 @@ const TYPE_ICONS: Record<ObjectiveType, React.ReactNode> = {
   net_profit: <PiggyBank className="h-5 w-5" />,
   gross_margin_pct: <BarChart3 className="h-5 w-5" />,
   net_margin_pct: <BarChart3 className="h-5 w-5" />,
-  // Clients
-  clients_total: <Users className="h-5 w-5" />,
-  clients_new: <Users className="h-5 w-5" />,
-  clients_retention: <Users className="h-5 w-5" />,
-  clients_segment: <Users className="h-5 w-5" />,
+  // Clients - Acquisition
+  new_clients_total: <Users className="h-5 w-5" />,
+  new_clients_segment: <Users className="h-5 w-5" />,
+  conversion_rate: <Users className="h-5 w-5" />,
+  cac: <TrendingDown className="h-5 w-5" />,
+  // Clients - Retention
+  churn_rate: <Users className="h-5 w-5" />,
+  retention_rate: <Users className="h-5 w-5" />,
+  active_clients: <Users className="h-5 w-5" />,
+  avg_tenure: <Users className="h-5 w-5" />,
+  // Clients - Value
+  arpu: <DollarSign className="h-5 w-5" />,
+  ltv: <DollarSign className="h-5 w-5" />,
+  ltv_cac_ratio: <BarChart3 className="h-5 w-5" />,
+  avg_basket: <DollarSign className="h-5 w-5" />,
+  // Clients - Engagement
+  active_ratio: <Users className="h-5 w-5" />,
+  upsell_rate: <TrendingUp className="h-5 w-5" />,
   // Subscriptions
   mrr_total: <Repeat className="h-5 w-5" />,
   mrr_growth: <Repeat className="h-5 w-5" />,
   arr_total: <Repeat className="h-5 w-5" />,
-  churn_rate: <Repeat className="h-5 w-5" />,
-  arpu: <Repeat className="h-5 w-5" />,
 };
 
 function formatCurrency(value: number): string {

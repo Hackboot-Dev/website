@@ -2,9 +2,16 @@
 
 > Documentation technique et fonctionnelle du module Objectifs
 
-**Dernière mise à jour :** 2026-01-10
-**Statut :** Approuvé - Prêt pour implémentation
-**Catégorie actuelle :** Financier (autres catégories à venir)
+**Dernière mise à jour :** 2026-01-11
+**Statut :** En production - Catégorie Financier ✅ | Catégorie Clients 🚧
+
+**Catégories :**
+| Catégorie | Statut | Description |
+|-----------|--------|-------------|
+| **Financier** | ✅ Implémenté | CA, dépenses, profits, marges |
+| **Clients** | 🚧 En cours | Acquisition, rétention, valeur client |
+| **Abonnements** | 📋 Planifié | MRR, ARR, churn, ARPU |
+| **Produits** | 📋 Planifié | Performance par produit |
 
 ---
 
@@ -88,6 +95,129 @@ Analyse de la rentabilité :
 | **Marge nette %** | Bénéfice Net / CA × 100 | > 10% |
 | **Ratio dépenses/CA** | Dépenses / CA × 100 | < 90% |
 | **Rule of 40** | Croissance % + Marge % | > 40% |
+
+---
+
+## 3bis. Fonctionnalités - Catégorie Clients 🚧
+
+> Objectifs liés à l'acquisition, la rétention et la valeur des clients
+
+### 3bis.1 Acquisition de Clients
+
+**Types d'objectifs :**
+
+| Type | Code | Description | Source données |
+|------|------|-------------|----------------|
+| **Nouveaux clients (total)** | `new_clients_total` | Nombre total de nouveaux clients sur la période | `clients.created_at` |
+| **Nouveaux par segment** | `new_clients_segment` | Nouveaux clients filtrés par segment | `clients.type` (individual/business/enterprise) |
+| **Taux de conversion** | `conversion_rate` | % de leads convertis en clients | `clients.status` (lead → active) |
+| **Coût d'acquisition** | `cac` | Coût moyen pour acquérir un client | Dépenses Marketing / Nouveaux clients |
+
+**Segmentations disponibles :**
+- Par type de client : Particulier / Professionnel / Entreprise
+- Par source d'acquisition : Organique / Ads / Referral / Partenaire
+- Par produit premier achat : VPS / GPU / Web / Stockage
+
+### 3bis.2 Rétention de Clients
+
+**Types d'objectifs :**
+
+| Type | Code | Description | Formule |
+|------|------|-------------|---------|
+| **Taux de churn** | `churn_rate` | % clients perdus sur la période | Clients churned / Clients début période × 100 |
+| **Taux de rétention** | `retention_rate` | % clients conservés | 100% - churn_rate |
+| **Clients actifs** | `active_clients` | Nombre de clients avec statut actif | COUNT(clients WHERE status = 'active') |
+| **Durée de vie moyenne** | `avg_tenure` | Ancienneté moyenne des clients | AVG(now - created_at) |
+
+**Indicateurs de risque :**
+- Clients sans transaction depuis X mois
+- Clients avec tickets support non résolus
+- Clients avec factures impayées
+
+### 3bis.3 Valeur Client
+
+**Types d'objectifs :**
+
+| Type | Code | Description | Formule | Benchmark SaaS |
+|------|------|-------------|---------|----------------|
+| **ARPU** | `arpu` | Revenu moyen par client | CA Total / Clients actifs | Variable |
+| **LTV** | `ltv` | Valeur vie client | ARPU × Durée moyenne × Marge | > 3× CAC |
+| **Ratio LTV/CAC** | `ltv_cac_ratio` | Rentabilité acquisition | LTV / CAC | > 3 |
+| **Panier moyen** | `avg_basket` | Montant moyen par transaction | CA / Nb transactions | Variable |
+
+**Segmentation de la valeur :**
+- Par segment client (Particulier/Pro/Entreprise)
+- Par ancienneté (< 6 mois / 6-12 mois / > 12 mois)
+- Par produit principal
+
+### 3bis.4 Engagement Client
+
+**Types d'objectifs :**
+
+| Type | Code | Description |
+|------|------|-------------|
+| **Clients actifs vs inactifs** | `active_ratio` | % clients avec activité récente |
+| **Fréquence d'achat** | `purchase_frequency` | Nb moyen d'achats par client/an |
+| **Taux d'upsell** | `upsell_rate` | % clients ayant upgradé |
+| **NPS** | `nps_score` | Net Promoter Score (si collecté) |
+
+### 3bis.5 Concentration Client
+
+**Analyse des risques :**
+
+| Métrique | Description | Seuil d'alerte |
+|----------|-------------|----------------|
+| **Top 10% concentration** | % CA généré par top 10% clients | > 50% = risque |
+| **Dépendance client unique** | % CA du plus gros client | > 20% = risque |
+| **Diversification** | Nombre de clients représentant 80% du CA | < 5 = risque |
+
+### 3bis.6 Insights Clients Automatiques
+
+**Types d'insights générés :**
+
+| Type | Exemple |
+|------|---------|
+| **Meilleur segment** | "Les clients Entreprise génèrent 3× plus de CA que Particuliers" |
+| **Churn prédictif** | "5 clients n'ont pas commandé depuis 60+ jours" |
+| **Opportunité upsell** | "12 clients sur VPS Starter pourraient passer Pro" |
+| **Concentration** | "Attention : 3 clients représentent 45% du CA" |
+
+### 3bis.7 Actions Recommandées (Clients)
+
+| Situation | Actions générées |
+|-----------|------------------|
+| **Churn élevé** | Campagne de réengagement, Offres fidélité, Appels rétention |
+| **Acquisition faible** | Augmenter budget Ads, Programme referral, Partenariats |
+| **ARPU bas** | Campagne upsell, Bundles produits, Pricing review |
+| **Concentration élevée** | Diversifier prospection, Réduire dépendance top clients |
+
+### 3bis.8 Source de Données
+
+**Table principale :** `clients`
+
+```sql
+-- Structure attendue
+CREATE TABLE clients (
+  id TEXT PRIMARY KEY,
+  company_id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  email TEXT,
+  type TEXT CHECK (type IN ('individual', 'business', 'enterprise')),
+  status TEXT CHECK (status IN ('lead', 'active', 'inactive', 'churned')),
+  source TEXT, -- 'organic', 'ads', 'referral', 'partner'
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  churned_at TIMESTAMPTZ,
+  -- Stats calculées (via trigger)
+  total_revenue NUMERIC DEFAULT 0,
+  transaction_count INTEGER DEFAULT 0,
+  last_transaction_at TIMESTAMPTZ
+);
+```
+
+**Calculs depuis P&L :**
+- Revenus par client : `SUM(transactions.amount) GROUP BY client_id`
+- Dernière transaction : `MAX(transactions.date) GROUP BY client_id`
 
 ---
 
@@ -390,54 +520,89 @@ CREATE TABLE budgets (
 
 ## 11. Plan d'Implémentation
 
-### Phase 1 : Page Détail (2-3 jours)
-- [ ] Route `/admin/objectives/[id]`
-- [ ] ObjectiveDetailClient.tsx
-- [ ] ObjectiveDetailHeader.tsx
-- [ ] ObjectiveMetricsPanel.tsx
-- [ ] useObjectiveDetail.ts
-- [ ] Navigation depuis ObjectiveCard
+### ✅ Catégorie Financier - COMPLÈTE
 
-### Phase 2 : Graphiques (2-3 jours)
-- [ ] Installer Recharts
-- [ ] ObjectiveChart.tsx (courbes)
-- [ ] ObjectiveGauge.tsx (jauge)
-- [ ] ObjectiveWaterfall.tsx
-- [ ] useObjectiveChart.ts
+#### Phase 1 : Page Détail ✅
+- [x] Route `/admin/objectives/[id]`
+- [x] ObjectiveDetailClient.tsx
+- [x] ObjectiveMetricsPanel.tsx
+- [x] useObjectiveDetail.ts (avec données réelles P&L)
+- [x] Navigation depuis ObjectiveCard
 
-### Phase 3 : Forecasting (2 jours)
-- [ ] forecastCalculator.ts
-- [ ] monteCarloSimulation.ts
-- [ ] ObjectiveForecast.tsx
-- [ ] useObjectiveForecast.ts
+#### Phase 2 : Graphiques ✅
+- [x] Recharts installé
+- [x] ObjectiveChart.tsx (courbes évolution)
+- [x] ObjectiveGauge.tsx (jauge progression)
+- [x] ObjectiveForecast.tsx (projections)
 
-### Phase 4 : Actions & Insights (2-3 jours)
-- [ ] Migration SQL (objective_actions, objective_insights)
-- [ ] actionGenerator.ts
-- [ ] insightsGenerator.ts
-- [ ] anomalyDetector.ts
-- [ ] ObjectiveActions.tsx
-- [ ] ObjectiveInsights.tsx
+#### Phase 3 : Forecasting ✅
+- [x] forecastCalculator.ts (intégré dans useObjectiveDetail)
+- [x] monteCarloSimulation.ts (1000 itérations)
+- [x] ObjectiveForecast.tsx (scénarios + Monte Carlo)
 
-### Phase 5 : Budgets (2-3 jours)
-- [ ] Migration SQL (budgets)
-- [ ] Route `/admin/objectives/budgets`
-- [ ] CreateBudgetWizard.tsx
-- [ ] BudgetCard.tsx, BudgetProgress.tsx
-- [ ] useBudgets.ts
+#### Phase 4 : Actions & Insights ✅
+- [x] actionGenerator.ts
+- [x] insightsGenerator.ts
+- [x] anomalyDetector.ts
+- [x] ObjectiveActions.tsx
+- [x] ObjectiveInsights.tsx
 
-### Phase 6 : Dashboard (2-3 jours)
+#### Phase 5 : Budgets ✅
+- [x] Migration SQL (budgets)
+- [x] Route `/admin/objectives/budgets`
+- [x] useBudgets.ts
+
+---
+
+### 🚧 Catégorie Clients - EN COURS
+
+#### Phase 8 : Types Clients (À faire)
+- [ ] Ajouter types dans `types.ts` :
+  - `new_clients_total`, `new_clients_segment`
+  - `churn_rate`, `retention_rate`, `active_clients`
+  - `arpu`, `ltv`, `cac`, `ltv_cac_ratio`
+- [ ] Ajouter catégorie 'clients' dans le wizard
+- [ ] Mapper vers source de données `clients` table
+
+#### Phase 9 : Calculs Clients (À faire)
+- [ ] `useClientMetrics.ts` - Hook pour métriques clients
+- [ ] Calcul nouveaux clients par période
+- [ ] Calcul churn rate
+- [ ] Calcul ARPU depuis P&L + clients
+- [ ] Calcul LTV (ARPU × durée moyenne × marge)
+
+#### Phase 10 : Intégration Données (À faire)
+- [ ] Modifier `useObjectiveDetail.ts` pour supporter catégorie clients
+- [ ] Requêtes sur table `clients` pour les métriques
+- [ ] Jointure P&L + Clients pour ARPU/LTV
+- [ ] Graphique évolution clients
+
+#### Phase 11 : Insights Clients (À faire)
+- [ ] Alertes concentration client
+- [ ] Détection clients à risque (inactifs)
+- [ ] Suggestions upsell
+- [ ] Actions rétention automatiques
+
+---
+
+### 📋 Phases Futures
+
+#### Phase 12 : Dashboard Global
 - [ ] Route `/admin/objectives/dashboard`
 - [ ] ObjectivesScorecard.tsx
 - [ ] ObjectivesHeatmap.tsx
 - [ ] ObjectivesTreemap.tsx
 - [ ] ObjectivesFunnel.tsx
 
-### Phase 7 : Intégrations (1-2 jours)
-- [ ] Liens P&L
-- [ ] Liens Clients
+#### Phase 13 : Catégorie Abonnements
+- [ ] Types : MRR, ARR, churn_subscribers, expansion_revenue
+- [ ] Intégration table `subscriptions`
+- [ ] Métriques SaaS avancées
+
+#### Phase 14 : Export & Reporting
 - [ ] reportExporter.ts (PDF)
-- [ ] Bouton export
+- [ ] Export CSV
+- [ ] Rapports périodiques automatiques
 
 ---
 
@@ -463,17 +628,41 @@ CREATE TABLE budgets (
 ## 13. Évolutions Futures
 
 ### Catégories à ajouter
-- **Clients** : Acquisition, rétention, segments
-- **Abonnements** : MRR, ARR, churn, ARPU
-- **Produits** : Performance par produit
+- ~~**Clients** : Acquisition, rétention, segments~~ → 🚧 En cours (voir section 3bis)
+- **Abonnements** : MRR, ARR, churn subscribers, expansion revenue, contraction
+- **Produits** : Performance par produit, mix produit, marge par produit
+- **Opérations** : Utilisation infrastructure, coût par client, uptime
 
 ### Fonctionnalités avancées
-- Hiérarchie objectifs (Annuel → Trim → Mois)
-- Notifications email
-- Collaboration (assignation, commentaires)
-- API publique
-- Webhooks
+- Hiérarchie objectifs (Annuel → Trim → Mois avec cascade)
+- Notifications email (alertes, rapports hebdo)
+- Collaboration (assignation, commentaires, mentions)
+- API publique pour intégrations externes
+- Webhooks pour automatisations
+- Comparaison inter-entreprises (benchmark)
+- Import/Export objectifs (CSV, JSON)
+- Templates d'objectifs prédéfinis
+
+### Intégrations externes (long terme)
+- Stripe/Paddle pour revenus réels
+- Intercom/Zendesk pour satisfaction client
+- Google Analytics pour acquisition
+- Slack pour notifications
+
+---
+
+## 14. Résumé des Types d'Objectifs
+
+### Par Catégorie
+
+| Catégorie | Types disponibles | Statut |
+|-----------|-------------------|--------|
+| **Financier** | `revenue_total`, `revenue_product`, `revenue_category`, `revenue_client`, `revenue_segment`, `revenue_recurring`, `revenue_oneshot`, `expenses_total`, `expenses_category`, `gross_profit`, `net_profit`, `gross_margin`, `net_margin` | ✅ |
+| **Clients** | `new_clients_total`, `new_clients_segment`, `conversion_rate`, `cac`, `churn_rate`, `retention_rate`, `active_clients`, `avg_tenure`, `arpu`, `ltv`, `ltv_cac_ratio`, `avg_basket`, `active_ratio`, `upsell_rate` | 🚧 |
+| **Abonnements** | `mrr_total`, `arr_total`, `churn_subscribers`, `expansion_revenue`, `contraction_revenue`, `net_revenue_retention` | 📋 |
+| **Produits** | `product_sales`, `product_margin`, `product_mix`, `best_seller` | 📋 |
 
 ---
 
 *Ce document est la référence technique pour l'implémentation du module Objectifs.*
+*Dernière mise à jour : 2026-01-11*

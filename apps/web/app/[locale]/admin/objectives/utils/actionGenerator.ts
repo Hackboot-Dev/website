@@ -219,7 +219,7 @@ function getActionsByType(
       category: 'produit',
     }));
 
-    if (type === 'clients_new') {
+    if (type === 'new_clients_total' || type === 'new_clients_segment') {
       actions.push(createAction({
         objectiveId: objective.id,
         title: 'Lancer un programme de parrainage',
@@ -235,7 +235,7 @@ function getActionsByType(
   }
 
   // Churn / Retention objectives
-  if (type === 'churn_rate' || type === 'clients_retention') {
+  if (type === 'churn_rate' || type === 'retention_rate') {
     actions.push(createAction({
       objectiveId: objective.id,
       title: 'Contacter les clients à risque',

@@ -22,6 +22,9 @@ import {
   Trash2,
   Calendar,
   TrendingUp,
+  Sparkles,
+  Loader2,
+  Info,
 } from 'lucide-react';
 import { Select } from '../../../../../components/ui/Select';
 import type {
@@ -54,6 +57,8 @@ import {
   requiresClientSelection,
   requiresSegmentSelection,
 } from '../types';
+import { useRealMetrics } from '../hooks/useRealMetrics';
+import type { CompanyId } from '../../pnl/types';
 
 const CATEGORY_ICONS: Record<ObjectiveCategory, typeof DollarSign> = {
   financial: DollarSign,
@@ -72,6 +77,7 @@ type CreateObjectiveWizardProps = {
   products?: { id: string; name: string; categoryId?: string }[];
   productCategories?: { id: string; name: string }[];
   clients?: { id: string; name: string }[];
+  companyId?: CompanyId;
 };
 
 export function CreateObjectiveWizard({
@@ -82,6 +88,7 @@ export function CreateObjectiveWizard({
   products = [],
   productCategories = [],
   clients = [],
+  companyId = 'vmcloud',
 }: CreateObjectiveWizardProps) {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
@@ -113,6 +120,16 @@ export function CreateObjectiveWizard({
   // Distribution & Milestones
   const [distributionType, setDistributionType] = useState<DistributionType>('linear');
   const [milestones, setMilestones] = useState<ObjectiveMilestone[]>([]);
+
+  // Real metrics for suggestions
+  const realMetrics = useRealMetrics({
+    companyId,
+    type,
+    period,
+    year,
+    month: period === 'monthly' ? month : undefined,
+    quarter: period === 'quarterly' ? quarter : undefined,
+  });
 
   // Get max days for period
   const getMaxDays = (): number => {
@@ -674,6 +691,44 @@ export function CreateObjectiveWizard({
                     />
                   </div>
 
+                  {/* Current Value Info */}
+                  {!realMetrics.loading && realMetrics.currentValue > 0 && (
+                    <div className="p-4 bg-zinc-800/50 rounded-xl border border-zinc-700">
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                          <Info className="h-5 w-5 text-blue-400" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-sm font-medium text-white mb-1">Données actuelles</h4>
+                          <div className="grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                              <span className="text-zinc-400">Valeur actuelle: </span>
+                              <span className="text-white font-medium">
+                                {formatObjectiveValue(realMetrics.currentValue, unit)}
+                              </span>
+                            </div>
+                            {realMetrics.lastPeriodValue > 0 && (
+                              <div>
+                                <span className="text-zinc-400">Période précédente: </span>
+                                <span className="text-white font-medium">
+                                  {formatObjectiveValue(realMetrics.lastPeriodValue, unit)}
+                                </span>
+                              </div>
+                            )}
+                            {realMetrics.growthRate !== 0 && (
+                              <div>
+                                <span className="text-zinc-400">Croissance: </span>
+                                <span className={`font-medium ${realMetrics.growthRate > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                  {realMetrics.growthRate > 0 ? '+' : ''}{realMetrics.growthRate.toFixed(1)}%
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Target Amount */}
                   <div>
                     <label className="block text-sm font-medium text-zinc-400 mb-2">
@@ -682,15 +737,59 @@ export function CreateObjectiveWizard({
                         ({unit === 'currency' ? 'en €' : unit === 'percent' ? 'en %' : 'nombre'})
                       </span>
                     </label>
-                    <input
-                      type="number"
-                      value={targetAmount}
-                      onChange={(e) => setTargetAmount(e.target.value)}
-                      placeholder={unit === 'currency' ? 'ex: 10000' : unit === 'percent' ? 'ex: 15' : 'ex: 50'}
-                      className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
-                      min="0"
-                      step={unit === 'percent' ? '0.1' : '1'}
-                    />
+
+                    {/* Suggestions */}
+                    {!realMetrics.loading && realMetrics.suggestions.length > 0 && (
+                      <div className="mb-3">
+                        <p className="text-xs text-zinc-500 mb-2 flex items-center gap-1">
+                          <Sparkles className="h-3 w-3" />
+                          Suggestions basées sur vos données
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {realMetrics.suggestions.slice(0, 4).map((suggestion, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => setTargetAmount(suggestion.value.toString())}
+                              className={`px-3 py-1.5 text-sm rounded-lg border transition-all ${
+                                targetAmount === suggestion.value.toString()
+                                  ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
+                                  : 'bg-zinc-800/50 border-zinc-700 text-zinc-300 hover:border-zinc-600'
+                              }`}
+                              title={suggestion.description}
+                            >
+                              {suggestion.label}: {formatObjectiveValue(suggestion.value, unit)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {realMetrics.loading && (
+                      <div className="mb-3 flex items-center gap-2 text-zinc-500 text-sm">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Chargement des suggestions...
+                      </div>
+                    )}
+
+                    {/* Manual Input */}
+                    <div className="relative">
+                      <input
+                        type="number"
+                        value={targetAmount}
+                        onChange={(e) => setTargetAmount(e.target.value)}
+                        placeholder={unit === 'currency' ? 'ex: 10000' : unit === 'percent' ? 'ex: 15' : 'ex: 50'}
+                        className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
+                        min="0"
+                        step={unit === 'percent' ? '0.1' : '1'}
+                      />
+                      {unit === 'currency' && (
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500">€</span>
+                      )}
+                      {unit === 'percent' && (
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500">%</span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Priority */}

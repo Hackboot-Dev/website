@@ -30,18 +30,32 @@ export type ObjectiveType =
   | 'gross_margin_pct'    // Marge brute en %
   | 'net_margin_pct'      // Marge nette en %
 
-  // Clients
-  | 'clients_total'       // Nombre total de clients actifs
-  | 'clients_new'         // Nouveaux clients (acquisition)
-  | 'clients_retention'   // Taux de rétention %
-  | 'clients_segment'     // Clients par segment
+  // Clients - Acquisition
+  | 'new_clients_total'   // Nouveaux clients total sur la période
+  | 'new_clients_segment' // Nouveaux clients par segment
+  | 'conversion_rate'     // Taux de conversion leads → clients
+  | 'cac'                 // Coût d'acquisition client
+
+  // Clients - Retention
+  | 'churn_rate'          // Taux de churn clients %
+  | 'retention_rate'      // Taux de rétention %
+  | 'active_clients'      // Nombre de clients actifs
+  | 'avg_tenure'          // Ancienneté moyenne (en mois)
+
+  // Clients - Value
+  | 'arpu'                // Revenu moyen par client (Average Revenue Per User)
+  | 'ltv'                 // Valeur vie client (Lifetime Value)
+  | 'ltv_cac_ratio'       // Ratio LTV/CAC
+  | 'avg_basket'          // Panier moyen par transaction
+
+  // Clients - Engagement
+  | 'active_ratio'        // % clients actifs vs total
+  | 'upsell_rate'         // Taux d'upsell (clients ayant upgradé)
 
   // Subscriptions
   | 'mrr_total'           // MRR total
   | 'mrr_growth'          // Croissance MRR %
-  | 'arr_total'           // ARR total
-  | 'churn_rate'          // Taux de churn %
-  | 'arpu';               // Average Revenue Per User
+  | 'arr_total';          // ARR total
 
 export type ObjectivePeriod = 'monthly' | 'quarterly' | 'yearly';
 
@@ -309,20 +323,32 @@ export const OBJECTIVE_TYPE_LABELS: Record<ObjectiveType, string> = {
   net_profit: 'Bénéfice net',
   gross_margin_pct: 'Marge brute %',
   net_margin_pct: 'Marge nette %',
-  // Clients
-  clients_total: 'Clients actifs',
-  clients_new: 'Nouveaux clients',
-  clients_retention: 'Taux de rétention',
-  clients_segment: 'Clients par segment',
+  // Clients - Acquisition
+  new_clients_total: 'Nouveaux clients',
+  new_clients_segment: 'Nouveaux clients par segment',
+  conversion_rate: 'Taux de conversion',
+  cac: 'Coût d\'acquisition (CAC)',
+  // Clients - Retention
+  churn_rate: 'Taux de churn',
+  retention_rate: 'Taux de rétention',
+  active_clients: 'Clients actifs',
+  avg_tenure: 'Ancienneté moyenne',
+  // Clients - Value
+  arpu: 'ARPU (Revenu/client)',
+  ltv: 'LTV (Valeur vie client)',
+  ltv_cac_ratio: 'Ratio LTV/CAC',
+  avg_basket: 'Panier moyen',
+  // Clients - Engagement
+  active_ratio: 'Ratio clients actifs',
+  upsell_rate: 'Taux d\'upsell',
   // Subscriptions
   mrr_total: 'MRR total',
   mrr_growth: 'Croissance MRR',
   arr_total: 'ARR total',
-  churn_rate: 'Taux de churn',
-  arpu: 'ARPU',
 };
 
 export const OBJECTIVE_TYPE_DESCRIPTIONS: Record<ObjectiveType, string> = {
+  // Financial
   revenue_total: 'Chiffre d\'affaires total sur la période',
   revenue_product: 'Revenus générés par un produit spécifique',
   revenue_category: 'Revenus par catégorie de produits (VPS, GPU, etc.)',
@@ -334,18 +360,32 @@ export const OBJECTIVE_TYPE_DESCRIPTIONS: Record<ObjectiveType, string> = {
   net_profit: 'Bénéfice après toutes les dépenses',
   gross_margin_pct: 'Marge brute en pourcentage du CA',
   net_margin_pct: 'Marge nette en pourcentage du CA',
-  clients_total: 'Nombre de clients actifs',
-  clients_new: 'Nouveaux clients acquis sur la période',
-  clients_retention: 'Pourcentage de clients conservés',
-  clients_segment: 'Nombre de clients par segment',
+  // Clients - Acquisition
+  new_clients_total: 'Nombre total de nouveaux clients acquis sur la période',
+  new_clients_segment: 'Nouveaux clients filtrés par segment (particulier, pro, entreprise)',
+  conversion_rate: 'Pourcentage de leads convertis en clients actifs',
+  cac: 'Coût moyen pour acquérir un nouveau client (dépenses marketing / nouveaux clients)',
+  // Clients - Retention
+  churn_rate: 'Pourcentage de clients perdus sur la période',
+  retention_rate: 'Pourcentage de clients conservés (100% - churn)',
+  active_clients: 'Nombre de clients avec statut actif',
+  avg_tenure: 'Ancienneté moyenne des clients en mois',
+  // Clients - Value
+  arpu: 'Revenu moyen par client actif (CA / clients actifs)',
+  ltv: 'Valeur totale générée par un client sur sa durée de vie',
+  ltv_cac_ratio: 'Ratio entre LTV et CAC (objectif > 3)',
+  avg_basket: 'Montant moyen par transaction',
+  // Clients - Engagement
+  active_ratio: 'Pourcentage de clients avec activité récente',
+  upsell_rate: 'Pourcentage de clients ayant upgradé leur offre',
+  // Subscriptions
   mrr_total: 'Revenu mensuel récurrent total',
   mrr_growth: 'Croissance du MRR en pourcentage',
   arr_total: 'Revenu annuel récurrent (MRR × 12)',
-  churn_rate: 'Taux de résiliation des abonnements',
-  arpu: 'Revenu moyen par utilisateur',
 };
 
 export const OBJECTIVE_TYPE_UNITS: Record<ObjectiveType, 'currency' | 'count' | 'percent'> = {
+  // Financial
   revenue_total: 'currency',
   revenue_product: 'currency',
   revenue_category: 'currency',
@@ -357,15 +397,28 @@ export const OBJECTIVE_TYPE_UNITS: Record<ObjectiveType, 'currency' | 'count' | 
   net_profit: 'currency',
   gross_margin_pct: 'percent',
   net_margin_pct: 'percent',
-  clients_total: 'count',
-  clients_new: 'count',
-  clients_retention: 'percent',
-  clients_segment: 'count',
+  // Clients - Acquisition
+  new_clients_total: 'count',
+  new_clients_segment: 'count',
+  conversion_rate: 'percent',
+  cac: 'currency',
+  // Clients - Retention
+  churn_rate: 'percent',
+  retention_rate: 'percent',
+  active_clients: 'count',
+  avg_tenure: 'count', // months as count
+  // Clients - Value
+  arpu: 'currency',
+  ltv: 'currency',
+  ltv_cac_ratio: 'count', // ratio displayed as number (e.g., 3.5)
+  avg_basket: 'currency',
+  // Clients - Engagement
+  active_ratio: 'percent',
+  upsell_rate: 'percent',
+  // Subscriptions
   mrr_total: 'currency',
   mrr_growth: 'percent',
   arr_total: 'currency',
-  churn_rate: 'percent',
-  arpu: 'currency',
 };
 
 export const OBJECTIVE_TYPE_BY_CATEGORY: Record<ObjectiveCategory, ObjectiveType[]> = {
@@ -378,17 +431,29 @@ export const OBJECTIVE_TYPE_BY_CATEGORY: Record<ObjectiveCategory, ObjectiveType
     'net_margin_pct',
   ],
   clients: [
-    'clients_total',
-    'clients_new',
-    'clients_retention',
-    'clients_segment',
+    // Acquisition
+    'new_clients_total',
+    'new_clients_segment',
+    'conversion_rate',
+    'cac',
+    // Retention
+    'churn_rate',
+    'retention_rate',
+    'active_clients',
+    'avg_tenure',
+    // Value
+    'arpu',
+    'ltv',
+    'ltv_cac_ratio',
+    'avg_basket',
+    // Engagement
+    'active_ratio',
+    'upsell_rate',
   ],
   subscriptions: [
     'mrr_total',
     'mrr_growth',
     'arr_total',
-    'churn_rate',
-    'arpu',
   ],
   products: [
     'revenue_product',
@@ -519,5 +584,16 @@ export function requiresClientSelection(type: ObjectiveType): boolean {
 }
 
 export function requiresSegmentSelection(type: ObjectiveType): boolean {
-  return type === 'revenue_segment' || type === 'clients_segment';
+  return type === 'revenue_segment' || type === 'new_clients_segment';
+}
+
+// Helper to check if this is a client-category objective type
+export function isClientObjectiveType(type: ObjectiveType): boolean {
+  const clientTypes: ObjectiveType[] = [
+    'new_clients_total', 'new_clients_segment', 'conversion_rate', 'cac',
+    'churn_rate', 'retention_rate', 'active_clients', 'avg_tenure',
+    'arpu', 'ltv', 'ltv_cac_ratio', 'avg_basket',
+    'active_ratio', 'upsell_rate',
+  ];
+  return clientTypes.includes(type);
 }

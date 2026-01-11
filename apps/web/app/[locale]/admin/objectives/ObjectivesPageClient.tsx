@@ -324,6 +324,7 @@ export default function ObjectivesPageClient() {
           await handleCreateObjective(data);
           setShowCreateModal(false);
         }}
+        companyId={companyId}
       />
     </div>
   );

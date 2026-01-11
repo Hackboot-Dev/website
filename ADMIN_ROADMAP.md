@@ -2,11 +2,11 @@
 
 > Roadmap pour une suite de gestion d'entreprise cohérente et interconnectée
 
-**Dernière mise à jour :** 2026-01-10
-**Score actuel :** 8/10 (Phase 2 complète + Objectifs v2 avec wizard et cohérence)
+**Dernière mise à jour :** 2026-01-11
+**Score actuel :** 8.5/10 (Phase 2 complète + Objectifs Financier ✅ + Objectifs Clients 🚧)
 
-**Spécifications en cours :**
-- [OBJECTIVES_ANALYSIS.md](/docs/features/OBJECTIVES_ANALYSIS.md) - Module Objectifs Analyse & Plans d'actions
+**Spécifications :**
+- [MODULE_OBJECTIVES.md](/MODULE_OBJECTIVES.md) - Spécifications complètes du module Objectifs
 
 ---
 
@@ -21,10 +21,21 @@
 | **P&L Hackboot** | `/admin/pnl/hackboot` | ✅ Riche | 8/10 | Transactions Supabase, MRR, graphiques |
 | **P&L VMCloud** | `/admin/pnl/vmcloud` | ✅ Riche | 8/10 | Même système que Hackboot |
 | **Subscriptions** | `/admin/pnl/*/subscriptions` | ✅ Intégré | 7/10 | Intégré au P&L, Supabase unique |
-| **Objectifs** | `/admin/objectives` | ✅ v2 | 9/10 | Wizard 5 étapes, 20+ types, cohérence, granularité (produit/client/segment) |
+| **Objectifs Financier** | `/admin/objectives` | ✅ Complet | 9/10 | Wizard, 20+ types, cohérence, page détail, graphiques, forecasting |
+| **Objectifs Clients** | `/admin/objectives` | 🚧 En cours | - | Acquisition, rétention, valeur client (voir spec) |
 | **Alertes** | `/admin/objectives` | ✅ Complet | 8/10 | Alertes auto, severity, acknowledge, panel intégré |
-| **Objectifs Analyse** | `/admin/objectives/[id]` | 🚧 Planifié | - | Page détail, plans d'actions, graphiques ([spec](/docs/features/OBJECTIVES_ANALYSIS.md)) |
+| **Objectifs Détail** | `/admin/objectives/[id]` | ✅ Complet | 9/10 | Page détail, métriques, graphiques, forecasting Monte Carlo |
+| **Budgets** | `/admin/objectives/budgets` | ✅ Basique | 7/10 | Création et suivi budgets |
 | **Settings** | `/admin/settings` | ✅ Basique | 5/10 | Page fonctionnelle, config DB affichée |
+
+### Catégories Objectifs
+
+| Catégorie | Statut | Types disponibles |
+|-----------|--------|-------------------|
+| **Financier** | ✅ Complet | CA, dépenses, profits, marges (13 types) |
+| **Clients** | 🚧 En cours | Acquisition, rétention, valeur (14 types) |
+| **Abonnements** | 📋 Planifié | MRR, ARR, churn, expansion (6 types) |
+| **Produits** | 📋 Planifié | Ventes, marges, mix produit (4 types) |
 
 ### Technologies
 - **Frontend:** Next.js 14, React, TypeScript, Tailwind CSS, Framer Motion
@@ -169,45 +180,71 @@ Clients ←──→ P&L ←──→ Subscriptions
 ✅ /admin/layout.tsx                            # Navigation + lien Objectifs
 ```
 
-### Phase 2.5 : Objectifs v2 ✅ COMPLÈTE + 🚧 EN COURS
+### Phase 2.5 : Objectifs Financier ✅ COMPLÈTE
 
 **Objectif :** Transformer les objectifs en véritable outil de pilotage business
 
-**Spécifications détaillées :** [OBJECTIVES_ANALYSIS.md](/docs/features/OBJECTIVES_ANALYSIS.md)
+**Spécifications détaillées :** [MODULE_OBJECTIVES.md](/MODULE_OBJECTIVES.md)
 
-#### ✅ Implémenté (Session 40)
+#### ✅ Wizard et Types (Session 40)
 
 | Tâche | État | Description |
 |-------|------|-------------|
 | Wizard création 5 étapes | ✅ | category → type → details → target → review |
-| 20+ types d'objectifs | ✅ | revenue_total, revenue_product, expenses_category, gross_profit, net_profit, mrr_total, churn_rate, etc. |
+| 20+ types d'objectifs | ✅ | revenue_total, revenue_product, expenses_category, gross_profit, net_profit, etc. |
 | Filtres granulaires | ✅ | Par produit, catégorie produit, client, segment client, catégorie dépense |
 | Validation cohérence | ✅ | Détecte si Revenue - Expenses ≠ Net Profit, marges incohérentes |
 | Suggestions correction | ✅ | Propose corrections automatiques si incohérence |
-| Composant Select custom | ✅ | Remplace selects natifs moches |
 
-**Fichiers créés/modifiés :**
+#### ✅ Page Détail et Graphiques (Session 48-49)
+
+| Tâche | État | Description |
+|-------|------|-------------|
+| Page détail `/objectives/[id]` | ✅ | Vue complète par objectif |
+| Graphiques Recharts | ✅ | Évolution (courbes), Jauge (progression) |
+| Forecasting Monte Carlo | ✅ | 1000 simulations, P5/P50/P95, probabilité succès |
+| Insights automatiques | ✅ | Tendances, alertes, recommandations |
+| Actions recommandées | ✅ | Upsell, relance leads, rétention |
+| Données P&L réelles | ✅ | Calcul actualAmount depuis pnl_data (bug fix) |
+
+**Fichiers créés :**
 ```
-✅ /supabase/migrations/20260112_objectives_v2.sql     # Nouveaux champs: category, priority, product_id, client_id, etc.
-✅ /admin/objectives/components/CreateObjectiveWizard.tsx  # Nouveau wizard 5 étapes
-✅ /admin/objectives/utils/coherenceChecker.ts          # Validation cohérence
-✅ /admin/objectives/types.ts                           # 20+ types, helpers, constantes
-✅ /components/ui/Select.tsx                            # Composant Select custom
-✅ /lib/services/database-supabase.ts                  # Support nouveaux champs
+✅ /admin/objectives/[id]/page.tsx                     # Route détail
+✅ /admin/objectives/[id]/ObjectiveDetailClient.tsx    # Client component
+✅ /admin/objectives/components/detail/               # 9 composants (Chart, Gauge, Forecast, etc.)
+✅ /admin/objectives/hooks/useObjectiveDetail.ts      # Hook avec données réelles P&L
+✅ /admin/objectives/utils/                           # 6 utilitaires (forecast, monte carlo, etc.)
+✅ /admin/objectives/budgets/                         # Module budgets
 ```
 
-#### 🚧 Prochaine étape : Module Objectifs Full Features
+---
 
-**Objectif :** Transformer les objectifs en véritable outil de pilotage business avec :
-- Page détail par objectif avec métriques et graphiques
-- Forecasting avancé (linéaire, saisonnier, Monte Carlo)
-- Plans d'actions intelligents générés automatiquement
-- Système de budgets avec suivi consommation
-- Dashboard global avec scorecard, heatmap, treemap
+### Phase 2.6 : Objectifs Clients 🚧 EN COURS
 
-**7 phases d'implémentation** (~2-3 semaines total)
+**Objectif :** Ajouter la catégorie Clients au module Objectifs
 
-**📄 Spécifications complètes :** [MODULE_OBJECTIVES.md](/docs/features/MODULE_OBJECTIVES.md)
+#### Types d'objectifs Clients (14 types)
+
+| Sous-catégorie | Types | Description |
+|----------------|-------|-------------|
+| **Acquisition** | `new_clients_total`, `new_clients_segment`, `conversion_rate`, `cac` | Mesurer croissance base clients |
+| **Rétention** | `churn_rate`, `retention_rate`, `active_clients`, `avg_tenure` | Mesurer fidélisation |
+| **Valeur** | `arpu`, `ltv`, `cac`, `ltv_cac_ratio`, `avg_basket` | Mesurer rentabilité client |
+| **Engagement** | `active_ratio`, `upsell_rate` | Mesurer activité |
+
+#### À implémenter
+
+| Tâche | Priorité | Description |
+|-------|----------|-------------|
+| Ajouter types dans `types.ts` | P1 | 14 nouveaux types |
+| Catégorie 'clients' dans wizard | P1 | Étape 1 du wizard |
+| `useClientMetrics.ts` | P1 | Hook pour calculs clients |
+| Calcul depuis table `clients` | P1 | Nouveaux clients, churn, etc. |
+| Calcul ARPU/LTV | P2 | Jointure P&L + Clients |
+| Insights concentration | P2 | Alertes si top clients > 50% CA |
+| Actions rétention | P2 | Suggestions anti-churn |
+
+**📄 Spécifications complètes :** [MODULE_OBJECTIVES.md - Section 3bis](/MODULE_OBJECTIVES.md)
 
 ### Phase 3 : Facturation ⏱️ 2-3 semaines
 

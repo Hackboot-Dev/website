@@ -1,5 +1,243 @@
 # Journal de Développement - VMCloud Platform
 
+[2026-01-11 - Session 52]
+SESSION: Amélioration wizard objectifs - Suggestions basées sur données réelles
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Catégorie Clients implémentée
+- Utilisateur demande: suggestions de targetAmount basées sur données réelles
+
+FICHIERS CRÉÉS:
+- `/admin/objectives/hooks/useRealMetrics.ts` - Hook pour récupérer données réelles P&L + Clients
+
+FICHIERS MODIFIÉS:
+- `/admin/objectives/components/CreateObjectiveWizard.tsx` - Suggestions dans étape "target"
+- `/admin/objectives/ObjectivesPageClient.tsx` - Passage de companyId au wizard
+
+FONCTIONNALITÉS AJOUTÉES:
+
+1. **Données actuelles affichées** dans le wizard :
+   - Valeur actuelle de la métrique
+   - Valeur période précédente
+   - Taux de croissance
+
+2. **Suggestions intelligentes** basées sur :
+   - Période précédente (même valeur)
+   - Moyenne des périodes
+   - Croissance +10% et +20%
+   - Benchmarks SaaS (churn <5%, retention >90%, LTV/CAC >3, etc.)
+
+3. **Hook useRealMetrics** :
+   - Charge P&L data pour les objectifs financiers
+   - Charge Clients data pour les objectifs clients
+   - Calcule automatiquement les suggestions pertinentes
+
+PROCHAINE ÉTAPE: Tester le wizard avec les nouvelles suggestions
+
+---
+
+[2026-01-11 - Session 51]
+SESSION: Implémentation catégorie Clients pour module Objectifs
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Catégorie Financier complète et fonctionnelle
+- Documentation catégorie Clients prête (Session 50)
+- Implémentation complète de la catégorie Clients
+
+FICHIERS CRÉÉS:
+- `/admin/objectives/hooks/useClientMetrics.ts` - Hook pour calcul des métriques clients
+
+FICHIERS MODIFIÉS:
+- `/admin/objectives/types.ts` - Ajout des 14 types d'objectifs clients
+- `/admin/objectives/hooks/useObjectiveDetail.ts` - Support objectifs clients
+- `/admin/objectives/components/ObjectiveCard.tsx` - Icônes pour nouveaux types
+- `/admin/objectives/components/dashboard/ObjectivesScorecard.tsx` - Types mis à jour
+- `/admin/objectives/utils/actionGenerator.ts` - Références types clients corrigées
+- `/admin/objectives/utils/coherenceChecker.ts` - Références types clients corrigées
+
+IMPLÉMENTATION:
+1. **Types (types.ts)** - 14 nouveaux types d'objectifs clients:
+   - Acquisition: new_clients_total, new_clients_segment, conversion_rate, cac
+   - Rétention: churn_rate, retention_rate, active_clients, avg_tenure
+   - Valeur: arpu, ltv, ltv_cac_ratio, avg_basket
+   - Engagement: active_ratio, upsell_rate
+
+2. **Hook useClientMetrics.ts** - Calcul automatique des métriques depuis table `clients`:
+   - Nouveaux clients par période
+   - Taux de churn/rétention
+   - ARPU, LTV, CAC
+   - Ratio d'engagement
+
+3. **Hook useObjectiveDetail.ts** - Support complet:
+   - Détection automatique des objectifs clients via isClientObjectiveType()
+   - Chargement des clients depuis Supabase
+   - Calcul des métriques avec calculateClientMetric()
+   - Insights et actions spécifiques clients (concentration, rétention, upsell)
+   - Graphiques historiques adaptés aux métriques clients
+
+FONCTIONNALITÉS:
+- Wizard création supporte maintenant la catégorie "clients" avec les 14 types
+- Page détail affiche les métriques clients correctement
+- Insights automatiques: concentration client, churn prédictif, opportunités upsell
+- Actions recommandées: réactivation, marketing, parrainage, conversions leads
+
+PROCHAINE ÉTAPE: Tester la création d'objectifs clients dans l'interface
+
+---
+
+[2026-01-11 - Session 50]
+SESSION: Documentation catégorie Clients pour module Objectifs
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Catégorie Financier complète et fonctionnelle
+- Utilisateur demande: "Maintenant qu'on a fait Financier, faisons Clients"
+
+FICHIERS MIS À JOUR:
+- `/MODULE_OBJECTIVES.md` - Ajout section 3bis complète pour catégorie Clients
+- `/ADMIN_ROADMAP.md` - Mise à jour état des modules + Phase 2.6 Clients
+
+CATÉGORIE CLIENTS - 14 TYPES D'OBJECTIFS:
+
+**Acquisition (4 types):**
+- `new_clients_total` - Nouveaux clients (total)
+- `new_clients_segment` - Nouveaux par segment (Particulier/Pro/Entreprise)
+- `conversion_rate` - Taux Lead → Client
+- `cac` - Coût d'acquisition client
+
+**Rétention (4 types):**
+- `churn_rate` - Taux de churn
+- `retention_rate` - Taux de rétention
+- `active_clients` - Clients actifs
+- `avg_tenure` - Durée de vie moyenne
+
+**Valeur (5 types):**
+- `arpu` - Revenu moyen par client
+- `ltv` - Lifetime Value
+- `ltv_cac_ratio` - Ratio LTV/CAC (benchmark > 3)
+- `avg_basket` - Panier moyen
+
+**Engagement (2 types):**
+- `active_ratio` - % clients actifs
+- `upsell_rate` - Taux d'upsell
+
+PROCHAINE ÉTAPE: Implémenter les types dans types.ts et le wizard
+
+---
+
+[2026-01-11 - Session 49]
+SESSION: Correction bugs données fausses dans module Objectifs
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- L'utilisateur voyait `actualAmount = 0€` au lieu de `19€` (sa vraie transaction)
+- Le graphique "Évolution" montrait des données fausses (14€, 16€, 17€ distribués uniformément)
+- L'utilisateur n'a qu'une seule transaction de 19€ mais le graphique montrait une progression artificielle
+
+PROBLÈMES IDENTIFIÉS:
+1. **actualAmount = 0**: La fonction SQL `get_objective_progress` cherchait dans `pnl_transactions` (table relationnelle), mais les données sont stockées dans `pnl_data` (JSON)
+2. **Distribution artificielle**: `calculateHistoricalData` distribuait `monthlyTotal / maxDay` uniformément sur chaque jour
+
+CORRECTIONS APPORTÉES:
+1. **useObjectiveDetail.ts** - Calcul de `actualAmount` directement depuis P&L JSON:
+   - Ajout de `calculateActualAmountFromPnL()` qui lit directement depuis `pnl_data`
+   - Suppression de la dépendance à `getObjectivesWithProgress()` pour le montant actuel
+   - Le `progressPercent` est maintenant calculé côté client
+
+2. **useObjectiveDetail.ts** - Graphique sans distribution artificielle:
+   - Modification de `calculateHistoricalData()` pour les objectifs mensuels
+   - Au lieu de distribuer uniformément, on montre une interpolation linéaire vers le total réel
+   - Le cumulative augmente progressivement vers le vrai montant (pas de faux quotidien)
+
+FICHIERS MODIFIÉS:
+- apps/web/app/[locale]/admin/objectives/hooks/useObjectiveDetail.ts
+
+RÉSULTAT:
+- `Actuel` affiche maintenant le vrai montant depuis P&L (19€)
+- Le graphique cumulatif montre une progression vers le total réel
+- Plus de données fausses distribuées artificiellement
+
+---
+
+[2026-01-11 - Session 48]
+SESSION: Module Objectifs v3 - Réécriture complète inspirée OKR Tracker
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- L'ancien module avait du fake data (Math.random() pour vélocité, périodes, etc.)
+- L'utilisateur a demandé: "Quels outils open source existent pour les objectifs?"
+- Recherche effectuée: OKR Tracker (Oslo Kommune) en Vue.js/Firebase, OKR OS en Flutter
+- Décision: Recréer un module propre inspiré de OKR Tracker mais adapté à notre stack
+
+SOLUTION:
+1. **Ancien module préservé** → renommé en `objectives-legacy`
+2. **Nouveau module** → `objectives` (v3) avec:
+   - Aucune simulation, uniquement vraies données P&L
+   - Types simplifiés (8 métriques essentielles vs 20+ avant)
+   - Interface plus claire et épurée
+   - Calcul de progression linéaire transparent
+
+ARCHITECTURE NOUVEAU MODULE:
+```
+/objectives/
+├── page.tsx                    # Server component
+├── ObjectivesPageClient.tsx    # Client - Liste avec filtres
+├── types.ts                    # Types simplifiés
+├── [id]/
+│   ├── page.tsx               # Server component détail
+│   └── ObjectiveDetailClient.tsx  # Client - Vue détaillée
+├── hooks/
+│   └── useObjectives.ts       # CRUD + calcul depuis P&L
+└── components/
+    ├── ObjectiveCard.tsx      # Carte avec vraie progression
+    └── CreateObjectiveModal.tsx # Modal création simple
+```
+
+TYPES MÉTRIQUES (simplifiés):
+- `revenue` - Chiffre d'affaires total
+- `revenue_recurring` - MRR
+- `revenue_oneshot` - Ventes ponctuelles
+- `expenses` - Dépenses
+- `gross_profit` - Marge brute
+- `net_profit` - Bénéfice net
+- `new_clients` - Nouveaux clients
+- `active_clients` - Clients actifs
+
+CE QUI CHANGE:
+| Ancien | Nouveau |
+|--------|---------|
+| 20+ types d'objectifs | 8 types essentiels |
+| Fake data (Math.random) | Données P&L réelles uniquement |
+| Wizard 5 étapes complexe | Modal simple 1 étape |
+| Milestones custom | Progression linéaire (simple) |
+| "Vélocité +12%" inventée | "Écart +500€" réel |
+
+MIGRATION SQL:
+- Nouvelle table `objectives_v3` avec structure simplifiée
+- Hook compatible avec ancienne table `objectives` (fallback)
+
+FICHIERS CRÉÉS:
+- /admin/objectives/page.tsx [créé]
+- /admin/objectives/ObjectivesPageClient.tsx [créé]
+- /admin/objectives/types.ts [créé - simplifié]
+- /admin/objectives/[id]/page.tsx [créé]
+- /admin/objectives/[id]/ObjectiveDetailClient.tsx [créé]
+- /admin/objectives/hooks/useObjectives.ts [créé - P&L réel]
+- /admin/objectives/components/ObjectiveCard.tsx [créé]
+- /admin/objectives/components/CreateObjectiveModal.tsx [créé]
+- /supabase/migrations/20260111_objectives_v3.sql [créé]
+
+FICHIERS PRÉSERVÉS (legacy):
+- /admin/objectives-legacy/* (tout l'ancien module intact)
+
+SOURCES D'INSPIRATION:
+- https://github.com/oslokommune/okr-tracker (Vue.js + Firebase)
+- Adapté pour: React + TypeScript + Supabase + notre P&L
+
+---
+
 [2026-01-11 - Session 47]
 SESSION: Système de milestones pour objectifs - Distribution personnalisée
 STATUT: ✅ Réussi

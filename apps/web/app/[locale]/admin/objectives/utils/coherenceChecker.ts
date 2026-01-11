@@ -265,7 +265,7 @@ export function checkObjectivesCoherence(
   // ============================================================
   // Check 6: Impossible percentages
   // ============================================================
-  const retentionObj = getByType('clients_retention');
+  const retentionObj = getByType('retention_rate');
   if (retentionObj && retentionObj.targetAmount > 100) {
     const issue: CoherenceIssue = {
       id: nanoid(),
