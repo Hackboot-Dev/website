@@ -150,7 +150,7 @@ export default function AboutPageClient() {
                 className="max-w-3xl"
               >
                 <p className="text-lg lg:text-xl text-zinc-400 font-light leading-relaxed mb-8">
-                  {t('about.hero.subtitle') || 'Depuis 2023, nous avons évolué de la vente de clés de jeux au développement logiciel, puis au cloud gaming. Fin 2025, avec 2.5M€ levés, VMCloud structure cette expertise pour conquérir le marché européen depuis l\'Estonie.'}
+                  {t('about.hero.subtitle') || 'Depuis 2023, VMCloud construit l\'infrastructure cloud européenne de nouvelle génération. Avec 2.5M€ levés auprès d\'OVHCloud et SEB Pank, nous offrons des solutions compute, GPU et stockage premium depuis l\'Estonie.'}
                 </p>
 
                 {/* CTA buttons */}
@@ -267,7 +267,7 @@ export default function AboutPageClient() {
                 {t('about.timeline.title') || 'L\'évolution VMCloud'}
               </h2>
               <p className="text-zinc-500 max-w-2xl mx-auto">
-                {t('about.timeline.subtitle') || 'L\'évolution d\'une vision gaming vers une infrastructure cloud complète'}
+                {t('about.timeline.subtitle') || 'De la vision à la réalité : construire le cloud européen de demain'}
               </p>
             </motion.div>
 
@@ -279,22 +279,22 @@ export default function AboutPageClient() {
               {[
                 {
                   year: '2023',
-                  title: t('about.timeline.items.hackbootCreation.title') || (isEn ? 'Early foundation' : 'Fondations initiales'),
-                  description: t('about.timeline.items.hackbootCreation.description') || 'Début avec la vente de clés de jeux à prix compétitifs. Construction d\'une première base client et compréhension du marché gaming.',
+                  title: t('about.timeline.items.hackbootCreation.title') || (isEn ? 'The Vision' : 'La Vision'),
+                  description: t('about.timeline.items.hackbootCreation.description') || (isEn ? 'VMCloud founded with a clear ambition: build premium, sovereign and performant European cloud infrastructure.' : 'Création de VMCloud avec une ambition claire : bâtir une infrastructure cloud européenne premium, souveraine et performante.'),
                   icon: Rocket,
                   highlight: false
                 },
                 {
                   year: t('common.year2023End') || (isEn ? 'Late 2023' : 'Fin 2023'),
-                  title: t('about.timeline.items.softwareDev.title') || (isEn ? 'Software Development' : 'Développement Logiciel'),
-                  description: t('about.timeline.items.softwareDev.description') || 'Pivot vers le développement de logiciels sur mesure. Création d\'outils et d\'applications pour la communauté gaming.',
+                  title: t('about.timeline.items.softwareDev.title') || (isEn ? 'The Foundations' : 'Les Fondations'),
+                  description: t('about.timeline.items.softwareDev.description') || (isEn ? 'Technical architecture development, strategic partnerships with AMD and NVIDIA. First datacenters setup.' : 'Développement de l\'architecture technique, partenariats stratégiques avec AMD et NVIDIA. Mise en place des premiers datacenters.'),
                   icon: Code,
                   highlight: false
                 },
                 {
                   year: t('common.year2025Mid') || (isEn ? 'Mid-2025' : 'Mi-2025'),
-                  title: t('about.timeline.items.cloudGaming.title') || (isEn ? 'Cloud platform & gaming' : 'Plateforme cloud & gaming'),
-                  description: t('about.timeline.items.cloudGaming.description') || (isEn ? 'Launch of cloud gaming initiatives in Estonia. Deep technical expertise in GPU optimization.' : 'Lancement d\'initiatives de cloud gaming en Estonie. Expertise technique approfondie en optimisation GPU.'),
+                  title: t('about.timeline.items.cloudGaming.title') || (isEn ? 'GPU & Compute Expertise' : 'Expertise GPU & Compute'),
+                  description: t('about.timeline.items.cloudGaming.description') || (isEn ? 'Deep expertise in GPU optimization and high-performance computing. Infrastructure dedicated to AI and machine learning.' : 'Développement d\'une expertise pointue en optimisation GPU et calcul haute performance. Infrastructure dédiée à l\'IA et au machine learning.'),
                   icon: Cpu,
                   highlight: false
                 },
@@ -307,15 +307,15 @@ export default function AboutPageClient() {
                 },
                 {
                   year: t('common.year2025End') || (isEn ? 'Late 2025' : 'Fin 2025'),
-                  title: t('about.timeline.items.rapidExpansion.title') || (isEn ? 'Rapid Expansion' : 'Expansion Rapide'),
-                  description: t('about.timeline.items.rapidExpansion.description') || (isEn ? 'Acquiring thousands of customers, European expansion from Estonia. Enterprise infrastructure deployed in 3 major datacenters.' : 'Acquisition de milliers de clients, expansion européenne depuis l\'Estonie. Infrastructure enterprise déployée dans 3 datacenters majeurs.'),
+                  title: t('about.timeline.items.rapidExpansion.title') || (isEn ? 'Platform Launch' : 'Lancement Plateforme'),
+                  description: t('about.timeline.items.rapidExpansion.description') || (isEn ? 'VMCloud platform goes live with 7 product lines: VPS, GPU Cloud, Web Hosting, PaaS, Load Balancer, Storage and CDN. Operational infrastructure across 3 European datacenters.' : 'Mise en ligne de la plateforme VMCloud avec 7 gammes de produits : VPS, GPU Cloud, Hébergement Web, PaaS, Load Balancer, Stockage et CDN. Infrastructure opérationnelle dans 3 datacenters européens.'),
                   icon: Globe,
                   highlight: false
                 },
                 {
                   year: '2026',
-                  title: t('about.timeline.items.innovation.title') || (isEn ? 'Innovation & Growth' : 'Innovation & Croissance'),
-                  description: t('about.timeline.items.innovation.description') || (isEn ? 'Consolidating achievements, adding innovative new services. New datacenters planned in Madrid and Milan. AI solutions development.' : 'Consolidation des acquis, ajout de nouveaux services innovants. Nouveaux datacenters prévus à Madrid et Milan. Développement de solutions IA.'),
+                  title: t('about.timeline.items.innovation.title') || (isEn ? 'Continuous Development' : 'Développement Continu'),
+                  description: t('about.timeline.items.innovation.description') || (isEn ? 'Ongoing user experience improvements: console redesign, documentation, public API and automation tools. New services and features based on market needs.' : 'Amélioration continue de l\'expérience utilisateur : refonte console, documentation, API publique et outils d\'automatisation. Nouveaux services et fonctionnalités selon les besoins du marché.'),
                   icon: Target,
                   highlight: false
                 }
@@ -474,7 +474,7 @@ export default function AboutPageClient() {
                     {t('about.legal.estonia.title') || 'Juridiction Estonienne'}
                   </h3>
                   <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-                    {t('about.legal.estonia.content') || 'En Estonie, le développement et l\'utilisation de modifications de jeux (cheats) sont entièrement légaux. Cette juridiction nous permet d\'innover librement tout en respectant les réglementations européennes.'}
+                    {t('about.legal.estonia.content') || 'L\'Estonie offre un écosystème digital de pointe avec une infrastructure e-gouvernement parmi les plus avancées au monde. Cette juridiction nous permet d\'opérer efficacement tout en respectant les réglementations européennes.'}
                   </p>
                   <ul className="space-y-2 text-sm text-zinc-500">
                     <li className="flex items-start">
@@ -529,7 +529,7 @@ export default function AboutPageClient() {
                 className="mt-12 p-6 bg-zinc-900/20 border border-zinc-800/50 text-center"
               >
                 <p className="text-sm text-zinc-500">
-                  <span className="text-zinc-400">{t('about.legal.note') || 'Note:'}</span> {t('about.legal.note.content') || 'VMCloud opère en totale transparence avec les autorités estoniennes et européennes. Notre activité gaming, incluant le développement de cheats, est déclarée et conforme à la législation locale.'}
+                  <span className="text-zinc-400">{t('about.legal.note') || 'Note:'}</span> {t('about.legal.note.content') || 'VMCloud opère en totale conformité avec les réglementations européennes. Notre infrastructure est certifiée et nos pratiques respectent les standards RGPD et de protection des données.'}
                 </p>
               </motion.div>
             </motion.div>

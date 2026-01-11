@@ -12,7 +12,6 @@ import frPaas from '../data/products/fr/paas.json';
 import frLoadbalancer from '../data/products/fr/loadbalancer.json';
 import frStorage from '../data/products/fr/storage.json';
 import frCdn from '../data/products/fr/cdn.json';
-import frGaming from '../data/products/fr/gaming.json';
 
 // Import English translations
 import enVps from '../data/products/en/vps.json';
@@ -22,7 +21,6 @@ import enPaas from '../data/products/en/paas.json';
 import enLoadbalancer from '../data/products/en/loadbalancer.json';
 import enStorage from '../data/products/en/storage.json';
 import enCdn from '../data/products/en/cdn.json';
-import enGaming from '../data/products/en/gaming.json';
 
 
 const translations = {
@@ -33,8 +31,7 @@ const translations = {
     paas: frPaas,
     loadbalancer: frLoadbalancer,
     storage: frStorage,
-    cdn: frCdn,
-    gaming: frGaming
+    cdn: frCdn
   },
   en: {
     vps: enVps,
@@ -43,8 +40,7 @@ const translations = {
     paas: enPaas,
     loadbalancer: enLoadbalancer,
     storage: enStorage,
-    cdn: enCdn,
-    gaming: enGaming
+    cdn: enCdn
   }
 };
 

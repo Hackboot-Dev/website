@@ -1,0 +1,408 @@
+{
+  "en": {
+    "hero": {
+      "badge": "Public Roadmap",
+      "title": "Building the future",
+      "subtitle": "of European cloud",
+      "description": "Our public roadmap gives you visibility into what we're building, what's coming next, and our long-term vision. Transparency by default."
+    },
+    "stats": {
+      "regions": { "value": "3", "label": "Active regions", "detail": "PAR / FRA / AMS" },
+      "uptime": { "value": "99.9%", "label": "SLA target", "detail": "Enterprise grade" },
+      "products": { "value": "7", "label": "Product lines", "detail": "VPS, GPU, Web, PaaS, LB, Storage, CDN" }
+    },
+    "phases": [
+      {
+        "id": "q1-2026",
+        "title": "Foundation & Experience",
+        "timeline": "Q1 2026",
+        "status": "in_progress",
+        "description": "Strengthen the platform foundation, improve customer experience, and build operational excellence.",
+        "categories": [
+          {
+            "name": "Customer Experience",
+            "icon": "users",
+            "items": [
+              { "title": "Console redesign", "detail": "Unified dashboard with real-time metrics, usage graphs, cost tracking per service", "status": "in_progress", "progress": 35 },
+              { "title": "Onboarding flow", "detail": "Guided setup, quick-start templates, first deployment wizard", "status": "planned", "progress": 0 },
+              { "title": "Knowledge base", "detail": "Getting started guides, video tutorials, troubleshooting articles", "status": "in_progress", "progress": 25 }
+            ]
+          },
+          {
+            "name": "Operations",
+            "icon": "wrench",
+            "items": [
+              { "title": "Support system", "detail": "Ticketing system, SLA by plan (24h/8h/2h), escalation process", "status": "in_progress", "progress": 55 },
+              { "title": "Monitoring & alerting", "detail": "Proactive issue detection, customer notifications, incident dashboard", "status": "in_progress", "progress": 40 },
+              { "title": "Documentation", "detail": "Product guides, best practices, integration examples", "status": "in_progress", "progress": 20 }
+            ]
+          },
+          {
+            "name": "Infrastructure",
+            "icon": "server",
+            "items": [
+              { "title": "Platform stability", "detail": "Improved provisioning reliability, faster deployment times", "status": "in_progress", "progress": 60 },
+              { "title": "Backup system", "detail": "Automated daily snapshots, cross-region backup option", "status": "planned", "progress": 0 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "h1-2026",
+        "title": "Developer Experience",
+        "timeline": "H1 2026",
+        "status": "planned",
+        "description": "Make VMCloud the obvious choice for developers with powerful automation tools and flexible pricing.",
+        "categories": [
+          {
+            "name": "Automation",
+            "icon": "code",
+            "items": [
+              { "title": "Public API v1", "detail": "RESTful API, OpenAPI spec, SDK (Python, Node, Go)", "status": "planned", "progress": 0 },
+              { "title": "CLI tool", "detail": "vmcloud CLI for provisioning, management, and automation", "status": "planned", "progress": 0 },
+              { "title": "Terraform provider", "detail": "Infrastructure as Code support for VMCloud resources", "status": "planned", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Pricing Innovation",
+            "icon": "tag",
+            "items": [
+              { "title": "Hourly billing", "detail": "Per-hour billing on all products, no minimum commitment", "status": "planned", "progress": 0 },
+              { "title": "Reserved capacity", "detail": "12/24 month commitments with 15-25% savings", "status": "planned", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Product Enhancements",
+            "icon": "cube",
+            "items": [
+              { "title": "One-click apps", "detail": "WordPress, GitLab, Nextcloud, Docker pre-configured images", "status": "planned", "progress": 0 },
+              { "title": "Custom images", "detail": "Upload and deploy your own OS images", "status": "planned", "progress": 0 },
+              { "title": "Private networking", "detail": "VPC, private subnets, secure inter-instance communication", "status": "planned", "progress": 0 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "h2-2026",
+        "title": "Business & Teams",
+        "timeline": "H2 2026",
+        "status": "later",
+        "description": "Open the business segment with team collaboration features and enhanced security.",
+        "categories": [
+          {
+            "name": "Team Features",
+            "icon": "building",
+            "items": [
+              { "title": "Multi-user accounts", "detail": "Team management, roles (admin/billing/viewer), activity logs", "status": "later", "progress": 0 },
+              { "title": "Project organization", "detail": "Group resources by project, separate billing per project", "status": "later", "progress": 0 },
+              { "title": "Cost management", "detail": "Budgets, alerts, cost allocation tags, spending reports", "status": "later", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Billing & Payments",
+            "icon": "receipt",
+            "items": [
+              { "title": "Invoice billing", "detail": "NET30 payment terms for qualified accounts", "status": "later", "progress": 0 },
+              { "title": "Multi-currency", "detail": "EUR, USD, GBP billing with local VAT handling", "status": "later", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Security",
+            "icon": "shield",
+            "items": [
+              { "title": "Two-factor auth", "detail": "TOTP and security keys support", "status": "later", "progress": 0 },
+              { "title": "API tokens", "detail": "Scoped API tokens with fine-grained permissions", "status": "later", "progress": 0 },
+              { "title": "Audit logs", "detail": "Complete audit trail of all account activities", "status": "later", "progress": 0 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2027",
+        "title": "Scale & Expand",
+        "timeline": "2027+",
+        "status": "later",
+        "description": "Geographic expansion, managed services, and enterprise compliance.",
+        "categories": [
+          {
+            "name": "Infrastructure",
+            "icon": "server",
+            "items": [
+              { "title": "New regions", "detail": "Additional European datacenters based on demand", "status": "later", "progress": 0 },
+              { "title": "Edge locations", "detail": "CDN PoPs expansion for better global coverage", "status": "later", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Managed Services",
+            "icon": "database",
+            "items": [
+              { "title": "Managed databases", "detail": "PostgreSQL, MySQL, Redis with automated backups and HA", "status": "later", "progress": 0 },
+              { "title": "Object Storage", "detail": "S3-compatible storage, lifecycle policies, versioning", "status": "later", "progress": 0 },
+              { "title": "Managed Kubernetes", "detail": "K8s clusters with auto-scaling and monitoring", "status": "later", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Enterprise",
+            "icon": "check-badge",
+            "items": [
+              { "title": "SSO integration", "detail": "SAML 2.0, OIDC, Google/Microsoft Workspace", "status": "later", "progress": 0 },
+              { "title": "Custom contracts", "detail": "Negotiated pricing, SLA commitments, dedicated support", "status": "later", "progress": 0 },
+              { "title": "Compliance", "detail": "SOC 2, ISO 27001, GDPR toolkit", "status": "later", "progress": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "products": {
+      "title": "Current Product Portfolio",
+      "subtitle": "All products available today via self-service",
+      "categories": [
+        {
+          "id": "compute",
+          "name": "Compute",
+          "icon": "server",
+          "products": [
+            { "name": "VPS", "tiers": "8 tiers", "status": "GA", "highlight": "From €9.99/mo - AMD EPYC, NVMe" },
+            { "name": "GPU Cloud", "tiers": "8 tiers", "status": "GA", "highlight": "From €469/mo - T4, RTX 4090, A100" }
+          ]
+        },
+        {
+          "id": "platform",
+          "name": "Platform",
+          "icon": "cube",
+          "products": [
+            { "name": "Web Hosting", "tiers": "4 tiers", "status": "GA", "highlight": "From €19/mo - WordPress optimized" },
+            { "name": "PaaS", "tiers": "4 tiers", "status": "GA", "highlight": "From €59/mo - Containers & K8s" }
+          ]
+        },
+        {
+          "id": "network",
+          "name": "Network",
+          "icon": "signal",
+          "products": [
+            { "name": "Load Balancer", "tiers": "4 tiers", "status": "GA", "highlight": "From €29/mo - L4/L7, DDoS protection" },
+            { "name": "CDN", "tiers": "4 tiers", "status": "GA", "highlight": "From €19/mo - European & global PoPs" }
+          ]
+        },
+        {
+          "id": "storage",
+          "name": "Storage",
+          "icon": "database",
+          "products": [
+            { "name": "Block Storage", "tiers": "4 tiers", "status": "GA", "highlight": "From €0.10/GB - SSD to NVMe RAID" },
+            { "name": "Object Storage", "tiers": "S3-compatible", "status": "2027", "highlight": "Standard & Archive tiers" }
+          ]
+        }
+      ]
+    },
+    "cta": {
+      "title": "Shape our roadmap",
+      "description": "Your feedback directly influences our priorities. Tell us what matters most to you.",
+      "primary": { "label": "Request a feature", "href": "/contact" },
+      "secondary": { "label": "View changelog", "href": "/changelog" }
+    }
+  },
+  "fr": {
+    "hero": {
+      "badge": "Roadmap publique",
+      "title": "Construire le futur",
+      "subtitle": "du cloud européen",
+      "description": "Notre roadmap publique vous donne une visibilité sur ce que nous construisons, ce qui arrive, et notre vision long terme. Transparence par défaut."
+    },
+    "stats": {
+      "regions": { "value": "3", "label": "Régions actives", "detail": "PAR / FRA / AMS" },
+      "uptime": { "value": "99.9%", "label": "SLA cible", "detail": "Grade enterprise" },
+      "products": { "value": "7", "label": "Gammes produits", "detail": "VPS, GPU, Web, PaaS, LB, Storage, CDN" }
+    },
+    "phases": [
+      {
+        "id": "q1-2026",
+        "title": "Fondations & Expérience",
+        "timeline": "T1 2026",
+        "status": "in_progress",
+        "description": "Renforcer les fondations de la plateforme, améliorer l'expérience client et construire l'excellence opérationnelle.",
+        "categories": [
+          {
+            "name": "Expérience Client",
+            "icon": "users",
+            "items": [
+              { "title": "Refonte console", "detail": "Dashboard unifié avec métriques temps réel, graphiques d'usage, suivi des coûts par service", "status": "in_progress", "progress": 35 },
+              { "title": "Parcours d'onboarding", "detail": "Setup guidé, templates quick-start, assistant premier déploiement", "status": "planned", "progress": 0 },
+              { "title": "Base de connaissances", "detail": "Guides de démarrage, tutoriels vidéo, articles de dépannage", "status": "in_progress", "progress": 25 }
+            ]
+          },
+          {
+            "name": "Opérations",
+            "icon": "wrench",
+            "items": [
+              { "title": "Système de support", "detail": "Système de tickets, SLA par plan (24h/8h/2h), processus d'escalade", "status": "in_progress", "progress": 55 },
+              { "title": "Monitoring & alertes", "detail": "Détection proactive des problèmes, notifications clients, dashboard incidents", "status": "in_progress", "progress": 40 },
+              { "title": "Documentation", "detail": "Guides produits, bonnes pratiques, exemples d'intégration", "status": "in_progress", "progress": 20 }
+            ]
+          },
+          {
+            "name": "Infrastructure",
+            "icon": "server",
+            "items": [
+              { "title": "Stabilité plateforme", "detail": "Amélioration fiabilité provisioning, temps de déploiement réduits", "status": "in_progress", "progress": 60 },
+              { "title": "Système de backup", "detail": "Snapshots quotidiens automatisés, option backup cross-région", "status": "planned", "progress": 0 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "h1-2026",
+        "title": "Expérience Développeur",
+        "timeline": "S1 2026",
+        "status": "planned",
+        "description": "Faire de VMCloud le choix évident pour les développeurs avec des outils d'automatisation puissants et un pricing flexible.",
+        "categories": [
+          {
+            "name": "Automatisation",
+            "icon": "code",
+            "items": [
+              { "title": "API publique v1", "detail": "API RESTful, spec OpenAPI, SDK (Python, Node, Go)", "status": "planned", "progress": 0 },
+              { "title": "Outil CLI", "detail": "vmcloud CLI pour provisioning, gestion et automatisation", "status": "planned", "progress": 0 },
+              { "title": "Provider Terraform", "detail": "Support Infrastructure as Code pour les ressources VMCloud", "status": "planned", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Innovation Pricing",
+            "icon": "tag",
+            "items": [
+              { "title": "Facturation horaire", "detail": "Facturation à l'heure sur tous les produits, sans engagement minimum", "status": "planned", "progress": 0 },
+              { "title": "Capacité réservée", "detail": "Engagements 12/24 mois avec 15-25% d'économies", "status": "planned", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Améliorations Produit",
+            "icon": "cube",
+            "items": [
+              { "title": "Apps en un clic", "detail": "WordPress, GitLab, Nextcloud, images Docker pré-configurées", "status": "planned", "progress": 0 },
+              { "title": "Images custom", "detail": "Upload et déploiement de vos propres images OS", "status": "planned", "progress": 0 },
+              { "title": "Réseau privé", "detail": "VPC, sous-réseaux privés, communication sécurisée inter-instances", "status": "planned", "progress": 0 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "h2-2026",
+        "title": "Business & Équipes",
+        "timeline": "S2 2026",
+        "status": "later",
+        "description": "Ouvrir le segment business avec des fonctionnalités de collaboration d'équipe et une sécurité renforcée.",
+        "categories": [
+          {
+            "name": "Fonctionnalités Équipe",
+            "icon": "building",
+            "items": [
+              { "title": "Comptes multi-utilisateurs", "detail": "Gestion d'équipe, rôles (admin/billing/viewer), logs d'activité", "status": "later", "progress": 0 },
+              { "title": "Organisation par projet", "detail": "Grouper les ressources par projet, facturation séparée par projet", "status": "later", "progress": 0 },
+              { "title": "Gestion des coûts", "detail": "Budgets, alertes, tags d'allocation, rapports de dépenses", "status": "later", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Facturation & Paiements",
+            "icon": "receipt",
+            "items": [
+              { "title": "Facturation sur facture", "detail": "Paiement NET30 pour comptes qualifiés", "status": "later", "progress": 0 },
+              { "title": "Multi-devises", "detail": "Facturation EUR, USD, GBP avec gestion TVA locale", "status": "later", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Sécurité",
+            "icon": "shield",
+            "items": [
+              { "title": "Authentification deux facteurs", "detail": "Support TOTP et clés de sécurité", "status": "later", "progress": 0 },
+              { "title": "Tokens API", "detail": "Tokens API scopés avec permissions granulaires", "status": "later", "progress": 0 },
+              { "title": "Logs d'audit", "detail": "Trace d'audit complète de toutes les activités du compte", "status": "later", "progress": 0 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2027",
+        "title": "Scale & Expansion",
+        "timeline": "2027+",
+        "status": "later",
+        "description": "Expansion géographique, services managés et conformité enterprise.",
+        "categories": [
+          {
+            "name": "Infrastructure",
+            "icon": "server",
+            "items": [
+              { "title": "Nouvelles régions", "detail": "Datacenters européens additionnels selon la demande", "status": "later", "progress": 0 },
+              { "title": "Localisations edge", "detail": "Expansion PoPs CDN pour meilleure couverture globale", "status": "later", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Services Managés",
+            "icon": "database",
+            "items": [
+              { "title": "Bases de données managées", "detail": "PostgreSQL, MySQL, Redis avec backups automatisés et HA", "status": "later", "progress": 0 },
+              { "title": "Object Storage", "detail": "Stockage compatible S3, politiques lifecycle, versioning", "status": "later", "progress": 0 },
+              { "title": "Kubernetes managé", "detail": "Clusters K8s avec auto-scaling et monitoring", "status": "later", "progress": 0 }
+            ]
+          },
+          {
+            "name": "Enterprise",
+            "icon": "check-badge",
+            "items": [
+              { "title": "Intégration SSO", "detail": "SAML 2.0, OIDC, Google/Microsoft Workspace", "status": "later", "progress": 0 },
+              { "title": "Contrats personnalisés", "detail": "Pricing négocié, engagements SLA, support dédié", "status": "later", "progress": 0 },
+              { "title": "Conformité", "detail": "SOC 2, ISO 27001, toolkit RGPD", "status": "later", "progress": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "products": {
+      "title": "Portfolio Produits Actuel",
+      "subtitle": "Tous les produits disponibles aujourd'hui en self-service",
+      "categories": [
+        {
+          "id": "compute",
+          "name": "Compute",
+          "icon": "server",
+          "products": [
+            { "name": "VPS", "tiers": "8 tiers", "status": "GA", "highlight": "Dès 9,99€/mois - AMD EPYC, NVMe" },
+            { "name": "GPU Cloud", "tiers": "8 tiers", "status": "GA", "highlight": "Dès 469€/mois - T4, RTX 4090, A100" }
+          ]
+        },
+        {
+          "id": "platform",
+          "name": "Plateforme",
+          "icon": "cube",
+          "products": [
+            { "name": "Hébergement Web", "tiers": "4 tiers", "status": "GA", "highlight": "Dès 19€/mois - Optimisé WordPress" },
+            { "name": "PaaS", "tiers": "4 tiers", "status": "GA", "highlight": "Dès 59€/mois - Containers & K8s" }
+          ]
+        },
+        {
+          "id": "network",
+          "name": "Réseau",
+          "icon": "signal",
+          "products": [
+            { "name": "Load Balancer", "tiers": "4 tiers", "status": "GA", "highlight": "Dès 29€/mois - L4/L7, protection DDoS" },
+            { "name": "CDN", "tiers": "4 tiers", "status": "GA", "highlight": "Dès 19€/mois - PoPs Europe & mondial" }
+          ]
+        },
+        {
+          "id": "storage",
+          "name": "Stockage",
+          "icon": "database",
+          "products": [
+            { "name": "Block Storage", "tiers": "4 tiers", "status": "GA", "highlight": "Dès 0,10€/Go - SSD à NVMe RAID" },
+            { "name": "Object Storage", "tiers": "Compatible S3", "status": "2027", "highlight": "Tiers Standard & Archive" }
+          ]
+        }
+      ]
+    },
+    "cta": {
+      "title": "Façonnez notre roadmap",
+      "description": "Vos retours influencent directement nos priorités. Dites-nous ce qui compte le plus pour vous.",
+      "primary": { "label": "Demander une fonctionnalité", "href": "/contact" },
+      "secondary": { "label": "Voir le changelog", "href": "/changelog" }
+    }
+  }
+}

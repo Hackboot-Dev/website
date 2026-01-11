@@ -16,7 +16,7 @@
       "title1": "VMCloud",
       "title2": "To VMCloud",
       "title3": "The Evolution",
-      "subtitle": "Since 2023, we've evolved from game key sales to software development, then to cloud gaming. By late 2025, with €2.5M raised, VMCloud structures this expertise to conquer the European market from Estonia."
+      "subtitle": "Since 2023, VMCloud has been building next-generation European cloud infrastructure. With €2.5M raised from OVHCloud and SEB Pank, we deliver premium compute, GPU and storage solutions from Estonia."
     },
     "stats": {
       "founded": "Founded VMCloud",
@@ -26,7 +26,7 @@
     },
     "timeline": {
       "title": "Our Journey",
-      "subtitle": "The evolution from a gaming vision to complete cloud infrastructure"
+      "subtitle": "From vision to reality: building tomorrow's European cloud"
     },
     "partners": {
       "title": "Ecosystem & Partners",
@@ -67,7 +67,7 @@
       "subtitle": "Operating from Estonia with full compliance",
       "estonia": {
         "title": "Estonian Jurisdiction",
-        "content": "In Estonia, the development and use of game modifications (cheats) are entirely legal. This jurisdiction allows us to innovate freely while respecting European regulations."
+        "content": "Estonia offers a cutting-edge digital ecosystem with one of the most advanced e-government infrastructures in the world. This jurisdiction allows us to operate efficiently while respecting European regulations."
       },
       "expansion": {
         "title": "European Expansion",
@@ -80,7 +80,7 @@
         "support247": "24/7 multilingual support"
       },
       "note": "Note:",
-      "note.content": "VMCloud operates in full transparency with Estonian and European authorities. Our gaming activity, including cheat development, is declared and compliant with local legislation."
+      "note.content": "VMCloud operates in full compliance with European regulations. Our infrastructure is certified and our practices meet GDPR and data protection standards."
     },
     "vision": {
       "title": "Our Vision",
@@ -165,28 +165,28 @@
     "timeline": {
       "items": {
         "hackbootCreation": {
-          "title": "The Beginning",
-          "description": "Started with competitive game key sales. Building first customer base and understanding the gaming market."
+          "title": "The Vision",
+          "description": "VMCloud founded with a clear ambition: build premium, sovereign and performant European cloud infrastructure."
         },
         "softwareDev": {
-          "title": "Software Development",
-          "description": "Pivot to custom software development. Creating tools and applications for the gaming community."
+          "title": "The Foundations",
+          "description": "Technical architecture development, strategic partnerships with AMD and NVIDIA. First datacenters setup."
         },
         "cloudGaming": {
-          "title": "Cloud Gaming & Cheats",
-          "description": "Launch of cloud gaming and legal cheat development in Estonia. Deep technical expertise in GPU optimization."
+          "title": "GPU & Compute Expertise",
+          "description": "Deep expertise in GPU optimization and high-performance computing. Infrastructure dedicated to AI and machine learning."
         },
         "vmcloudBirth": {
           "title": "Birth of VMCloud",
           "description": "€2.5M raised with OVHCloud and SEB Pank. Company structuring and transformation into VMCloud for the European market."
         },
         "rapidExpansion": {
-          "title": "Rapid Expansion",
-          "description": "Acquiring thousands of customers, European expansion from Estonia. Enterprise infrastructure deployed in 3 major datacenters."
+          "title": "Platform Launch",
+          "description": "VMCloud platform goes live with 7 product lines: VPS, GPU Cloud, Web Hosting, PaaS, Load Balancer, Storage and CDN. Operational infrastructure across 3 European datacenters."
         },
         "innovation": {
-          "title": "Innovation & Growth",
-          "description": "Consolidating achievements, adding innovative new services. New datacenters planned for Madrid and Milan. AI solutions development."
+          "title": "Continuous Development",
+          "description": "Ongoing user experience improvements: console redesign, documentation, public API and automation tools. New services and features based on market needs."
         }
       }
     },
@@ -307,12 +307,7 @@
       "paas": { "name": "PaaS" },
       "loadbalancer": { "name": "Load Balancer" },
       "storage": { "name": "Storage" },
-      "cdn": { "name": "CDN" },
-      "gaming": {
-        "name": "Cloud Gaming",
-        "description": "Premium gaming cheats and modifications",
-        "subtitle": "From €130/month - Undetected cheats for top games"
-      }
+      "cdn": { "name": "CDN" }
     },
     "viewAll": "View all products",
     "pricing": {
@@ -466,12 +461,7 @@
       "paas": "Platform as a Service",
       "loadbalancer": "Load Balancer",
       "storage": "Storage",
-      "cdn": "CDN",
-      "gaming": "Cloud Gaming"
-    },
-    "gaming": {
-      "filterByGame": "Filter by game",
-      "allGames": "All games"
+      "cdn": "CDN"
     },
     "labels": {
       "idealFor": "Ideal for",
@@ -714,7 +704,7 @@
       },
       "nvidia": {
         "role": "GPU Partner",
-        "desc": "Partner program for priority access to Tesla and RTX GPUs for our AI and gaming solutions."
+        "desc": "Partner program for priority access to Tesla and RTX GPUs for our AI and high-performance computing solutions."
       },
       "equinix": {
         "role": "Network Infrastructure",
@@ -904,7 +894,7 @@
       "gpu_specialist": {
         "title": "GPU Infrastructure Specialist",
         "team": "GPU Team",
-        "description": "Optimize GPU workloads for gaming and AI. Work on cutting-edge cloud gaming and machine learning infrastructure."
+        "description": "Optimize GPU workloads for AI and high-performance computing. Work on cutting-edge cloud and machine learning infrastructure."
       },
       "security_engineer": {
         "title": "Security Engineer",

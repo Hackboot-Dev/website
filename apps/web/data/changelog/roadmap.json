@@ -1,0 +1,102 @@
+{
+  "en": {
+    "now": [
+      {
+        "title": "Console redesign",
+        "detail": "Unified dashboard with real-time metrics, usage graphs, and cost tracking.",
+        "eta": "In progress"
+      },
+      {
+        "title": "Support system",
+        "detail": "Ticketing system with SLA by plan, escalation process, and faster response times.",
+        "eta": "In progress"
+      },
+      {
+        "title": "Documentation & Knowledge base",
+        "detail": "Getting started guides, product documentation, and troubleshooting articles.",
+        "eta": "In progress"
+      }
+    ],
+    "next": [
+      {
+        "title": "Public API v1",
+        "detail": "RESTful API with OpenAPI spec and SDKs for Python, Node, and Go.",
+        "eta": "H1 2026"
+      },
+      {
+        "title": "CLI tool & Terraform",
+        "detail": "vmcloud CLI for automation and Terraform provider for Infrastructure as Code.",
+        "eta": "H1 2026"
+      },
+      {
+        "title": "One-click apps",
+        "detail": "Pre-configured images for WordPress, GitLab, Nextcloud, and Docker.",
+        "eta": "H1 2026"
+      }
+    ],
+    "later": [
+      {
+        "title": "Multi-user accounts",
+        "detail": "Team management with roles, permissions, and activity logs."
+      },
+      {
+        "title": "Managed databases",
+        "detail": "PostgreSQL, MySQL, Redis with automated backups and high availability."
+      },
+      {
+        "title": "Object Storage",
+        "detail": "S3-compatible storage with lifecycle policies and versioning."
+      }
+    ]
+  },
+  "fr": {
+    "now": [
+      {
+        "title": "Refonte console",
+        "detail": "Dashboard unifié avec métriques temps réel, graphiques d'usage et suivi des coûts.",
+        "eta": "En cours"
+      },
+      {
+        "title": "Système de support",
+        "detail": "Système de tickets avec SLA par plan, processus d'escalade et temps de réponse améliorés.",
+        "eta": "En cours"
+      },
+      {
+        "title": "Documentation & Base de connaissances",
+        "detail": "Guides de démarrage, documentation produit et articles de dépannage.",
+        "eta": "En cours"
+      }
+    ],
+    "next": [
+      {
+        "title": "API publique v1",
+        "detail": "API RESTful avec spec OpenAPI et SDKs pour Python, Node et Go.",
+        "eta": "S1 2026"
+      },
+      {
+        "title": "CLI & Terraform",
+        "detail": "vmcloud CLI pour l'automatisation et provider Terraform pour l'Infrastructure as Code.",
+        "eta": "S1 2026"
+      },
+      {
+        "title": "Apps en un clic",
+        "detail": "Images pré-configurées pour WordPress, GitLab, Nextcloud et Docker.",
+        "eta": "S1 2026"
+      }
+    ],
+    "later": [
+      {
+        "title": "Comptes multi-utilisateurs",
+        "detail": "Gestion d'équipe avec rôles, permissions et logs d'activité."
+      },
+      {
+        "title": "Bases de données managées",
+        "detail": "PostgreSQL, MySQL, Redis avec backups automatisés et haute disponibilité."
+      },
+      {
+        "title": "Object Storage",
+        "detail": "Stockage compatible S3 avec politiques lifecycle et versioning."
+      }
+    ]
+  }
+}

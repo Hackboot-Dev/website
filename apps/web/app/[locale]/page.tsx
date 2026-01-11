@@ -8,7 +8,7 @@ import InfrastructureSection from '../../components/sections/InfrastructureSecti
 import PartnersSection from '../../components/sections/PartnersSection';
 import CTASection from '../../components/sections/CTASection';
 import SophisticatedBackground from '../../components/animations/SophisticatedBackground';
-import seoConfig from '../../data/seo-config.json';
+import seoConfig from '../../data/seo/config.json';
 import Script from 'next/script';
 
 export default function HomePage() {

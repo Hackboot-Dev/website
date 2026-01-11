@@ -124,9 +124,11 @@ export default function UniversalProductPage({ product, category }: UniversalPro
 
   const { containerRef: specsContainerRef, visibleItems: visibleSpecs } = useStaggerReveal(specs.length, 150);
 
-  const technicalSpecs = config.technicalSections || [];
+  // Use product data with fallback to category config
+  const technicalSpecs = product.technicalSections || config.technicalSections || [];
 
-  const benchmarks = config.benchmarks?.metrics?.map((metric: any) => ({
+  const benchmarksData = product.benchmarks || config.benchmarks;
+  const benchmarks = benchmarksData?.metrics?.map((metric: any) => ({
     test: language === 'fr' && metric.name_fr ? metric.name_fr : metric.name,
     score: formatNumber(metric.value) + ' ' + (language === 'fr' && metric.unit_fr ? metric.unit_fr : metric.unit),
     percentile: language === 'fr' && metric.comparison_fr ? metric.comparison_fr : metric.comparison
@@ -143,9 +145,14 @@ export default function UniversalProductPage({ product, category }: UniversalPro
     });
   };
 
-  const securityFeatures = getTranslatedItems(config.security?.items);
-  const features = getTranslatedItems(config.features?.items);
-  const useCases = getTranslatedItems(config.useCases?.items);
+  // Use product data with fallback to category config
+  const securityData = product.security || config.security;
+  const featuresData = product.features || config.features;
+  const useCasesData = product.useCases || config.useCases;
+
+  const securityFeatures = getTranslatedItems(securityData?.items);
+  const features = getTranslatedItems(featuresData?.items);
+  const useCases = getTranslatedItems(useCasesData?.items);
 
   return (
     <>
@@ -415,14 +422,14 @@ export default function UniversalProductPage({ product, category }: UniversalPro
             <div className="max-w-7xl mx-auto">
               <div className="mb-16 text-center">
                 <h2 className="text-4xl font-extralight text-white mb-4">
-                  {language === 'fr' 
-                    ? (config.benchmarks?.title_fr || config.benchmarks?.title || 'Benchmarks de Performance')
-                    : (config.benchmarks?.title || 'Performance Benchmarks')}
+                  {language === 'fr'
+                    ? (benchmarksData?.title_fr || benchmarksData?.title || 'Benchmarks de Performance')
+                    : (benchmarksData?.title || 'Performance Benchmarks')}
                 </h2>
                 <p className="text-lg text-zinc-400">
                   {language === 'fr'
-                    ? (config.benchmarks?.subtitle_fr || config.benchmarks?.subtitle || 'Métriques de performance de pointe')
-                    : (config.benchmarks?.subtitle || 'Industry-leading performance metrics')}
+                    ? (benchmarksData?.subtitle_fr || benchmarksData?.subtitle || 'Métriques de performance de pointe')
+                    : (benchmarksData?.subtitle || 'Industry-leading performance metrics')}
                 </p>
               </div>
 
@@ -450,13 +457,13 @@ export default function UniversalProductPage({ product, category }: UniversalPro
               <div className="mb-16 text-center">
                 <h2 className="text-4xl font-extralight text-white mb-4">
                   {language === 'fr'
-                    ? (config.security?.title_fr || config.security?.title || 'Sécurité & Conformité')
-                    : (config.security?.title || 'Security & Compliance')}
+                    ? (securityData?.title_fr || securityData?.title || 'Sécurité & Conformité')
+                    : (securityData?.title || 'Security & Compliance')}
                 </h2>
                 <p className="text-lg text-zinc-400">
                   {language === 'fr'
-                    ? (config.security?.subtitle_fr || config.security?.subtitle || 'Sécurité de niveau entreprise')
-                    : (config.security?.subtitle || 'Enterprise-grade security')}
+                    ? (securityData?.subtitle_fr || securityData?.subtitle || 'Sécurité de niveau entreprise')
+                    : (securityData?.subtitle || 'Enterprise-grade security')}
                 </p>
               </div>
 

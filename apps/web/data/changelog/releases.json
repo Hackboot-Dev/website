@@ -1,0 +1,54 @@
+{
+  "en": {
+    "stats": {
+      "cadenceLabel": "Regular updates",
+      "dropsPerMonth": "2-4",
+      "dropsSuffix": "updates/month",
+      "nextLabel": "Next update",
+      "nextValue": "January 2026",
+      "nextNote": "Console improvements",
+      "updatedLabel": "Updated",
+      "updatedValue": "December 2025",
+      "updatedNote": "Recently"
+    },
+    "links": {
+      "status": "https://status.vmcl.fr",
+      "allReleases": "/changelog"
+    },
+    "releases": [
+      {
+        "title": "December 2025 — Platform launch",
+        "summary": "Official launch of VMCloud platform with 7 product lines: VPS, GPU Cloud, Web Hosting, PaaS, Load Balancer, Storage, and CDN.",
+        "date": "Dec 2025",
+        "href": "/changelog",
+        "tags": ["Launch", "Platform"]
+      }
+    ]
+  },
+  "fr": {
+    "stats": {
+      "cadenceLabel": "Mises à jour régulières",
+      "dropsPerMonth": "2-4",
+      "dropsSuffix": "mises à jour/mois",
+      "nextLabel": "Prochaine mise à jour",
+      "nextValue": "Janvier 2026",
+      "nextNote": "Améliorations console",
+      "updatedLabel": "Mis à jour",
+      "updatedValue": "Décembre 2025",
+      "updatedNote": "Récemment"
+    },
+    "links": {
+      "status": "https://status.vmcl.fr",
+      "allReleases": "/changelog"
+    },
+    "releases": [
+      {
+        "title": "Décembre 2025 — Lancement plateforme",
+        "summary": "Lancement officiel de la plateforme VMCloud avec 7 gammes de produits : VPS, GPU Cloud, Hébergement Web, PaaS, Load Balancer, Stockage et CDN.",
+        "date": "Déc 2025",
+        "href": "/changelog",
+        "tags": ["Lancement", "Plateforme"]
+      }
+    ]
+  }
+}

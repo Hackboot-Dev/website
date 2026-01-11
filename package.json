@@ -34,10 +34,14 @@
     "npm": ">=9.0.0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.88.0",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "jspdf": "^3.0.4",
+    "jspdf-autotable": "^5.0.2",
     "package": "^1.0.1",
     "react-markdown": "^10.1.0",
     "react-syntax-highlighter": "^15.6.6",
+    "recharts": "^3.5.1",
     "remark-gfm": "^4.0.1"
   }
 }
