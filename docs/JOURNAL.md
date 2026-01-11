@@ -1,5 +1,266 @@
 # Journal de Développement - VMCloud Platform
 
+[2026-01-11 - Session 47]
+SESSION: Système de milestones pour objectifs - Distribution personnalisée
+STATUT: ✅ Réussi
+
+PROBLÈME:
+- Le système affichait "En retard" sans référence claire
+- La progression attendue était calculée linéairement (jour 10/30 = 33%)
+- L'utilisateur ne pouvait pas définir sa propre courbe de progression
+- Exemple: "On prévoyait seulement 2€ le jour 3, mais 50€ le jour 15"
+
+SOLUTION IMPLÉMENTÉE:
+
+1. **Nouveaux types (types.ts)**:
+   - `DistributionType`: 'linear' | 'front_loaded' | 'back_loaded' | 'custom'
+   - `ObjectiveMilestone`: { id, day, expectedAmount, label? }
+   - Nouveaux champs sur `Objective`: distributionType, startingAmount, milestones[]
+
+2. **Wizard modifié (CreateObjectiveWizard.tsx)**:
+   - Nouvelle étape "distribution" après "target"
+   - 4 modes de distribution:
+     * Linéaire: progression régulière
+     * Début de période: plus de résultats attendus au début
+     * Fin de période: plus de résultats attendus à la fin
+     * Personnalisé: définir ses propres jalons
+   - Interface d'ajout/modification/suppression de milestones
+   - Prévisualisation visuelle de la courbe de progression
+
+3. **Calcul du statut (useObjectiveDetail.ts)**:
+   - `calculateExpectedProgress()`: Interpole entre les milestones
+   - `calculateStatus()`: Compare progression réelle vs attendue
+   - Seuils: on_track (±10%), at_risk (±25%), behind (>25%)
+   - Support du startingAmount (montant initial)
+
+4. **Migration SQL (20260113_objectives_milestones.sql)**:
+   - Colonne `distribution_type` avec contrainte
+   - Colonne `starting_amount` (DECIMAL)
+   - Colonne `milestones` (JSONB)
+   - Trigger de validation des milestones
+
+EXEMPLE D'UTILISATION:
+- Objectif: 100€ sur le mois de janvier
+- Milestone jour 3: attendu 2€
+- Milestone jour 15: attendu 50€
+- Milestone jour 25: attendu 80€
+- → Le système interpole entre ces points pour calculer la progression attendue
+
+FICHIERS:
+- /admin/objectives/types.ts [modifié - ajout types distribution/milestones]
+- /admin/objectives/components/CreateObjectiveWizard.tsx [réécrit - ~1000 lignes]
+- /admin/objectives/hooks/useObjectiveDetail.ts [modifié - nouveau calcul statut]
+- /supabase/migrations/20260113_objectives_milestones.sql [créé]
+
+---
+
+[2026-01-11 - Session 46]
+SESSION: Réécriture useObjectiveDetail.ts - Données réelles au lieu de simulations
+STATUT: ✅ Réussi
+
+PROBLÈME:
+- Le hook useObjectiveDetail.ts utilisait Math.random() pour simuler des données
+- Les transactions affichées étaient fictives (Acme Corp, TechStart...)
+- Les graphiques ne reflétaient pas la réalité du P&L
+- Les "20 jours restants" était calculé mais pas basé sur les vraies données
+
+SOLUTION:
+- Réécriture complète du hook pour charger les VRAIES données P&L depuis Supabase
+- extractTransactions(): Extrait les vraies transactions selon le type d'objectif
+- calculateHistoricalData(): Calcule l'historique depuis les vraies données P&L
+- calculateMonthlyAmount(): Agrège revenus/dépenses par mois depuis le P&L
+- generateInsights(): Génère des insights basés sur les vrais clients et montants
+- generateActions(): Propose des actions basées sur les vrais top clients
+
+CE QUI CHANGE SELON LE TYPE D'OBJECTIF:
+- revenue_*: Affiche les transactions des productCategories
+- expenses_*: Affiche les transactions des expenseCategories
+- net_profit/gross_profit: Calcule revenus - dépenses
+- Filtrage par productId, clientId, expenseCategory si spécifié
+
+FICHIERS MODIFIÉS:
+- /admin/objectives/hooks/useObjectiveDetail.ts [réécrit - 823 lignes]
+
+---
+
+[2026-01-11 - Session 45]
+SESSION: Correction bouton "Nouvel objectif" qui ne fonctionnait pas
+STATUT: ✅ Réussi
+
+PROBLÈME:
+- Le bouton "Nouvel objectif" ne faisait rien au clic
+- Le modal CreateObjectiveWizard ne s'ouvrait pas
+
+CAUSE:
+- Props mal nommées lors de l'appel du composant
+- `isOpen` manquant (le composant vérifie `if (!isOpen) return null`)
+- `onCreate` utilisé au lieu de `onSubmit`
+
+CORRECTION:
+- Ajout de `isOpen={showCreateModal}`
+- Renommage de `onCreate` en `onSubmit`
+- Suppression de l'AnimatePresence redondant (géré par le composant)
+
+FICHIERS MODIFIÉS:
+- /admin/objectives/ObjectivesPageClient.tsx [modifié]
+
+---
+
+[2026-01-11 - Session 44]
+SESSION: Correction navigation liens objectifs dashboard
+STATUT: ✅ Réussi
+
+PROBLÈME:
+- Clic sur les liens "objectif" depuis le dashboard ne naviguait nulle part
+- Les liens utilisaient `/admin/objectives/...` sans le préfixe locale
+- 7 liens cassés identifiés dans 3 composants différents
+
+CORRECTIONS:
+1. ObjectivesScorecard.tsx (3 liens):
+   - Ajout `useParams` de `next/navigation`
+   - Lien "Créer des objectifs" → `/${locale}/admin/objectives`
+   - Lien "Voir tout" → `/${locale}/admin/objectives`
+   - Liens cartes objectifs → `/${locale}/admin/objectives/${obj.id}`
+
+2. ObjectivesTimeline.tsx (2 liens):
+   - Ajout `useParams` de `next/navigation`
+   - Liens objectifs mensuels → `/${locale}/admin/objectives/${obj.id}`
+   - Lien "+X autres objectifs" → `/${locale}/admin/objectives`
+
+3. ObjectiveDetailClient.tsx (2 liens):
+   - Ajout `useParams` de `next/navigation`
+   - Lien erreur "Retour aux objectifs" → `/${locale}/admin/objectives`
+   - Breadcrumb "Objectifs" → `/${locale}/admin/objectives`
+
+FICHIERS MODIFIÉS:
+- /admin/objectives/components/dashboard/ObjectivesScorecard.tsx [modifié]
+- /admin/objectives/components/dashboard/ObjectivesTimeline.tsx [modifié]
+- /admin/objectives/[id]/ObjectiveDetailClient.tsx [modifié]
+
+PROCHAINE ÉTAPE: Tester la navigation dans le dashboard
+
+---
+
+[2026-01-11 - Session 43]
+SESSION: Correction navigation ObjectiveCard vers page détail
+STATUT: ✅ Réussi
+
+PROBLÈME:
+- Clic sur "Voir les détails" dans ObjectiveCard ne naviguait pas vers la page détail
+- Le lien utilisait `/admin/objectives/${id}` sans le préfixe locale
+
+CORRECTION:
+- Ajout de `useParams` de `next/navigation` dans ObjectiveCard.tsx
+- Récupération dynamique du locale via `params.locale`
+- Mise à jour du href vers `/${locale}/admin/objectives/${id}`
+
+FICHIERS MODIFIÉS:
+- /admin/objectives/components/ObjectiveCard.tsx [modifié - ajout useParams + locale dans href]
+
+BUILD: ✅ Succès
+
+---
+
+[2026-01-10 - Session 42]
+SESSION: Implémentation complète Module Objectifs - 7 phases
+STATUT: ✅ Réussi
+
+OBJECTIF:
+- Implémenter toutes les fonctionnalités définies dans MODULE_OBJECTIVES.md
+- 7 phases: Page Détail, Graphiques, Forecasting, Actions/Insights, Budgets, Dashboard, Intégrations
+
+IMPLÉMENTATION RÉALISÉE:
+
+## Phase 1: Page Détail Objectif
+FICHIERS CRÉÉS:
+- /admin/objectives/[id]/page.tsx - Server component
+- /admin/objectives/[id]/ObjectiveDetailClient.tsx - Client principal
+- /admin/objectives/hooks/useObjectiveDetail.ts - Hook chargement données
+
+## Phase 2: Graphiques Recharts
+FICHIERS CRÉÉS:
+- /admin/objectives/components/detail/ObjectiveChart.tsx - Courbes LineChart, AreaChart
+- /admin/objectives/components/detail/ObjectiveGauge.tsx - Jauge RadialBarChart
+- /admin/objectives/components/detail/ObjectiveDetailHeader.tsx - En-tête avec stats
+- /admin/objectives/components/detail/ObjectiveMetricsPanel.tsx - KPIs
+
+## Phase 3: Forecasting
+FICHIERS CRÉÉS:
+- /admin/objectives/components/detail/ObjectiveForecast.tsx - Projections + Monte Carlo
+- /admin/objectives/utils/forecastCalculator.ts - Calculs projections
+- /admin/objectives/utils/monteCarloSimulation.ts - Simulation 1000 itérations
+
+## Phase 4: Actions & Insights
+FICHIERS CRÉÉS:
+- /admin/objectives/components/detail/ObjectiveActions.tsx - Plan d'actions
+- /admin/objectives/components/detail/ObjectiveInsights.tsx - Insights automatiques
+- /admin/objectives/utils/anomalyDetector.ts - Détection z-score > 2σ
+- /admin/objectives/utils/actionGenerator.ts - Génération recommandations
+- /admin/objectives/utils/insightsGenerator.ts - Génération insights
+
+## Phase 5: Système Budgets
+FICHIERS CRÉÉS:
+- /admin/objectives/budgets/page.tsx - Page budgets
+- /admin/objectives/budgets/BudgetsPageClient.tsx - Client budgets
+- /admin/objectives/hooks/useBudgets.ts - Hook CRUD budgets
+- /admin/objectives/components/budgets/BudgetCard.tsx - Carte budget
+- /admin/objectives/components/budgets/CreateBudgetWizard.tsx - Wizard création
+
+## Phase 6: Dashboard Global
+FICHIERS CRÉÉS:
+- /admin/objectives/dashboard/page.tsx - Page dashboard
+- /admin/objectives/dashboard/ObjectivesDashboardClient.tsx - Client dashboard
+- /admin/objectives/components/dashboard/ObjectivesScorecard.tsx - KPIs clés
+- /admin/objectives/components/dashboard/ObjectivesStatusChart.tsx - PieChart statuts
+- /admin/objectives/components/dashboard/ObjectivesCategoryBreakdown.tsx - BarChart catégories
+- /admin/objectives/components/dashboard/ObjectivesTimeline.tsx - Timeline mensuelle
+- /admin/objectives/components/dashboard/ObjectivesHeatmap.tsx - Heatmap performance
+
+## Phase 7: Intégrations
+FICHIERS CRÉÉS:
+- /admin/objectives/components/detail/ObjectiveTransactions.tsx - Liste transactions
+- /admin/objectives/utils/reportExporter.ts - Export PDF jsPDF
+- /admin/objectives/utils/index.ts - Exports centralisés
+
+FICHIERS MODIFIÉS:
+- /admin/objectives/components/ObjectiveCard.tsx - Ajout lien vers page détail
+
+FONCTIONNALITÉS IMPLÉMENTÉES:
+- ✅ Page détail avec 4 onglets (Vue d'ensemble, Analytiques, Actions, Transactions)
+- ✅ Graphiques Recharts (LineChart, AreaChart, RadialBarChart, BarChart, PieChart)
+- ✅ Jauge de progression animée
+- ✅ Métriques en temps réel (moyenne journalière, rythme requis, vélocité, projection)
+- ✅ Forecasting linéaire/saisonnier avec 3 scénarios
+- ✅ Simulation Monte Carlo (1000 itérations, P5/P50/P95, probabilité succès)
+- ✅ Détection d'anomalies (z-score, stagnation, trend reversal)
+- ✅ Génération automatique d'actions recommandées
+- ✅ Insights intelligents (top performer, retard, tendances)
+- ✅ Système de budgets complet (CRUD, wizard, tracking)
+- ✅ Dashboard global avec filtres année/catégorie
+- ✅ Scorecard des objectifs clés
+- ✅ Heatmap de performance mensuelle
+- ✅ Timeline des objectifs mensuels
+- ✅ Liste de transactions liées
+- ✅ Export PDF avec jsPDF
+
+ARCHITECTURE TECHNIQUE:
+- Routes: /admin/objectives/[id], /admin/objectives/dashboard, /admin/objectives/budgets
+- Composants: 20+ nouveaux composants React
+- Hooks: 2 nouveaux (useObjectiveDetail, useBudgets)
+- Utils: 5 nouveaux modules (forecast, monteCarlo, anomaly, actions, insights, report)
+- Types: Utilisation des types existants dans types.ts
+
+TESTS:
+- TypeScript compile sans erreurs pour le module objectives
+- Les erreurs existantes dans d'autres fichiers (about, changelog, configurator) sont pré-existantes
+
+PROCHAINE ÉTAPE:
+- Tester manuellement les nouvelles pages
+- Ajouter les liens de navigation dans le layout admin
+- Créer la migration SQL pour objective_actions table
+
+---
+
 [2026-01-10 - Session 41]
 SESSION: Planification Module Objectifs Full Features - Documentation complète
 STATUT: ✅ Réussi

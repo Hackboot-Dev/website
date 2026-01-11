@@ -1,6 +1,6 @@
 // /workspaces/website/apps/web/app/[locale]/admin/objectives/hooks/useObjectives.ts
 // Description: Hook for managing objectives
-// Last modified: 2026-01-10
+// Last modified: 2026-01-11
 
 'use client';
 
@@ -50,18 +50,23 @@ export function useObjectives({ companyId, year }: UseObjectivesOptions) {
         dbService.getObjectivesWithProgress(selectedYear),
       ]);
 
-      setObjectives(objectivesData as Objective[]);
+      const safeObjectives = objectivesData || [];
+      const safeProgress = progressData || [];
+
+      setObjectives(safeObjectives as Objective[]);
 
       // Merge objectives with progress data
-      const merged: ObjectiveWithProgress[] = objectivesData.map(obj => {
-        const progress = progressData.find(p => p.id === obj.id);
+      const merged: ObjectiveWithProgress[] = safeObjectives.map(obj => {
+        if (!obj) return null;
+        const progress = safeProgress.find(p => p.id === obj.id);
         return {
           ...obj,
           actualAmount: progress?.actualAmount || 0,
           progressPercent: progress?.progressPercent || 0,
           status: (progress?.status || 'behind') as ObjectiveStatus,
+          trend: 'stable' as const,
         } as ObjectiveWithProgress;
-      });
+      }).filter((obj): obj is ObjectiveWithProgress => obj !== null);
 
       setObjectivesWithProgress(merged);
     } catch (err) {

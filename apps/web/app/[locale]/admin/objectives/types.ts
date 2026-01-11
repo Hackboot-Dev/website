@@ -49,6 +49,17 @@ export type ObjectiveStatus = 'achieved' | 'on_track' | 'at_risk' | 'behind' | '
 
 export type ObjectivePriority = 'low' | 'medium' | 'high' | 'critical';
 
+// Distribution types for progress tracking
+export type DistributionType = 'linear' | 'front_loaded' | 'back_loaded' | 'custom';
+
+// Milestone for custom distribution
+export interface ObjectiveMilestone {
+  id: string;
+  day: number;              // Day of period (1-31 for monthly, 1-90 for quarterly, 1-365 for yearly)
+  expectedAmount: number;   // Cumulative amount expected by this day
+  label?: string;           // Optional label (e.g., "Mi-mois", "Fin de sprint")
+}
+
 // ============================================================
 // OBJECTIVE STRUCTURE
 // ============================================================
@@ -70,6 +81,11 @@ export interface Objective {
   // Target
   targetAmount: number;
   targetUnit: 'currency' | 'count' | 'percent';
+
+  // Distribution & Milestones
+  distributionType: DistributionType;
+  startingAmount?: number;           // Amount already achieved at start of period
+  milestones?: ObjectiveMilestone[]; // Custom milestones (if distributionType === 'custom')
 
   // Optional filters (for granular objectives)
   productId?: string;
@@ -387,6 +403,20 @@ export const OBJECTIVE_PERIOD_LABELS: Record<ObjectivePeriod, string> = {
   monthly: 'Mensuel',
   quarterly: 'Trimestriel',
   yearly: 'Annuel',
+};
+
+export const DISTRIBUTION_TYPE_LABELS: Record<DistributionType, string> = {
+  linear: 'Linéaire',
+  front_loaded: 'Début de période',
+  back_loaded: 'Fin de période',
+  custom: 'Personnalisé',
+};
+
+export const DISTRIBUTION_TYPE_DESCRIPTIONS: Record<DistributionType, string> = {
+  linear: 'Progression régulière tout au long de la période',
+  front_loaded: 'Plus de résultats attendus en début de période',
+  back_loaded: 'Plus de résultats attendus en fin de période',
+  custom: 'Définir des jalons personnalisés',
 };
 
 export const OBJECTIVE_STATUS_CONFIG: Record<ObjectiveStatus, { label: string; color: string; bgColor: string; borderColor: string }> = {

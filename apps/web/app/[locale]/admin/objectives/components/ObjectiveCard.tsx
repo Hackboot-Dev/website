@@ -1,10 +1,12 @@
 // /workspaces/website/apps/web/app/[locale]/admin/objectives/components/ObjectiveCard.tsx
 // Description: Card component for displaying an objective with progress
-// Last modified: 2026-01-10
+// Last modified: 2026-01-11
 
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import {
   TrendingUp,
   TrendingDown,
@@ -15,6 +17,7 @@ import {
   Trash2,
   Edit2,
   Target,
+  ExternalLink,
 } from 'lucide-react';
 import type { ObjectiveWithProgress, ObjectiveType } from '../types';
 import {
@@ -74,6 +77,8 @@ function formatNumber(value: number): string {
 }
 
 export function ObjectiveCard({ objective, onEdit, onDelete }: ObjectiveCardProps) {
+  const params = useParams();
+  const locale = params.locale as string || 'fr';
   const statusConfig = OBJECTIVE_STATUS_CONFIG[objective.status];
   const unit = OBJECTIVE_TYPE_UNITS[objective.type] || 'currency';
 
@@ -91,11 +96,12 @@ export function ObjectiveCard({ objective, onEdit, onDelete }: ObjectiveCardProp
   const progressWidth = Math.min(100, Math.max(0, objective.progressPercent));
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors"
-    >
+    <Link href={`/${locale}/admin/objectives/${objective.id}`}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors cursor-pointer"
+      >
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -112,7 +118,7 @@ export function ObjectiveCard({ objective, onEdit, onDelete }: ObjectiveCardProp
         <div className="flex items-center gap-1">
           {onEdit && (
             <button
-              onClick={() => onEdit(objective)}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onEdit(objective); }}
               className="p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
             >
               <Edit2 className="h-4 w-4" />
@@ -120,7 +126,7 @@ export function ObjectiveCard({ objective, onEdit, onDelete }: ObjectiveCardProp
           )}
           {onDelete && (
             <button
-              onClick={() => onDelete(objective.id)}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(objective.id); }}
               className="p-2 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
             >
               <Trash2 className="h-4 w-4" />
@@ -187,6 +193,13 @@ export function ObjectiveCard({ objective, onEdit, onDelete }: ObjectiveCardProp
           {objective.description}
         </p>
       )}
-    </motion.div>
+
+      {/* View Details Indicator */}
+      <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-zinc-800 text-sm text-zinc-400 group-hover:text-white transition-colors">
+        Voir les détails
+        <ExternalLink className="h-4 w-4" />
+      </div>
+      </motion.div>
+    </Link>
   );
 }

@@ -1266,6 +1266,155 @@ export class SupabaseDatabaseService {
       changePercent: Math.round(changePercent * 10) / 10,
     };
   }
+
+  // ============================================================
+  // BUDGETS
+  // ============================================================
+
+  async getBudgets(year: number): Promise<{
+    id: string;
+    companyId: string;
+    year: number;
+    name: string;
+    description?: string;
+    category: string;
+    totalAmount: number;
+    spentAmount: number;
+    createdAt: string;
+    updatedAt: string;
+  }[]> {
+    const { data, error } = await supabase.rpc('get_budgets_with_progress', {
+      p_company_id: this.companyId,
+      p_year: year,
+    });
+
+    if (error) {
+      console.error('Error getting budgets:', error);
+      // Fallback to direct query if RPC doesn't exist
+      const { data: directData, error: directError } = await supabase
+        .from('budgets')
+        .select('*')
+        .eq('company_id', this.companyId)
+        .eq('year', year)
+        .order('category');
+
+      if (directError) {
+        console.error('Error getting budgets directly:', directError);
+        return [];
+      }
+
+      return (directData || []).map(row => ({
+        id: row.id,
+        companyId: row.company_id,
+        year: row.year,
+        name: row.name,
+        description: row.description || undefined,
+        category: row.category,
+        totalAmount: Number(row.total_amount),
+        spentAmount: 0, // No expenses aggregation in direct query
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
+      }));
+    }
+
+    return (data || []).map((row: {
+      id: string;
+      company_id: string;
+      year: number;
+      name: string;
+      description: string | null;
+      category: string;
+      total_amount: number;
+      spent_amount: number;
+      created_at: string;
+      updated_at: string;
+    }) => ({
+      id: row.id,
+      companyId: row.company_id,
+      year: row.year,
+      name: row.name,
+      description: row.description || undefined,
+      category: row.category,
+      totalAmount: Number(row.total_amount),
+      spentAmount: Number(row.spent_amount),
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    }));
+  }
+
+  async createBudget(data: {
+    name: string;
+    description?: string;
+    category: string;
+    totalAmount: number;
+    year: number;
+  }): Promise<{ id: string }> {
+    const id = generateId('budget');
+
+    const { error } = await supabase
+      .from('budgets')
+      .insert({
+        id,
+        company_id: this.companyId,
+        year: data.year,
+        name: data.name,
+        description: data.description || null,
+        category: data.category,
+        total_amount: data.totalAmount,
+      });
+
+    if (error) throw error;
+    return { id };
+  }
+
+  async updateBudget(budgetId: string, data: {
+    name?: string;
+    description?: string;
+    totalAmount?: number;
+  }): Promise<void> {
+    const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (data.name !== undefined) updateData.name = data.name;
+    if (data.description !== undefined) updateData.description = data.description;
+    if (data.totalAmount !== undefined) updateData.total_amount = data.totalAmount;
+
+    const { error } = await supabase
+      .from('budgets')
+      .update(updateData)
+      .eq('id', budgetId);
+
+    if (error) throw error;
+  }
+
+  async deleteBudget(budgetId: string): Promise<void> {
+    const { error } = await supabase
+      .from('budgets')
+      .delete()
+      .eq('id', budgetId);
+
+    if (error) throw error;
+  }
+
+  async addBudgetExpense(data: {
+    budgetId: string;
+    amount: number;
+    description?: string;
+    expenseDate?: string;
+  }): Promise<{ id: string }> {
+    const id = generateId('expense');
+
+    const { error } = await supabase
+      .from('budget_expenses')
+      .insert({
+        id,
+        budget_id: data.budgetId,
+        amount: data.amount,
+        description: data.description || null,
+        expense_date: data.expenseDate || new Date().toISOString().split('T')[0],
+      });
+
+    if (error) throw error;
+    return { id };
+  }
 }
 
 // ============================================================

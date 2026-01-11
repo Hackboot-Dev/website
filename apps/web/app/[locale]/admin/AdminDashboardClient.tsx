@@ -106,7 +106,7 @@ const formatCurrency = (amount: number): string => {
 
 export default function AdminDashboardClient() {
   const params = useParams();
-  const locale = params.locale as string;
+  const locale = params.locale as string || 'fr';
   const stats = useDashboardStats();
 
   // Build stats array from real data
