@@ -1,7 +1,8 @@
 // /workspaces/website/apps/web/app/[locale]/admin/objectives/hooks/useObjectiveDetail.ts
-// Description: Hook for loading objective details with REAL data from P&L
+// Description: Hook for loading objective details with REAL data from P&L, Clients and Subscriptions
 // - Uses milestones and distribution types for expected progress calculation
 // - Status is calculated based on actual vs expected progress
+// - Supports Financial, Client, and Subscription objectives
 // Last modified: 2026-01-11
 // COMPLETE FILE - No simulated data
 
@@ -20,7 +21,8 @@ import type {
   ObjectivePriority,
   DistributionType,
 } from '../types';
-import { getCategoryForType, isClientObjectiveType } from '../types';
+import { getCategoryForType, isClientObjectiveType, isSubscriptionObjectiveType } from '../types';
+import { calculateSubscriptionMetric } from './useSubscriptionMetrics';
 import { MONTH_KEYS } from '../../pnl/constants';
 
 // Client types for metrics calculation
@@ -1355,7 +1357,12 @@ export function useObjectiveDetail({ companyId, objectiveId }: UseObjectiveDetai
 
       // Calculate actualAmount based on objective type
       let actualAmount = 0;
-      if (isClientObjective) {
+      const isSubscriptionObjective = isSubscriptionObjectiveType(foundObjective.type);
+
+      if (isSubscriptionObjective) {
+        // For subscription objectives, calculate from subscriptions table
+        actualAmount = await calculateSubscriptionMetric(companyId, foundObjective as Objective);
+      } else if (isClientObjective) {
         // For client objectives, calculate from clients table
         actualAmount = calculateClientMetric(clients, {
           type: foundObjective.type,

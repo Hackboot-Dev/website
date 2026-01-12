@@ -69,10 +69,33 @@ const TYPE_ICONS: Record<ObjectiveType, React.ReactNode> = {
   // Clients - Engagement
   active_ratio: <Users className="h-5 w-5" />,
   upsell_rate: <TrendingUp className="h-5 w-5" />,
-  // Subscriptions
+  // Subscriptions - Recurring Revenue
   mrr_total: <Repeat className="h-5 w-5" />,
-  mrr_growth: <Repeat className="h-5 w-5" />,
   arr_total: <Repeat className="h-5 w-5" />,
+  mrr_growth_pct: <TrendingUp className="h-5 w-5" />,
+  net_new_mrr: <DollarSign className="h-5 w-5" />,
+  // Subscriptions - Churn & Retention
+  subscription_churn_rate: <TrendingDown className="h-5 w-5" />,
+  mrr_churn: <TrendingDown className="h-5 w-5" />,
+  mrr_churn_pct: <TrendingDown className="h-5 w-5" />,
+  nrr: <BarChart3 className="h-5 w-5" />,
+  grr: <BarChart3 className="h-5 w-5" />,
+  // Subscriptions - Expansion & Contraction
+  expansion_mrr: <TrendingUp className="h-5 w-5" />,
+  contraction_mrr: <TrendingDown className="h-5 w-5" />,
+  expansion_rate: <TrendingUp className="h-5 w-5" />,
+  upgrades_count: <TrendingUp className="h-5 w-5" />,
+  downgrades_count: <TrendingDown className="h-5 w-5" />,
+  // Subscriptions - Acquisition
+  new_subscriptions: <Repeat className="h-5 w-5" />,
+  new_mrr: <DollarSign className="h-5 w-5" />,
+  paid_conversion: <Users className="h-5 w-5" />,
+  // Subscriptions - Advanced SaaS
+  arpu_subscribers: <DollarSign className="h-5 w-5" />,
+  ltv_mrr: <DollarSign className="h-5 w-5" />,
+  quick_ratio: <BarChart3 className="h-5 w-5" />,
+  payback_months: <BarChart3 className="h-5 w-5" />,
+  magic_number: <BarChart3 className="h-5 w-5" />,
 };
 
 function formatCurrency(value: number): string {

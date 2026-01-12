@@ -8,7 +8,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   RefreshCw,
@@ -25,7 +25,10 @@ import {
   BarChart3,
   PieChart,
   Activity,
+  Trash2,
+  X,
 } from 'lucide-react';
+import { useObjectives } from '../hooks/useObjectives';
 import { useObjectiveDetail } from '../hooks/useObjectiveDetail';
 import { ObjectiveChart } from '../components/detail/ObjectiveChart';
 import { ObjectiveGauge } from '../components/detail/ObjectiveGauge';
@@ -53,9 +56,12 @@ type Tab = 'overview' | 'analytics' | 'actions' | 'transactions';
 
 export function ObjectiveDetailClient({ objectiveId }: ObjectiveDetailClientProps) {
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as string || 'fr';
   const companyId = 'vmcloud';
   const [activeTab, setActiveTab] = useState<Tab>('overview');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const {
     objective,
@@ -71,6 +77,19 @@ export function ObjectiveDetailClient({ objectiveId }: ObjectiveDetailClientProp
     companyId,
     objectiveId,
   });
+
+  const { deleteObjective } = useObjectives({ companyId });
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    const success = await deleteObjective(objectiveId);
+    if (success) {
+      router.push(`/${locale}/admin/objectives`);
+    } else {
+      setIsDeleting(false);
+      setShowDeleteModal(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -169,6 +188,13 @@ export function ObjectiveDetailClient({ objectiveId }: ObjectiveDetailClientProp
               title="Actualiser"
             >
               <RefreshCw className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="p-2 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+              title="Supprimer"
+            >
+              <Trash2 className="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -359,6 +385,81 @@ export function ObjectiveDetailClient({ objectiveId }: ObjectiveDetailClientProp
           )}
         </AnimatePresence>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => !isDeleting && setShowDeleteModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 max-w-md w-full"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                  <Trash2 className="h-6 w-6 text-red-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    Supprimer cet objectif ?
+                  </h3>
+                  <p className="text-zinc-400 text-sm mb-1">
+                    Vous êtes sur le point de supprimer l'objectif :
+                  </p>
+                  <p className="text-white font-medium mb-4">
+                    {objective.name || OBJECTIVE_TYPE_LABELS[objective.type]}
+                  </p>
+                  <p className="text-zinc-500 text-sm">
+                    Cette action est irréversible. Toutes les données associées seront perdues.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  disabled={isDeleting}
+                  className="p-1 text-zinc-500 hover:text-white transition-colors disabled:opacity-50"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-2.5 bg-red-600 hover:bg-red-500 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {isDeleting ? (
+                    <>
+                      <RefreshCw className="h-4 w-4 animate-spin" />
+                      Suppression...
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="h-4 w-4" />
+                      Supprimer
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

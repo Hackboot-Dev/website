@@ -1,5 +1,275 @@
 # Journal de Développement - VMCloud Platform
 
+[2026-01-11 - Session 58]
+SESSION: Phase 13 - Calculs Abonnements implémentés
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Implémentation des calculs réels pour les objectifs Abonnements
+- Intégration dans useObjectives.ts et useObjectiveDetail.ts
+
+FICHIERS CRÉÉS:
+- `/admin/objectives/hooks/useSubscriptionMetrics.ts` - Hook complet (~450 lignes)
+
+FICHIERS MODIFIÉS:
+- `/admin/objectives/hooks/useObjectives.ts` - Import + calcul abonnements
+- `/admin/objectives/hooks/useObjectiveDetail.ts` - Support abonnements sur page détail
+
+FONCTIONNALITÉS AJOUTÉES:
+
+1. **Hook useSubscriptionMetrics.ts** :
+   - `calculateMetrics()` : Calcule toutes les métriques depuis table subscriptions
+   - `getMetricForObjective()` : Retourne la valeur pour un type d'objectif
+   - `calculateHistoricalData()` : Données mensuelles pour graphiques
+   - `calculateSubscriptionMetric()` : Fonction standalone async
+
+2. **Calculs implémentés** :
+   - MRR/ARR : Somme des abonnements actifs (avec conversion selon billing_period)
+   - Churn : subscription_churn_rate, mrr_churn, mrr_churn_pct
+   - Rétention : NRR, GRR (calculés depuis MRR début de période)
+   - Acquisition : new_subscriptions, new_mrr
+   - Net New MRR : new + expansion - churn - contraction
+   - ARPU : MRR / abonnés actifs
+   - LTV : ARPU / churn_rate mensuel
+   - Quick Ratio : (new + expansion) / (churn + contraction)
+
+3. **Métriques en attente (Phase 16)** :
+   - expansion_mrr, contraction_mrr, upgrades_count, downgrades_count
+   - Nécessitent table `subscription_changes` pour tracking
+
+4. **Intégration** :
+   - useObjectives.ts : Les cards affichent les vraies données abonnements
+   - useObjectiveDetail.ts : La page détail calcule les métriques abonnements
+
+PROCHAINE ÉTAPE: Phase 14 - Prévisions MRR + Monte Carlo
+
+---
+
+[2026-01-11 - Session 57]
+SESSION: Phase 12 - Types Abonnements implémentés
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Implémentation de la Phase 12 : Types d'objectifs Abonnements
+
+FICHIERS MODIFIÉS:
+- `/admin/objectives/types.ts` - 22 nouveaux types + helpers
+- `/admin/objectives/components/ObjectiveCard.tsx` - Icônes pour 22 types
+
+FONCTIONNALITÉS AJOUTÉES:
+
+1. **22 types d'objectifs Abonnements** :
+   - Revenus Récurrents : `mrr_total`, `arr_total`, `mrr_growth_pct`, `net_new_mrr`
+   - Churn & Rétention : `subscription_churn_rate`, `mrr_churn`, `mrr_churn_pct`, `nrr`, `grr`
+   - Expansion : `expansion_mrr`, `contraction_mrr`, `expansion_rate`, `upgrades_count`, `downgrades_count`
+   - Acquisition : `new_subscriptions`, `new_mrr`, `paid_conversion`
+   - SaaS Avancés : `arpu_subscribers`, `ltv_mrr`, `quick_ratio`, `payback_months`, `magic_number`
+
+2. **Métadonnées complètes** :
+   - Labels en français pour tous les types
+   - Descriptions détaillées avec formules
+   - Units (currency/percent/count) pour chaque type
+
+3. **Helpers TypeScript** :
+   - `isSubscriptionObjectiveType()` - Vérifie si un type est dans la catégorie abonnements
+   - `isLowerBetterObjectiveType()` - Identifie les objectifs où moins = mieux (churn, expenses)
+
+4. **Intégration wizard** :
+   - Automatique via `OBJECTIVE_TYPE_BY_CATEGORY['subscriptions']`
+   - Les 22 types apparaissent dans le wizard quand on sélectionne "Abonnements"
+
+5. **Icônes ObjectiveCard** :
+   - TrendingUp pour croissance (mrr_growth, expansion, upgrades)
+   - TrendingDown pour baisse (churn, contraction, downgrades)
+   - BarChart3 pour métriques avancées (nrr, grr, quick_ratio)
+   - Repeat pour récurrent (mrr_total, arr_total)
+   - DollarSign pour montants (new_mrr, ltv_mrr)
+
+PROCHAINE ÉTAPE: Phase 13 - useSubscriptionMetrics.ts + calculs
+
+---
+
+[2026-01-11 - Session 56]
+SESSION: Planification catégorie Abonnements - Spécifications complètes
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Utilisateur demande analyse des données abonnements existantes
+- Proposition de fonctionnalités pour la catégorie Abonnements
+- Mise à jour des documentations AMD
+
+ANALYSE EFFECTUÉE:
+1. **Données existantes analysées** :
+   - `/admin/pnl/types/subscription.ts` - Type Subscription avec status, cycle, amount
+   - `/admin/pnl/hooks/useSubscriptions.ts` - Calcul MRR/ARR déjà implémenté
+   - `/admin/pnl/components/MRRCards.tsx` - Affichage métriques MRR
+
+2. **Questions posées à l'utilisateur** :
+   - Plans multiples ? → OUI (tracking upgrades/downgrades)
+   - Système d'essai ? → NON
+   - Priorité ? → TOUT (métriques complètes)
+   - Prévisions ? → OUI (important)
+
+FONCTIONNALITÉS PLANIFIÉES (22 types d'objectifs) :
+
+**Revenus Récurrents (4 types)** :
+- `mrr_total` - MRR total mensuel
+- `arr_total` - ARR annuel
+- `mrr_growth_pct` - Croissance MRR en %
+- `net_new_mrr` - New + Expansion - Churn - Contraction
+
+**Churn & Rétention (5 types)** :
+- `subscription_churn_rate` - % abonnés perdus
+- `mrr_churn` - Montant MRR perdu
+- `mrr_churn_pct` - % MRR perdu
+- `nrr` - Net Revenue Retention (>100% = croissance)
+- `grr` - Gross Revenue Retention (max 100%)
+
+**Expansion & Contraction (5 types)** :
+- `expansion_mrr` - Revenus additionnels existants
+- `contraction_mrr` - Revenus perdus sans churn complet
+- `expansion_rate` - % clients ayant upgradé
+- `upgrades_count` - Nombre d'upgrades
+- `downgrades_count` - Nombre de downgrades
+
+**Acquisition (3 types)** :
+- `new_subscriptions` - Nouveaux abonnements
+- `new_mrr` - MRR des nouveaux
+- `paid_conversion` - % clients → abonnés
+
+**Métriques SaaS Avancées (5 types)** :
+- `arpu_subscribers` - Revenu moyen par abonné
+- `ltv_mrr` - LTV basée sur MRR
+- `quick_ratio` - (New + Expansion) / (Churn + Contraction)
+- `payback_months` - Mois pour récupérer CAC
+- `magic_number` - Efficacité commerciale
+
+FONCTIONNALITÉS SPÉCIALES :
+- Prévisions MRR multi-scénarios
+- Monte Carlo adapté aux abonnements
+- Tracking automatique upgrades/downgrades
+- Insights automatiques (churn, expansion)
+- Actions recommandées (réengagement, upsell)
+
+FICHIERS DOCUMENTATION MIS À JOUR:
+- MODULE_OBJECTIVES.md - Section 3ter complète (200+ lignes)
+- MODULE_OBJECTIVES.md - Phases 12-16 pour implémentation
+- ADMIN_ROADMAP.md - Phase 2.7 ajoutée
+- ADMIN_ROADMAP.md - 22 types dans tableau catégories
+
+PROCHAINE ÉTAPE: Implémenter Phase 12 - Types dans types.ts + wizard
+
+---
+
+[2026-01-11 - Session 55]
+SESSION: Vérification et validation catégorie Clients - COMPLÈTE
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Utilisateur demande vérification de l'implémentation catégorie Clients
+
+RÉSULTAT DE LA VÉRIFICATION:
+La catégorie Clients est **100% implémentée** :
+
+1. **Phase 8 - Types** ✅
+   - 14 types dans types.ts
+   - Labels, descriptions, units pour tous
+   - isClientObjectiveType() helper
+   - Catégorie dans wizard
+
+2. **Phase 9 - Calculs** ✅
+   - useClientMetrics.ts complet
+   - new_clients, churn, retention, ARPU, LTV, CAC, avg_basket
+   - LTV = ARPU × tenure × 0.7 (marge SaaS)
+
+3. **Phase 10 - Intégration** ✅
+   - useObjectiveDetail.ts supporte clients
+   - calculateClientMetric() pour 14 types
+   - calculateClientHistoricalData() pour graphiques
+   - useObjectives.ts avec données réelles
+
+4. **Phase 11 - Insights/Actions** ✅
+   - generateClientInsights() : churned, acquisition, segment, concentration
+   - generateClientActions() : réactivation, marketing, upsell, leads
+   - Alerte concentration (top 10% > 50% CA)
+
+FICHIERS DOCUMENTATION MIS À JOUR:
+- MODULE_OBJECTIVES.md - Catégorie Clients marquée ✅
+- ADMIN_ROADMAP.md - Score 9/10, Phase 2.6 complète
+
+PROCHAINE ÉTAPE: Catégorie Abonnements (MRR, ARR, churn subscribers)
+
+---
+
+[2026-01-11 - Session 54]
+SESSION: Suppression objectif + Données réelles sur cartes dashboard
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Utilisateur demande suppression d'objectif avec confirmation
+- Les cartes doivent afficher les données réelles du P&L
+
+FICHIERS MODIFIÉS:
+- `/admin/objectives/[id]/ObjectiveDetailClient.tsx` - Suppression avec modal
+- `/admin/objectives/hooks/useObjectives.ts` - Calcul données réelles
+
+FONCTIONNALITÉS AJOUTÉES:
+
+1. **Suppression d'objectif** sur page détail :
+   - Bouton Trash2 dans le header
+   - Modal de confirmation animé (Framer Motion)
+   - Affiche le nom de l'objectif
+   - Avertissement action irréversible
+   - État de chargement pendant suppression
+   - Redirection vers liste après suppression
+
+2. **Calcul données réelles dans useObjectives** :
+   - Charge P&L data depuis Supabase
+   - Charge clients pour objectifs clients
+   - `calculateFinancialActual()` : calcule revenus/dépenses depuis P&L
+   - `calculateClientActual()` : calcule métriques clients
+   - `determineStatus()` : statut basé sur progression réelle
+   - Support objectifs où "moins = mieux" (churn, expenses)
+
+3. **Types d'objectifs supportés pour données réelles** :
+   - Financiers: revenue_*, expenses_*, gross_profit, net_profit
+   - Clients: new_clients, active_clients, churn_rate, retention_rate, arpu, avg_basket
+
+PROCHAINE ÉTAPE: Tester avec données P&L réelles
+
+---
+
+[2026-01-11 - Session 53]
+SESSION: Ajout de la liste des ObjectiveCard sur le dashboard
+STATUT: ✅ Réussi
+
+CONTEXTE:
+- Utilisateur ne voyait pas ses objectifs créés sur le dashboard
+- Le dashboard affichait uniquement les graphiques/charts sans liste d'objectifs
+
+FICHIERS MODIFIÉS:
+- `/admin/objectives/ObjectivesPageClient.tsx` - Ajout section "Mes objectifs"
+
+FONCTIONNALITÉS AJOUTÉES:
+
+1. **Section "Mes objectifs"** affichée après les stats résumées :
+   - Grille responsive (1/2/3 colonnes selon écran)
+   - Utilise le composant ObjectiveCard existant
+   - Compteur d'objectifs affichés
+
+2. **État vide amélioré** :
+   - Icône Target centrée
+   - Message personnalisé selon la catégorie sélectionnée
+   - Bouton "Créer un objectif" pour action rapide
+
+3. **Filtrage** :
+   - La liste respecte le filtre par catégorie
+   - La liste respecte le filtre par année
+
+PROCHAINE ÉTAPE: Tests utilisateur de la page complète
+
+---
+
 [2026-01-11 - Session 52]
 SESSION: Amélioration wizard objectifs - Suggestions basées sur données réelles
 STATUT: ✅ Réussi

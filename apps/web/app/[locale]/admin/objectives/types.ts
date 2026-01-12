@@ -1,6 +1,6 @@
 // /workspaces/website/apps/web/app/[locale]/admin/objectives/types.ts
 // Description: Comprehensive types for business objectives, validation and coherence checking
-// Last modified: 2026-01-10
+// Last modified: 2026-01-11
 
 // ============================================================
 // OBJECTIVE CATEGORIES & TYPES
@@ -52,10 +52,37 @@ export type ObjectiveType =
   | 'active_ratio'        // % clients actifs vs total
   | 'upsell_rate'         // Taux d'upsell (clients ayant upgradé)
 
-  // Subscriptions
-  | 'mrr_total'           // MRR total
-  | 'mrr_growth'          // Croissance MRR %
-  | 'arr_total';          // ARR total
+  // Subscriptions - Recurring Revenue
+  | 'mrr_total'              // MRR total
+  | 'arr_total'              // ARR total
+  | 'mrr_growth_pct'         // Croissance MRR %
+  | 'net_new_mrr'            // Net New MRR (new + expansion - churn - contraction)
+
+  // Subscriptions - Churn & Retention
+  | 'subscription_churn_rate' // Taux de churn abonnés %
+  | 'mrr_churn'              // MRR perdu (montant)
+  | 'mrr_churn_pct'          // MRR perdu %
+  | 'nrr'                    // Net Revenue Retention %
+  | 'grr'                    // Gross Revenue Retention %
+
+  // Subscriptions - Expansion & Contraction
+  | 'expansion_mrr'          // MRR gagné via upgrades
+  | 'contraction_mrr'        // MRR perdu via downgrades
+  | 'expansion_rate'         // % clients ayant upgradé
+  | 'upgrades_count'         // Nombre d'upgrades
+  | 'downgrades_count'       // Nombre de downgrades
+
+  // Subscriptions - Acquisition
+  | 'new_subscriptions'      // Nouveaux abonnements
+  | 'new_mrr'                // MRR des nouveaux abonnés
+  | 'paid_conversion'        // % clients → abonnés payants
+
+  // Subscriptions - Advanced SaaS Metrics
+  | 'arpu_subscribers'       // ARPU des abonnés
+  | 'ltv_mrr'                // LTV basée sur MRR
+  | 'quick_ratio'            // (New + Expansion) / (Churn + Contraction)
+  | 'payback_months'         // Mois pour récupérer CAC
+  | 'magic_number';          // Net New ARR / S&M spend
 
 export type ObjectivePeriod = 'monthly' | 'quarterly' | 'yearly';
 
@@ -304,7 +331,7 @@ export const OBJECTIVE_CATEGORY_LABELS: Record<ObjectiveCategory, string> = {
 export const OBJECTIVE_CATEGORY_DESCRIPTIONS: Record<ObjectiveCategory, string> = {
   financial: 'Revenus, dépenses, marges et bénéfices',
   clients: 'Acquisition, rétention et segments clients',
-  subscriptions: 'MRR, ARR, churn et croissance',
+  subscriptions: 'MRR, ARR, churn, NRR, expansion et métriques SaaS',
   products: 'Performance par produit ou catégorie',
 };
 
@@ -341,10 +368,33 @@ export const OBJECTIVE_TYPE_LABELS: Record<ObjectiveType, string> = {
   // Clients - Engagement
   active_ratio: 'Ratio clients actifs',
   upsell_rate: 'Taux d\'upsell',
-  // Subscriptions
+  // Subscriptions - Recurring Revenue
   mrr_total: 'MRR total',
-  mrr_growth: 'Croissance MRR',
   arr_total: 'ARR total',
+  mrr_growth_pct: 'Croissance MRR',
+  net_new_mrr: 'Net New MRR',
+  // Subscriptions - Churn & Retention
+  subscription_churn_rate: 'Churn abonnés',
+  mrr_churn: 'MRR perdu',
+  mrr_churn_pct: 'Churn MRR %',
+  nrr: 'NRR (Net Revenue Retention)',
+  grr: 'GRR (Gross Revenue Retention)',
+  // Subscriptions - Expansion & Contraction
+  expansion_mrr: 'Expansion MRR',
+  contraction_mrr: 'Contraction MRR',
+  expansion_rate: 'Taux d\'expansion',
+  upgrades_count: 'Nombre d\'upgrades',
+  downgrades_count: 'Nombre de downgrades',
+  // Subscriptions - Acquisition
+  new_subscriptions: 'Nouveaux abonnements',
+  new_mrr: 'New MRR',
+  paid_conversion: 'Conversion payante',
+  // Subscriptions - Advanced SaaS
+  arpu_subscribers: 'ARPU abonnés',
+  ltv_mrr: 'LTV (basée MRR)',
+  quick_ratio: 'Quick Ratio',
+  payback_months: 'Payback Period',
+  magic_number: 'Magic Number',
 };
 
 export const OBJECTIVE_TYPE_DESCRIPTIONS: Record<ObjectiveType, string> = {
@@ -378,10 +428,33 @@ export const OBJECTIVE_TYPE_DESCRIPTIONS: Record<ObjectiveType, string> = {
   // Clients - Engagement
   active_ratio: 'Pourcentage de clients avec activité récente',
   upsell_rate: 'Pourcentage de clients ayant upgradé leur offre',
-  // Subscriptions
-  mrr_total: 'Revenu mensuel récurrent total',
-  mrr_growth: 'Croissance du MRR en pourcentage',
+  // Subscriptions - Recurring Revenue
+  mrr_total: 'Revenu mensuel récurrent total des abonnements actifs',
   arr_total: 'Revenu annuel récurrent (MRR × 12)',
+  mrr_growth_pct: 'Croissance du MRR en pourcentage vs période précédente',
+  net_new_mrr: 'MRR net ajouté = New MRR + Expansion - Churn - Contraction',
+  // Subscriptions - Churn & Retention
+  subscription_churn_rate: 'Pourcentage d\'abonnés perdus sur la période',
+  mrr_churn: 'Montant de MRR perdu suite aux annulations',
+  mrr_churn_pct: 'Pourcentage du MRR perdu suite aux annulations',
+  nrr: 'Net Revenue Retention : rétention incluant expansion (objectif > 100%)',
+  grr: 'Gross Revenue Retention : rétention pure sans expansion (max 100%)',
+  // Subscriptions - Expansion & Contraction
+  expansion_mrr: 'MRR additionnel gagné via upgrades de plan',
+  contraction_mrr: 'MRR perdu via downgrades de plan (sans annulation)',
+  expansion_rate: 'Pourcentage de clients ayant upgradé leur plan',
+  upgrades_count: 'Nombre total d\'upgrades de plan sur la période',
+  downgrades_count: 'Nombre total de downgrades de plan sur la période',
+  // Subscriptions - Acquisition
+  new_subscriptions: 'Nombre de nouveaux abonnements créés',
+  new_mrr: 'MRR apporté par les nouveaux abonnés',
+  paid_conversion: 'Pourcentage de clients convertis en abonnés payants',
+  // Subscriptions - Advanced SaaS
+  arpu_subscribers: 'Revenu moyen par abonné actif (MRR / abonnés)',
+  ltv_mrr: 'Valeur vie client basée sur MRR (ARPU / churn rate mensuel)',
+  quick_ratio: 'Ratio croissance saine = (New + Expansion) / (Churn + Contraction). > 4 excellent',
+  payback_months: 'Nombre de mois pour récupérer le CAC (CAC / ARPU × marge)',
+  magic_number: 'Efficacité commerciale = Net New ARR / Dépenses S&M trimestre précédent',
 };
 
 export const OBJECTIVE_TYPE_UNITS: Record<ObjectiveType, 'currency' | 'count' | 'percent'> = {
@@ -415,10 +488,33 @@ export const OBJECTIVE_TYPE_UNITS: Record<ObjectiveType, 'currency' | 'count' | 
   // Clients - Engagement
   active_ratio: 'percent',
   upsell_rate: 'percent',
-  // Subscriptions
+  // Subscriptions - Recurring Revenue
   mrr_total: 'currency',
-  mrr_growth: 'percent',
   arr_total: 'currency',
+  mrr_growth_pct: 'percent',
+  net_new_mrr: 'currency',
+  // Subscriptions - Churn & Retention
+  subscription_churn_rate: 'percent',
+  mrr_churn: 'currency',
+  mrr_churn_pct: 'percent',
+  nrr: 'percent',
+  grr: 'percent',
+  // Subscriptions - Expansion & Contraction
+  expansion_mrr: 'currency',
+  contraction_mrr: 'currency',
+  expansion_rate: 'percent',
+  upgrades_count: 'count',
+  downgrades_count: 'count',
+  // Subscriptions - Acquisition
+  new_subscriptions: 'count',
+  new_mrr: 'currency',
+  paid_conversion: 'percent',
+  // Subscriptions - Advanced SaaS
+  arpu_subscribers: 'currency',
+  ltv_mrr: 'currency',
+  quick_ratio: 'count', // ratio displayed as number (e.g., 4.2)
+  payback_months: 'count', // months as count
+  magic_number: 'count', // ratio displayed as number (e.g., 0.8)
 };
 
 export const OBJECTIVE_TYPE_BY_CATEGORY: Record<ObjectiveCategory, ObjectiveType[]> = {
@@ -451,9 +547,33 @@ export const OBJECTIVE_TYPE_BY_CATEGORY: Record<ObjectiveCategory, ObjectiveType
     'upsell_rate',
   ],
   subscriptions: [
+    // Recurring Revenue
     'mrr_total',
-    'mrr_growth',
     'arr_total',
+    'mrr_growth_pct',
+    'net_new_mrr',
+    // Churn & Retention
+    'subscription_churn_rate',
+    'mrr_churn',
+    'mrr_churn_pct',
+    'nrr',
+    'grr',
+    // Expansion & Contraction
+    'expansion_mrr',
+    'contraction_mrr',
+    'expansion_rate',
+    'upgrades_count',
+    'downgrades_count',
+    // Acquisition
+    'new_subscriptions',
+    'new_mrr',
+    'paid_conversion',
+    // Advanced SaaS Metrics
+    'arpu_subscribers',
+    'ltv_mrr',
+    'quick_ratio',
+    'payback_months',
+    'magic_number',
   ],
   products: [
     'revenue_product',
@@ -596,4 +716,37 @@ export function isClientObjectiveType(type: ObjectiveType): boolean {
     'active_ratio', 'upsell_rate',
   ];
   return clientTypes.includes(type);
+}
+
+// Helper to check if this is a subscription-category objective type
+export function isSubscriptionObjectiveType(type: ObjectiveType): boolean {
+  const subscriptionTypes: ObjectiveType[] = [
+    // Recurring Revenue
+    'mrr_total', 'arr_total', 'mrr_growth_pct', 'net_new_mrr',
+    // Churn & Retention
+    'subscription_churn_rate', 'mrr_churn', 'mrr_churn_pct', 'nrr', 'grr',
+    // Expansion & Contraction
+    'expansion_mrr', 'contraction_mrr', 'expansion_rate', 'upgrades_count', 'downgrades_count',
+    // Acquisition
+    'new_subscriptions', 'new_mrr', 'paid_conversion',
+    // Advanced SaaS Metrics
+    'arpu_subscribers', 'ltv_mrr', 'quick_ratio', 'payback_months', 'magic_number',
+  ];
+  return subscriptionTypes.includes(type);
+}
+
+// Helper to check if objective type is "lower is better" (for status calculation)
+export function isLowerBetterObjectiveType(type: ObjectiveType): boolean {
+  const lowerBetterTypes: ObjectiveType[] = [
+    // Client churn
+    'churn_rate', 'cac',
+    // Subscription churn
+    'subscription_churn_rate', 'mrr_churn', 'mrr_churn_pct',
+    'contraction_mrr', 'downgrades_count',
+    // Expenses
+    'expenses_total', 'expenses_category',
+    // Payback (lower is better)
+    'payback_months',
+  ];
+  return lowerBetterTypes.includes(type);
 }

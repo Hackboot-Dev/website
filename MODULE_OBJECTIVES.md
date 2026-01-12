@@ -3,14 +3,14 @@
 > Documentation technique et fonctionnelle du module Objectifs
 
 **Dernière mise à jour :** 2026-01-11
-**Statut :** En production - Catégorie Financier ✅ | Catégorie Clients 🚧
+**Statut :** En production - Catégorie Financier ✅ | Catégorie Clients ✅
 
 **Catégories :**
 | Catégorie | Statut | Description |
 |-----------|--------|-------------|
 | **Financier** | ✅ Implémenté | CA, dépenses, profits, marges |
-| **Clients** | 🚧 En cours | Acquisition, rétention, valeur client |
-| **Abonnements** | 📋 Planifié | MRR, ARR, churn, ARPU |
+| **Clients** | ✅ Implémenté | Acquisition, rétention, valeur client |
+| **Abonnements** | 🚧 En cours | MRR, ARR, churn, NRR, prévisions |
 | **Produits** | 📋 Planifié | Performance par produit |
 
 ---
@@ -218,6 +218,256 @@ CREATE TABLE clients (
 **Calculs depuis P&L :**
 - Revenus par client : `SUM(transactions.amount) GROUP BY client_id`
 - Dernière transaction : `MAX(transactions.date) GROUP BY client_id`
+
+---
+
+## 3ter. Fonctionnalités - Catégorie Abonnements 🚧
+
+> Objectifs liés aux revenus récurrents, métriques SaaS et prévisions MRR
+
+### 3ter.1 Revenus Récurrents
+
+**Types d'objectifs principaux :**
+
+| Type | Code | Description | Formule |
+|------|------|-------------|---------|
+| **MRR Total** | `mrr_total` | Revenu mensuel récurrent | SUM(subscriptions.amount) WHERE status = 'active' |
+| **ARR Total** | `arr_total` | Revenu annuel récurrent | MRR × 12 |
+| **Croissance MRR %** | `mrr_growth_pct` | Taux de croissance MRR | (MRR actuel - MRR précédent) / MRR précédent × 100 |
+| **Net New MRR** | `net_new_mrr` | MRR net ajouté (new + expansion - churn - contraction) | New MRR + Expansion - Churn - Contraction |
+
+**Segmentation :**
+- Par plan (Basic, Pro, Enterprise...)
+- Par cycle de facturation (mensuel, annuel)
+- Par ancienneté abonnement
+
+### 3ter.2 Churn & Rétention Abonnements
+
+**Types d'objectifs :**
+
+| Type | Code | Description | Formule | Benchmark SaaS |
+|------|------|-------------|---------|----------------|
+| **Taux de churn abonnés** | `subscription_churn_rate` | % d'abonnés perdus par mois | Churned / Total début mois × 100 | < 5% |
+| **MRR Churn** | `mrr_churn` | Montant MRR perdu | SUM(churned_subscriptions.amount) | - |
+| **MRR Churn %** | `mrr_churn_pct` | % du MRR perdu | MRR perdu / MRR début mois × 100 | < 3% |
+| **NRR (Net Revenue Retention)** | `nrr` | Rétention nette des revenus | (MRR - Churn - Contraction + Expansion) / MRR début × 100 | > 100% |
+| **GRR (Gross Revenue Retention)** | `grr` | Rétention brute (sans expansion) | (MRR - Churn - Contraction) / MRR début × 100 | > 90% |
+
+**Calculs détaillés :**
+```typescript
+// NRR - Net Revenue Retention (mois)
+const nrr = ((startMRR - churnMRR - contractionMRR + expansionMRR) / startMRR) * 100;
+// NRR > 100% = croissance même sans nouveaux clients
+
+// GRR - Gross Revenue Retention
+const grr = ((startMRR - churnMRR - contractionMRR) / startMRR) * 100;
+// GRR max = 100%, mesure la fidélité pure
+```
+
+### 3ter.3 Expansion & Contraction
+
+**Types d'objectifs :**
+
+| Type | Code | Description | Source |
+|------|------|-------------|--------|
+| **Expansion MRR** | `expansion_mrr` | Revenus additionnels clients existants | Upgrades de plan |
+| **Contraction MRR** | `contraction_mrr` | Revenus perdus sans churn complet | Downgrades de plan |
+| **Taux d'expansion** | `expansion_rate` | % clients ayant upgradé | Clients upgradés / Clients actifs × 100 |
+| **Upgrades** | `upgrades_count` | Nombre d'upgrades de plan | COUNT(plan changes WHERE new > old) |
+| **Downgrades** | `downgrades_count` | Nombre de downgrades de plan | COUNT(plan changes WHERE new < old) |
+
+**Tracking des changements de plan :**
+```typescript
+interface PlanChange {
+  subscriptionId: string;
+  previousPlan: string;
+  newPlan: string;
+  previousAmount: number;
+  newAmount: number;
+  changeType: 'upgrade' | 'downgrade';
+  changeDate: Date;
+  mrr_impact: number; // newAmount - previousAmount
+}
+```
+
+### 3ter.4 Acquisition Abonnements
+
+**Types d'objectifs :**
+
+| Type | Code | Description | Formule |
+|------|------|-------------|---------|
+| **Nouveaux abonnements** | `new_subscriptions` | Nombre de nouveaux abonnements | COUNT(subscriptions) WHERE created_at IN period |
+| **New MRR** | `new_mrr` | MRR des nouveaux abonnés | SUM(new_subscriptions.amount) |
+| **Conversion à payant** | `paid_conversion` | % de clients → abonnés payants | Abonnés / Clients × 100 |
+
+### 3ter.5 Métriques SaaS Avancées
+
+**Types d'objectifs :**
+
+| Type | Code | Description | Formule | Benchmark |
+|------|------|-------------|---------|-----------|
+| **ARPU Abonnés** | `arpu_subscribers` | Revenu moyen par abonné | MRR / Abonnés actifs | Variable |
+| **LTV MRR** | `ltv_mrr` | Valeur vie basée sur MRR | ARPU / Churn Rate mensuel | > 3× CAC |
+| **Quick Ratio** | `quick_ratio` | Indicateur de croissance saine | (New MRR + Expansion) / (Churn + Contraction) | > 4 |
+| **Payback Period** | `payback_months` | Mois pour récupérer CAC | CAC / (ARPU × Marge) | < 12 mois |
+| **Magic Number** | `magic_number` | Efficacité commerciale | Net New ARR / Dépenses S&M trimestre précédent | > 0.75 |
+
+**Calcul Quick Ratio :**
+```typescript
+// Quick Ratio = mesure de croissance "saine"
+const quickRatio = (newMRR + expansionMRR) / (churnMRR + contractionMRR);
+// > 4 = excellent
+// 2-4 = bon
+// < 2 = problème de rétention
+```
+
+### 3ter.6 Prévisions MRR (Forecasting)
+
+**Types d'objectifs prévisions :**
+
+| Type | Code | Description |
+|------|------|-------------|
+| **MRR prévu fin mois** | `mrr_forecast_month` | Projection MRR fin de mois |
+| **MRR prévu fin trimestre** | `mrr_forecast_quarter` | Projection MRR fin de trimestre |
+| **MRR prévu fin année** | `mrr_forecast_year` | Projection MRR fin d'année |
+
+**Algorithme de prévision MRR :**
+```typescript
+interface MRRForecast {
+  currentMRR: number;
+  projectedMRR: number;
+  confidence: number; // 0-100%
+  assumptions: {
+    expectedChurnRate: number;      // Basé sur historique
+    expectedGrowthRate: number;     // Basé sur trend
+    expectedExpansionRate: number;  // Basé sur upsells passés
+  };
+  scenarios: {
+    pessimistic: number;  // -1σ
+    expected: number;     // Projection centrale
+    optimistic: number;   // +1σ
+  };
+}
+
+function forecastMRR(
+  currentMRR: number,
+  monthsAhead: number,
+  historicalData: MonthlyMRRData[]
+): MRRForecast {
+  // Calculer les taux historiques moyens
+  const avgChurnRate = calculateAvgChurnRate(historicalData);
+  const avgGrowthRate = calculateAvgGrowthRate(historicalData);
+  const avgExpansionRate = calculateAvgExpansionRate(historicalData);
+
+  // Projection mois par mois
+  let projectedMRR = currentMRR;
+  for (let m = 0; m < monthsAhead; m++) {
+    const churn = projectedMRR * avgChurnRate;
+    const expansion = projectedMRR * avgExpansionRate;
+    const newMRR = projectedMRR * avgGrowthRate;
+    projectedMRR = projectedMRR - churn + expansion + newMRR;
+  }
+
+  return {
+    currentMRR,
+    projectedMRR,
+    confidence: calculateConfidence(historicalData),
+    // ...
+  };
+}
+```
+
+### 3ter.7 Insights Abonnements Automatiques
+
+**Types d'insights générés :**
+
+| Type | Exemple |
+|------|---------|
+| **Croissance MRR** | "MRR en hausse de 8% ce mois (+€2,400)" |
+| **Alerte churn** | "Churn en hausse : 5 abonnements annulés cette semaine" |
+| **Opportunité expansion** | "12 clients sur plan Basic depuis 6+ mois - potentiel upgrade" |
+| **Plan populaire** | "68% des nouveaux abonnés choisissent le plan Pro" |
+| **Rétention forte** | "NRR de 115% - excellente expansion sur base clients" |
+| **Quick Ratio** | "Quick Ratio de 3.2 - croissance saine mais améliorer rétention" |
+
+### 3ter.8 Actions Recommandées (Abonnements)
+
+| Situation | Actions générées |
+|-----------|------------------|
+| **Churn élevé** | Analyse des raisons d'annulation, Campagne de réengagement, Améliorer onboarding |
+| **Expansion faible** | Identifier clients éligibles upgrade, Offres promotionnelles annuelles, Upsell proactif |
+| **Acquisition lente** | Revoir pricing, Simplifier l'offre, Campagnes marketing ciblées |
+| **NRR < 100%** | Focus sur Customer Success, Réduire contraction, Programme fidélité |
+| **Quick Ratio < 2** | Priorité à la rétention, Analyser causes de churn, Améliorer produit |
+
+### 3ter.9 Cohérence Multi-objectifs
+
+**Règles de cohérence automatiques :**
+
+```typescript
+// Exemple : MRR mensuel × 12 = ARR
+function checkMRRARRCoherence(mrrObjective: Objective, arrObjective: Objective): boolean {
+  if (mrrObjective.targetAmount * 12 !== arrObjective.targetAmount) {
+    return false; // Incohérence détectée
+  }
+  return true;
+}
+
+// Exemple : Net New MRR = New + Expansion - Churn - Contraction
+function checkNetNewMRRCoherence(objectives: Objective[]): boolean {
+  const newMRR = findObjective(objectives, 'new_mrr')?.targetAmount || 0;
+  const expansion = findObjective(objectives, 'expansion_mrr')?.targetAmount || 0;
+  const churn = findObjective(objectives, 'mrr_churn')?.targetAmount || 0;
+  const contraction = findObjective(objectives, 'contraction_mrr')?.targetAmount || 0;
+  const netNew = findObjective(objectives, 'net_new_mrr')?.targetAmount || 0;
+
+  return netNew === (newMRR + expansion - churn - contraction);
+}
+```
+
+### 3ter.10 Source de Données
+
+**Table principale :** `subscriptions`
+
+```sql
+-- Structure attendue
+CREATE TABLE subscriptions (
+  id TEXT PRIMARY KEY,
+  company_id TEXT NOT NULL,
+  client_id TEXT REFERENCES clients(id),
+  plan_id TEXT NOT NULL,
+  plan_name TEXT NOT NULL,
+  amount NUMERIC NOT NULL,           -- MRR de l'abonnement
+  currency TEXT DEFAULT 'EUR',
+  cycle TEXT CHECK (cycle IN ('monthly', 'yearly')),
+  status TEXT CHECK (status IN ('active', 'paused', 'cancelled', 'expired')),
+  start_date TIMESTAMPTZ NOT NULL,
+  end_date TIMESTAMPTZ,
+  cancelled_at TIMESTAMPTZ,
+  cancellation_reason TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Table des changements de plan (pour expansion/contraction)
+CREATE TABLE subscription_changes (
+  id TEXT PRIMARY KEY,
+  subscription_id TEXT REFERENCES subscriptions(id),
+  change_type TEXT CHECK (change_type IN ('upgrade', 'downgrade', 'cancel', 'reactivate')),
+  previous_plan_id TEXT,
+  new_plan_id TEXT,
+  previous_amount NUMERIC,
+  new_amount NUMERIC,
+  mrr_impact NUMERIC,                -- new_amount - previous_amount
+  change_date TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+**Calculs depuis les données existantes :**
+- MRR : `SUM(amount) WHERE status = 'active' AND cycle = 'monthly'`
+- ARR : `MRR × 12` ou `SUM(amount) WHERE status = 'active' AND cycle = 'yearly'`
+- Churn : `COUNT(*) WHERE cancelled_at IN period`
+- Expansion : `SUM(mrr_impact) WHERE change_type = 'upgrade' AND change_date IN period`
 
 ---
 
@@ -554,52 +804,103 @@ CREATE TABLE budgets (
 
 ---
 
-### 🚧 Catégorie Clients - EN COURS
+### ✅ Catégorie Clients - COMPLÈTE
 
-#### Phase 8 : Types Clients (À faire)
-- [ ] Ajouter types dans `types.ts` :
-  - `new_clients_total`, `new_clients_segment`
-  - `churn_rate`, `retention_rate`, `active_clients`
-  - `arpu`, `ltv`, `cac`, `ltv_cac_ratio`
-- [ ] Ajouter catégorie 'clients' dans le wizard
-- [ ] Mapper vers source de données `clients` table
+#### Phase 8 : Types Clients ✅
+- [x] 14 types dans `types.ts` :
+  - Acquisition : `new_clients_total`, `new_clients_segment`, `conversion_rate`, `cac`
+  - Rétention : `churn_rate`, `retention_rate`, `active_clients`, `avg_tenure`
+  - Valeur : `arpu`, `ltv`, `ltv_cac_ratio`, `avg_basket`
+  - Engagement : `active_ratio`, `upsell_rate`
+- [x] Catégorie 'clients' dans le wizard
+- [x] Labels, descriptions, units pour tous les types
+- [x] `isClientObjectiveType()` helper
 
-#### Phase 9 : Calculs Clients (À faire)
-- [ ] `useClientMetrics.ts` - Hook pour métriques clients
-- [ ] Calcul nouveaux clients par période
-- [ ] Calcul churn rate
-- [ ] Calcul ARPU depuis P&L + clients
-- [ ] Calcul LTV (ARPU × durée moyenne × marge)
+#### Phase 9 : Calculs Clients ✅
+- [x] `useClientMetrics.ts` - Hook pour métriques clients
+- [x] Calcul nouveaux clients par période
+- [x] Calcul churn rate et retention rate
+- [x] Calcul ARPU depuis P&L + clients
+- [x] Calcul LTV (ARPU × durée moyenne × marge 70%)
+- [x] Calcul CAC (dépenses marketing / nouveaux clients)
 
-#### Phase 10 : Intégration Données (À faire)
-- [ ] Modifier `useObjectiveDetail.ts` pour supporter catégorie clients
-- [ ] Requêtes sur table `clients` pour les métriques
-- [ ] Jointure P&L + Clients pour ARPU/LTV
-- [ ] Graphique évolution clients
+#### Phase 10 : Intégration Données ✅
+- [x] `useObjectiveDetail.ts` supporte catégorie clients
+- [x] `calculateClientMetric()` pour tous les types
+- [x] Jointure P&L + Clients pour ARPU/LTV
+- [x] `calculateClientHistoricalData()` pour graphiques
+- [x] Support dans `useObjectives.ts` pour données réelles sur cartes
 
-#### Phase 11 : Insights Clients (À faire)
-- [ ] Alertes concentration client
-- [ ] Détection clients à risque (inactifs)
-- [ ] Suggestions upsell
-- [ ] Actions rétention automatiques
+#### Phase 11 : Insights & Actions Clients ✅
+- [x] `generateClientInsights()` : churned, acquisition, segment, concentration
+- [x] Alertes concentration client (top 10% > 50% CA)
+- [x] Détection clients inactifs
+- [x] `generateClientActions()` : réactivation, marketing, upsell, leads
+
+---
+
+### 🚧 Catégorie Abonnements - EN COURS
+
+#### Phase 12 : Types Abonnements ✅
+- [x] 22 types dans `types.ts` :
+  - Revenus : `mrr_total`, `arr_total`, `mrr_growth_pct`, `net_new_mrr`
+  - Churn : `subscription_churn_rate`, `mrr_churn`, `mrr_churn_pct`, `nrr`, `grr`
+  - Expansion : `expansion_mrr`, `contraction_mrr`, `expansion_rate`, `upgrades_count`, `downgrades_count`
+  - Acquisition : `new_subscriptions`, `new_mrr`, `paid_conversion`
+  - Avancées : `arpu_subscribers`, `ltv_mrr`, `quick_ratio`, `payback_months`, `magic_number`
+- [x] Catégorie 'subscriptions' dans le wizard (automatique via OBJECTIVE_TYPE_BY_CATEGORY)
+- [x] Labels, descriptions, units pour tous les types
+- [x] `isSubscriptionObjectiveType()` helper
+- [x] `isLowerBetterObjectiveType()` helper (churn, contraction = lower is better)
+- [x] Icônes dans ObjectiveCard.tsx pour les 22 types
+
+#### Phase 13 : Calculs Abonnements ✅
+- [x] `useSubscriptionMetrics.ts` - Hook complet pour métriques abonnements
+- [x] Calcul MRR/ARR depuis table subscriptions
+- [x] Calcul churn rate et rétention (NRR, GRR)
+- [x] Calcul new_subscriptions, new_mrr, net_new_mrr
+- [x] Quick Ratio et métriques SaaS avancées (ARPU, LTV)
+- [x] `calculateSubscriptionMetric()` fonction standalone
+- [x] Intégration dans `useObjectives.ts`
+- [x] Intégration dans `useObjectiveDetail.ts`
+- [x] Support historique pour graphiques (`calculateHistoricalData`)
+
+#### Phase 14 : Prévisions MRR
+- [ ] `mrrForecastCalculator.ts` - Algorithme prévision MRR
+- [ ] Projection multi-scénarios (pessimiste/expected/optimiste)
+- [ ] Monte Carlo adapté aux abonnements
+- [ ] `MRRForecastChart.tsx` - Visualisation prévisions
+
+#### Phase 15 : Intégration Données
+- [ ] `useObjectiveDetail.ts` supporte catégorie abonnements
+- [ ] `calculateSubscriptionMetric()` pour tous les types
+- [ ] Support dans `useObjectives.ts` pour données réelles
+- [ ] Insights automatiques abonnements
+- [ ] Actions recommandées abonnements
+
+#### Phase 16 : Tracking Changements Plan
+- [ ] Table `subscription_changes` (si non existante)
+- [ ] Détection automatique upgrades/downgrades
+- [ ] Historique des changements par abonnement
+- [ ] Impact MRR cumulé
 
 ---
 
 ### 📋 Phases Futures
 
-#### Phase 12 : Dashboard Global
+#### Phase 17 : Dashboard Global
 - [ ] Route `/admin/objectives/dashboard`
 - [ ] ObjectivesScorecard.tsx
 - [ ] ObjectivesHeatmap.tsx
 - [ ] ObjectivesTreemap.tsx
 - [ ] ObjectivesFunnel.tsx
 
-#### Phase 13 : Catégorie Abonnements
-- [ ] Types : MRR, ARR, churn_subscribers, expansion_revenue
-- [ ] Intégration table `subscriptions`
-- [ ] Métriques SaaS avancées
+#### Phase 18 : Catégorie Produits
+- [ ] Types : product_sales, product_margin, product_mix, best_seller
+- [ ] Intégration P&L par produit
+- [ ] Performance et rentabilité par produit
 
-#### Phase 14 : Export & Reporting
+#### Phase 19 : Export & Reporting
 - [ ] reportExporter.ts (PDF)
 - [ ] Export CSV
 - [ ] Rapports périodiques automatiques
@@ -658,9 +959,19 @@ CREATE TABLE budgets (
 | Catégorie | Types disponibles | Statut |
 |-----------|-------------------|--------|
 | **Financier** | `revenue_total`, `revenue_product`, `revenue_category`, `revenue_client`, `revenue_segment`, `revenue_recurring`, `revenue_oneshot`, `expenses_total`, `expenses_category`, `gross_profit`, `net_profit`, `gross_margin`, `net_margin` | ✅ |
-| **Clients** | `new_clients_total`, `new_clients_segment`, `conversion_rate`, `cac`, `churn_rate`, `retention_rate`, `active_clients`, `avg_tenure`, `arpu`, `ltv`, `ltv_cac_ratio`, `avg_basket`, `active_ratio`, `upsell_rate` | 🚧 |
-| **Abonnements** | `mrr_total`, `arr_total`, `churn_subscribers`, `expansion_revenue`, `contraction_revenue`, `net_revenue_retention` | 📋 |
+| **Clients** | `new_clients_total`, `new_clients_segment`, `conversion_rate`, `cac`, `churn_rate`, `retention_rate`, `active_clients`, `avg_tenure`, `arpu`, `ltv`, `ltv_cac_ratio`, `avg_basket`, `active_ratio`, `upsell_rate` | ✅ |
+| **Abonnements** | `mrr_total`, `arr_total`, `mrr_growth_pct`, `net_new_mrr`, `subscription_churn_rate`, `mrr_churn`, `mrr_churn_pct`, `nrr`, `grr`, `expansion_mrr`, `contraction_mrr`, `expansion_rate`, `upgrades_count`, `downgrades_count`, `new_subscriptions`, `new_mrr`, `paid_conversion`, `arpu_subscribers`, `ltv_mrr`, `quick_ratio`, `payback_months`, `magic_number` | 🚧 |
 | **Produits** | `product_sales`, `product_margin`, `product_mix`, `best_seller` | 📋 |
+
+### Détail Types Abonnements (22 types)
+
+| Sous-catégorie | Types | Description |
+|----------------|-------|-------------|
+| **Revenus Récurrents** | `mrr_total`, `arr_total`, `mrr_growth_pct`, `net_new_mrr` | Métriques de base MRR/ARR |
+| **Churn & Rétention** | `subscription_churn_rate`, `mrr_churn`, `mrr_churn_pct`, `nrr`, `grr` | Perte et rétention clients/revenus |
+| **Expansion** | `expansion_mrr`, `contraction_mrr`, `expansion_rate`, `upgrades_count`, `downgrades_count` | Upsells et downgrades de plans |
+| **Acquisition** | `new_subscriptions`, `new_mrr`, `paid_conversion` | Nouveaux abonnements |
+| **Métriques SaaS** | `arpu_subscribers`, `ltv_mrr`, `quick_ratio`, `payback_months`, `magic_number` | KPIs avancés |
 
 ---
 

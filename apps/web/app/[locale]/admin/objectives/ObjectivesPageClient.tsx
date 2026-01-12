@@ -28,6 +28,7 @@ import { ObjectivesCategoryBreakdown } from './components/dashboard/ObjectivesCa
 import { ObjectivesTimeline } from './components/dashboard/ObjectivesTimeline';
 import { ObjectivesHeatmap } from './components/dashboard/ObjectivesHeatmap';
 import { CreateObjectiveWizard } from './components/CreateObjectiveWizard';
+import { ObjectiveCard } from './components/ObjectiveCard';
 import { OBJECTIVE_CATEGORY_LABELS } from './types';
 import type { ObjectiveCategory, Objective } from './types';
 
@@ -271,6 +272,49 @@ export default function ObjectivesPageClient() {
           <p className="text-2xl font-semibold text-purple-400">{formatPercent(summaryMetrics.averageProgress)}</p>
         </motion.div>
       </div>
+
+      {/* Objectives List */}
+      {filteredObjectives.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-white">Mes objectifs</h2>
+            <span className="text-sm text-zinc-500">{filteredObjectives.length} objectif{filteredObjectives.length > 1 ? 's' : ''}</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredObjectives.map((objective) => (
+              <ObjectiveCard
+                key={objective.id}
+                objective={objective}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {filteredObjectives.length === 0 && !loading && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col items-center justify-center py-16 bg-zinc-900/50 border border-zinc-800 rounded-xl"
+        >
+          <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center mb-4">
+            <Target className="h-8 w-8 text-zinc-600" />
+          </div>
+          <h3 className="text-lg font-medium text-white mb-2">Aucun objectif</h3>
+          <p className="text-zinc-500 text-center mb-6 max-w-sm">
+            {selectedCategory === 'all'
+              ? "Vous n'avez pas encore créé d'objectifs pour cette année."
+              : `Aucun objectif dans la catégorie "${OBJECTIVE_CATEGORY_LABELS[selectedCategory as ObjectiveCategory]}".`}
+          </p>
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            Créer un objectif
+          </button>
+        </motion.div>
+      )}
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

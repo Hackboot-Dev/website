@@ -3,7 +3,7 @@
 > Roadmap pour une suite de gestion d'entreprise cohérente et interconnectée
 
 **Dernière mise à jour :** 2026-01-11
-**Score actuel :** 8.5/10 (Phase 2 complète + Objectifs Financier ✅ + Objectifs Clients 🚧)
+**Score actuel :** 9/10 (Phase 2 complète + Objectifs Financier ✅ + Objectifs Clients ✅)
 
 **Spécifications :**
 - [MODULE_OBJECTIVES.md](/MODULE_OBJECTIVES.md) - Spécifications complètes du module Objectifs
@@ -22,7 +22,7 @@
 | **P&L VMCloud** | `/admin/pnl/vmcloud` | ✅ Riche | 8/10 | Même système que Hackboot |
 | **Subscriptions** | `/admin/pnl/*/subscriptions` | ✅ Intégré | 7/10 | Intégré au P&L, Supabase unique |
 | **Objectifs Financier** | `/admin/objectives` | ✅ Complet | 9/10 | Wizard, 20+ types, cohérence, page détail, graphiques, forecasting |
-| **Objectifs Clients** | `/admin/objectives` | 🚧 En cours | - | Acquisition, rétention, valeur client (voir spec) |
+| **Objectifs Clients** | `/admin/objectives` | ✅ Complet | 9/10 | 14 types : acquisition, rétention, valeur, engagement |
 | **Alertes** | `/admin/objectives` | ✅ Complet | 8/10 | Alertes auto, severity, acknowledge, panel intégré |
 | **Objectifs Détail** | `/admin/objectives/[id]` | ✅ Complet | 9/10 | Page détail, métriques, graphiques, forecasting Monte Carlo |
 | **Budgets** | `/admin/objectives/budgets` | ✅ Basique | 7/10 | Création et suivi budgets |
@@ -33,8 +33,8 @@
 | Catégorie | Statut | Types disponibles |
 |-----------|--------|-------------------|
 | **Financier** | ✅ Complet | CA, dépenses, profits, marges (13 types) |
-| **Clients** | 🚧 En cours | Acquisition, rétention, valeur (14 types) |
-| **Abonnements** | 📋 Planifié | MRR, ARR, churn, expansion (6 types) |
+| **Clients** | ✅ Complet | Acquisition, rétention, valeur, engagement (14 types) |
+| **Abonnements** | 🚧 En cours | MRR, ARR, churn, NRR, GRR, expansion, prévisions (22 types) |
 | **Produits** | 📋 Planifié | Ventes, marges, mix produit (4 types) |
 
 ### Technologies
@@ -219,32 +219,72 @@ Clients ←──→ P&L ←──→ Subscriptions
 
 ---
 
-### Phase 2.6 : Objectifs Clients 🚧 EN COURS
+### Phase 2.6 : Objectifs Clients ✅ COMPLÈTE
 
 **Objectif :** Ajouter la catégorie Clients au module Objectifs
 
-#### Types d'objectifs Clients (14 types)
+#### Types d'objectifs Clients (14 types) ✅
 
 | Sous-catégorie | Types | Description |
 |----------------|-------|-------------|
-| **Acquisition** | `new_clients_total`, `new_clients_segment`, `conversion_rate`, `cac` | Mesurer croissance base clients |
-| **Rétention** | `churn_rate`, `retention_rate`, `active_clients`, `avg_tenure` | Mesurer fidélisation |
-| **Valeur** | `arpu`, `ltv`, `cac`, `ltv_cac_ratio`, `avg_basket` | Mesurer rentabilité client |
-| **Engagement** | `active_ratio`, `upsell_rate` | Mesurer activité |
+| **Acquisition** | `new_clients_total`, `new_clients_segment`, `conversion_rate`, `cac` | ✅ Mesurer croissance base clients |
+| **Rétention** | `churn_rate`, `retention_rate`, `active_clients`, `avg_tenure` | ✅ Mesurer fidélisation |
+| **Valeur** | `arpu`, `ltv`, `ltv_cac_ratio`, `avg_basket` | ✅ Mesurer rentabilité client |
+| **Engagement** | `active_ratio`, `upsell_rate` | ✅ Mesurer activité |
 
-#### À implémenter
+#### Implémenté ✅
 
-| Tâche | Priorité | Description |
-|-------|----------|-------------|
-| Ajouter types dans `types.ts` | P1 | 14 nouveaux types |
-| Catégorie 'clients' dans wizard | P1 | Étape 1 du wizard |
-| `useClientMetrics.ts` | P1 | Hook pour calculs clients |
-| Calcul depuis table `clients` | P1 | Nouveaux clients, churn, etc. |
-| Calcul ARPU/LTV | P2 | Jointure P&L + Clients |
-| Insights concentration | P2 | Alertes si top clients > 50% CA |
-| Actions rétention | P2 | Suggestions anti-churn |
+| Tâche | État | Fichiers |
+|-------|------|----------|
+| Types dans `types.ts` | ✅ | 14 types + labels + descriptions + units |
+| Catégorie 'clients' dans wizard | ✅ | CreateObjectiveWizard.tsx |
+| `useClientMetrics.ts` | ✅ | Hook complet pour tous calculs |
+| Calcul depuis table `clients` | ✅ | useObjectives.ts, useObjectiveDetail.ts |
+| Calcul ARPU/LTV | ✅ | LTV = ARPU × tenure × 70% marge |
+| Insights concentration | ✅ | generateClientInsights() |
+| Actions rétention | ✅ | generateClientActions() |
 
 **📄 Spécifications complètes :** [MODULE_OBJECTIVES.md - Section 3bis](/MODULE_OBJECTIVES.md)
+
+---
+
+### Phase 2.7 : Objectifs Abonnements 🚧 EN COURS
+
+**Objectif :** Ajouter la catégorie Abonnements au module Objectifs avec métriques SaaS complètes
+
+**Spécifications détaillées :** [MODULE_OBJECTIVES.md - Section 3ter](/MODULE_OBJECTIVES.md)
+
+#### Types d'objectifs Abonnements (22 types)
+
+| Sous-catégorie | Types | Description |
+|----------------|-------|-------------|
+| **Revenus Récurrents** | `mrr_total`, `arr_total`, `mrr_growth_pct`, `net_new_mrr` | Métriques de base MRR/ARR |
+| **Churn & Rétention** | `subscription_churn_rate`, `mrr_churn`, `mrr_churn_pct`, `nrr`, `grr` | Perte et rétention revenus |
+| **Expansion** | `expansion_mrr`, `contraction_mrr`, `expansion_rate`, `upgrades_count`, `downgrades_count` | Upsells et downgrades |
+| **Acquisition** | `new_subscriptions`, `new_mrr`, `paid_conversion` | Nouveaux abonnements |
+| **Métriques SaaS** | `arpu_subscribers`, `ltv_mrr`, `quick_ratio`, `payback_months`, `magic_number` | KPIs avancés |
+
+#### Fonctionnalités spéciales
+
+| Fonctionnalité | Description | Statut |
+|----------------|-------------|--------|
+| **Tracking upgrades/downgrades** | Suivi des changements de plan avec impact MRR | 📋 |
+| **Prévisions MRR** | Projection multi-scénarios avec Monte Carlo | 📋 |
+| **NRR/GRR** | Net & Gross Revenue Retention | 📋 |
+| **Quick Ratio** | Indicateur croissance saine | 📋 |
+| **Insights automatiques** | Alertes churn, opportunités expansion | 📋 |
+
+#### Implémentation prévue
+
+| Phase | Tâches | État |
+|-------|--------|------|
+| Phase 12 | Types dans `types.ts` + wizard | ✅ |
+| Phase 13 | `useSubscriptionMetrics.ts` + calculs | ✅ |
+| Phase 14 | Prévisions MRR + Monte Carlo | ⏳ |
+| Phase 15 | Intégration `useObjectiveDetail.ts` | ✅ |
+| Phase 16 | Tracking changements de plan | 📋 |
+
+---
 
 ### Phase 3 : Facturation ⏱️ 2-3 semaines
 
